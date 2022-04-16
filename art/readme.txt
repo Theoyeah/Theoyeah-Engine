@@ -16,11 +16,11 @@
                  /          _/           /             
 
 HEY
-Thanks for downloadin Friday Night FUNKIN'
-If you downloaded this from any other place than ninja-muffin24.itch.io/FUNKIN
+Thanks for downloadin Friday Night FUNKIN' Theoyeah Engine
+If you downloaded this from any other place than https://github.com/Theoyeah/Theoyeah-Fnf-Engine
 You might be in DANGER!!! 
 
-The Itch.io release is the only official source for the desktop (PC, Mac, Linux) versions of the game!
+The Github release is the only official source for the desktop (PC, Mac, Linux) versions of the game!
 As of right now, the game is FREE! If you paid for it, you got SCAMMED!
 
 Now that that's out of the way....
@@ -35,10 +35,7 @@ Use the music in videos you do, use art, ANYTHING. GO CRAZY BRO.
 
 If you do make any sort of video, it would be a bro move if you linked the game and spread the word
 
-Play On Newgrounds - https://www.newgrounds.com/portal/view/770371
-Support on Itch.io - https://ninja-muffin24.itch.io/funkin
-
-If not no biggie we don't fully hate you only kinda no biggie.
+Support on https://github.com/Theoyeah/Theoyeah-Fnf-Engine
 
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
@@ -59,7 +56,9 @@ https://kawaisprite.bandcamp.com/album/friday-night-funkin-ost-vol-1
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
 
 Friday Night Funkin' is made by ninjamuffin99 (programmer), PhantomArcade (animator), kawaisprite (musician), and evilsk8r (artist)
+Theoyeah Engine is made by Theoeyeah
 
+https://github.com/Theoyeah/Theoyeah-Fnf-Engine
 https://twitter.com/ninja_muffin99
 https://twitter.com/phantomarcade3k
 https://twitter.com/kawaisprite
