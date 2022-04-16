@@ -109,7 +109,7 @@ class TitleState extends MusicBeatState
 		#if CHECK_FOR_UPDATES
 		if(!closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/ShadowMario/FNF-PsychEngine/main/gitVersion.txt");
+			var http = new haxe.Http("https://raw.githubusercontent.com/Theoyeah/Theoyeah-Fnf-Engine/main/gitVersion.txt");
 			
 			http.onData = function (data:String)
 			{
@@ -575,18 +575,16 @@ class TitleState extends MusicBeatState
 			{
 				case 1:
 				#if PSYCH_WATERMARKS
-				createCoolText(['VS DOUDOU CREE PAR'], 15);
+				createCoolText(['Theoyeah Engine by'], 15);
 				#else
-				createCoolText(['Theo Delalot', 'Chloe Delalot', 'Et les doudous']);
+				createCoolText(['Theoyeah']);
 				#end
 			// credTextShit.visible = true;
 			case 3:
 				#if PSYCH_WATERMARKS
-				addMoreText('Theo Delalot', 15);
-				addMoreText('Chloe Delalot', 15);
-				addMoreText('LES DOUDOUS' , 15);
+				addMoreText('Theoyeah Engine by', 15);
 				#else
-				addMoreText('present');
+				addMoreText('Theoyeah');
 				#end
 			// credTextShit.text += '\npresent...';
 			// credTextShit.addText();
@@ -597,12 +595,12 @@ class TitleState extends MusicBeatState
 			// credTextShit.screenCenter();
 			case 5:
 				#if PSYCH_WATERMARKS
-				createCoolText(['Par'], -40);
+				createCoolText(['A Modified Version of '], -40);
 				#else
-				createCoolText(['In association', 'with'], -40);
+				createCoolText(['Psych Engine'], -40);
 				#end
 			case 7:
-				addMoreText('DOUDOU INVENTIONS', -40);
+				addMoreText('', -40);
 				ngSpr.visible = true;
 			// credTextShit.text += '\nNewgrounds';
 			case 8:
@@ -627,10 +625,10 @@ class TitleState extends MusicBeatState
 				addMoreText('Friday Night Funkin');
 			// credTextShit.visible = true;
 			case 14:
-				addMoreText('VS');
+				addMoreText('Theoyeah');
 			// credTextShit.text += '\nNight';
 			case 15:
-				addMoreText('DOUDOU'); // credTextShit.text += '\nFunkin';
+				addMoreText('Engine'); // credTextShit.text += '\nFunkin';
 
 				case 16:
 					skipIntro();
