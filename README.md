@@ -15,6 +15,7 @@ I will try to add things that shadow mario will never do
 - Fucked difficulty (in progress)
 - longer health bar
 - tweaked scoretxt 
+- opponent take health when pressing note
 - More soon !
 
 
