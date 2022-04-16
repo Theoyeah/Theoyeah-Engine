@@ -36,7 +36,7 @@ class Conductor
 	{
 		//tryna do MS based judgment due to popular demand
 		var timingWindows:Array<Int> = [ClientPrefs.sickWindow, ClientPrefs.goodWindow, ClientPrefs.badWindow];
-		var windowNames:Array<String> = ['sick', 'good', 'bad'];
+		var windowNames:Array<String> = ['marvelous', 'sick', 'good', 'bad'];
 
 		// var diff = Math.abs(note.strumTime - Conductor.songPosition) / (PlayState.songMultiplier >= 1 ? PlayState.songMultiplier : 1);
 		for(i in 0...timingWindows.length) // based on 4 timing windows, will break with anything else
