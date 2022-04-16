@@ -577,12 +577,12 @@ class TitleState extends MusicBeatState
 				#if PSYCH_WATERMARKS
 				createCoolText(['Theoyeah Engine by'], 15);
 				#else
-				createCoolText(['Theoyeah']);
+				createCoolText(['Theoyeah Engine by']);
 				#end
 			// credTextShit.visible = true;
 			case 3:
 				#if PSYCH_WATERMARKS
-				addMoreText('Theoyeah Engine by', 15);
+				addMoreText('Theoyeah', 15);
 				#else
 				addMoreText('Theoyeah');
 				#end
@@ -597,15 +597,13 @@ class TitleState extends MusicBeatState
 				#if PSYCH_WATERMARKS
 				createCoolText(['A Modified Version of '], -40);
 				#else
-				createCoolText(['Psych Engine'], -40);
+				createCoolText(['A Modified Version of'], -40);
 				#end
 			case 7:
-				addMoreText('', -40);
-				ngSpr.visible = true;
+				addMoreText('Psych Engine', -40);
 			// credTextShit.text += '\nNewgrounds';
 			case 8:
 				deleteCoolText();
-				ngSpr.visible = false;
 			// credTextShit.visible = false;
 
 			// credTextShit.text = 'Shoutouts Tom Fulp';
