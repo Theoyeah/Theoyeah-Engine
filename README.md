@@ -23,6 +23,7 @@ I will try to add things that shadow mario will never do
 - opponent noteplashes ! (by frantastic24)
 - Story Mode and etc are now in the left !
 - no more donate button
+- added marvelous
 - More soon !
 
 
