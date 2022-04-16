@@ -20,7 +20,7 @@ I will try to add things that shadow mario will never do
 - longer health bar
 - tweaked scoretxt 
 - opponent take health when pressing note
-- opponent noteplashes !
+- opponent noteplashes ! (by frantastic24)
 - More soon !
 
 
