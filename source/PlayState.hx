@@ -67,16 +67,16 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	public static var ratingStuff:Array<Dynamic> = [
-		['Cest pas dur tes juste mauvais', 0.2], //From 0% to 19%
-		['Wtf tas un problème', 0.4], //From 20% to 39%
-		['Nul', 0.5], //From 40% to 49%
-		['Bruh', 0.6], //From 50% to 59%
-		['Bof', 0.69], //From 60% to 68%
-		['Bien', 0.7], //69%
-		['Super!', 0.8], //From 70% to 79%
-		['Halico!', 0.9], //From 80% to 89%
-		['Doudou!!', 1], //From 90% to 99%
-		['PRO DOUDOU!!!!!!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['Its not hard you just suck as hell', 0.2], //From 0% to 19%
+		['skill issue', 0.4], //From 20% to 39%
+		['Bad', 0.5], //From 40% to 49%
+		['Ok', 0.6], //From 50% to 59%
+		['Not Bad', 0.69], //From 60% to 68%
+		['Great', 0.7], //69%
+		['Cool!', 0.8], //From 70% to 79%
+		['Good', 0.9], //From 80% to 89%
+		['Sick!!', 1], //From 90% to 99%
+		['Super Pro!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
@@ -4449,58 +4449,69 @@ class PlayState extends MusicBeatState
 				var unlock:Bool = false;
 				switch(achievementName)
 				{
-					case 'weekd' | 'weeko' | 'weeku' | 'chloe' | 'weekdd' | 'corrupt' | 'theend':
-						if(isStoryMode &&  storyPlaylist.length <= 1 && !changedDifficulty && !usedPractice)
+					case 'week1_nomiss' | 'week2_nomiss' | 'week3_nomiss' | 'week4_nomiss' | 'week5_nomiss' | 'week6_nomiss' | 'week7_nomiss':
+						if(isStoryMode && campaignMisses + songMisses < 1 && CoolUtil.difficultyString() == 'HARD' && storyPlaylist.length <= 1 && !changedDifficulty && !usedPractice)
 						{
 							var weekName:String = WeekData.getWeekFileName();
 							switch(weekName) //I know this is a lot of duplicated code, but it's easier readable and you can add weeks with different names than the achievement tag
 							{
-								case 'weekd':
-									if(achievementName == 'weekd') unlock = true;
-								case 'weeko':
-									if(achievementName == 'weeko') unlock = true;
-								case 'weeku':
-									if(achievementName == 'weeku') unlock = true;
-								case 'weekdd':
-									if(achievementName == 'weekdd') unlock = true;
-								case 'weekchloe':
-									if(achievementName == 'chloe') unlock = true;
-								case 'weekbonus':
-									if(achievementName == 'corrupt') unlock = true;
-								case 'end':
-									if(achievementName == 'theend') unlock = true;
+								case 'week1':
+									if(achievementName == 'week1_nomiss') unlock = true;
+								case 'week2':
+									if(achievementName == 'week2_nomiss') unlock = true;
+								case 'week3':
+									if(achievementName == 'week3_nomiss') unlock = true;
+								case 'week4':
+									if(achievementName == 'week4_nomiss') unlock = true;
+								case 'week5':
+									if(achievementName == 'week5_nomiss') unlock = true;
+								case 'week6':
+									if(achievementName == 'week6_nomiss') unlock = true;
+								case 'week7':
+									if(achievementName == 'week7_nomiss') unlock = true;
 							}
 						}
-					case 'sus':
-						if(ratingPercent < 0.5) {
+										case 'ur_bad':
+						if(ratingPercent < 0.2 && !practiceMode) {
 							unlock = true;
 						}
 					case 'ur_good':
 						if(ratingPercent >= 1 && !usedPractice) {
 							unlock = true;
 						}
+					case 'roadkill_enthusiast':
+						if(Achievements.henchmenDeath >= 100) {
+							unlock = true;
+						}
 					case 'oversinging':
 						if(boyfriend.holdTimer >= 10 && !usedPractice) {
 							unlock = true;
+						}
+					case 'hype':
+						if(!boyfriendIdled && !usedPractice) {
+							unlock = true;
+						}
+					case 'two_keys':
+						if(!usedPractice) {
+							var howManyPresses:Int = 0;
+							for (j in 0...keysPressed.length) {
+								if(keysPressed[j]) howManyPresses++;
+							}
+
+							if(howManyPresses <= 2) {
+								unlock = true;
+							}
 						}
 					case 'toastie':
 						if(/*ClientPrefs.framerate <= 60 &&*/ ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing && !ClientPrefs.imagesPersist) {
 							unlock = true;
 						}
-					case 'halico':
-						if(Paths.formatToSongPath(SONG.song) == 'halico' && songMisses < 1) {
+					case 'debugger':
+						if(Paths.formatToSongPath(SONG.song) == 'test' && !usedPractice) {
 							unlock = true;
 						}
-						case 'strawberry':
-							if(Paths.formatToSongPath(SONG.song) == 'strawberry' && songMisses < 1) {
-								unlock = true;
-			         	}
-						 case 'rematch':
-							if(Paths.formatToSongPath(SONG.song) == 'rematch' &&  songMisses < 1) {
-								unlock = true;
-						}	
+				}
 
-					}
 				if(unlock) {
 					Achievements.unlockAchievement(achievementName);
 					return achievementName;
