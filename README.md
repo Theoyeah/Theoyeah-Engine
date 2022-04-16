@@ -2,7 +2,7 @@
 
 
 
-# Theoyeah Fnf Engine
+# Theoyeah Engine
 
 Hello, here a (again) new edited version psych engine !
 I will try to add things that shadow mario will never do
