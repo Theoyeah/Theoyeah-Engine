@@ -25,7 +25,7 @@ As of right now, the game is FREE! If you paid for it, you got SCAMMED!
 
 Now that that's out of the way....
 THANKS FOR DOWNLOADIN. 
-
+If you to donate to the original creator of Friday Night Funkin go to https://ninja-muffin24.itch.io/funkin
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
     PERMISSIONS XDDDD
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-
