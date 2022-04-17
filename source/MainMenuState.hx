@@ -45,6 +45,8 @@ class MainMenuState extends MusicBeatState
 	var camFollowPos:FlxObject;
 	var debugKeys:Array<FlxKey>;
 
+    var logo:FlxSprite;
+	
 	override function create()
 	{
 		WeekData.loadTheFirstEnabledMod();
@@ -144,6 +146,16 @@ class MainMenuState extends MusicBeatState
 		#end
 
 		super.create();
+
+		logo = new FlxSprite(420, 30).loadGraphic(Paths.image('logoBumpin'));//put your cords and image here
+			logo.frames = Paths.getSparrowAtlas('logoBumpin');//here put the name of the xml
+			logo.animation.addByPrefix('idleR', 'logo bumpin', 24, true);//on 'idle normal' change it to your xml one
+			logo.animation.play('idleR');//you can rename the anim however you want to
+			logo.scrollFactor.set();
+			logo.antialiasing = ClientPrefs.globalAntialiasing;
+			add(logo);
+
+
 	}
 
 	#if ACHIEVEMENTS_ALLOWED
