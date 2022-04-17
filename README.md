@@ -27,6 +27,8 @@ I will try to add things that shadow mario will never do
 - added flash when selecting something
 - red flash when you die
 - added marvelous
+- Kade Score text option !
+- Judgement counter like kade engine (option)
 - More soon !
 
 
