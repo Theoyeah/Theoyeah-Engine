@@ -42,11 +42,18 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Kade Engine Score Text',
-		"If checked, the text below the health bar will change to Kade Engine (except the style)",
+		"If checked, the text below the health bar will change to Kade Engine (except the style).",
 		'kadetxt',
 		'bool',
 		false);
 	addOption(option);
+
+	var option:Option = new Option('Kade Engine Judgement Counter',
+	"If checked, there will be Judgement counter when playing.",
+	'crazycounter',
+	'bool',
+	false);
+addOption(option);
 
 		var option:Option = new Option('Hide HUD',
 			'If checked, hides most HUD elements.',

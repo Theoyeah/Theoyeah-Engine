@@ -31,8 +31,7 @@ class ClientPrefs {
 	public static var controllerMode:Bool = false;
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
-	public static var coolcounter:Bool = false;
-	public static var coolsongname:Bool = false;
+	public static var crazycounter:Bool = false; //thanks kadedev for letting his cool engine open source
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -103,8 +102,7 @@ class ClientPrefs {
 		FlxG.save.data.noteSplashes = noteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.framerate = framerate;
-		FlxG.save.data.coolcounter = coolcounter;
-		FlxG.save.data.coolsongname = coolsongname;
+        FlxG.save.data.crazycounter = crazycounter;
 		//FlxG.save.data.cursing = cursing;
 		//FlxG.save.data.violence = violence;
 		FlxG.save.data.camZooms = camZooms;
@@ -240,14 +238,10 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.hitsoundVolume != null) {
 			hitsoundVolume = FlxG.save.data.hitsoundVolume;
-    	}
-	    if(FlxG.save.data.coolsongname != null) {
-		   coolsongname = FlxG.save.data.coolsongname;
-        }
-        if(FlxG.save.data.coolcounter != null) {
-	       coolcounter = FlxG.save.data.coolcounter;
-        }
-
+		}
+   	    if(FlxG.save.data.crazycounter != null) {
+			crazycounter = FlxG.save.data.crazycounter;
+	    }
 		if(FlxG.save.data.pauseMusic != null) {
 			pauseMusic = FlxG.save.data.pauseMusic;
 		}
