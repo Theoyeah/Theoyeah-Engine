@@ -29,6 +29,7 @@ I will try to add things that shadow mario will never do
 - added marvelous
 - Kade Score text option !
 - More soon !
+- insta-kill note
 
 
 # Rules for discussions
