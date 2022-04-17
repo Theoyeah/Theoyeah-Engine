@@ -175,8 +175,6 @@ class FunkinLua {
 		set('healthBarAlpha', ClientPrefs.healthBarAlpha);
 		set('noResetButton', ClientPrefs.noReset);
 		set('lowQuality', ClientPrefs.lowQuality);
-		set('coolsongname', ClientPrefs.coolsongname);
-		set('coolcounter', ClientPrefs.coolcounter);
 
 		#if windows
 		set('buildTarget', 'windows');

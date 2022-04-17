@@ -49,7 +49,7 @@ class VisualsUISubState extends BaseOptionsMenu
 	addOption(option);
 
 	var option:Option = new Option('Kade Engine Judgement Counter',
-	"If checked, there will be Judgement counter when playing.",
+	"If checked, there will be a judgement counter when playing.",
 	'crazycounter',
 	'bool',
 	false);
