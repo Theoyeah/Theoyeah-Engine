@@ -2308,11 +2308,22 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		if (ClientPrefs.kadetxt) {
+
+		if(ratingName == '?') {
+			scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accuracy: 0.00% ' ;
+		} else {
+			scoreTxt.text = 'Score: ' + songScore + ' |  Combo Breaks: ' + songMisses + ' | Accuracy: ' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' ;//peeps wanted no integer rating
+		}
+	    }   
+
+      else {
 		if(ratingName == '?') {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' | N/A' ;
 		} else {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ')' + ' | ' + ratingFC;//peeps wanted no integer rating
 		}
+	    }
 
 		if(botplayTxt.visible) {
 			botplaySine += 180 * elapsed;
