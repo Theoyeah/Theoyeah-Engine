@@ -17,7 +17,7 @@ I will try to add things that shadow mario will never do
 - New Icon
 - Winning Icons (from Mic up' Engine)
 - new funkay.png
-- Fucked difficulty (in progress)
+- Fucked difficulty 
 - longer health bar
 - tweaked scoretxt 
 - opponent take health when pressing note
