@@ -40,9 +40,6 @@ I will try to add things that shadow mario will never do
 
 
 
-# Rules for discussions
-
-coming soon
 
 # How to compile
 You must have the most up-to-date version of Haxe, seriously, stop using 4.1.5, it misses some stuff.
