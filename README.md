@@ -22,7 +22,7 @@ I will try to add things that shadow mario will never do
 - tweaked scoretxt 
 - opponent take health when pressing note
 - opponent noteplashes ! (by frantastic24)
-- Story Mode and etc are now in the left !
+- Better Menu !
 - no more donate button (look at readme.txt if you want to donate at original creator of fnf)
 - added flash when selecting something
 - red flash when you die
