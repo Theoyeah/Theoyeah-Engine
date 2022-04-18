@@ -7,6 +7,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
+import flixel.addons.display.FlxBackdrop;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.effects.FlxFlicker;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -31,6 +32,7 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
+
 	
 	var optionShit:Array<String> = [
 		'story_mode',
@@ -93,6 +95,13 @@ class MainMenuState extends MusicBeatState
 		magenta.antialiasing = ClientPrefs.globalAntialiasing;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
+
+		var bgScroll:FlxBackdrop = new FlxBackdrop(Paths.image('cubicbg'), 5, 5, true, true, -33, -32);
+		bgScroll.scrollFactor.set();
+		bgScroll.screenCenter();
+		bgScroll.velocity.set(50, 50);
+		bgScroll.antialiasing = ClientPrefs.globalAntialiasing;
+		add(bgScroll);
 		
 		// magenta.scrollFactor.set();
 
@@ -147,7 +156,7 @@ class MainMenuState extends MusicBeatState
 
 		super.create();
 
-		logo = new FlxSprite(420, 30).loadGraphic(Paths.image('logoBumpin'));//put your cords and image here
+		logo = new FlxSprite(420, 30).loadGraphic(Paths.image('logoBumpin'));//Thats the logo that appears in the menu
 			logo.frames = Paths.getSparrowAtlas('logoBumpin');//here put the name of the xml
 			logo.animation.addByPrefix('idleR', 'logo bumpin', 24, true);//on 'idle normal' change it to your xml one
 			logo.animation.play('idleR');//you can rename the anim however you want to
