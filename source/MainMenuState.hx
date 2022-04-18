@@ -161,6 +161,7 @@ class MainMenuState extends MusicBeatState
 			logo.animation.addByPrefix('idleR', 'logo bumpin', 24, true);//on 'idle normal' change it to your xml one
 			logo.animation.play('idleR');//you can rename the anim however you want to
 			logo.scrollFactor.set();
+			logo.scale.set(0.8, 0.8);
 			logo.antialiasing = ClientPrefs.globalAntialiasing;
 			add(logo);
 
