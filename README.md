@@ -32,9 +32,14 @@ I will try to add things that shadow mario will never do
 - insta-kill note
 
 
-# Rules for discussions
+# Examples :
+![image](https://user-images.githubusercontent.com/97792861/163772539-3409759d-5fca-4a5a-945f-76f4b7ed87fb.png)
+![image](https://user-images.githubusercontent.com/97792861/163772686-7020ae13-c6ab-48a7-bdcc-6ee2c6d4eb7f.png)
+![image](https://user-images.githubusercontent.com/97792861/163772872-878c2361-1971-4274-b6e2-27125298c35e.png)
 
-coming soon
+
+
+
 
 # How to compile
 You must have the most up-to-date version of Haxe, seriously, stop using 4.1.5, it misses some stuff.
