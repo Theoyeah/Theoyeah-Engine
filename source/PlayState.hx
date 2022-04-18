@@ -3406,8 +3406,8 @@ class PlayState extends MusicBeatState
 				score = 200;
 				if(!note.ratingDisabled) goods++;
 			case "sick": // sick
-				totalNotesHit += 0.90;
-				note.ratingMod = 0.90;
+				totalNotesHit += 0.80;
+				note.ratingMod = 0.80;
 				if(!note.ratingDisabled) sicks++;
 			case "marvelous": // marvelous
 				totalNotesHit += 1;
