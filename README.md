@@ -30,6 +30,7 @@ I will try to add things that shadow mario will never do
 - Kade Score text option !
 - More soon !
 - insta-kill note
+- funni 9 button easter egg icon
 
 
 # Examples :
