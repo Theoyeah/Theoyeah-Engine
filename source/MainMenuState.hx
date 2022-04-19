@@ -154,6 +154,19 @@ class MainMenuState extends MusicBeatState
 		}
 		#end
 
+		#if ACHIEVEMENTS_ALLOWED
+		Achievements.loadAchievements();
+		var leDate = Date.now();
+		if (leDate.getDay() == 6 && leDate.getHours() >= 18) {
+			var achieveID:Int = Achievements.getAchievementIndex('saturday_night_play');
+			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a friday night. WEEEEEEEEEEEEEEEEEE
+				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][2], true);
+				giveAchievement();
+				ClientPrefs.saveSettings();
+			}
+		}
+		#end
+
 		super.create();
 
 		logo = new FlxSprite(420, 30).loadGraphic(Paths.image('logoBumpin'));//Thats the logo that appears in the menu
