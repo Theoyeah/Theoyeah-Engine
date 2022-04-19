@@ -32,8 +32,7 @@ I will try to add things that shadow mario will never do
 - insta-kill note
 - funni 9 button easter egg icon
 - Shaders !!!!!!!1!!
-
-
+- Os is back !!!
 # Examples :
 ![image](https://user-images.githubusercontent.com/97792861/163772539-3409759d-5fca-4a5a-945f-76f4b7ed87fb.png)
 ![image](https://user-images.githubusercontent.com/97792861/163772686-7020ae13-c6ab-48a7-bdcc-6ee2c6d4eb7f.png)
