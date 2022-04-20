@@ -33,6 +33,7 @@ class ClientPrefs {
 	public static var pauseMusic:String = 'Tea Time';
 	public static var shaders:Bool = false;
 	public static var introbg:Bool = false;
+	public static var longhealthbar:Bool = true;
 	//public static var crazycounter:Bool = false; //thanks kadedev for letting his cool engine open source
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
@@ -104,6 +105,7 @@ class ClientPrefs {
 		FlxG.save.data.noteSplashes = noteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.framerate = framerate;
+		FlxG.save.data.longhealthbar = longhealthbar;
        // FlxG.save.data.crazycounter = crazycounter;
 		//FlxG.save.data.cursing = cursing;
 		//FlxG.save.data.violence = violence;
@@ -208,6 +210,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.scoreZoom != null) {
 			scoreZoom = FlxG.save.data.scoreZoom;
+		}
+		if(FlxG.save.data.longhealthbar != null) {
+			longhealthbar = FlxG.save.data.longhealthbar;
 		}
 	    if(FlxG.save.data.shaders != null) {
 		   shaders = FlxG.save.data.shaders;

@@ -91,6 +91,13 @@ addOption(option);
 			true);
 		addOption(option);
 
+		var option:Option = new Option('Longer Health Bar',
+		"If unchecked, the health bar will be set to the original one.",
+		'longhealthbar',
+		'bool',
+		true);
+	addOption(option);
+
 		var option:Option = new Option('Score Text Zoom on Hit',
 			"If unchecked, disables the Score text zooming\neverytime you hit a note.",
 			'scoreZoom',

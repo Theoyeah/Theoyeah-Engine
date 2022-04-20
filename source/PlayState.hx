@@ -1009,7 +1009,11 @@ class PlayState extends MusicBeatState
 		FlxG.fixedTimestep = false;
 		moveCameraSection(0);
 
+		if (ClientPrefs.longhealthbar) {
+			healthBarBG = new AttachedSprite('longhealthBar');
+		} else {
 		healthBarBG = new AttachedSprite('healthBar');
+		}
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
