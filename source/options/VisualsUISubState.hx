@@ -48,6 +48,13 @@ class VisualsUISubState extends BaseOptionsMenu
 		false);
 	addOption(option);
 
+	var option:Option = new Option('Intro Background',
+	"If checked, there will be a background in intro.",
+	'introbg',
+	'bool',
+	false);
+addOption(option);
+
 	   var option:Option = new Option('Shaders',
 	  "If checked, will enable shaders.",
 	  'shaders',

@@ -354,8 +354,13 @@ class TitleState extends MusicBeatState
 		add(credGroup);
 		textGroup = new FlxGroup();
 
-		blackScreen = new FlxSprite().loadGraphic(Paths.image('menutheme'));
+		if (ClientPrefs.introbg) {
+	   blackScreen = new FlxSprite().loadGraphic(Paths.image('menutheme'));
+	    credGroup.add(blackScreen);
+		}else{
+		blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		credGroup.add(blackScreen);
+		}
 
 		credTextShit = new Alphabet(0, 0, "", true);
 		credTextShit.screenCenter();

@@ -32,6 +32,7 @@ class ClientPrefs {
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
 	public static var shaders:Bool = false;
+	public static var introbg:Bool = false;
 	//public static var crazycounter:Bool = false; //thanks kadedev for letting his cool engine open source
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
@@ -115,6 +116,7 @@ class ClientPrefs {
 		FlxG.save.data.timeBarType = timeBarType;
 		FlxG.save.data.scoreZoom = scoreZoom;
 		FlxG.save.data.kadetxt = kadetxt;
+		FlxG.save.data.introbg = introbg;
 		FlxG.save.data.shaders = shaders;
 		FlxG.save.data.noReset = noReset;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
@@ -189,6 +191,9 @@ class ClientPrefs {
 		if(FlxG.save.data.hideHud != null) {
 			hideHud = FlxG.save.data.hideHud;
 		}
+	   if(FlxG.save.data.introbg != null) {
+		 introbg = FlxG.save.data.introbg;
+	    }
 		if(FlxG.save.data.noteOffset != null) {
 			noteOffset = FlxG.save.data.noteOffset;
 		}
