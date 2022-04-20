@@ -98,6 +98,14 @@ addOption(option);
 		true);
 	addOption(option);
 
+	var option:Option = new Option('Hide Score Text',
+	"If checked, the text under the health bar will not be showed.",
+	'noscore',
+	'bool',
+	false);
+addOption(option);
+
+
 		var option:Option = new Option('Score Text Zoom on Hit',
 			"If unchecked, disables the Score text zooming\neverytime you hit a note.",
 			'scoreZoom',

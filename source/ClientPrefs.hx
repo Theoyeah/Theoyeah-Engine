@@ -34,6 +34,7 @@ class ClientPrefs {
 	public static var shaders:Bool = false;
 	public static var introbg:Bool = false;
 	public static var longhealthbar:Bool = true;
+	public static var noscore:Bool = false;
 	//public static var crazycounter:Bool = false; //thanks kadedev for letting his cool engine open source
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
@@ -121,6 +122,7 @@ class ClientPrefs {
 		FlxG.save.data.introbg = introbg;
 		FlxG.save.data.shaders = shaders;
 		FlxG.save.data.noReset = noReset;
+		FlxG.save.data.noscore = noscore;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
 		FlxG.save.data.comboOffset = comboOffset;
 		FlxG.save.data.achievementsMap = Achievements.achievementsMap;
@@ -189,6 +191,9 @@ class ClientPrefs {
 		}*/
 		if(FlxG.save.data.camZooms != null) {
 			camZooms = FlxG.save.data.camZooms;
+		}
+		if(FlxG.save.data.noscore != null) {
+			noscore = FlxG.save.data.noscore;
 		}
 		if(FlxG.save.data.hideHud != null) {
 			hideHud = FlxG.save.data.hideHud;
