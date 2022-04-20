@@ -36,7 +36,6 @@ import sys.io.File;
 import Type.ValueType;
 import Controls;
 import DialogueBoxPsych;
-import Shaders;
 
 #if desktop
 import Discord;
@@ -65,21 +64,16 @@ class FunkinLua {
 		//trace('Lua version: ' + Lua.version());
 		//trace("LuaJIT version: " + Lua.versionJIT());
 
-		LuaL.dostring(lua, CLENSE);
 		var result:Dynamic = LuaL.dofile(lua, script);
 		var resultStr:String = Lua.tostring(lua, result);
 		if(resultStr != null && result != 0) {
-			trace('Error on lua script! ' + resultStr);
-			#if windows
-			lime.app.Application.current.window.alert(resultStr, 'Error on .lua script! \n Please check your script !');
-			#else
-			luaTrace('Error loading lua script: "$script"\n' + resultStr,true,false);
-			#end
+			lime.app.Application.current.window.alert(resultStr, 'Error on .LUA script!');
+			trace('Error on .LUA script! ' + resultStr);
 			lua = null;
 			return;
 		}
 		scriptName = script;
-		trace('lua file loaded succesfully:' + script);
+		trace('Lua file loaded succesfully:' + script);
 
 		#if (haxe >= "4.0.0")
 		accessedProps = new Map();
@@ -110,9 +104,9 @@ class FunkinLua {
 		set('weekRaw', PlayState.storyWeek);
 		set('week', WeekData.weeksList[PlayState.storyWeek]);
 		set('seenCutscene', PlayState.seenCutscene);
+		
+		// Block require and os, Should probably have a proper function but this should be good enough for now until someone smarter comes along and recreates a safe version of the OS library
 
-		//set('require', false);
-       //set('os', false);
 
 		// Camera poo
 		set('cameraX', 0);
@@ -121,12 +115,6 @@ class FunkinLua {
 		// Screen stuff
 		set('screenWidth', FlxG.width);
 		set('screenHeight', FlxG.height);
-
-		// Window shit so modcharts are less painful
- 		set('windowX', PlayState.instance.window.x);
- 		set('windowY', PlayState.instance.window.y);
- 		set('windowW', PlayState.instance.window.width);
- 		set('windowH', PlayState.instance.window.height);
 
 		// PlayState cringe ass nae nae bullcrap
 		set('curBeat', 0);
@@ -187,7 +175,7 @@ class FunkinLua {
 		set('healthBarAlpha', ClientPrefs.healthBarAlpha);
 		set('noResetButton', ClientPrefs.noReset);
 		set('lowQuality', ClientPrefs.lowQuality);
-		//set('mechanics', ClientPrefs.mechanics);
+
 
 		#if windows
 		set('buildTarget', 'windows');
@@ -265,18 +253,6 @@ class FunkinLua {
 				return;
 			}
 			luaTrace("Script doesn't exist!");
-		});
-
-        Lua_helper.add_callback(lua, "loadCredits", function(?musicos:String = null, ?freakySex:Bool) {
-
-			LoadingState.loadAndSwitchState(new CreditsState());
-			FlxG.sound.playMusic(Paths.music(musicos));
-			if(musicos == '') {
-               freakySex = true;
-			}
-			if(freakySex == true) {
-				FlxG.sound.playMusic(Paths.music('freakyMenu'));
-			}
 		});
 		
 		Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
@@ -1746,115 +1722,6 @@ class FunkinLua {
 			FlxG.sound.music.fadeOut(duration, toValue);
 			luaTrace('musicFadeOut is deprecated! Use soundFadeOut instead.', false, true);
 		});
-		Lua_helper.add_callback(lua, "addEffect1", function(camera:String,chromeOffset:Float = 0.005) {
-			
-			PlayState.instance.addShaderToCamera(camera, new ChromaticAberrationEffect(chromeOffset));
-			
-		});
-		
-		Lua_helper.add_callback(lua, "addEffect2", function(camera:String,lockAlpha:Bool=false) {
-			
-			PlayState.instance.addShaderToCamera(camera, new ScanlineEffect(lockAlpha));
-			
-		});
-		Lua_helper.add_callback(lua, "addEffect3", function(camera:String,grainSize:Float,lumAmount:Float,lockAlpha:Bool=false) {
-			
-			PlayState.instance.addShaderToCamera(camera, new GrainEffect(grainSize,lumAmount,lockAlpha));
-			
-		});
-		Lua_helper.add_callback(lua, "addEffect4", function(camera:String,blurAmount:Float,center:Float) {
-			
-			PlayState.instance.addShaderToCamera(camera, new TiltshiftEffect(blurAmount,center));
-			
-		});
-		Lua_helper.add_callback(lua, "addEffect5", function(camera:String,glitchFactor:Float = 0.0,distortion:Bool=true,perspectiveOn:Bool=true,vignetteMoving:Bool=true) {
-			
-			PlayState.instance.addShaderToCamera(camera, new VCRDistortionEffect(glitchFactor,distortion,perspectiveOn,vignetteMoving));
-			
-		});
-		
-		
-
-Lua_helper.add_callback(lua, "createShaders", function(shaderName:String, ?optimize:Bool = false)
-{
-	var shader = new DynamicShaderHandler(shaderName, optimize);
-
-	return shaderName;
-});
-/*
-Lua_helper.add_callback(lua, "modifyShaderProperty", function(shaderName:String, propertyName:String, value:Dynamic)
-{
-	//var handler:DynamicShaderHandler = PlayState.instance.luaShaders.get(shaderName);
-	//trace(Reflect.getProperty(handler.shader.data, propertyName));
-	//Reflect.setProperty(Reflect.getProperty(handler.shader.data, propertyName), 'value', value);
-	handler.modifyShaderProperty(propertyName, value);
-});
-// shader set
-*/
-Lua_helper.add_callback(lua, "setShadersToCamera", function(shaderName:Array<String>, cameraName:String)
-{
-	
-	var shaderArray = new Array<BitmapFilter>();
-
-	for (i in shaderName)
-	{
-		shaderArray.push(new ShaderFilter(PlayState.instance.luaShaders[i].shader));
-	}
-
-	cameraFromString(cameraName).setFilters(shaderArray);
-});
-
-// shader clear
-
-Lua_helper.add_callback(lua, "clearShadersFromCamera", function(cameraName)
-{
-	cameraFromString(cameraName).setFilters([]);
-});	
-		
-		Lua_helper.add_callback(lua, "addEffect6", function(camera:String,waveSpeed:Float = 0.1,waveFrq:Float = 0.1,waveAmp:Float = 0.1) {
-			
-			PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed,waveFrq,waveAmp));
-			
-		});
-		Lua_helper.add_callback(lua, "addEffect7", function(camera:String,waveSpeed:Float = 0.1,waveFrq:Float = 0.1,waveAmp:Float = 0.1) {
-			
-			PlayState.instance.addShaderToCamera(camera, new PulseEffect(waveSpeed,waveFrq,waveAmp));
-			
-		});
-		Lua_helper.add_callback(lua, "addEffect8", function(camera:String,waveSpeed:Float = 0.1,waveFrq:Float = 0.1,waveAmp:Float = 0.1) {
-			
-			PlayState.instance.addShaderToCamera(camera, new DistortBGEffect(waveSpeed,waveFrq,waveAmp));
-			
-		});
-		Lua_helper.add_callback(lua, "addEffect9", function(camera:String,lockAlpha:Bool=false) {
-			
-			PlayState.instance.addShaderToCamera(camera, new InvertColorsEffect(lockAlpha));
-			
-		});
-		Lua_helper.add_callback(lua, "addEffect10", function(camera:String) { //for dem funkies
-			
-			PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
-			
-		});
-		Lua_helper.add_callback(lua, "addEffect11", function(camera:String) { //for dem funkies
-			
-			PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
-			
-		});
-		Lua_helper.add_callback(lua, "addEffect12", function(camera:String,xrotation:Float=0,yrotation:Float=0,zrotation:Float=0,depth:Float=0) { //for dem funkies
-			
-			PlayState.instance.addShaderToCamera(camera, new ThreeDEffect(xrotation,yrotation,zrotation,depth));
-			
-		});
-		Lua_helper.add_callback(lua, "addEffect13", function(camera:String,intensity:Float = 0.35,blurSize:Float=1.0) {
-			
-			PlayState.instance.addShaderToCamera(camera, new BloomEffect(blurSize/512.0,intensity));
-			
-		});
-		Lua_helper.add_callback(lua, "die", function(camera:String) {
-			PlayState.instance.clearShaderFromCamera(camera);
-		});
-		Discord.DiscordClient.addLuaCallbacks(lua);		
 		
 		call('onCreate', []);
 		#end
@@ -2157,12 +2024,6 @@ Lua_helper.add_callback(lua, "clearShadersFromCamera", function(cameraName)
 
 		Lua.close(lua);
 		lua = null;
-		if (!FlxG.fullscreen) {	
-			PlayState.instance.window.x = PlayState.instance.windowX;
-			PlayState.instance.window.y = PlayState.instance.windowY;
-			PlayState.instance.window.width = PlayState.instance.windowW;
-			PlayState.instance.window.height = PlayState.instance.windowH;
-		}
 		#end
 	}
 
@@ -2170,26 +2031,6 @@ Lua_helper.add_callback(lua, "clearShadersFromCamera", function(cameraName)
 	{
 		return PlayState.instance.isDead ? GameOverSubstate.instance : PlayState.instance;
 	}
-	static inline var CLENSE:String = "
-	os.execute = nil;
-	package.loaded.os.execute = nil;
-
-	os.getenv = nil;
-	os.remove = nil;
-	os.rename = nil;
-	os.chdir = nil;
-	os.popen = nil;
-	os.close = nil;
-	os.makedir = nil;
-	os.makedirs =nil;
-	require = nil;
-	package.loaded.require = nil;
-	package.preload.require = nil; -- Double remove require, this isn't needed for os since os just references package.loaded.os
-	ffi = nil;
-	package.loaded.ffi = nil;
-	package.preload.ffi = nil;
-
-	"; // Fuck this, I can't figure out linc_lua, so I'mma set everything in Lua itself - Super
 }
 
 class ModchartSprite extends FlxSprite
