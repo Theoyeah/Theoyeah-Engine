@@ -71,7 +71,7 @@ class FunkinLua {
 		if(resultStr != null && result != 0) {
 			trace('Error on lua script! ' + resultStr);
 			#if windows
-			lime.app.Application.current.window.alert(resultStr, 'Error on lua script!');
+			lime.app.Application.current.window.alert(resultStr, 'Error on .lua script! \n Please check your script !');
 			#else
 			luaTrace('Error loading lua script: "$script"\n' + resultStr,true,false);
 			#end
