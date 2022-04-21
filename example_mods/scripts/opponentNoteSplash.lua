@@ -7,6 +7,7 @@ function onCreate()
 end
 
 function onStartCountdown()
+	if not  ClientPrefs.middleScroll then
 	makeAnimatedLuaSprite('splashLeft', texture)
 	makeAnimatedLuaSprite('splashDown', texture)
 	makeAnimatedLuaSprite('splashUp', texture)
@@ -54,8 +55,10 @@ function onStartCountdown()
 	addLuaSprite('splashRight')
 	return Function_Continue
 end
+end
 
 function opponentNoteHit(id, dir, type, sus)
+	if not  ClientPrefs.middleScroll then
 	if dir == 0 and not sus then
 		setProperty('splashLeft.x', getPropertyFromGroup('opponentStrums', 0, 'x')-(160*0.7)*0.95)
 		setProperty('splashLeft.y', getPropertyFromGroup('opponentStrums', 0, 'y')-(160*0.7))
@@ -82,8 +85,9 @@ function opponentNoteHit(id, dir, type, sus)
 		setProperty('splashRight.animation.curAnim.frameRate', 24 + getRandomInt(-2, 2))
 	end
 end
-
+end
 function onUpdate()
+	if not  ClientPrefs.middleScroll then
 	if getProperty('splashLeft.animation.curAnim.finished') and getProperty('splashLeft.visible') then
 		setProperty('splashLeft.visible', false)
 	end
@@ -96,4 +100,5 @@ function onUpdate()
 	if getProperty('splashRight.animation.curAnim.finished') and getProperty('splashRight.visible') then
 		setProperty('splashRight.visible', false)
 	end
+end
 end
