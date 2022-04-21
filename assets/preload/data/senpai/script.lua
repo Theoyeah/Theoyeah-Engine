@@ -5,3 +5,4 @@ function opponentNoteHit()
 
      end
 end
+
