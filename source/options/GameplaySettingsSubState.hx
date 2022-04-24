@@ -99,11 +99,11 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		'Changes the amount of time you have\nfor hitting a "Marvelous" in milliseconds.',
 		'marvelousWindow',
 		'int',
-		5);
+		25);
 	option.displayFormat = '%vms';
 	option.scrollSpeed = 15;
-	option.minValue = 0;
-	option.maxValue = 5;
+	option.minValue = 10;
+	option.maxValue = 20;
 	addOption(option);
 
 		var option:Option = new Option('Sick! Hit Window',
