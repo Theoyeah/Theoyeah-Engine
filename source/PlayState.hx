@@ -1056,7 +1056,6 @@ class PlayState extends MusicBeatState
 
 		if(ClientPrefs.crazycounter) {
 		judgementCounter = new FlxText(20, 0, 0, "", 20);
-	    }
         judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);			
 		judgementCounter.borderSize = 2;
 	    judgementCounter.borderQuality = 2;
@@ -1065,6 +1064,7 @@ class PlayState extends MusicBeatState
 		judgementCounter.screenCenter(Y);
 		judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
     	add(judgementCounter);
+     	}
 		              
 		    
 

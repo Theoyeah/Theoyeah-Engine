@@ -16,7 +16,6 @@ class ClientPrefs {
 	public static var lowQuality:Bool = false;
 	public static var framerate:Int = 60;
 	public static var cursing:Bool = true;
-	public static var kadetxt:Bool = false;
 	public static var violence:Bool = true;
 	public static var camZooms:Bool = true;
 	public static var hideHud:Bool = false;
@@ -34,6 +33,7 @@ class ClientPrefs {
 	public static var introbg:Bool = false;
 	public static var longhealthbar:Bool = true;
 	public static var noscore:Bool = false;
+	public static var kadetxt:Bool = false;
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
