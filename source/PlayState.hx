@@ -76,9 +76,9 @@ class PlayState extends MusicBeatState
 		['Not Bad', 0.69], //From 60% to 68%
 		['Great', 0.7], //69%
 		['Cool!', 0.8], //From 70% to 79%
-		['Good', 0.9], //From 80% to 89%
+		['Good!', 0.9], //From 80% to 89%
 		['Sick!!', 1], //From 90% to 99%
-		['Super Pro!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
@@ -1054,25 +1054,23 @@ class PlayState extends MusicBeatState
 		scoreTxt.visible = !ClientPrefs.noscore;
 		add(scoreTxt);
 
-		//if (ClientPrefs.crazycounter) {
-		//judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		//judgementCounter.borderSize = 2;
-		//judgementCounter.borderQuality = 2;
-		//judgementCounter.scrollFactor.set();
-		//judgementCounter.cameras = [camHUD];
-		//judgementCounter.screenCenter(Y);
-		//judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';
-		//if (FlxG.save.data.crazycounter)
-	    //add(judgementCounter);
-	   //}
-		
-	   //function updateAccuracy()
-		//{
-		//			totalPlayed += 1;
-		//judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';
-		//}
+		if(ClientPrefs.crazycounter) {
+		judgementCounter = new FlxText(20, 0, 0, "", 20);
+	    }
+        judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);			
+		judgementCounter.borderSize = 2;
+	    judgementCounter.borderQuality = 2;
+		judgementCounter.scrollFactor.set();
+		judgementCounter.cameras = [camHUD];
+		judgementCounter.screenCenter(Y);
+		judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
+    	add(judgementCounter);
+		              
+		    
+
+
 	
-		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "CHEATER", 32);
+		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "CHEATING MODE", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
@@ -4585,7 +4583,10 @@ class PlayState extends MusicBeatState
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
-	}
+		if (ClientPrefs.crazycounter) {
+			judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
+	        }
+		    }
 
 	#if ACHIEVEMENTS_ALLOWED
 	private function checkForAchievement(achievesToCheck:Array<String> = null):String

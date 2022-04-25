@@ -31,11 +31,10 @@ class ClientPrefs {
 	public static var controllerMode:Bool = false;
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
-	public static var shaders:Bool = false;
 	public static var introbg:Bool = false;
 	public static var longhealthbar:Bool = true;
 	public static var noscore:Bool = false;
-	//public static var crazycounter:Bool = false; //thanks kadedev for letting his cool engine open source
+	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -107,7 +106,7 @@ class ClientPrefs {
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.framerate = framerate;
 		FlxG.save.data.longhealthbar = longhealthbar;
-       // FlxG.save.data.crazycounter = crazycounter;
+        FlxG.save.data.crazycounter = crazycounter;
 		//FlxG.save.data.cursing = cursing;
 		//FlxG.save.data.violence = violence;
 		FlxG.save.data.camZooms = camZooms;
@@ -120,7 +119,6 @@ class ClientPrefs {
 		FlxG.save.data.scoreZoom = scoreZoom;
 		FlxG.save.data.kadetxt = kadetxt;
 		FlxG.save.data.introbg = introbg;
-		FlxG.save.data.shaders = shaders;
 		FlxG.save.data.noReset = noReset;
 		FlxG.save.data.noscore = noscore;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
@@ -169,6 +167,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.noteSplashes != null) {
 			noteSplashes = FlxG.save.data.noteSplashes;
+		}
+		if(FlxG.save.data.crazycounter != null) {
+			crazycounter = FlxG.save.data.crazycounter;
 		}
 		if(FlxG.save.data.lowQuality != null) {
 			lowQuality = FlxG.save.data.lowQuality;
@@ -219,9 +220,6 @@ class ClientPrefs {
 		if(FlxG.save.data.longhealthbar != null) {
 			longhealthbar = FlxG.save.data.longhealthbar;
 		}
-	    if(FlxG.save.data.shaders != null) {
-		   shaders = FlxG.save.data.shaders;
-    	}
 		if(FlxG.save.data.noReset != null) {
 			noReset = FlxG.save.data.noReset;
 		}

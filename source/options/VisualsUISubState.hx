@@ -55,19 +55,12 @@ class VisualsUISubState extends BaseOptionsMenu
 	false);
 addOption(option);
 
-	  // var option:Option = new Option('Shaders',
-	  //"If checked, will enable shaders.",
-	  //'shaders',
-	  //'bool',
-	//false);
-//addOption(option);
-
-	//var option:Option = new Option('Kade Engine Judgement Counter',
-	//"If checked, there will be a judgement counter when playing.",
-	//'crazycounter',
-	//'bool',
-	//false);
-//addOption(option);
+	var option:Option = new Option('Kade Engine Judgement Counter',
+	"If checked, there will be a judgement counter when playing.",
+	'crazycounter',
+	'bool',
+	false);
+  addOption(option);
 
 		var option:Option = new Option('Hide HUD',
 			'If checked, hides most HUD elements.',
