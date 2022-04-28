@@ -3,6 +3,7 @@ package;
 import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import lime.app.Application;
 import flixel.FlxSubState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -76,6 +77,8 @@ class PauseSubState extends MusicBeatSubstate
 		bg.alpha = 0;
 		bg.scrollFactor.set();
 		add(bg);
+
+		Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine - " + PlayState.SONG.song + ' [' + CoolUtil.difficultyString() + ']' + ' [PAUSED]';
 
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
 		levelInfo.text += PlayState.SONG.song;
@@ -211,6 +214,7 @@ class PauseSubState extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "Resume":
+					Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine - " + PlayState.SONG.song + ' [' + CoolUtil.difficultyString() + ']';
 					close();
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
@@ -249,6 +253,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.botplayTxt.alpha = 1;
 					PlayState.instance.botplaySine = 0;
 				case "Options":
+					Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine";
 					MusicBeatState.switchState(new options.OptionsState());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				case "Exit to menu":
@@ -256,8 +261,10 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.seenCutscene = false;
 					if(PlayState.isStoryMode) {
 						MusicBeatState.switchState(new StoryMenuState());
+						Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine";
 					} else {
 						MusicBeatState.switchState(new FreeplayState());
+						Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine";
 					}
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					PlayState.changedDifficulty = false;

@@ -17,6 +17,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
 import flixel.graphics.FlxGraphic;
+import lime.app.Application;
 import WeekData;
 
 using StringTools;
@@ -53,6 +54,7 @@ class StoryMenuState extends MusicBeatState
 	{
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
+		Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine - " + "Story Mode";
 
 		PlayState.isStoryMode = true;
 		WeekData.reloadWeekFiles(true);

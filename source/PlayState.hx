@@ -14,6 +14,7 @@ import Shaders;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxObject;
+import lime.app.Application;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.FlxSubState;
@@ -1010,6 +1011,8 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 		moveCameraSection(0);
+
+		Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine - " + PlayState.SONG.song + ' [' + CoolUtil.difficultyString() + ']';
 
 		if (ClientPrefs.longhealthbar) {
 			healthBarBG = new AttachedSprite('longhealthBar');
