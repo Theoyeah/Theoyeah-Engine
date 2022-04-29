@@ -1,1 +1,0 @@
-Never delete The noteSkins folder and pixelUI folder, OR IT WILL BREAK THE GAME

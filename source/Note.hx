@@ -7,7 +7,6 @@ import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flash.display.BitmapData;
 import editors.ChartingState;
-import sys.FileSystem;
 
 using StringTools;
 
@@ -99,6 +98,19 @@ class Note extends FlxSprite
 
 		if(noteData > -1 && noteType != value) {
 			switch(value) {
+				case 'Hurt Note':
+					ignoreNote = mustPress;
+					reloadNote('HURT');
+					noteSplashTexture = 'HURTnoteSplashes';
+					colorSwap.hue = 0;
+					colorSwap.saturation = 0;
+					colorSwap.brightness = 0;
+					if(isSustainNote) {
+						missHealth = 0.1;
+					} else {
+						missHealth = 0.3;
+					}
+					hitCausesMiss = true;
 				case 'No Animation':
 					noAnimation = true;
 				case 'GF Sing':
@@ -235,13 +247,9 @@ class Note extends FlxSprite
 		if(texture.length < 1) {
 			skin = PlayState.SONG.arrowSkin;
 			if(skin == null || skin.length < 1) {
-				skin = FlxG.save.data.arrowSkin;
-			}
-			if(FlxG.save.data.arrowSkin == null) {
-				skin = 'noteSkins/ARROW_assets';
+				skin = 'NOTE_assets';
 			}
 		}
-		
 
 		var animName:String = null;
 		if(animation.curAnim != null) {
@@ -254,11 +262,6 @@ class Note extends FlxSprite
 		var lastScaleY:Float = scale.y;
 		var blahblah:String = arraySkin.join('/');
 		if(PlayState.isPixelStage) {
-			if (FileSystem.exists(Paths.modFolders('images/pixelUI/$blahblah.png')) && FileSystem.exists(Paths.modFolders('images/pixelUI/' + blahblah + 'ENDS.png'))) {
-					blahblah = FlxG.save.data.arrowSkin;
-			} else {
-				blahblah = 'noteSkins/ARROW_assets';
-			}
 			if(isSustainNote) {
 				loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'));
 				width = width / 4;

@@ -12,7 +12,6 @@ I will try to add things that shadow mario will never do
 
 # What it adds 
 
-- Noteskin Option (by phonetech97)
 - New Logo
 - New Icon
 - Winning Icons (from Mic up' Engine)

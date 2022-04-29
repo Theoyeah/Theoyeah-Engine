@@ -20,7 +20,8 @@ class CoolUtil
 		'Easy',
 		'Normal',
 		'Hard',
-		'Hell',
+		'Hell', // This won't stay for a long time....
+		//'Erect',
 		'FUCKED'
 
 	];

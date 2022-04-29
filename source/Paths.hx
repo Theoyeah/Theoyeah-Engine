@@ -45,8 +45,7 @@ class Paths
 		'weeks',
 		'fonts',
 		'scripts',
-		'achievements',
-		'noteSkins'
+		'achievements'
 	];
 	#end
 
@@ -336,7 +335,7 @@ class Paths
 			if(!currentTrackedAssets.exists(modKey)) {
 				var newBitmap:BitmapData = BitmapData.fromFile(modKey);
 				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, modKey);
-				newGraphic.persist = true;			
+				newGraphic.persist = true;
 				currentTrackedAssets.set(modKey, newGraphic);
 			}
 			localTrackedAssets.push(modKey);
