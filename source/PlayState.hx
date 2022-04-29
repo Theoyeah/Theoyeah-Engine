@@ -4043,6 +4043,7 @@ class PlayState extends MusicBeatState
 							boyfriend.playAnim('hurt', true);
 							boyfriend.specialAnim = true;
 						}
+				
 				}
 				
 				note.wasGoodHit = true;

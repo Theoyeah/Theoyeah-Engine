@@ -110,6 +110,18 @@ class Note extends FlxSprite
 					} else {
 						missHealth = 0.3;
 					}
+					case 'Instakill Note':
+						ignoreNote = mustPress;
+						reloadNote('INSTAKILL');
+						noteSplashTexture = 'HURTnoteSplashes';
+						colorSwap.hue = 0;
+						colorSwap.saturation = 0;
+						colorSwap.brightness = 0;
+						if(isSustainNote) {
+							missHealth = 0.5;
+						} else {
+							missHealth = 500;//lol you will die
+						}
 					hitCausesMiss = true;
 				case 'No Animation':
 					noAnimation = true;
