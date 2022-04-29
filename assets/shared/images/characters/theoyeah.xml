@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="theoyeah.png"><SubTexture name="theoyeah right0000" x="689" y="835" width="212" height="308" frameX="-212" frameY="-147" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah right0001" x="901" y="835" width="227" height="297" frameX="-198" frameY="-160" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah right0002" x="405" y="835" width="284" height="311" frameX="-121" frameY="-179" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah up0000" x="1146" y="363" width="193" height="341" frameX="-208" frameY="-129" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah up0001" x="934" y="382" width="193" height="370" frameX="-212" frameY="-103" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah up0002" x="212" y="835" width="193" height="318" frameX="-211" frameY="-113" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah up0003" x="1128" y="835" width="193" height="226" frameX="-208" frameY="-62" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah down0000" x="205" y="434" width="212" height="397" frameX="-194" frameY="-103" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah down0001" x="934" y="0" width="212" height="382" frameX="-194" frameY="-118" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah down0002" x="0" y="835" width="212" height="348" frameX="-194" frameY="-152" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah left0000" x="0" y="0" width="238" height="434" frameX="-151" frameY="-96" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah left0001" x="238" y="0" width="256" height="434" frameX="-151" frameY="-96" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah left0002" x="494" y="0" width="235" height="434" frameX="-172" frameY="-96" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah idle0000" x="729" y="0" width="205" height="419" frameX="-206" frameY="-111" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah idle0001" x="0" y="434" width="205" height="401" frameX="-206" frameY="-129" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah idle0002" x="622" y="434" width="205" height="389" frameX="-206" frameY="-141" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah idle0003" x="1146" y="0" width="205" height="363" frameX="-206" frameY="-167" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah idle0004" x="1146" y="0" width="205" height="363" frameX="-206" frameY="-167" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah idle0005" x="417" y="434" width="205" height="390" frameX="-206" frameY="-140" frameWidth="600" frameHeight="600" />
+<SubTexture name="theoyeah idle0006" x="0" y="434" width="205" height="401" frameX="-206" frameY="-129" frameWidth="600" frameHeight="600" />
+</TextureAtlas>

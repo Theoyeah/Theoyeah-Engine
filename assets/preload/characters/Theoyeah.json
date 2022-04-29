@@ -1,0 +1,78 @@
+{
+	"animations": [
+		{
+			"offsets": [
+				176,
+				-120
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "singLEFT",
+			"indices": [],
+			"name": "theoyeah left"
+		},
+		{
+			"offsets": [
+				170,
+				-150
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "singDOWN",
+			"indices": [],
+			"name": "theoyeah down"
+		},
+		{
+			"offsets": [
+				170,
+				-150
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "theoyeah right"
+		},
+		{
+			"offsets": [
+				190,
+				-180
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "singUP",
+			"indices": [],
+			"name": "theoyeah up"
+		},
+		{
+			"offsets": [
+				170,
+				-110
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "idle",
+			"indices": [],
+			"name": "theoyeah idle"
+		}
+	],
+	"no_antialiasing": false,
+	"image": "characters/theoyeah",
+	"position": [
+		0,
+		0
+	],
+	"healthicon": "theoyeah",
+	"flip_x": false,
+	"healthbar_colors": [
+		255,
+		196,
+		238
+	],
+	"camera_position": [
+		-280,
+		180
+	],
+	"sing_duration": 6.1,
+	"scale": 1
+}
