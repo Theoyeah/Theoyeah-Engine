@@ -35,6 +35,7 @@ class ClientPrefs {
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
+	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -121,6 +122,7 @@ class ClientPrefs {
 		FlxG.save.data.introbg = introbg;
 		FlxG.save.data.noReset = noReset;
 		FlxG.save.data.noscore = noscore;
+		FlxG.save.data.camfollow = camfollow;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
 		FlxG.save.data.comboOffset = comboOffset;
 		FlxG.save.data.achievementsMap = Achievements.achievementsMap;
@@ -170,6 +172,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.crazycounter != null) {
 			crazycounter = FlxG.save.data.crazycounter;
+		}
+		if(FlxG.save.data.camfollow != null) {
+			camfollow = FlxG.save.data.camfollow;
 		}
 		if(FlxG.save.data.lowQuality != null) {
 			lowQuality = FlxG.save.data.lowQuality;

@@ -98,7 +98,7 @@ class Note extends FlxSprite
 
 		if(noteData > -1 && noteType != value) {
 			switch(value) {
-				case 'Hurt Note':
+				case 'Hurt Note': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
 					ignoreNote = mustPress;
 					reloadNote('HURT');
 					noteSplashTexture = 'HURTnoteSplashes';
@@ -110,18 +110,26 @@ class Note extends FlxSprite
 					} else {
 						missHealth = 0.3;
 					}
-					case 'Instakill Note':
-						ignoreNote = mustPress;
-						reloadNote('INSTAKILL');
-						noteSplashTexture = 'HURTnoteSplashes';
-						colorSwap.hue = 0;
-						colorSwap.saturation = 0;
-						colorSwap.brightness = 0;
-						if(isSustainNote) {
-							missHealth = 0.5;
-						} else {
-							missHealth = 500;//lol you will die
-						}
+				case 'Instakill Note':
+					ignoreNote = mustPress;
+					reloadNote('INSTAKILL');
+					noteSplashTexture = 'HURTnoteSplashes';
+					colorSwap.hue = 0;
+					colorSwap.saturation = 0;
+					colorSwap.brightness = 0;
+					if(isSustainNote) {
+						missHealth = 0.5;
+					} else {
+						missHealth = 500;//lol you will die
+					}
+				hitCausesMiss = true;
+				case 'Poisoned Note':
+					ignoreNote = mustPress;
+					reloadNote('POISONED');
+					noteSplashTexture = 'POISONEDnoteSplashes';
+					colorSwap.hue = 0;
+					colorSwap.saturation = 0;
+					colorSwap.brightness = 0;
 					hitCausesMiss = true;
 				case 'No Animation':
 					noAnimation = true;

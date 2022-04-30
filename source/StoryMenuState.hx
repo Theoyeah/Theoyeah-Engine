@@ -54,7 +54,7 @@ class StoryMenuState extends MusicBeatState
 	{
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
-		Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine - " + "Story Mode";
+		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + "Story Mode";
 
 		PlayState.isStoryMode = true;
 		WeekData.reloadWeekFiles(true);

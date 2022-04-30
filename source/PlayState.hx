@@ -126,6 +126,7 @@ class PlayState extends MusicBeatState
 
 	public var dad:Character = null;
 	public var gf:Character = null;
+	public var healthDrain:Float = 0;
 	public var boyfriend:Boyfriend = null;
 
 	public var notes:FlxTypedGroup<Note>;
@@ -1012,7 +1013,7 @@ class PlayState extends MusicBeatState
 		FlxG.fixedTimestep = false;
 		moveCameraSection(0);
 
-		Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine - " + PlayState.SONG.song + ' [' + CoolUtil.difficultyString() + ']';
+		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + PlayState.SONG.song + ' [' + CoolUtil.difficultyString() + ']';
 
 		if (ClientPrefs.longhealthbar) {
 			healthBarBG = new AttachedSprite('longhealthBar');
@@ -1130,6 +1131,17 @@ class PlayState extends MusicBeatState
 			}
 		}
 		#end
+
+
+		if (healthDrain > 0 && health > 0.1)
+			{
+				if (health < 0.1)
+				{
+					health = 0.1;
+				}
+				health -= 0.001;
+				healthDrain -= 0.0001;
+			}
 		
 		var daSong:String = Paths.formatToSongPath(curSong);
 		if (isStoryMode && !seenCutscene)
@@ -4043,6 +4055,9 @@ class PlayState extends MusicBeatState
 							boyfriend.playAnim('hurt', true);
 							boyfriend.specialAnim = true;
 						}
+					case 'Poisoned Note':
+						healthDrain = 0.20;
+						health -= 0;
 				
 				}
 				
@@ -4067,6 +4082,36 @@ class PlayState extends MusicBeatState
 			if(!note.noAnimation) {
 				var daAlt = '';
 				if(note.noteType == 'Alt Animation') daAlt = '-alt';
+			
+			var animToPlay:String = '';
+				switch (Std.int(Math.abs(note.noteData)))
+				
+				{
+					case 0:
+						animToPlay = 'singLEFT';
+						if(ClientPrefs.camfollow)
+					{
+						camFollow.x -= 30;
+					}
+					case 1:
+						animToPlay = 'singDOWN';
+						if(ClientPrefs.camfollow)
+							{
+								camFollow.y += 30;
+							}
+					case 2:
+						animToPlay = 'singUP';
+						if(ClientPrefs.camfollow)
+							{
+								camFollow.y -= 30;
+							}
+					case 3:
+						animToPlay = 'singRIGHT';
+						if(ClientPrefs.camfollow)
+							{
+								camFollow.x += 30;
+							}
+				}
 	
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
 

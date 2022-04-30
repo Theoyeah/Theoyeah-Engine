@@ -98,6 +98,13 @@ addOption(option);
 	false);
 addOption(option);
 
+	var option:Option = new Option('Camera Follow Player Pose',
+	"If checked, the camera will move when you press a note.",
+	'camfollow',
+	'bool',
+	true);
+addOption(option);
+
 
 		var option:Option = new Option('Score Text Zoom on Hit',
 			"If unchecked, disables the Score text zooming\neverytime you hit a note.",

@@ -61,7 +61,7 @@ class MainMenuState extends MusicBeatState
 		debugKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 
 		camGame = new FlxCamera();
-		Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine";
+		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
 		camAchievement = new FlxCamera();
 		camAchievement.bgColor.alpha = 0;
 
@@ -259,10 +259,10 @@ class MainMenuState extends MusicBeatState
 								{
 									case 'story_mode':
 										MusicBeatState.switchState(new StoryMenuState());
-										Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine - " + "Story Mode";
+										Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + "Story Mode";
 									case 'freeplay':
 										MusicBeatState.switchState(new FreeplayState());
-										Application.current.window.title = "Friday Night Funkin' : Theoyeah Engine - " + "Freeplay";
+										Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + "Freeplay";
 									#if MODS_ALLOWED
 									case 'mods':
 										MusicBeatState.switchState(new ModsMenuState());
