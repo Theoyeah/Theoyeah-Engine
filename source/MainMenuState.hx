@@ -161,7 +161,7 @@ class MainMenuState extends MusicBeatState
 		var leDate = Date.now();
 		if (leDate.getDay() == 6 && leDate.getHours() >= 18) {
 			var achieveID:Int = Achievements.getAchievementIndex('saturday_night_play');
-			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a friday night. WEEEEEEEEEEEEEEEEEE
+			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a Saturday night. WAIT BOOOOOO
 				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][2], true);
 				giveAchievement();
 				ClientPrefs.saveSettings();

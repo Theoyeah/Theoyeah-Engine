@@ -69,11 +69,7 @@ class NotesSubState extends MusicBeatSubstate
 			}
 
 			var note:FlxSprite = new FlxSprite(posX, yPos);
-			if(FlxG.save.data.arrowSkin != null) {
-				note.frames = Paths.getSparrowAtlas(FlxG.save.data.arrowSkin);
-			} else {
-				note.frames = Paths.getSparrowAtlas('noteSkins/ARROW_assets');
-			}
+			note.frames = Paths.getSparrowAtlas('NOTE_assets');
 			var animations:Array<String> = ['purple0', 'blue0', 'green0', 'red0'];
 			note.animation.addByPrefix('idle', animations[i]);
 			note.animation.play('idle');
