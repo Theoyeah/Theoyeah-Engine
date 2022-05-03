@@ -85,7 +85,7 @@ class CreditsState extends MusicBeatState
 			['Theoyeah',		'theoyeah credit',		'Creator of Theoyeah Engine',							'https://github.com/Theoyeah',	'009BF4'],
 			['Demolitiondon96',		'demolitiondon',		'Another cool contributor',							'https://github.com/DEMOLITIONDON96',	'009BF4'],
 			['Lolbruhfart',		'lolbruhfart',		'Another cool guy who codes',							'https://github.com/lolbruhfart',	'009BF4'],
-			[''].
+			[''],
 			['Pull Requests'],
 			['Wither362',	'wither',	'Winning Icons Toggle',		'https://github.com/Wither362',		'FFFFFF'],
 			[''],
