@@ -34,6 +34,7 @@ class ClientPrefs {
 	public static var longhealthbar:Bool = true;
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
+	public static var winningIcon = true;
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
 	public static var gameplaySettings:Map<String, Dynamic> = [
@@ -98,6 +99,7 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
+		FlxG.save.data.winningIcon = winningIcon;
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.showFPS = showFPS;
@@ -107,7 +109,7 @@ class ClientPrefs {
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.framerate = framerate;
 		FlxG.save.data.longhealthbar = longhealthbar;
-        FlxG.save.data.crazycounter = crazycounter;
+		FlxG.save.data.crazycounter = crazycounter;
 		//FlxG.save.data.cursing = cursing;
 		//FlxG.save.data.violence = violence;
 		FlxG.save.data.camZooms = camZooms;
@@ -149,7 +151,10 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-		if(FlxG.save.data.downScroll != null) {
+		if(FlxG.save.data.winningIcon != null) {
+			winningIcon = FlxG.save.data.winningIcon;
+		}
+		if(FlxG.save.data.downScroll != null) {			       
 			downScroll = FlxG.save.data.downScroll;
 		}
 		if(FlxG.save.data.middleScroll != null) {
