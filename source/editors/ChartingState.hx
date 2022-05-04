@@ -495,7 +495,7 @@ class ChartingState extends MusicBeatState
 
 
 		var stepperSpeed:FlxUINumericStepper = if(FlxG.keys.pressed.SHIFT) {
-			new FlxUINumericStepper(10, stepperBPM.y + 35, changeeValue, 1, 0.1, maxScrollSpeed, 1) 
+			new FlxUINumericStepper(10, stepperBPM.y + 35, changeeValue, 1, 0.1, maxScrollSpeed, 1);
 		} else {
 			new FlxUINumericStepper(10, stepperBPM.y + 35, 0.1, 1, 0.1, maxScrollSpeed, 1);
 		}
