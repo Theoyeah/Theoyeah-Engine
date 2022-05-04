@@ -98,15 +98,15 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 1.6;
 		option.minValue = 0.0;
 		option.maxValue = 1;
-		/*if(FlxG.keys.pressed.SHIFT) {
+		if(FlxG.keys.pressed.SHIFT) {
 			if(ClientPrefs.multiplicativeValue > 0) {
 				option.changeValue = ClientPrefs.multiplicativeValue;
 			} else {
 				option.changeValue = 0.5;
 			}
-		} else {*/
+		} else {
 			option.changeValue = 0.1;
-		/*}*/ //by now im going to let this to your decision theoyeah, if you want this, tell it to me --Wither362
+		}
 		option.decimals = 1;
 
 		var option:Option = new Option('Rating Offset',
@@ -174,15 +174,15 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 5;
 		option.minValue = 2;
 		option.maxValue = 10;
-		/*if(FlxG.keys.pressed.SHIFT) {
+		if(FlxG.keys.pressed.SHIFT) {
 			if(ClientPrefs.multiplicativeValue > 0) {
 				option.changeValue = ClientPrefs.multiplicativeValue;
 			} else {
 				option.changeValue = 1;
 			}
-		} else {*/
+		} else {
 			option.changeValue = 0.1;
-		/*} */ //the same 
+		} 
 		addOption(option);
 
 		super();
