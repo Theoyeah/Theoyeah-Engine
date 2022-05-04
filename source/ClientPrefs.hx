@@ -209,9 +209,9 @@ class ClientPrefs {
 		if(FlxG.save.data.hideHud != null) {
 			hideHud = FlxG.save.data.hideHud;
 		}
-	   if(FlxG.save.data.introbg != null) {
-		 introbg = FlxG.save.data.introbg;
-	    }
+		if(FlxG.save.data.introbg != null) {
+			introbg = FlxG.save.data.introbg;
+		}
 		if(FlxG.save.data.noteOffset != null) {
 			noteOffset = FlxG.save.data.noteOffset;
 		}
@@ -236,9 +236,9 @@ class ClientPrefs {
 		if(FlxG.save.data.healthBarAlpha != null) {
 			healthBarAlpha = FlxG.save.data.healthBarAlpha;
 		}
-	    if(FlxG.save.data.kadetxt != null) {
-		    kadetxt = FlxG.save.data.kadetxt;
-     	}
+		if(FlxG.save.data.kadetxt != null) {
+			kadetxt = FlxG.save.data.kadetxt;
+		}
 		if(FlxG.save.data.comboOffset != null) {
 			comboOffset = FlxG.save.data.comboOffset;
 		}
@@ -266,7 +266,7 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.hitsoundVolume != null) {
 			hitsoundVolume = FlxG.save.data.hitsoundVolume;
-        }
+		}
 		if(FlxG.save.data.pauseMusic != null) {
 			pauseMusic = FlxG.save.data.pauseMusic;
 		}
