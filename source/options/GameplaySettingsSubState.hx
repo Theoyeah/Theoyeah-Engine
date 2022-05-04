@@ -34,6 +34,17 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		title = 'Gameplay Settings';
 		rpcTitle = 'Gameplay Settings Menu'; //for Discord Rich Presence
 
+		var option:Option = new Option("Multiplicative Value", //taked from the wither engine
+			"When you press SHIFT it multiplies the value by\nthe value you set it\nif it's 0, it will count the dafault value",
+			"multiplicativeValue",
+			"float",
+			0);
+		option.scrollSpeed = 5;
+		option.minValue = 0;
+		option.maxValue = 100;
+		option.changeValue = 0.1;
+		addOption(option);
+
 		var option:Option = new Option('Winning Icon',
 			'Check this if you want winning icons',
 			'winningIcon',
