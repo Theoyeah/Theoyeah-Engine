@@ -176,6 +176,8 @@ class FunkinLua {
 		set('healthBarAlpha', ClientPrefs.healthBarAlpha);
 		set('noResetButton', ClientPrefs.noReset);
 		set('lowQuality', ClientPrefs.lowQuality);
+		set('multiplicativeValue', ClientPrefs.multiplicativeValue);
+		set('winningIcons', ClientPrefs.winningIcon);
 
 
 		#if windows
