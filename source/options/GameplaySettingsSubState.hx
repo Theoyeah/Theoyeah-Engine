@@ -188,7 +188,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 
 
 		var option:Option = new Option('Chart Things',
-			'Check this if you want that when you pause\nyou have the botplay...'
+			'Check this if you want that when you pause\nyou have the botplay...',
 			'chartThings',
 			'bool',
 			false);
