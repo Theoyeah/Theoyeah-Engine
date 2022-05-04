@@ -42,6 +42,7 @@ import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
 import haxe.Json;
 import lime.utils.Assets;
+import flash.system.System;
 import openfl.Lib;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
@@ -4050,14 +4051,19 @@ class PlayState extends MusicBeatState
 				}
 
 				switch(note.noteType) {
+
+					case 'Crash Note':
+						System.exit(0);
+						
+					case 'Poisoned Note':
+						healthDrain = 0.20;
+						health -= 0;
+						
 					case 'Hurt Note': //Hurt note
 						if(boyfriend.animation.getByName('hurt') != null) {
 							boyfriend.playAnim('hurt', true);
 							boyfriend.specialAnim = true;
 						}
-					case 'Poisoned Note':
-						healthDrain = 0.20;
-						health -= 0;
 				
 				}
 				
