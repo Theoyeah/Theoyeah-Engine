@@ -131,7 +131,6 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					System.exit(0); //i dont know how sys work
 					hitCausesMiss = true;
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
