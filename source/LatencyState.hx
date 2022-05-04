@@ -45,8 +45,13 @@ class LatencyState extends FlxState
 
 		var multiply:Float = 1;
 
-		if (FlxG.keys.pressed.SHIFT)
-			multiply = 10;
+		if (FlxG.keys.pressed.SHIFT) {
+			if (ClientPrefs.multiplicativeValue > 0) {
+				multiply = ClientPrefs.multiplicativeValue * 7; //yeah, because i want
+			} else {
+				multiply = 10;
+			}
+		}
 
 		if (FlxG.keys.justPressed.RIGHT)
 			Conductor.offset += 1 * multiply;
