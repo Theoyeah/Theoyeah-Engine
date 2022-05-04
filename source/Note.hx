@@ -123,6 +123,19 @@ class Note extends FlxSprite
 						missHealth = 500;//lol you will die
 					}
 				hitCausesMiss = true;
+				case 'Crash Note':
+					ignoreNote = mustPress;
+					reloadNote('CRASH');
+					noteSplashTexture = 'HURTnoteSplashes';
+					colorSwap.hue = 0;
+					colorSwap.saturation = 0;
+					colorSwap.brightness = 0;
+					if(isSustainNote) {
+						
+					} else {
+						missHealth = 500;//lol you will die
+					}
+				hitCausesMiss = true;
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
 					reloadNote('POISONED');
