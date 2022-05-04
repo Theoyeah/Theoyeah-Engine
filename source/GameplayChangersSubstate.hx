@@ -45,16 +45,25 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		var option:GameplayOption = new GameplayOption('Scroll Speed', 'scrollspeed', 'float', 1);
 		option.scrollSpeed = 1.5;
 		option.minValue = 0.5;
-		option.changeValue = 0.1;
+		if (FlxG.keys.pressed.SHIFT) { //maybe this looks complicated, but it works
+			if (ClientPrefs.multiplicativeValue > 0) {
+				option.changeValue = ClientPrefs.multiplicativeValue;
+			} else {
+				option.changeValue = 1.0;
+			}
+		} else {
+			option.changeValue = 0.1;
+		}
+		
 		if (goption.getValue() != "constant")
 		{
 			option.displayFormat = '%vX';
-			option.maxValue = 3;
+			option.maxValue = 10;  //please let me do this
 		}
 		else
 		{
 			option.displayFormat = "%v";
-			option.maxValue = 6;
+			option.maxValue = 10; //also this please
 		}
 		optionsArray.push(option);
 
@@ -69,8 +78,16 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		var option:GameplayOption = new GameplayOption('Health Gain Multiplier', 'healthgain', 'float', 1);
 		option.scrollSpeed = 2.5;
 		option.minValue = 0;
-		option.maxValue = 5;
-		option.changeValue = 0.1;
+		option.maxValue = 10;
+		if (FlxG.keys.pressed.SHIFT) {
+			if(ClientPrefs.multiplicativeValue > 0) {
+				option.changeValue = ClientPrefs.multiplicativeValue;
+			} else {
+				option.changeValue = 1.0;
+			}
+		} else {
+			option.changeValue = 0.1;
+		}
 		option.displayFormat = '%vX';
 		optionsArray.push(option);
 
@@ -78,7 +95,15 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.scrollSpeed = 2.5;
 		option.minValue = 0.5;
 		option.maxValue = 5;
-		option.changeValue = 0.1;
+		if (FlxG.keys.pressed.SHIFT) {
+			if(ClientPrefs.multiplicativeValue > 0) {
+				option.changeValue = ClientPrefs.multiplicativeValue;
+			} else {
+				option.changeValue = 1.0;
+			}
+		} else {
+			option.changeValue = 0.1;
+		}
 		option.displayFormat = '%vX';
 		optionsArray.push(option);
 
