@@ -122,7 +122,7 @@ class Note extends FlxSprite
 					} else {
 						missHealth = 500;//lol you will die
 					}
-				hitCausesMiss = true;
+				hitCausesMiss = true; // what the f*ck does this mean bro???
 				case 'Crash Note':
 					ignoreNote = mustPress;
 					reloadNote('CRASH');
@@ -130,12 +130,8 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					if(isSustainNote) {
-						
-					} else {
-						missHealth = 500;//lol you will die
-					}
-				hitCausesMiss = true;
+					System.exit(0); //i dont know how sys work
+					hitCausesMiss = true;
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
 					reloadNote('POISONED');
