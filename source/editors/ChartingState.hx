@@ -63,7 +63,7 @@ class ChartingState extends MusicBeatState
 		'Hurt Note',
 		'Instakill Note',
 		'Crash Note', //so we can actually test it
-		'Poisoned Note',
+		//'Poisoned Note',
 		'GF Sing',
 		'No Animation'
 	];
