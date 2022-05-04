@@ -97,7 +97,15 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 1.6;
 		option.minValue = 0.0;
 		option.maxValue = 1;
-		option.changeValue = 0.1;
+		/*if(FlxG.keys.pressed.SHIFT) {
+			if(ClientPrefs.multiplicativeValue > 0) {
+				option.changeValue = ClientPrefs.multiplicativeValue;
+			} else {
+				option.changeValue = 0.5;
+			}
+		} else {*/
+			option.changeValue = 0.1;
+		/*}*/ //by now im going to let this to your decision theoyeah, if you want this, tell it to me --Wither362
 		option.decimals = 1;
 
 		var option:Option = new Option('Rating Offset',
@@ -114,15 +122,15 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 
 
 		var option:Option = new Option('Marvelous Hit Window',
-		'Changes the amount of time you have\nfor hitting a "Marvelous" in milliseconds.',
-		'marvelousWindow',
-		'int',
-		25);
-	option.displayFormat = '%vms';
-	option.scrollSpeed = 15;
-	option.minValue = 10;
-	option.maxValue = 20;
-	addOption(option);
+			'Changes the amount of time you have\nfor hitting a "Marvelous" in milliseconds.',
+			'marvelousWindow',
+			'int',
+			25);
+		option.displayFormat = '%vms';
+		option.scrollSpeed = 15;
+		option.minValue = 10;
+		option.maxValue = 20;
+		addOption(option);
 
 		var option:Option = new Option('Sick! Hit Window',
 			'Changes the amount of time you have\nfor hitting a "Sick!" in milliseconds.',
@@ -165,7 +173,15 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 5;
 		option.minValue = 2;
 		option.maxValue = 10;
-		option.changeValue = 0.1;
+		/*if(FlxG.keys.pressed.SHIFT) {
+			if(ClientPrefs.multiplicativeValue > 0) {
+				option.changeValue = ClientPrefs.multiplicativeValue;
+			} else {
+				option.changeValue = 1;
+			}
+		} else {*/
+			option.changeValue = 0.1;
+		/*} */ //the same 
 		addOption(option);
 
 		super();
