@@ -184,6 +184,16 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			option.changeValue = 0.1;
 		} 
 		addOption(option);
+		
+
+
+		var option:Option = new Option('Chart Things',
+			'Check this if you want that when you pause\nyou have the botplay...'
+			'chartThings',
+			'bool',
+			false);
+		addOption(option);
+
 
 		super();
 	}
