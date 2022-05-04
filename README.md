@@ -33,6 +33,7 @@ I will try to add things that shadow mario will never do
 - Os is back !!!
 - Added a cool background in intro
 - Added the original MiddleScroll !
+- Mp3 and Wav support !
 - More options
 # Examples :
 ![image](https://user-images.githubusercontent.com/97792861/163772539-3409759d-5fca-4a5a-945f-76f4b7ed87fb.png)
