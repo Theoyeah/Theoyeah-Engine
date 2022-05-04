@@ -42,25 +42,25 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Kade Engine Score Text',
-		"If checked, the text below the health bar will change to Kade Engine (except the style).",
-		'kadetxt',
-		'bool',
-		false);
-	addOption(option);
+			"If checked, the text below the health bar will change to Kade Engine (except the style).",
+			'kadetxt',
+			'bool',
+			false);
+		addOption(option);
 
-	var option:Option = new Option('Intro Background',
-	"If checked, there will be a background in intro.",
-	'introbg',
-	'bool',
-	false);
-addOption(option);
+		var option:Option = new Option('Intro Background',
+			"If checked, there will be a background in intro.",
+			'introbg',
+			'bool',
+			false);
+		addOption(option);
 
-	var option:Option = new Option('Kade Engine Judgement Counter',
-	"If checked, there will be a judgement counter when playing.",
-	'crazycounter',
-	'bool',
-	false);
-  addOption(option);
+		var option:Option = new Option('Kade Engine Judgement Counter',
+			"If checked, there will be a judgement counter when playing.",
+			'crazycounter',
+			'bool',
+			false);
+		addOption(option);
 
 		var option:Option = new Option('Hide HUD',
 			'If checked, hides most HUD elements.',
@@ -85,25 +85,25 @@ addOption(option);
 		addOption(option);
 
 		var option:Option = new Option('Longer Health Bar',
-		"If unchecked, the health bar will be set to the original one.",
-		'longhealthbar',
-		'bool',
-		true);
-	addOption(option);
+			"If unchecked, the health bar will be set to the original one.",
+			'longhealthbar',
+			'bool',
+			true);
+		addOption(option);
 
-	var option:Option = new Option('Hide Score Text',
-	"If checked, the text under the health bar will not be showed.",
-	'noscore',
-	'bool',
-	false);
-addOption(option);
+		var option:Option = new Option('Hide Score Text',
+			"If checked, the text under the health bar will not be showed.",
+			'noscore',
+			'bool',
+			false);
+		addOption(option);
 
-	var option:Option = new Option('Camera Follow Player Pose',
-	"If checked, the camera will move when you press a note.",
-	'camfollow',
-	'bool',
-	true);
-addOption(option);
+		var option:Option = new Option('Camera Follow Player Pose',
+			"If checked, the camera will move when you press a note.",
+			'camfollow',
+			'bool',
+			true);
+		addOption(option);
 
 
 		var option:Option = new Option('Score Text Zoom on Hit',
