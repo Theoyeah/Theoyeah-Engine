@@ -45,13 +45,12 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		addOption(option);
 
-=======
-		//var option:Option = new Option('Winning Icon',
-		//	'Check this if you want winning icons',
-		//	'winningIcon',
-		//	'bool',
-		//	true);
-		//addOption(option);
+		var option:Option = new Option('Winning Icon',
+			'Check this if you want winning icons',
+			'winningIcon',
+			'bool',
+			true);
+		addOption(option);
 
 
 		var option:Option = new Option('Controller Mode',
