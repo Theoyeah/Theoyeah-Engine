@@ -1988,6 +1988,11 @@ class ChartingState extends MusicBeatState
 				audioBuffers[0] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Inst.mp3'));
 		}
 		#end
+		#if WAV_ALLOWED
+		else if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Inst.wav'))) {
+				audioBuffers[0] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Inst.wav'));
+		}
+		#end
 		else { #end
 			var leVocals:String = Paths.getPath(currentSongName + '/Inst.' + Paths.SOUND_EXT, SOUND, 'songs');
 			if (OpenFlAssets.exists(leVocals)) { //Vanilla inst
@@ -2010,6 +2015,11 @@ class ChartingState extends MusicBeatState
 		#if MP3_ALLOWED 
 		else if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Voices.mp3'))) {
 			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.mp3'));
+		}
+		#end
+		#if WAV_ALLOWED
+		else if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Voices.wav'))) {
+			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.wav'));
 		}
 		#end
 			else { #end
