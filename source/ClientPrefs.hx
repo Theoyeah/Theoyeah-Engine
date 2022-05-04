@@ -38,7 +38,6 @@ class ClientPrefs {
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
 	public static var multiplicativeValue:Float = 0;
-	public static var chartThings:Bool = false;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -101,7 +100,6 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
-		FlxG.save.data.chartThings = chartThings;
 		FlxG.save.data.winningIcon = winningIcon;
 		FlxG.save.data.multiplicativeValue = multiplicativeValue;
 		FlxG.save.data.downScroll = downScroll;
@@ -155,9 +153,6 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-		if(FlxG.save.data.chartThings != null) {
-			chartThings = FlxG.save.data.chartThings;
-		}
 		if(FlxG.save.data.multiplicativeValue != null) {
 			multiplicativeValue = FlxG.save.data.multiplicativeValue;
 		}
