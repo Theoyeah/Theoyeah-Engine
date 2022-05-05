@@ -111,6 +111,7 @@ class Note extends FlxSprite
 					} else {
 						missHealth = 0.3;
 					}
+					hitCausesMiss = true;
 				case 'Instakill Note':
 					ignoreNote = mustPress;
 					reloadNote('INSTAKILL');
@@ -123,7 +124,7 @@ class Note extends FlxSprite
 					} else {
 						missHealth = 500;//lol you will die
 					}
-					hitCausesMiss = true; // what the f*ck does this mean bro???
+					hitCausesMiss = true;
 				case 'Crash Note':
 					ignoreNote = mustPress;
 					reloadNote('CRASH');
