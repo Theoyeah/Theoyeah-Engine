@@ -384,9 +384,9 @@ class ChartingState extends MusicBeatState
 		super.create();
 	}
 
-	var maxBpm = 1000000;
+	var maxBpm = 1000;
 	var minBpm = 50;
-	var maxScrollSpeed = 10000;
+	var maxScrollSpeed = 15;
 	var minScrollSpeed = 0.1;
 	  
 	var check_mute_inst:FlxUICheckBox = null;
