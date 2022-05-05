@@ -383,7 +383,7 @@ class TitleState extends MusicBeatState
 		psychSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('psych_logo'));
 		add(psychSpr);
 		psychSpr.visible = false;
-		psychSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
+		psychSpr.setGraphicSize(Std.int(ngSpr.width * 0.9));
 		psychSpr.updateHitbox();
 		psychSpr.screenCenter(X);
 		psychSpr.antialiasing = ClientPrefs.globalAntialiasing;
