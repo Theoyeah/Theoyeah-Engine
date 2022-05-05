@@ -171,14 +171,14 @@ class MainMenuState extends MusicBeatState
 
 		super.create();
 
-		logo = new FlxSprite(420, 30).loadGraphic(Paths.image('logoBumpin'));//Thats the logo that appears in the menu
+		logo = if(ClientPrefs.menuLogo) new FlxSprite(420, 30).loadGraphic(Paths.image('logoBumpin')) else new FlxSprite(420, 30).loadGraphic(Paths.image('logoNoBumpin'));//Thats the logo that appears in the menu
 			logo.frames = Paths.getSparrowAtlas('logoBumpin');//here put the name of the xml
 			logo.animation.addByPrefix('idleR', 'logo bumpin', 24, true);//on 'idle normal' change it to your xml one
 			logo.animation.play('idleR');//you can rename the anim however you want to
 			logo.scrollFactor.set();
 			logo.scale.set(0.8, 0.8);
 			logo.antialiasing = ClientPrefs.globalAntialiasing;
-			add(logo);
+			add(logo); 
 
 
 	}
