@@ -177,6 +177,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		} 
 		addOption(option);
 		
+		var option:Option = new Option('Menu Logo',
+			"If disabled, the logo will not show in\nthe main menu",
+			'menuLogo',
+			"bool",
+			true);
+		addOption(option);
+		
 		super();
 	}
 }
