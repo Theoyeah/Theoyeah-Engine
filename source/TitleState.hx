@@ -62,6 +62,7 @@ class TitleState extends MusicBeatState
 	var credTextShit:Alphabet;
 	var textGroup:FlxGroup;
 	var ngSpr:FlxSprite;
+	var tySpr:FlxSprite;
 
 	var curWacky:Array<String> = [];
 
@@ -355,11 +356,11 @@ class TitleState extends MusicBeatState
 		textGroup = new FlxGroup();
 
 		if (ClientPrefs.introbg) {
-	   blackScreen = new FlxSprite().loadGraphic(Paths.image('menutheme'));
-	    credGroup.add(blackScreen);
-		}else{
-		blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		credGroup.add(blackScreen);
+			blackScreen = new FlxSprite().loadGraphic(Paths.image('menutheme'));
+			credGroup.add(blackScreen);
+		} else {
+			blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+			credGroup.add(blackScreen);
 		}
 
 		credTextShit = new Alphabet(0, 0, "", true);
@@ -376,6 +377,15 @@ class TitleState extends MusicBeatState
 		ngSpr.updateHitbox();
 		ngSpr.screenCenter(X);
 		ngSpr.antialiasing = ClientPrefs.globalAntialiasing;
+		
+		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
+		add(tySpr);
+		tySpr.visible = false;
+		tySpr.setGraphicSize(Std.int(125 * 0.74)); //i dont know how this works, edit it later theoyeah to correct the image and all that
+		tySpr.updateHitbox();
+		tySpr.screenCenter(X);
+		
+		
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
@@ -586,53 +596,55 @@ class TitleState extends MusicBeatState
 				createCoolText(['Theoyeah Engine by']);
 				#end
 			// credTextShit.visible = true;
-			case 3:
-				#if PSYCH_WATERMARKS
-				addMoreText('Theoyeah', 15);
-				#else
-				addMoreText('Theoyeah');
-				#end
-			// credTextShit.text += '\npresent...';
-			// credTextShit.addText();
-			case 4:
-				deleteCoolText();
+				case 3:
+					#if PSYCH_WATERMARKS
+						addMoreText('Theoyeah', 15);
+					#else
+						addMoreText('Theoyeah');
+					#end
+					tySpr.visible = true;
+					// credTextShit.text += '\npresent...';
+					// credTextShit.addText();
+				case 4:
+					deleteCoolText();
+					tySpr.visible = false;
 			// credTextShit.visible = false;
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
-			case 5:
-				#if PSYCH_WATERMARKS
-				createCoolText(['A Modified Version of '], -40);
-				#else
-				createCoolText(['A Modified Version of'], -40);
-				#end
-			case 7:
-				addMoreText('Psych Engine', -40);
+				case 5:
+					#if PSYCH_WATERMARKS
+						createCoolText(['A Modified Version of '], -40);
+					#else
+						createCoolText(['A Modified Version of'], -40);
+					#end
+				case 7:
+					addMoreText('Psych Engine', -40);
 			// credTextShit.text += '\nNewgrounds';
-			case 8:
-				deleteCoolText();
+				case 8:
+					deleteCoolText();
 			// credTextShit.visible = false;
 
 			// credTextShit.text = 'Shoutouts Tom Fulp';
 			// credTextShit.screenCenter();
-			case 9:
-				createCoolText([curWacky[0]]);
+				case 9:
+					createCoolText([curWacky[0]]);
 			// credTextShit.visible = true;
-			case 11:
-				addMoreText(curWacky[1]);
+				case 11:
+					addMoreText(curWacky[1]);
 			// credTextShit.text += '\nlmao';
-			case 12:
-				deleteCoolText();
+				case 12:
+					deleteCoolText();
 			// credTextShit.visible = false;
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
-			case 13:
-				addMoreText('Friday Night Funkin');
+				case 13:
+					addMoreText('Friday Night Funkin');
 			// credTextShit.visible = true;
-			case 14:
-				addMoreText('Theoyeah');
+				case 14:
+					addMoreText('Theoyeah');
 			// credTextShit.text += '\nNight';
-			case 15:
-				addMoreText('Engine'); // credTextShit.text += '\nFunkin';
+				case 15:
+					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
 
 				case 16:
 					skipIntro();
@@ -666,6 +678,7 @@ class TitleState extends MusicBeatState
 					
 					default: //Go back to normal ugly ass boring GF
 						remove(ngSpr);
+						remove(tySpr);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 2);
 						skippedIntro = true;
@@ -682,6 +695,7 @@ class TitleState extends MusicBeatState
 					new FlxTimer().start(3.2, function(tmr:FlxTimer)
 					{
 						remove(ngSpr);
+						remove(tySpr);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 0.6);
 						transitioning = false;
@@ -690,6 +704,7 @@ class TitleState extends MusicBeatState
 				else
 				{
 					remove(ngSpr);
+					remove(tySpr);
 					remove(credGroup);
 					FlxG.camera.flash(FlxColor.WHITE, 3);
 					sound.onComplete = function() {
@@ -703,6 +718,7 @@ class TitleState extends MusicBeatState
 			else //Default! Edit this one!!
 			{
 				remove(ngSpr);
+				remove(tySpr);
 				remove(credGroup);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 
