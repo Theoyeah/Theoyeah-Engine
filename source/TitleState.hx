@@ -602,12 +602,12 @@ class TitleState extends MusicBeatState
 					#else
 						addMoreText('Theoyeah');
 					#end
-						ty.visible = true;
+					tySpr.visible = true;
 					// credTextShit.text += '\npresent...';
 					// credTextShit.addText();
 				case 4:
 					deleteCoolText();
-					ty.visible = false;
+					tySpr.visible = false;
 			// credTextShit.visible = false;
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
@@ -678,6 +678,7 @@ class TitleState extends MusicBeatState
 					
 					default: //Go back to normal ugly ass boring GF
 						remove(ngSpr);
+						remove(tySpr);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 2);
 						skippedIntro = true;
@@ -694,6 +695,7 @@ class TitleState extends MusicBeatState
 					new FlxTimer().start(3.2, function(tmr:FlxTimer)
 					{
 						remove(ngSpr);
+						remove(tySpr);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 0.6);
 						transitioning = false;
@@ -702,6 +704,7 @@ class TitleState extends MusicBeatState
 				else
 				{
 					remove(ngSpr);
+					remove(tySpr);
 					remove(credGroup);
 					FlxG.camera.flash(FlxColor.WHITE, 3);
 					sound.onComplete = function() {
@@ -715,6 +718,7 @@ class TitleState extends MusicBeatState
 			else //Default! Edit this one!!
 			{
 				remove(ngSpr);
+				remove(tySpr);
 				remove(credGroup);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 
