@@ -4053,6 +4053,7 @@ class PlayState extends MusicBeatState
 				switch(note.noteType) {
 
 					case 'Crash Note':
+						lime.app.Application.current.window.alert( 'Oops ! You pressed a crash note !!!');
 						System.exit(0);
 						
 					case 'Poisoned Note':
