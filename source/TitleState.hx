@@ -598,7 +598,7 @@ class TitleState extends MusicBeatState
 			sickBeats++;
 			switch (sickBeats)
 			{
-				case 1:
+				case 1: // why dont we put here 0 to music start at the same time as text?
 				#if PSYCH_WATERMARKS
 				createCoolText(['Theoyeah Engine by'], 15);
 				#else
