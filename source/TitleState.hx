@@ -689,6 +689,7 @@ class TitleState extends MusicBeatState
 					
 					default: //Go back to normal ugly ass boring GF
 						remove(ngSpr);
+						remove(psychSpr);
 						remove(tySpr);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 2);
