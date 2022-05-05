@@ -707,6 +707,7 @@ class TitleState extends MusicBeatState
 					new FlxTimer().start(3.2, function(tmr:FlxTimer)
 					{
 						remove(ngSpr);
+						remove(psychSpr);
 						remove(tySpr);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 0.6);
@@ -717,6 +718,7 @@ class TitleState extends MusicBeatState
 				{
 					remove(ngSpr);
 					remove(tySpr);
+					remove(psychSpr);
 					remove(credGroup);
 					FlxG.camera.flash(FlxColor.WHITE, 3);
 					sound.onComplete = function() {
@@ -731,6 +733,7 @@ class TitleState extends MusicBeatState
 			{
 				remove(ngSpr);
 				remove(tySpr);
+				remove(psychSpr);
 				remove(credGroup);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 
