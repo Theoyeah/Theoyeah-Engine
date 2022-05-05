@@ -83,7 +83,7 @@ class CreditsState extends MusicBeatState
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['Theoyeah Engine Team'],
 			['Theoyeah',		'theoyeah credit',		'Creator of Theoyeah Engine',							'https://github.com/Theoyeah',	'009BF4'],
-			['Demolitiondon96',		'demolitiondon',		'Another cool contributor',							'https://github.com/DEMOLITIONDON96', '009BF4'],
+			['DEMOLITIONDON96',		'demolitiondon',		'Another cool contributor',							'https://github.com/DEMOLITIONDON96', '009BF4'],
 			['Lolbruhfart',		'lolbruhfart',		'Another cool guy who codes',							'https://github.com/lolbruhfart',	/*'009BF4' //original color */ '8C004B'/* new color, purple*/],
 			['Wither362',           'wither',               'Another coolder (do you get it?)',/*yeah, from coder and cool*/  'https://www.youtube.com/channel/UCsVr-qBLxT0uSWH037BmlHw',     'FF0000'/*i hate red, but i dont know to put other colors so...*/],
 			[''],
