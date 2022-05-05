@@ -34,10 +34,11 @@ class ClientPrefs {
 	public static var longhealthbar:Bool = true;
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
-	public static var winningIcon = true;
+	public static var winningIcon:Bool = true;
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
 	public static var multiplicativeValue:Float = 0;
+	public static var menuLogo:Bool = true;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -100,6 +101,7 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
+		FlxG.save.data.menuLogo = menuLogo;
 		FlxG.save.data.winningIcon = winningIcon;
 		FlxG.save.data.multiplicativeValue = multiplicativeValue;
 		FlxG.save.data.downScroll = downScroll;
@@ -153,6 +155,9 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
+		if(FlxG.save.data.menuLogo != null) {
+			 menuLogo = FlxG.save.data.menuLogo;
+		}
 		if(FlxG.save.data.multiplicativeValue != null) {
 			multiplicativeValue = FlxG.save.data.multiplicativeValue;
 		}
