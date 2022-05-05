@@ -382,7 +382,7 @@ class TitleState extends MusicBeatState
 		add(tySpr);
 		tySpr.visible = false;
 		tySpr.setGraphicSize(Std.int(125 * 0.74)); //i dont know how this works, edit it later theoyeah to correct the image and all that
-		tySpr.updateHitBox();
+		tySpr.updateHitbox();
 		tySpr.screenCenter(X);
 		
 		
