@@ -381,7 +381,7 @@ class TitleState extends MusicBeatState
 		ty = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
 		add(ty);
 		ty.visible = false;
-		ty.setGraphicSize(Std.int(ty.width * 0.8)); //i dont know how this works, edit it later theoyeah to correct the image and all that
+		ty.setGraphicSize(Std.int(125 * 0.74); //i dont know how this works, edit it later theoyeah to correct the image and all that
 		ty.updateHitBox();
 		ty.screenCenter(X);
 		ty.antialiasing = ClientPrefs.globalAntialiasing;
