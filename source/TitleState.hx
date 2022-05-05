@@ -567,7 +567,7 @@ class TitleState extends MusicBeatState
 		}
 	}
 
-	//private var sickBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
+	private var sickBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
 	public static var closedState:Bool = false;
 	override function beatHit()
 	{
@@ -585,9 +585,8 @@ class TitleState extends MusicBeatState
 		}
 
 		if(!closedState) {
-			//sickBeats++;
-			//switch (sickBeats)
-			switch (curBeat)
+			sickBeats++;
+			switch (sickBeats)
 			{
 				case 1:
 				#if PSYCH_WATERMARKS
