@@ -62,6 +62,7 @@ class TitleState extends MusicBeatState
 	var credTextShit:Alphabet;
 	var textGroup:FlxGroup;
 	var ngSpr:FlxSprite;
+	var psychSpr:FlxSprite;
 	var tySpr:FlxSprite;
 
 	var curWacky:Array<String> = [];
@@ -377,6 +378,15 @@ class TitleState extends MusicBeatState
 		ngSpr.updateHitbox();
 		ngSpr.screenCenter(X);
 		ngSpr.antialiasing = ClientPrefs.globalAntialiasing;
+
+
+		psychSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('psych_logo'));
+		add(psychSpr);
+		psychSpr.visible = false;
+		psychSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
+		psychSpr.updateHitbox();
+		psychSpr.screenCenter(X);
+		psychSpr.antialiasing = ClientPrefs.globalAntialiasing;
 		
 		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
 		add(tySpr);
@@ -618,9 +628,11 @@ class TitleState extends MusicBeatState
 					#end
 				case 7:
 					addMoreText('Psych Engine', -40);
+					psychSpr.visible = true;
 			// credTextShit.text += '\nNewgrounds';
 				case 8:
 					deleteCoolText();
+					psychSpr.visible = false;
 			// credTextShit.visible = false;
 
 			// credTextShit.text = 'Shoutouts Tom Fulp';
