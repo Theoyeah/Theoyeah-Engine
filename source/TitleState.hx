@@ -356,11 +356,11 @@ class TitleState extends MusicBeatState
 		textGroup = new FlxGroup();
 
 		if (ClientPrefs.introbg) {
-	   blackScreen = new FlxSprite().loadGraphic(Paths.image('menutheme'));
-	    credGroup.add(blackScreen);
-		}else{
-		blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		credGroup.add(blackScreen);
+			blackScreen = new FlxSprite().loadGraphic(Paths.image('menutheme'));
+			credGroup.add(blackScreen);
+		} else {
+			blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+			credGroup.add(blackScreen);
 		}
 
 		credTextShit = new Alphabet(0, 0, "", true);
@@ -384,7 +384,6 @@ class TitleState extends MusicBeatState
 		ty.setGraphicSize(Std.int(125 * 0.74); //i dont know how this works, edit it later theoyeah to correct the image and all that
 		ty.updateHitBox();
 		ty.screenCenter(X);
-		ty.antialiasing = false;
 		
 		
 
