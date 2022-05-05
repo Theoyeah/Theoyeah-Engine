@@ -62,6 +62,7 @@ class TitleState extends MusicBeatState
 	var credTextShit:Alphabet;
 	var textGroup:FlxGroup;
 	var ngSpr:FlxSprite;
+	var ty:FlxSprite;
 
 	var curWacky:Array<String> = [];
 
@@ -376,6 +377,16 @@ class TitleState extends MusicBeatState
 		ngSpr.updateHitbox();
 		ngSpr.screenCenter(X);
 		ngSpr.antialiasing = ClientPrefs.globalAntialiasing;
+		
+		ty = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
+		add(ty);
+		ty.visible = false;
+		ty.setGraphicSize(Std.int(ty.width * 0.8)); //i dont know how this works, edit it later theoyeah to correct the image and all that
+		ty.updateHitBox();
+		ty.screenCenter(X);
+		ty.antialiasing = ClientPrefs.globalAntialiasing;
+		
+		
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
@@ -586,53 +597,55 @@ class TitleState extends MusicBeatState
 				createCoolText(['Theoyeah Engine by']);
 				#end
 			// credTextShit.visible = true;
-			case 3:
-				#if PSYCH_WATERMARKS
-				addMoreText('Theoyeah', 15);
-				#else
-				addMoreText('Theoyeah');
-				#end
-			// credTextShit.text += '\npresent...';
-			// credTextShit.addText();
-			case 4:
-				deleteCoolText();
+				case 3:
+					#if PSYCH_WATERMARKS
+						addMoreText('Theoyeah', 15);
+					#else
+						addMoreText('Theoyeah');
+					#end
+						ty.visible = true;
+					// credTextShit.text += '\npresent...';
+					// credTextShit.addText();
+				case 4:
+					deleteCoolText();
+					ty.visible = false;
 			// credTextShit.visible = false;
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
-			case 5:
-				#if PSYCH_WATERMARKS
-				createCoolText(['A Modified Version of '], -40);
-				#else
-				createCoolText(['A Modified Version of'], -40);
-				#end
-			case 7:
-				addMoreText('Psych Engine', -40);
+				case 5:
+					#if PSYCH_WATERMARKS
+						createCoolText(['A Modified Version of '], -40);
+					#else
+						createCoolText(['A Modified Version of'], -40);
+					#end
+				case 7:
+					addMoreText('Psych Engine', -40);
 			// credTextShit.text += '\nNewgrounds';
-			case 8:
-				deleteCoolText();
+				case 8:
+					deleteCoolText();
 			// credTextShit.visible = false;
 
 			// credTextShit.text = 'Shoutouts Tom Fulp';
 			// credTextShit.screenCenter();
-			case 9:
-				createCoolText([curWacky[0]]);
+				case 9:
+					createCoolText([curWacky[0]]);
 			// credTextShit.visible = true;
-			case 11:
-				addMoreText(curWacky[1]);
+				case 11:
+					addMoreText(curWacky[1]);
 			// credTextShit.text += '\nlmao';
-			case 12:
-				deleteCoolText();
+				case 12:
+					deleteCoolText();
 			// credTextShit.visible = false;
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
-			case 13:
-				addMoreText('Friday Night Funkin');
+				case 13:
+					addMoreText('Friday Night Funkin');
 			// credTextShit.visible = true;
-			case 14:
-				addMoreText('Theoyeah');
+				case 14:
+					addMoreText('Theoyeah');
 			// credTextShit.text += '\nNight';
-			case 15:
-				addMoreText('Engine'); // credTextShit.text += '\nFunkin';
+				case 15:
+					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
 
 				case 16:
 					skipIntro();
