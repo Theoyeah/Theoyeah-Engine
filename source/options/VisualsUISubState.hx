@@ -41,12 +41,12 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 		
-		var option:Option = new Option('Winning Icons',
+		/*var option:Option = new Option('Winning Icons',
 			'If checked, enables extra icon frames',
 			'winningIcon',
 			'bool',
 			true);
-		addOption(option);
+		addOption(option);*/
 
 		var option:Option = new Option('Kade Engine Score Text',
 			"If checked, the text below the health bar will change to Kade Engine (except the style).",
