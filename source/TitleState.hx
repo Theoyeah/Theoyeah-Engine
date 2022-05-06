@@ -628,43 +628,56 @@ class TitleState extends MusicBeatState
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
 				case 5:
+					createCoolText(['With help of'], 15);
+				case 6:
+					addMoreText('Wither362');
+					wrSpr.visible = true;
+				case 7:
+					wrSpr.visible = false;
+				case 8:
+					addMoreText('DEMOLITIONDON69');
+					//dnSpr.visible = true;
+				case 9:
+					deleteCoolText();
+					//dnSpr.visible = false;
+				case 10:
 					#if PSYCH_WATERMARKS
 						createCoolText(['A Modified Version of '], -40);
 					#else
 						createCoolText(['A Modified Version of'], -40);
 					#end
-				case 7:
+				case 12:
 					addMoreText('Psych Engine', -40);
 					psychSpr.visible = true;
 			// credTextShit.text += '\nNewgrounds';
-				case 8:
+				case 13:
 					deleteCoolText();
 					psychSpr.visible = false;
 			// credTextShit.visible = false;
 
 			// credTextShit.text = 'Shoutouts Tom Fulp';
 			// credTextShit.screenCenter();
-				case 9:
+				case 14:
 					createCoolText([curWacky[0]]);
 			// credTextShit.visible = true;
-				case 11:
+				case 16:
 					addMoreText(curWacky[1]);
 			// credTextShit.text += '\nlmao';
-				case 12:
+				case 17:
 					deleteCoolText();
 			// credTextShit.visible = false;
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
-				case 13:
+				case 18:
 					addMoreText('Friday Night Funkin');
 			// credTextShit.visible = true;
-				case 14:
+				case 19:
 					addMoreText('Theoyeah');
 			// credTextShit.text += '\nNight';
-				case 15:
+				case 20:
 					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
 
-				case 16:
+				case 22:
 					skipIntro();
 			}
 		}
