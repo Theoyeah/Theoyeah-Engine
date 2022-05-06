@@ -85,7 +85,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 		
 		var option:Option = new Option('Icon Bounce:',
-			'How should you icons bounce?',
+			'How should your icons bounce?',
 			'iconBounce',
 			'string',
 			'Default',
