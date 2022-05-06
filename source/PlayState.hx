@@ -1019,7 +1019,7 @@ class PlayState extends MusicBeatState
 		if (ClientPrefs.longhealthbar) {
 			healthBarBG = new AttachedSprite('longhealthBar');
 		} else {
-		healthBarBG = new AttachedSprite('healthBar');
+			healthBarBG = new AttachedSprite('healthBar');
 		}
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
@@ -1060,16 +1060,16 @@ class PlayState extends MusicBeatState
 		add(scoreTxt);
 
 		if(ClientPrefs.crazycounter) {
-		judgementCounter = new FlxText(20, 0, 0, "", 20);
-        judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);			
-		judgementCounter.borderSize = 2;
-	    judgementCounter.borderQuality = 2;
-		judgementCounter.scrollFactor.set();
-		judgementCounter.cameras = [camHUD];
-		judgementCounter.screenCenter(Y);
-		judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
-    	add(judgementCounter);
-     	}
+			judgementCounter = new FlxText(20, 0, 0, "", 20);
+			judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);			
+			judgementCounter.borderSize = 2;
+			judgementCounter.borderQuality = 2;
+			judgementCounter.scrollFactor.set();
+			judgementCounter.cameras = [camHUD];
+			judgementCounter.screenCenter(Y);
+			judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
+			add(judgementCounter);
+		}
 		              
 		    
 
