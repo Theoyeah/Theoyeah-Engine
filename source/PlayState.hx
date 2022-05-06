@@ -4525,9 +4525,11 @@ class PlayState extends MusicBeatState
 			camHUD.zoom += 0.03;
 		}
 
-		if(!ClientPrefs.iconBounce == "None")
+		if(ClientPrefs.iconBounce == "None")
 		{
-			iconP1.scale.set(1.2, 1.2);
+			//Don't know why Haxe won't let me code it the other way, but apparently, it wants it to look messier, so ig
+		} else {
+                        iconP1.scale.set(1.2, 1.2);
 			iconP2.scale.set(1.2, 1.2);
 
 			iconP1.updateHitbox();
