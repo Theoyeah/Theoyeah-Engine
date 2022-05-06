@@ -76,6 +76,14 @@ class VisualsUISubState extends BaseOptionsMenu
 			'Time Left',
 			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
 		addOption(option);
+		
+		var option:Option = new Option('Icon Bounce:',
+			'How should you icons bounce?',
+			'iconBounce',
+			'string',
+			'Default',
+			['Default', 'Golden Apple', 'None']);
+		addOption(option);
 
 		var option:Option = new Option('Camera Zooms',
 			"If unchecked, the camera won't zoom in on a beat hit.",
