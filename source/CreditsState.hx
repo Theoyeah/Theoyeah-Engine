@@ -86,9 +86,9 @@ class CreditsState extends MusicBeatState
 			['DEMOLITIONDON96',		'demolitiondon',	'Another cool contributor',			'https://youtube.com/c/DEMOLITIONDON96',	'03C6FC'],
 			['Wither362',           'wither',               'Another coolder (do you get it?)',/*yeah, from coder and cool*/  'https://www.youtube.com/channel/UCsVr-qBLxT0uSWH037BmlHw',     'FF0000'/*i hate red, but i dont know to put other colors so...*/],
 			[''],
-			/*['Pull Requests'],
-			['Wither362',	'wither',	'Winning Icons Toggle',		'https://github.com/Wither362',		'FFFFFF'],
-			[''],*/
+			['Pull Requests & Code used'],
+			['Mayo76',	'',	'Made some code for achivements',		'https://github.com/Mayo76',		'FFFFFF'],
+			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',							'https://twitter.com/Shadow_Mario_',	'444444'],
 			['RiverOaken',			'riveroaken',		'Main Artist/Animator of Psych Engine',						'https://twitter.com/RiverOaken',		'C30085'],
