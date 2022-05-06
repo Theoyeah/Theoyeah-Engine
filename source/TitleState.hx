@@ -64,6 +64,8 @@ class TitleState extends MusicBeatState
 	var ngSpr:FlxSprite;
 	var psychSpr:FlxSprite;
 	var tySpr:FlxSprite;
+	var wrSpr:FlxSprite;
+	var dnSpr:FlxSprite;
 
 	var curWacky:Array<String> = [];
 
@@ -395,6 +397,19 @@ class TitleState extends MusicBeatState
 		tySpr.updateHitbox();
 		tySpr.screenCenter(X);
 		
+		wrSpr = new FlxSprite(0, FlxG.height * 0.052).loadGraphic(Paths.image('wither_logo'));
+		add(wrSpr);
+		wrSpr.visible = false;
+		wrSpr.setGraphicSize(Std.int(wrSpr.width * 0.08));
+		wrSpr.updateHitbox();
+		wrSpr.screenCenter(X);
+		
+		dnSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('demolitiondon_logo'));
+		add(dnSpr);
+		dnSpr.visible = false;
+		dnSpr.setGraphicSize(Std.int(dnSpr.width * 0.08));
+		dnSpr.updateHitbox();
+		dnSpr.screenCenter(X);
 		
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
@@ -598,8 +613,7 @@ class TitleState extends MusicBeatState
 			sickBeats++;
 			switch (sickBeats)
 			{
-				case 1: // why dont we put here 0 to music start at the same time as text?
-				
+				case 1: // why dont we put here 0 to music start at the same time as text
 				#if PSYCH_WATERMARKS
 				createCoolText(['Theoyeah Engine by'], 15);
 				#else
@@ -622,43 +636,60 @@ class TitleState extends MusicBeatState
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
 				case 5:
+					createCoolText(['With help of'], 15);
+				case 6:
+					addMoreText('Wither362');
+					wrSpr.visible = true;
+				case 7:
+					wrSpr.visible = false;
+				case 8:
+					addMoreText('DEMOLITIONDON69');
+					dnSpr.visible = true;
+				case 9:
+					deleteCoolText();
+					dnSpr.visible = false;
+				case 10:
 					#if PSYCH_WATERMARKS
 						createCoolText(['A Modified Version of '], -40);
 					#else
 						createCoolText(['A Modified Version of'], -40);
 					#end
-				case 7:
+				case 12:
 					addMoreText('Psych Engine', -40);
 					psychSpr.visible = true;
 			// credTextShit.text += '\nNewgrounds';
-				case 8:
+				case 13:
 					deleteCoolText();
 					psychSpr.visible = false;
 			// credTextShit.visible = false;
 
 			// credTextShit.text = 'Shoutouts Tom Fulp';
 			// credTextShit.screenCenter();
-				case 9:
+				case 14:
 					createCoolText([curWacky[0]]);
 			// credTextShit.visible = true;
-				case 11:
+				case 16:
 					addMoreText(curWacky[1]);
 			// credTextShit.text += '\nlmao';
-				case 12:
+				case 17:
+					if(curWacky[3] != null) {
+						addMoreText(curWacky[3]);
+					}
+				case 18:
 					deleteCoolText();
 			// credTextShit.visible = false;
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
-				case 13:
+				case 19:
 					addMoreText('Friday Night Funkin');
 			// credTextShit.visible = true;
-				case 14:
+				case 20:
 					addMoreText('Theoyeah');
 			// credTextShit.text += '\nNight';
-				case 15:
+				case 21:
 					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
 
-				case 16:
+				case 23:
 					skipIntro();
 			}
 		}
@@ -692,6 +723,7 @@ class TitleState extends MusicBeatState
 						remove(ngSpr);
 						remove(psychSpr);
 						remove(tySpr);
+						remove(dnSpr);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 2);
 						skippedIntro = true;
@@ -710,6 +742,7 @@ class TitleState extends MusicBeatState
 						remove(ngSpr);
 						remove(psychSpr);
 						remove(tySpr);
+						remove(dnSpr);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 0.6);
 						transitioning = false;
@@ -720,6 +753,7 @@ class TitleState extends MusicBeatState
 					remove(ngSpr);
 					remove(tySpr);
 					remove(psychSpr);
+					remove(dnSpr);
 					remove(credGroup);
 					FlxG.camera.flash(FlxColor.WHITE, 3);
 					sound.onComplete = function() {
@@ -735,6 +769,7 @@ class TitleState extends MusicBeatState
 				remove(ngSpr);
 				remove(tySpr);
 				remove(psychSpr);
+				remove(dnSpr);
 				remove(credGroup);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 
