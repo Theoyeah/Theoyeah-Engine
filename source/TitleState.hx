@@ -64,6 +64,7 @@ class TitleState extends MusicBeatState
 	var ngSpr:FlxSprite;
 	var psychSpr:FlxSprite;
 	var tySpr:FlxSprite;
+	var wrSpr:FlxSprite;
 
 	var curWacky:Array<String> = [];
 
@@ -395,6 +396,12 @@ class TitleState extends MusicBeatState
 		tySpr.updateHitbox();
 		tySpr.screenCenter(X);
 		
+		wrSpr = new FlxSprite(0, FlxG.height * 0.052).loadGraphic(Paths.image('wither_logo'));
+		add(wrSpr);
+		wrSpr.visible = false;
+		wrSpr.setGraphicSize(Std.int(wrSpr.width * 0.08));
+		wrSpr.updateHitbox();
+		wrSpr.screenCenter(X);
 		
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
@@ -599,11 +606,11 @@ class TitleState extends MusicBeatState
 			switch (sickBeats)
 			{
 				case 1: // why dont we put here 0 to music start at the same time as text?
-				#if PSYCH_WATERMARKS
-				createCoolText(['Theoyeah Engine by'], 15);
-				#else
-				createCoolText(['Theoyeah Engine by']);
-				#end
+					#if PSYCH_WATERMARKS
+					createCoolText(['Theoyeah Engine by'], 15);
+					#else
+					createCoolText(['Theoyeah Engine by']);
+					#end
 			// credTextShit.visible = true;
 				case 3:
 					#if PSYCH_WATERMARKS
