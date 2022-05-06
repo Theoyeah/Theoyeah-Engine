@@ -4059,9 +4059,9 @@ class PlayState extends MusicBeatState
 					case 'Poisoned Note':
 						new FlxTimer().start(2.3, function(tmr:FlxTimer) //i dont know how this works
  						{
- 							health -= 0; 
+ 							health -= 0.1; 
  						});
-						healthDrain = 0.20;
+						healthDrain = 0.20; // what does this means?
 						
 					case 'Hurt Note': //Hurt note
 						if(boyfriend.animation.getByName('hurt') != null) {
