@@ -1,4 +1,4 @@
-![logo](https://user-images.githubusercontent.com/97792861/163704911-580f807c-71a2-42e9-8c54-32e7027a15c1.png)
+![logo](https://github.com/Theoyeah/Theoyeah-Fnf-Engine/blob/main/assets/preload/images/logo.png)
 
 
 
@@ -35,6 +35,7 @@ I will try to add things that shadow mario will never do
 - Added the original MiddleScroll !
 - Mp3 and Wav support !
 - More options
+- **Instakill Note and Crash Note!!** (with a fabulous texture)
 # Examples :
 ![image](https://user-images.githubusercontent.com/97792861/163772539-3409759d-5fca-4a5a-945f-76f4b7ed87fb.png)
 ![image](https://user-images.githubusercontent.com/97792861/163772686-7020ae13-c6ab-48a7-bdcc-6ee2c6d4eb7f.png)
