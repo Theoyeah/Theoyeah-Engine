@@ -65,6 +65,7 @@ class TitleState extends MusicBeatState
 	var psychSpr:FlxSprite;
 	var tySpr:FlxSprite;
 	var wrSpr:FlxSprite;
+	var dnSpr:FlxSprite;
 
 	var curWacky:Array<String> = [];
 
@@ -403,6 +404,13 @@ class TitleState extends MusicBeatState
 		wrSpr.updateHitbox();
 		wrSpr.screenCenter(X);
 		
+		dnSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('demolitiondon_logo'));
+		add(dnSpr);
+		dnSpr.visible = false;
+		dnSpr.setGraphicSize(Std.int(dnSpr.width * 0.08));
+		dnSpr.updateHitbox();
+		dnSpr.screenCenter(X);
+		
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
@@ -636,10 +644,10 @@ class TitleState extends MusicBeatState
 					wrSpr.visible = false;
 				case 8:
 					addMoreText('DEMOLITIONDON69');
-					//dnSpr.visible = true;
+					dnSpr.visible = true;
 				case 9:
 					deleteCoolText();
-					//dnSpr.visible = false;
+					dnSpr.visible = false;
 				case 10:
 					#if PSYCH_WATERMARKS
 						createCoolText(['A Modified Version of '], -40);
@@ -715,6 +723,7 @@ class TitleState extends MusicBeatState
 						remove(ngSpr);
 						remove(psychSpr);
 						remove(tySpr);
+						remove(dnSpr);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 2);
 						skippedIntro = true;
@@ -733,6 +742,7 @@ class TitleState extends MusicBeatState
 						remove(ngSpr);
 						remove(psychSpr);
 						remove(tySpr);
+						remove(dnSpr);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 0.6);
 						transitioning = false;
@@ -743,6 +753,7 @@ class TitleState extends MusicBeatState
 					remove(ngSpr);
 					remove(tySpr);
 					remove(psychSpr);
+					remove(dnSpr);
 					remove(credGroup);
 					FlxG.camera.flash(FlxColor.WHITE, 3);
 					sound.onComplete = function() {
@@ -758,6 +769,7 @@ class TitleState extends MusicBeatState
 				remove(ngSpr);
 				remove(tySpr);
 				remove(psychSpr);
+				remove(dnSpr);
 				remove(credGroup);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 
