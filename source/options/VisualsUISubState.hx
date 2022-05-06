@@ -88,8 +88,8 @@ class VisualsUISubState extends BaseOptionsMenu
 			'How should you icons bounce?',
 			'iconBounce',
 			'string',
-			'Default',
-			['Default', 'Golden Apple', 'None']);
+			'None',
+			['None', 'Golden Apple', 'Default']);
 		addOption(option);
 
 		var option:Option = new Option('Camera Zooms',
