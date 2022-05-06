@@ -385,7 +385,7 @@ class TitleState extends MusicBeatState
 		psychSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('psych_logo'));
 		add(psychSpr);
 		psychSpr.visible = false;
-		psychSpr.setGraphicSize(Std.int(psychSpr.width * 0.4));
+		psychSpr.setGraphicSize(Std.int(psychSpr.width * 0.8));
 		psychSpr.updateHitbox();
 		psychSpr.screenCenter(X);
 		psychSpr.antialiasing = ClientPrefs.globalAntialiasing;
@@ -613,12 +613,12 @@ class TitleState extends MusicBeatState
 			sickBeats++;
 			switch (sickBeats)
 			{
-				case 1: // why dont we put here 0 to music start at the same time as text?
-					#if PSYCH_WATERMARKS
-					createCoolText(['Theoyeah Engine by'], 15);
-					#else
-					createCoolText(['Theoyeah Engine by']);
-					#end
+				case 1: // why dont we put here 0 to music start at the same time as text
+				#if PSYCH_WATERMARKS
+				createCoolText(['Theoyeah Engine by'], 15);
+				#else
+				createCoolText(['Theoyeah Engine by']);
+				#end
 			// credTextShit.visible = true;
 				case 3:
 					#if PSYCH_WATERMARKS
