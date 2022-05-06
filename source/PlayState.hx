@@ -4057,8 +4057,11 @@ class PlayState extends MusicBeatState
 						System.exit(0);
 						
 					case 'Poisoned Note':
+						new FlxTimer().start(2.3, function(tmr:FlxTimer) //i dont know how this works
+ 						{
+ 							health -= 0; 
+ 						});
 						healthDrain = 0.20;
-						health -= 0;
 						
 					case 'Hurt Note': //Hurt note
 						if(boyfriend.animation.getByName('hurt') != null) {
