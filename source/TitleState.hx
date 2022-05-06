@@ -664,20 +664,24 @@ class TitleState extends MusicBeatState
 					addMoreText(curWacky[1]);
 			// credTextShit.text += '\nlmao';
 				case 17:
+					if(curWacky[3] != null) {
+						addMoreText(curWacky[3]);
+					}
+				case 18:
 					deleteCoolText();
 			// credTextShit.visible = false;
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
-				case 18:
+				case 19:
 					addMoreText('Friday Night Funkin');
 			// credTextShit.visible = true;
-				case 19:
+				case 20:
 					addMoreText('Theoyeah');
 			// credTextShit.text += '\nNight';
-				case 20:
+				case 21:
 					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
 
-				case 22:
+				case 23:
 					skipIntro();
 			}
 		}
