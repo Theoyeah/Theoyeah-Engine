@@ -18,7 +18,7 @@ class Achievements {
 		["Lady Killer",					"Beat Week 4 with no Misses.",				'week4_nomiss',			false],
 		["Missless Christmas",			"Beat Week 5 with no Misses.",				'week5_nomiss',			false],
 		["Highscore!!",					"Beat Week 6 with no Misses.",				'week6_nomiss',			false],
-		["You'll Pay For That...",		"Beat Week 7 with no Misses.",				'week7_nomiss',			 true],
+		//["You'll Pay For That...",		"Beat Week 7 with no Misses.",				'week7_nomiss',			 true], not today
 		["What a Funkin' Disaster!",	"Complete a Song with a rating lower than 20%.",	'ur_bad',				false],
 		["Perfectionist",			   	  "Complete a Song with a rating of 100%.",			'ur_good',				false],
 		["Roadkill Enthusiast",		 "Watch the Henchmen die over 100 times.",			'roadkill_enthusiast',	false],
@@ -104,10 +104,11 @@ class AttachedAchievement extends FlxSprite {
 
 	public function reloadAchievementImage() {
 		if(Achievements.isAchievementUnlocked(tag)) {
-			loadGraphic(Paths.image('achievementgrid'), true, 150, 150);
-			animation.add('icon', [Achievements.getAchievementIndex(tag)], 0, false, false);
-			animation.play('icon');
-		} else {
+				//if(Paths.fileExists('achievements/' + tag + '.png', IMAGE))
+					loadGraphic(Paths.image('achievements/' + tag));
+				//else
+					//loadGraphic(Paths.image('achievements/blank'));
+			} else {
 			loadGraphic(Paths.image('lockedachievement'));
 		}
 		scale.set(0.7, 0.7);
@@ -134,9 +135,7 @@ class AchievementObject extends FlxSpriteGroup {
 		var achievementBG:FlxSprite = new FlxSprite(60, 50).makeGraphic(420, 120, FlxColor.BLACK);
 		achievementBG.scrollFactor.set();
 
-		var achievementIcon:FlxSprite = new FlxSprite(achievementBG.x + 10, achievementBG.y + 10).loadGraphic(Paths.image('achievementgrid'), true, 150, 150);
-		achievementIcon.animation.add('icon', [id], 0, false, false);
-		achievementIcon.animation.play('icon');
+		var achievementIcon:FlxSprite = new FlxSprite(achievementBG.x + 10, achievementBG.y + 10).loadGraphic(Paths.image('achievements/' + name));
 		achievementIcon.scrollFactor.set();
 		achievementIcon.setGraphicSize(Std.int(achievementIcon.width * (2 / 3)));
 		achievementIcon.updateHitbox();
