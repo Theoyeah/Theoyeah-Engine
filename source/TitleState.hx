@@ -271,8 +271,11 @@ class TitleState extends MusicBeatState
 		// bg.updateHitbox();
 		add(bg);
 
+		#if ACHIEVEMENTS_ALLOWED
+			var leDate = Date.now();
+		#end
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
-		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
+		logoBl.frames = #if ACHIEVEMENTS_ALLOWED if(leDate.getDay() == 6 && leDate.getHours() >= 18) Paths.getSparrowAtlas('saturdayLogoBumpin') else #else Paths.getSparrowAtlas('logoBumpin'); #end
 		
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
