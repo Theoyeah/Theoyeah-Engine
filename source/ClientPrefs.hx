@@ -39,6 +39,7 @@ class ClientPrefs {
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
 	public static var multiplicativeValue:Float = 0;
+	public static var musicSelected:String = 'freakyMenu.ogg';
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
