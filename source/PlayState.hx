@@ -4107,8 +4107,15 @@ class PlayState extends MusicBeatState
 				switch(note.noteType) {
 
 					case 'Crash Note':
-						lime.app.Application.current.window.alert( 'Oops ! You pressed a crash note !!!');
-						System.exit(0);
+						FlxG.sound.play(Paths.sound('wiicrash'), 1);
+ 						FlxTween.tween(SONG, {speed: SONG.speed = 0}, 0);
+ 						PlayState.instance.practiceMode = true;
+						endSong();
+						lime.app.Application.current.window.alert( 'Oops ! You pressed a crash note !!!');						
+ 						{
+ 							System.exit(0);
+ 						}; //tes
+
 						
 					case 'Poisoned Note':
 						healthDrain = 0.20;
