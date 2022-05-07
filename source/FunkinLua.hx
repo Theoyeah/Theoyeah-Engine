@@ -162,9 +162,14 @@ class FunkinLua {
 		set('dadName', PlayState.SONG.player2);
 		set('gfName', PlayState.SONG.player3);
 
-		// Some settings, no jokes
+//______________ Some settings, no jokes _______________\\
+//______________ Scroll things _________________________\\
 		set('downscroll', ClientPrefs.downScroll);
+		set('downScroll', ClientPrefs.downScroll); //i dont like it without capital letters
 		set('middlescroll', ClientPrefs.middleScroll);
+		set('middleScroll', ClientPrefs.middleScroll);
+
+//_____________ more options things ____________________\\
 		set('framerate', ClientPrefs.framerate);
 		set('ghostTapping', ClientPrefs.ghostTapping);
 		set('hideHud', ClientPrefs.hideHud);
@@ -176,8 +181,18 @@ class FunkinLua {
 		set('healthBarAlpha', ClientPrefs.healthBarAlpha);
 		set('noResetButton', ClientPrefs.noReset);
 		set('lowQuality', ClientPrefs.lowQuality);
-		set('multiplicativeValue', ClientPrefs.multiplicativeValue);
+		set('multiplicativeValue', ClientPrefs.multiplicativeValue); //unused
 		set('winningIcons', ClientPrefs.winningIcon);
+		set('crazyCounter', ClientPrefs.crazycounter);
+		set('camFollow', ClientPrefs.camfollow);
+		set('introBg', ClientPrefs.introbg);
+		set('longHealthBar', ClientPrefs.longhealthbar);
+		set('noScore', ClientPrefs.noscore);
+		set('kadeTxt', ClientPrefs.kadetxt);
+		set('iconBounce', ClientPrefs.iconBounce);
+		
+		
+		
 
 
 		#if windows
