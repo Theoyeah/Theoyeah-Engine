@@ -39,7 +39,7 @@ class ClientPrefs {
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
 	public static var multiplicativeValue:Float = 0;
-	public static var musicSelected:String = 'freakyMenu.ogg';
+	public static var musicSelected:String = 'freakyMenu';
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -108,6 +108,7 @@ class ClientPrefs {
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.showFPS = showFPS;
 		FlxG.save.data.flashing = flashing;
+		FlxG.save.data.musicSelected = musicSelected;
 		FlxG.save.data.globalAntialiasing = globalAntialiasing;
 		FlxG.save.data.noteSplashes = noteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
@@ -167,6 +168,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;
+		}
+		if(FlxG.save.data.musicSelected != null) {
+			musicSelected = FlxG.save.data.musicSelected;
 		}
 		if(FlxG.save.data.iconBounce != null) {
 			iconBounce = FlxG.save.data.iconBounce;
