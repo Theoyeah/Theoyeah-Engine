@@ -40,6 +40,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool',
 			true);
 		addOption(option);
+		
+		/*var option:Option = new Option('Winning Icons',
+			'If checked, enables extra icon frames',
+			'winningIcon',
+			'bool',
+			true);
+		addOption(option);*/
 
 		var option:Option = new Option('Kade Engine Score Text',
 			"If checked, the text below the health bar will change to Kade Engine (except the style).",
@@ -75,6 +82,14 @@ class VisualsUISubState extends BaseOptionsMenu
 			'string',
 			'Time Left',
 			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
+		addOption(option);
+		
+		var option:Option = new Option('Icon Bounce:',
+			'How should your icons bounce?',
+			'iconBounce',
+			'string',
+			'Default',
+			['Default', 'Golden Apple', 'None']);
 		addOption(option);
 
 		var option:Option = new Option('Camera Zooms',
