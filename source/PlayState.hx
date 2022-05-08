@@ -4116,6 +4116,10 @@ class PlayState extends MusicBeatState
  							System.exit(0);
  						}; //tes
 
+
+					case 'Window Note':
+						lime.app.Application.current.window.alert( 'Annoying fact: \n You pressed a window note !');						
+
 						
 					case 'Poisoned Note':
 						healthDrain = 0.20;

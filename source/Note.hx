@@ -133,6 +133,12 @@ class Note extends FlxSprite
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
 					hitCausesMiss = true;
+				case 'Window Note':
+					ignoreNote = mustPress;
+					reloadNote('WINDOW');
+					colorSwap.hue = 0;
+					colorSwap.saturation = 0;
+					colorSwap.brightness = 0;
 				case 'Warning Note':
 					ignoreNote = mustPress;
 					reloadNote('WARNING');
