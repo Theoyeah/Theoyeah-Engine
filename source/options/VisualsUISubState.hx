@@ -162,12 +162,6 @@ class VisualsUISubState extends BaseOptionsMenu
 		super();
 	}
 
-	override function destroy()
-	{
-		if(changedMusic) FlxG.sound.playMusic(Paths.music('freakyMenu'));
-		super.destroy();
-	}
-
 	
 
 	#if !mobile
