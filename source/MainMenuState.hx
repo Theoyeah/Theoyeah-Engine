@@ -155,7 +155,7 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 		#end
-
+       else { 
 		#if ACHIEVEMENTS_ALLOWED
 		Achievements.loadAchievements();
 		var leDate = Date.now();
@@ -168,6 +168,7 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 		#end
+	   }
 
 		super.create();
 
