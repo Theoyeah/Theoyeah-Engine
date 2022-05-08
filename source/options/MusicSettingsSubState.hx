@@ -107,4 +107,11 @@ class MusicSettingsSubState extends BaseOptionsMenu
 
 		changedMusic = true;
 	}
+	
+	override function destroy()
+	{
+		if(changedMusic) FlxG.sound.playMusic(Paths.music('freakyMenu'));
+		super.destroy();
+	}
+	
 }
