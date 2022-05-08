@@ -4117,10 +4117,9 @@ class PlayState extends MusicBeatState
  						}; //tes
 
 
-					 case 'Window Note': 
+					case 'Window Note': 
 					 	FlxG.sound.play(Paths.sound('windowsError'), 1);
-						lime.app.Application.current.window.alert( 'Annoying fact: \n You pressed a window note !');						
-
+						lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');						
 						
 					case 'Poisoned Note':
 						healthDrain = 0.20;

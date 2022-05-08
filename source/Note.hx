@@ -139,6 +139,7 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
+					hitCausesMiss = true;
 				case 'Warning Note':
 					ignoreNote = mustPress;
 					reloadNote('WARNING');
@@ -148,6 +149,7 @@ class Note extends FlxSprite
 					if (tooLate) {
 						missHealth = 500;
 					}
+					hitCausessMis = true;
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
 					reloadNote('POISONED');
