@@ -409,10 +409,10 @@ class TitleState extends MusicBeatState
 		tySpr.updateHitbox();
 		tySpr.screenCenter(X);
 		
-		wrSpr = new FlxSprite(0, FlxG.height * 0.052).loadGraphic(Paths.image('wither_logo'));
+		wrSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('wither_logo'));
 		add(wrSpr);
 		wrSpr.visible = false;
-		wrSpr.setGraphicSize(Std.int(wrSpr.width * 0.08));
+		wrSpr.setGraphicSize(800, 600);
 		wrSpr.updateHitbox();
 		wrSpr.screenCenter(X);
 		
