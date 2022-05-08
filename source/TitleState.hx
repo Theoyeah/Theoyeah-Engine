@@ -419,7 +419,7 @@ class TitleState extends MusicBeatState
 		dnSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('demolitiondon_logo'));
 		add(dnSpr);
 		dnSpr.visible = false;
-		dnSpr.setGraphicSize(Std.int(dnSpr.width * 0.08));
+		dnSpr.setGraphicSize(436, 436);
 		dnSpr.updateHitbox();
 		dnSpr.screenCenter(X);
 		
