@@ -3261,15 +3261,13 @@ class PlayState extends MusicBeatState
 					});
 				}
 			case 'Change Icon': // only to see if i can create events that actually work
-				if(value1 == String) {
-					switch(value1.toLowerCase()) {
-						case 'dad' | 'opponent' | 'daddy' | 'dady' | 'left':
-							iconP2.changeIcon(value2.toLowerCase());
-						default:
-							iconP1.changeIcon(value2.toLowerCase());
-					}
-					reloadHealthBarColors();
+				switch(value1.toLowerCase()) {
+					case 'dad' | 'opponent' | 'daddy' | 'dady' | 'left':
+						iconP2.changeIcon(value2.toLowerCase());
+					default:
+						iconP1.changeIcon(value2.toLowerCase());
 				}
+				reloadHealthBarColors();
 		}
 		callOnLuas('onEvent', [eventName, value1, value2]);
 	}
