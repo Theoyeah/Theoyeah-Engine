@@ -2089,9 +2089,9 @@ class PlayState extends MusicBeatState
 			case 'Change Character':
 				var charType:Int = 0;
 				switch(event.value1.toLowerCase()) {
-					case 'gf' | 'girlfriend' | '1':
+					case 'gf' | 'girlfriend' | '1' | 'girl' | 'middle':
 						charType = 2;
-					case 'dad' | 'opponent' | '0':
+					case 'dad' | 'opponent' | '0' | 'daddy' | 'dady' | 'bad' | 'left' | 'leftguy':
 						charType = 1;
 					default:
 						charType = Std.parseInt(event.value1);
@@ -3167,10 +3167,10 @@ class PlayState extends MusicBeatState
 
 			case 'Change Character':
 				var charType:Int = 0;
-				switch(value1) {
-					case 'gf' | 'girlfriend':
+				switch(value1.toLowerCase()) {
+					case 'gf' | 'girlfriend' | 'middle' | 'girl':
 						charType = 2;
-					case 'dad' | 'opponent':
+					case 'dad' | 'opponent' | 'daddy' | 'dady' | 'left':
 						charType = 1;
 					default:
 						charType = Std.parseInt(value1);
