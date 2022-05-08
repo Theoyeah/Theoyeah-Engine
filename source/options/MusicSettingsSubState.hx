@@ -59,7 +59,7 @@ class MusicSettingsSubState extends BaseOptionsMenu
 			'musicSelected',
 			'String',
 			'freakyMenu',
-			['freakyMenu', 'offsetSong', 'breakfast', 'tea-time']);
+			['freakyMenu', 'offsetSong', 'breakfast', 'tea-time', 'flyAgainBro']);
 		addOption(option);
 
 		super();
