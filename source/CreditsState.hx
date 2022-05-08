@@ -88,6 +88,7 @@ class CreditsState extends MusicBeatState
 			[''],
 			['Pull Requests & Code used'],
 			['Mayo76',	'',	'Made some code for achivements',		'https://github.com/Mayo76',		'FFFFFF'],
+			['magnumsrtisswag ',	'',	'Creator of stage editor',		'https://github.com/magnumsrtisswag',		'FFFFFF'],
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',							'https://twitter.com/Shadow_Mario_',	'444444'],
