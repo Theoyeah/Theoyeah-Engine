@@ -149,7 +149,7 @@ class Note extends FlxSprite
 					if (tooLate) {
 						missHealth = 500;
 					}
-					hitCausessMis = true;
+					hitCausesMiss = true;
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
 					reloadNote('POISONED');
