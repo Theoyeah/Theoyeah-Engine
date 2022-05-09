@@ -113,7 +113,7 @@ class NoteOffsetState extends MusicBeatState
 
 		combosprshit = new FlxSprite().loadGraphic(Paths.image('combo'));
 		combosprshit.cameras = [camHUD];
-		combosprshit.setGraphicSize(Std.int(rating.width * 0.7));
+		combosprshit.setGraphicSize(Std.int(combosprshit.width * 0.7));
 		combosprshit.updateHitbox();
 		combosprshit.antialiasing = ClientPrefs.globalAntialiasing;
 		add(combosprshit);
