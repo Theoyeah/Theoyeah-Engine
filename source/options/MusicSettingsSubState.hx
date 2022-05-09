@@ -54,13 +54,13 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		*/
 
-		var option:Option = new Option('Music',
+		/*var option:Option = new Option('Music',
 			'What music you want to play',
 			'musicSelected',
 			'String',
 			'freakyMenu',
 			['freakyMenu', 'offsetSong', 'breakfast', 'tea-time', 'flyAgainBro']);
-		addOption(option);
+		addOption(option);*/
 		
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them."',
