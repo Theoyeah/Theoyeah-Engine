@@ -162,6 +162,7 @@ class MainMenuState extends MusicBeatState
 				ClientPrefs.saveSettings();
 			}
 		}
+		#if THEOYEAH_ENGINE_ACHIEVEMENTS_ALLOWED
 		if (leDate.getHours() >= 23) {
 			var achieveID:Int = Achievements.getAchievementIndex('freaking_late');
 			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a Saturday night. WAIT BOOOOOO
@@ -170,6 +171,7 @@ class MainMenuState extends MusicBeatState
 				ClientPrefs.saveSettings();
 			}
 		}
+		#end
 		#end
 
 		super.create();
@@ -198,11 +200,13 @@ class MainMenuState extends MusicBeatState
 		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 		trace('Giving achievement "saturday_night_play"');
 	}
+	#if THEOYEAH_ENGINE_ACHIEVEMENTS_ALLOWED
 	function giveAchievement3() {
 		add(new AchievementObject('freaking_late', camAchievement));
 		FlxG.sound.play(Paths.sound('confirmMenu'), 0.5);
 		trace('Giving achievement "freaking_late"');
 	}
+	#end
 	#end
 
 	var selectedSomethin:Bool = false;
