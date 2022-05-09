@@ -46,6 +46,7 @@ I will try to add things that shadow mario will never do
 
 
 # How to compile
+well, go to the [wiki](https://github.com/Theoyeah/Theoyeah-Engine/wiki)
 You must have the most up-to-date version of Haxe, seriously, stop using 4.1.5, it misses some stuff.
 Installing the Required Programs
 First, you need to install Haxe and HaxeFlixel. I'm too lazy to write and keep updated with that setup (which is pretty simple).

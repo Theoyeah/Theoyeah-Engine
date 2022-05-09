@@ -155,7 +155,7 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 		#end
-
+       else { 
 		#if ACHIEVEMENTS_ALLOWED
 		Achievements.loadAchievements();
 		var leDate = Date.now();
@@ -163,11 +163,12 @@ class MainMenuState extends MusicBeatState
 			var achieveID:Int = Achievements.getAchievementIndex('saturday_night_play');
 			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a Saturday night. WAIT BOOOOOO
 				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][2], true);
-				giveAchievement();
+				giveAchievement2();
 				ClientPrefs.saveSettings();
 			}
 		}
 		#end
+	   }
 
 		super.create();
 
@@ -189,6 +190,11 @@ class MainMenuState extends MusicBeatState
 		add(new AchievementObject('friday_night_play', camAchievement));
 		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 		trace('Giving achievement "friday_night_play"');
+	}
+	function giveAchievement2() {
+		add(new AchievementObject('saturday_night_play', camAchievement));
+		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+		trace('Giving achievement "saturday_night_play"');
 	}
 	#end
 
