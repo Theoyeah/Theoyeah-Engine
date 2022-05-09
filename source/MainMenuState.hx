@@ -150,25 +150,19 @@ class MainMenuState extends MusicBeatState
 			var achieveID:Int = Achievements.getAchievementIndex('friday_night_play');
 			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a friday night. WEEEEEEEEEEEEEEEEEE
 				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][2], true);
-				giveAchievement();
+				giveAchievement('friday_night_play');
 				ClientPrefs.saveSettings();
 			}
 		}
-		#end
-       else { 
-		#if ACHIEVEMENTS_ALLOWED
-		Achievements.loadAchievements();
-		var leDate = Date.now();
 		if (leDate.getDay() == 6 && leDate.getHours() >= 18) {
 			var achieveID:Int = Achievements.getAchievementIndex('saturday_night_play');
 			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a Saturday night. WAIT BOOOOOO
 				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][2], true);
-				giveAchievement2();
+				giveAchievement('saturday_night_play');
 				ClientPrefs.saveSettings();
 			}
 		}
 		#end
-	   }
 
 		super.create();
 
@@ -185,16 +179,11 @@ class MainMenuState extends MusicBeatState
 	}
 
 	#if ACHIEVEMENTS_ALLOWED
-	// Unlocks "Freaky on a Friday Night" achievement
-	function giveAchievement() {
-		add(new AchievementObject('friday_night_play', camAchievement));
-		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-		trace('Giving achievement "friday_night_play"');
-	}
-	function giveAchievement2() {
-		add(new AchievementObject('saturday_night_play', camAchievement));
-		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-		trace('Giving achievement "saturday_night_play"');
+	// Unlocks the achievement given name
+	function giveAchievement(achievementName:String, ?sound:Float = 0.7) {
+		add(new AchievementObject(achievementName, camAchievement));
+		FlxG.sound.play(Paths.sound('confirmMenu'), sound);
+		trace('Giving achievement "' + achievementName + '"');
 	}
 	#end
 
