@@ -27,7 +27,8 @@ class Achievements {
 		["Just the Two of Us",		 "Finish a Song pressing only two keys.",			'two_keys',				false],
 		["Toaster Gamer",			  "Have you tried to run the game on a toaster?",		'toastie',				false],
 		["Debugger",					"Beat the \"Test\" Stage from the Chart Editor.",	'debugger',				 true],
-		["Not Freaky on a Friday Night",	"Play on a Saturday... Night ? \n Bro itz Saturday ",						'saturday_night_play',	 true]
+		["Not Freaky on a Friday Night",	"Play on a Saturday... Night ? \n Bro itz Saturday ",						'saturday_night_play',	 true],
+		["Later", "Late?", "freaking_late", false]
 	];
 	public static var achievementsMap:Map<String, Bool> = new Map<String, Bool>();
 
