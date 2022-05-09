@@ -2574,6 +2574,15 @@ class PlayState extends MusicBeatState
 						iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 			}
 		}
+		if (healthDrain > 0 && health > 0.1)
+	{
+		if (health < 0.1)
+		{
+			health = 0.1;
+		}
+		health -= 0.001;
+		healthDrain -= 0.0001;
+	}
 
 		if(ClientPrefs.winningIcon)
 		{
@@ -4143,8 +4152,11 @@ class PlayState extends MusicBeatState
 						lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');						
 						
 					case 'Poisoned Note':
-						healthDrain = 0.20;
-						health -= 0;
+						new FlxTimer().start(2.3, function(tmr:FlxTimer) //i dont know how this works
+ 						{
+ 							health -= 0.1; 
+ 						});
+						healthDrain = 0.20; // what does this means?
 						
 					case 'Hurt Note': //Hurt note
 						if(boyfriend.animation.getByName('hurt') != null) {

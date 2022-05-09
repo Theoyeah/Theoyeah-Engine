@@ -64,10 +64,10 @@ class ChartingState extends MusicBeatState
 		'Instakill Note',
 		'Window Note',
 		'Warning Note',
+    'Poisoned Note',
 		'Crash Note', //so we can actually test it EDIT: Wait, that released right ?
 		'GF Sing',
 		'No Animation',
-		'Poisoned Note'
 	];
 	private var noteTypeIntMap:Map<Int, String> = new Map<Int, String>();
 	private var noteTypeMap:Map<String, Null<Int>> = new Map<String, Null<Int>>();
