@@ -7,6 +7,6 @@ typedef LayerFile =
 	public var scrollX:Float;
 	public var scrollY:Float;
 	public var scale:Float;
-    public var flipX:Bool;
+	public var flipX:Bool;
 	public var flipY:Bool;
 }
