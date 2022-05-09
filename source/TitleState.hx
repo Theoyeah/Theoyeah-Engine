@@ -182,6 +182,10 @@ class TitleState extends MusicBeatState
 			FlxG.fullscreen = FlxG.save.data.fullscreen;
 			//trace('LOADED FULLSCREEN SETTING!!');
 		}
+		if((!initialized || initialized) && (FlxG.keys.justPressed.F && FlxG.keys.justPressed.CONTROL)) {
+			FlxG.save.data.fullscreen = true;
+			FlxG.fullscreen = FlxG.save.data.fullscreen;
+		}
 
 		if (FlxG.save.data.weekCompleted != null)
 		{
@@ -608,6 +612,7 @@ class TitleState extends MusicBeatState
 	public static var closedState:Bool = false;
 	override function beatHit()
 	{
+		if(Flx
 		super.beatHit();
 
 		if(logoBl != null) 
