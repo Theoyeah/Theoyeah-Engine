@@ -6,8 +6,12 @@ using StringTools;
 
 class NewFlxSprite extends FlxSprite
 {
-	public function createSprite(name:String, ?image:String) {
-		var name = new FlxSprite();
+	public function setGraphic(name:FlxSprite, x:Float, y:Float) {
+		name.x = x;
+		name.y = y;
+		
+	}
+	public function createGraphic(name:FlxSprite, ?image:String) {
 		if(image != null) {
 			name.loadGraphic(image);
 		}
