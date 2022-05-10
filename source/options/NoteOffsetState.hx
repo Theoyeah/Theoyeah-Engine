@@ -257,6 +257,14 @@ class NoteOffsetState extends MusicBeatState
 								ClientPrefs.comboOffset[3] += addNum;
 							case 7:
 								ClientPrefs.comboOffset[3] -= addNum;
+							case 8:
+								ClientPrefs.comboOffset[4] -= addNum;
+							case 9:
+								ClientPrefs.comboOffset[4] += addNum;
+							case 10:
+								ClientPrefs.comboOffset[5] += addNum;
+							case 11:
+								ClientPrefs.comboOffset[5] -= addNum;					
 						}
 					}
 				}
@@ -274,7 +282,7 @@ class NoteOffsetState extends MusicBeatState
 					holdingObjectType = true;
 					startComboOffset.x = ClientPrefs.comboOffset[2];
 					startComboOffset.y = ClientPrefs.comboOffset[3];
-					//trace('yo bro');
+					trace('yo bro');
 				}
 				else if (startMousePos.x - rating.x >= 0 && startMousePos.x - rating.x <= rating.width &&
 						 startMousePos.y - rating.y >= 0 && startMousePos.y - rating.y <= rating.height)
@@ -282,7 +290,7 @@ class NoteOffsetState extends MusicBeatState
 					holdingObjectType = false;
 					startComboOffset.x = ClientPrefs.comboOffset[0];
 					startComboOffset.y = ClientPrefs.comboOffset[1];
-					//trace('heya');
+					trace('heya');
 				}
 			   else if (startMousePos.x - 	combosprshit.x >= 0 && startMousePos.x - combosprshit.x <= 	combosprshit.width &&
 					startMousePos.y - combosprshit.y >= 0 && startMousePos.y - 	combosprshit.y <= combosprshit.height)
@@ -428,7 +436,7 @@ class NoteOffsetState extends MusicBeatState
 
 		combosprshit.screenCenter();
 		combosprshit.x = coolText.x - 40 +ClientPrefs.comboOffset[4];
-		combosprshit.y -= 60 + ClientPrefs.comboOffset[5]; 
+		combosprshit.y -= -30 + ClientPrefs.comboOffset[5]; 
 
 		comboNums.screenCenter();
 		comboNums.x = coolText.x - 90 + ClientPrefs.comboOffset[2];
@@ -438,7 +446,7 @@ class NoteOffsetState extends MusicBeatState
 
 	function createTexts()
 	{
-		for (i in 0...4)
+		for (i in 0...7)
 		{
 			var text:FlxText = new FlxText(10, 48 + (i * 30), 0, '', 24);
 			text.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
