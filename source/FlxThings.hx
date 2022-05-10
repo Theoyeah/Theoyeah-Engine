@@ -6,17 +6,22 @@ using StringTools;
 
 class NewFlxSprite extends FlxSprite
 {
-	public function setGraphic(name:FlxSprite, x:Float, y:Float) {
-		name.x = x;
-		name.y = y;
+	public function setGraphic(sprite:FlxSprite, x:Float, y:Float) {
+		sprite.x = x;
+		sprite.y = y;
 		
 	}
-	public function createGraphic(name:FlxSprite, ?image:String) {
+	
+	public function createGraphic(sprite:FlxSprite, ?image:String) {
 		if(image != null) {
-			name.loadGraphic(image);
+			sprite.loadGraphic(image);
 		}
 		add(name);
 	}
+	
+	public function moveSpriteScreen(tween:FlxTween, sprite:FlxSprite, x:Float, y:Float, duration:Float) {
+		tween.tween(sprite, { x:x , y:y }, duration);
+	}
 
-
+	
 }
