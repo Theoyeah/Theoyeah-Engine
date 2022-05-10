@@ -157,6 +157,13 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
+		function saveSave(name:String) {
+			if(FlxG.save.data. + name != null) {
+				name = FlxG.save.data. + name;
+			}
+		}
+		saveSave(multiplicativeValue);
+		
 		if(FlxG.save.data.multiplicativeValue != null) {
 			multiplicativeValue = FlxG.save.data.multiplicativeValue;
 		}
