@@ -57,3 +57,31 @@ class MouseThings {
 		}
 	}
 }
+
+class Colors {
+	public function returnColor(color:String, returnFalse:Bool) {
+		var returnColor:FlxColor;
+		switch(color.toUpperCase()) {
+			case "TRANSPARENT": returnColor = 0x00000000;
+			case "WHITE": returnColor = 0xFFFFFFFF;
+			case "GRAY": returnColor = 0xFF808080;
+			case "BLACK": returnColor = 0xFF000000;
+			case "GREEN": returnColor = 0xFF008000;
+			case "LIME": returnColor = 0xFF00FF00;
+			case "YELLOW": returnColor = 0xFFFFFF00;
+			case "ORANGE": returnColor = 0xFFFFA500;
+			case "RED": returnColor = 0xFFFF0000;
+			case "PURPLE": returnColor = 0xFF800080;
+			case "BLUE": returnColor = 0xFF0000FF;
+			case "BROWN": returnColor = 0xFF8B4513;
+			case "PINK": returnColor = 0xFFFFC0CB;
+			case "MAGENTA": returnColor = 0xFFFF00FF;
+			case "CYAN": returnColor = 0xFF00FFFF;
+			default: 
+				if(returnFalse) {
+					return false;
+				}
+		}
+		return returnColor;
+	}
+}
