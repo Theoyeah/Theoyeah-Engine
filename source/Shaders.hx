@@ -14,17 +14,17 @@ typedef ShaderEffect = {
 }
 
 class BuildingEffect {
-  public var shader:BuildingShader = new BuildingShader();
-  public function new(){
-    shader.alphaShit.value = [0];
-  }
-  public function addAlpha(alpha:Float){
-    trace(shader.alphaShit.value[0]);
-    shader.alphaShit.value[0]+=alpha;
-  }
-  public function setAlpha(alpha:Float){
-    shader.alphaShit.value[0]=alpha;
-  }
+	public var shader:BuildingShader = new BuildingShader();
+	public function new() {
+		shader.alphaShit.value = [0];
+	}
+	public function addAlpha(alpha:Float) {
+		trace(shader.alphaShit.value[0]);
+		shader.alphaShit.value[0]+=alpha;
+	}
+	public function setAlpha(alpha:Float) {
+		shader.alphaShit.value[0]=alpha;
+	}
 }
 
 class BuildingShader extends FlxShader
@@ -79,12 +79,12 @@ class ChromaticAberrationShader extends FlxShader
 class ChromaticAberrationEffect extends Effect
 {
 	public var shader:ChromaticAberrationShader;
-  public function new(offset:Float = 0.00){
-	shader = new ChromaticAberrationShader();
-    shader.rOffset.value = [offset];
-    shader.gOffset.value = [0.0];
-    shader.bOffset.value = [-offset];
-  }
+	public function new(offset:Float = 0.00) {
+		shader = new ChromaticAberrationShader();
+		shader.rOffset.value = [offset];
+		shader.gOffset.value = [0.0];
+		shader.bOffset.value = [-offset];
+	}
 	
 	public function setChrome(chromeOffset:Float):Void
 	{
@@ -100,7 +100,7 @@ class ScanlineEffect extends Effect
 {
 	
 	public var shader:Scanline;
-	public function new (lockAlpha){
+	public function new (lockAlpha) {
 		shader = new Scanline();
 		shader.lockAlpha.value = [lockAlpha];
 	}
@@ -133,10 +133,10 @@ class Scanline extends FlxShader
 	}
 }
 
-class TiltshiftEffect extends Effect{
+class TiltshiftEffect extends Effect {
 	
 	public var shader:Tiltshift;
-	public function new (blurAmount:Float, center:Float){
+	public function new (blurAmount:Float, center:Float) {
 		shader = new Tiltshift();
 		shader.bluramount.value = [blurAmount];
 		shader.center.value = [center];
@@ -231,17 +231,17 @@ class Tiltshift extends FlxShader
 		super();
 	}
 }
-class GreyscaleEffect extends Effect{
+class GreyscaleEffect extends Effect {
 	
 	public var shader:GreyscaleShader = new GreyscaleShader();
 	
-	public function new(){
+	public function new() {
 		
 	}
 	
 	
 }
-class GreyscaleShader extends FlxShader{
+class GreyscaleShader extends FlxShader {
 	@:glFragmentSource('
 	#pragma header
 	void main() {
@@ -253,7 +253,7 @@ class GreyscaleShader extends FlxShader{
 	
 	')
 	
-	public function new(){
+	public function new() {
 		super();
 	}
 	
@@ -270,7 +270,7 @@ class GreyscaleShader extends FlxShader{
 class GrainEffect extends Effect {
 	
 	public var shader:Grain;
-	public function new (grainsize, lumamount,lockAlpha){
+	public function new (grainsize, lumamount,lockAlpha) {
 		shader = new Grain();
 		shader.lumamount.value = [lumamount];
 		shader.grainsize.value = [grainsize];
@@ -278,7 +278,7 @@ class GrainEffect extends Effect {
 		shader.uTime.value = [FlxG.random.float(0,8)];
 		PlayState.instance.shaderUpdates.push(update);
 	}
-	public function update(elapsed){
+	public function update(elapsed) {
 		shader.uTime.value[0] += elapsed;
 	}
 	
@@ -446,49 +446,49 @@ class Grain extends FlxShader
 
 class VCRDistortionEffect extends Effect
 {
-  public var shader:VCRDistortionShader = new VCRDistortionShader();
-  public function new(glitchFactor:Float,distortion:Bool=true,perspectiveOn:Bool=true,vignetteMoving:Bool=true){
-    shader.iTime.value = [0];
-    shader.vignetteOn.value = [true];
-    shader.perspectiveOn.value = [perspectiveOn];
-    shader.distortionOn.value = [distortion];
-    shader.scanlinesOn.value = [true];
-    shader.vignetteMoving.value = [vignetteMoving];
-    shader.glitchModifier.value = [glitchFactor];
-    shader.iResolution.value = [Lib.current.stage.stageWidth,Lib.current.stage.stageHeight];
-   // var noise = Assets.getBitmapData(Paths.image("noise2"));
-   // shader.noiseTex.input = noise;
-   PlayState.instance.shaderUpdates.push(update);
-  }
+	public var shader:VCRDistortionShader = new VCRDistortionShader(); 
+	public function new(glitchFactor:Float,distortion:Bool=true,perspectiveOn:Bool=true,vignetteMoving:Bool=true) {
+		shader.iTime.value = [0];
+		shader.vignetteOn.value = [true];
+		shader.perspectiveOn.value = [perspectiveOn];
+		shader.distortionOn.value = [distortion];
+		shader.scanlinesOn.value = [true];
+		shader.vignetteMoving.value = [vignetteMoving];
+		shader.glitchModifier.value = [glitchFactor];
+		shader.iResolution.value = [Lib.current.stage.stageWidth,Lib.current.stage.stageHeight];
+		// var noise = Assets.getBitmapData(Paths.image("noise2"));
+		// shader.noiseTex.input = noise;
+		PlayState.instance.shaderUpdates.push(update);
+	}
 
-  public function update(elapsed:Float){
-    shader.iTime.value[0] += elapsed;
-    shader.iResolution.value = [Lib.current.stage.stageWidth,Lib.current.stage.stageHeight];
-  }
+	public function update(elapsed:Float){
+		shader.iTime.value[0] += elapsed;
+		shader.iResolution.value = [Lib.current.stage.stageWidth,Lib.current.stage.stageHeight];
+	}
 
-  public function setVignette(state:Bool){
-    shader.vignetteOn.value[0] = state;
-  }
+	public function setVignette(state:Bool){
+		shader.vignetteOn.value[0] = state;
+	}
 
-  public function setPerspective(state:Bool){
-    shader.perspectiveOn.value[0] = state;
-  }
+	public function setPerspective(state:Bool){
+		shader.perspectiveOn.value[0] = state;
+	}
 
-  public function setGlitchModifier(modifier:Float){
-    shader.glitchModifier.value[0] = modifier;
-  }
+	public function setGlitchModifier(modifier:Float){
+		shader.glitchModifier.value[0] = modifier;
+	}
 
-  public function setDistortion(state:Bool){
-    shader.distortionOn.value[0] = state;
-  }
+	public function setDistortion(state:Bool){
+		shader.distortionOn.value[0] = state;
+	}
 
-  public function setScanlines(state:Bool){
-    shader.scanlinesOn.value[0] = state;
-  }
+	public function setScanlines(state:Bool){
+		shader.scanlinesOn.value[0] = state;
+	}
 
-  public function setVignetteMoving(state:Bool){
-    shader.vignetteMoving.value[0] = state;
-  }
+	public function setVignetteMoving(state:Bool){
+		shader.vignetteMoving.value[0] = state;
+	}
 }
 
 class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ldjGzV and https://www.shadertoy.com/view/Ms23DR and https://www.shadertoy.com/view/MsXGD4 and https://www.shadertoy.com/view/Xtccz4
@@ -614,9 +614,8 @@ class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ld
 
     }
   ')
-  public function new()
-  {
-    super();
+  public function new() {
+	super();
   }
 }
 
@@ -625,7 +624,7 @@ class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ld
 class ThreeDEffect extends Effect{
 	
 	public var shader:ThreeDShader = new ThreeDShader();
-	public function new(xrotation:Float=0,yrotation:Float=0,zrotation:Float=0,depth:Float=0){
+	public function new(xrotation:Float = 0, yrotation:Float = 0, zrotation:Float = 0, depth:Float = 0){
 		shader.xrot.value = [xrotation];
 		shader.yrot.value = [yrotation];
 		shader.zrot.value = [zrotation];
@@ -712,7 +711,7 @@ void main() {
 
 	')
 	
-	public function new(){
+	public function new() {
 		super();
 	}
 	
@@ -720,7 +719,7 @@ void main() {
 
 //Boing! by ThaeHan
 
-class FuckingTriangleEffect extends Effect{
+class FuckingTriangleEffect extends Effect {
 	
 	public var shader:FuckingTriangle = new FuckingTriangle();
 	
@@ -881,7 +880,7 @@ void main()
 class BloomEffect extends Effect{
 	
 	public var shader:BloomShader = new BloomShader();
-	public function new(blurSize:Float, intensity:Float){
+	public function new(blurSize:Float, intensity:Float) {
 		shader.blurSize.value = [blurSize];
 		shader.intensity.value = [intensity];
 		
@@ -891,7 +890,7 @@ class BloomEffect extends Effect{
 }
 
 
-class BloomShader extends FlxShader{
+class BloomShader extends FlxShader {
 	
 	
 	@:glFragmentSource('
@@ -944,7 +943,7 @@ void main()
 	
 	')
 	
-	public function new(){
+	public function new() {
 		super();
 	}
 	
@@ -993,7 +992,7 @@ class GlitchEffect extends Effect
 	public var waveFrequency(default, set):Float = 0;
 	public var waveAmplitude(default, set):Float = 0;
 
-	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
+	public function new(waveSpeed:Float, waveFrequency:Float, waveAmplitude:Float):Void
 	{
 		shader.uTime.value = [0];
 		this.waveSpeed = waveSpeed;
@@ -1039,7 +1038,7 @@ class DistortBGEffect extends Effect
 	public var waveFrequency(default, set):Float = 0;
 	public var waveAmplitude(default, set):Float = 0;
 
-	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
+	public function new(waveSpeed:Float, waveFrequency:Float, waveAmplitude:Float):Void
 	{
 		this.waveSpeed = waveSpeed;
 		this.waveFrequency = waveFrequency;
@@ -1087,20 +1086,20 @@ class PulseEffect extends Effect
 	public var waveAmplitude(default, set):Float = 0;
     public var Enabled(default, set):Bool = false;
 
-	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
+	public function new(waveSpeed:Float, waveFrequency:Float, waveAmplitude:Float):Void
 	{
 		this.waveSpeed = waveSpeed;
 		this.waveFrequency = waveFrequency;
 		this.waveAmplitude = waveAmplitude;
 		shader.uTime.value = [0];
-        shader.uampmul.value = [0];
-        shader.uEnabled.value = [false];
+		shader.uampmul.value = [0];
+		shader.uEnabled.value = [false];
 		PlayState.instance.shaderUpdates.push(update);
 	}
 
     public function update(elapsed:Float):Void
     {
-        shader.uTime.value[0] += elapsed;
+	    shader.uTime.value[0] += elapsed;
     }
 
 
@@ -1138,7 +1137,7 @@ class PulseEffect extends Effect
 class InvertColorsEffect extends Effect
 {
     public var shader:InvertShader = new InvertShader();
-	public function new(lockAlpha){
+	public function new(lockAlpha) {
 	//	shader.lockAlpha.value = [lockAlpha];
 	}
 

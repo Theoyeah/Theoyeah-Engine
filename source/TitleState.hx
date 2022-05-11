@@ -182,7 +182,7 @@ class TitleState extends MusicBeatState
 			FlxG.fullscreen = FlxG.save.data.fullscreen;
 			//trace('LOADED FULLSCREEN SETTING!!');
 		}
-		if((!initialized || initialized) && (FlxG.keys.justPressed.F && FlxG.keys.justPressed.CONTROL)) {
+		if(FlxG.keys.justPressed.F && FlxG.keys.justPressed.CONTROL) {
 			FlxG.save.data.fullscreen = true;
 			FlxG.fullscreen = FlxG.save.data.fullscreen;
 		}
@@ -252,8 +252,9 @@ class TitleState extends MusicBeatState
 			// FlxG.sound.list.add(music);
 			// music.play();
 
-			if(FlxG.sound.music == null) {
-				FlxG.sound.playMusic(Paths.music(ClientPrefs.musicSelected), 0);
+			var music = ClientPrefs.musicSelected;
+			if(FlxG.sound.music == null || music != ClientPrefs.musicSelected) {
+				FlxG.sound.playMusic(Paths.music(music), 0);
 
 				FlxG.sound.music.fadeIn(4, 0, 0.7);
 			}
@@ -266,7 +267,7 @@ class TitleState extends MusicBeatState
 		
 		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none"){
 			bg.loadGraphic(Paths.image(titleJSON.backgroundSprite));
-		}else{
+		} else {
 			bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		}
 		
