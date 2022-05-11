@@ -29,7 +29,8 @@ class NewFlxSprite extends FlxSprite
 	
 }
 
-class MouseThings {
+class MouseThings extends FlxMouse implements IFlxInputManager
+{
 	public function mousePressed(returnFalse:Bool):Void {
 		if (FlxG.mouse.pressed) {
 			return true;
@@ -58,7 +59,8 @@ class MouseThings {
 	}
 }
 
-class Colors {
+class Colors extends FlxColor
+{
 	public function returnColor(color:String, returnFalse:Bool) {
 		var returnColor:FlxColor;
 		switch(color.toUpperCase()) {
@@ -83,5 +85,12 @@ class Colors {
 				}
 		}
 		return returnColor;
+	}
+}
+
+class FlxMoreText extends FlxText
+{
+	public function clearFormat(flxText:FlxText) {
+		flxText.clearFormat();
 	}
 }
