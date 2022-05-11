@@ -30,7 +30,7 @@ class NewFlxSprite extends FlxSprite
 }
 
 class MouseThings {
-	function mousePressed(returnFalse:Bool) {
+	public function mousePressed(returnFalse:Bool):Void {
 		if (FlxG.mouse.pressed) {
 			return true;
 			// The left mouse button is currently pressed
@@ -39,7 +39,7 @@ class MouseThings {
 		}
 	}
 
-	function mouseJustPressed(returnFalse:Bool) {
+	public function mouseJustPressed(returnFalse:Bool):Void {
 		if (FlxG.mouse.justPressed) {
 			// The left mouse button has just been pressed
 			return true;
@@ -48,7 +48,12 @@ class MouseThings {
 		}
 	}
 
-    if (FlxG.mouse.justReleased)
-    {
-        // The left mouse button has just been released
-    }
+	public function mouseJustReleased(returnFalse:Bool):Void {
+		if (FlxG.mouse.justReleased) {
+			// The left mouse button has just been released
+			return true;
+		} else if(returnFalse) {
+			return false;
+		}
+	}
+}
