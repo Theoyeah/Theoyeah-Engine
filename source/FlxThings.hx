@@ -42,19 +42,22 @@ class FlxThings
 		}
 
 		public function mouseJustPressed(click:String, ?returnFalse:Bool = false) {
+			/**
+			 * Checks if the click input have just been pressed
+			 */
+
 			var clicker:String = click.toLowerCase();
-			var right:Bool = switch(clicker) {
-				case 'right' | 'rightclick': true;
-				default: false;
-			}
-			var left:Bool = switch(clicker) {
-				case 'left' | 'leftclick': true;
-				default: false;
-			}
-			var middle:Bool = switch(clicker) {
-				case 'middle' | 'middleclick': true;
-			if (FlxG.justPressedRight && right)
-		else(FlxG.mouse.justPressed) {
+			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
+			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+			
+			if (FlxG.justPressedRight && right) {
+				// The right button has just been pressed
+				return true;
+			} else if (FlxG.mouse.justPressedMiddle && middle) {
+				// The middle button has just been pressed
+				return true;
+			} else if (FlxG.mouse.justPressed && left) {
 				// The left mouse button has just been pressed
 				return true;
 			} else if(returnFalse) {
@@ -62,9 +65,21 @@ class FlxThings
 			}
 		}
 
-		public function mouseJustReleased(?returnFalse:Bool = false) {
-			if (FlxG.mouse.justReleased) {
+		public function mouseJustReleased(click:String, ?returnFalse:Bool = false) {
+			/**
+			 * Checks if the click input has been released
+			 */
+			var clicker:String = click.toLowerCase();
+			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
+			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+			
+			if(FlxG.mouse.justReleasedRight && right) {
+				return true;
+			} else if (FlxG.mouse.justReleased && left) {
 				// The left mouse button has just been released
+				return true;
+			} else if (FlxG.mouse.justReleasedMiddle && middle) {
 				return true;
 			} else if(returnFalse) {
 				return false;
