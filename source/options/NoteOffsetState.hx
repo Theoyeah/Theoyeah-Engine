@@ -296,8 +296,8 @@ class NoteOffsetState extends MusicBeatState
 					startMousePos.y - combosprshit.y >= 0 && startMousePos.y - 	combosprshit.y <= combosprshit.height)
 		       {     
 			    holdingObjectType = false;
-				combosprshit.x = ClientPrefs.comboOffset[4];
-			    combosprshit.y = ClientPrefs.comboOffset[5];
+				startComboOffset.x = ClientPrefs.comboOffset[4];
+			    startComboOffset.y = ClientPrefs.comboOffset[5];
 			   trace('he');
 		       }
 			}
@@ -446,7 +446,7 @@ class NoteOffsetState extends MusicBeatState
 
 	function createTexts()
 	{
-		for (i in 0...7)
+		for (i in 0...8)
 		{
 			var text:FlxText = new FlxText(10, 48 + (i * 30), 0, '', 24);
 			text.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
