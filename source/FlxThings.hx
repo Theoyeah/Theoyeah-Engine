@@ -30,7 +30,7 @@ class FlxThings
 	
 	}
 
-	class MouseThings extends FlxMouse implements IFlxInputManager
+	class MouseThings extends FlxMouse
 	{
 		public function mousePressed(?returnFalse:Bool = false) {
 			if (FlxG.mouse.pressed) {
