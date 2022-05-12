@@ -1,6 +1,93 @@
 package;
 
+//HaxeFlixel API Packages
 import flixel.FlxSprite;
+import flixel.util.FlxColor;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flash.media.Camera;
+import flixel.FlxObject;
+import flixel.FlxCamera;
+import flash.media.SoundChannel;
+import flixel.input.FlxPointer;
+import flixel.util.FlxDestroyUtil;
+import openfl.geom.Rectangle;
+import flixel.math.FlxPoint;
+import flixel.math.FlxRect;
+import openfl.Assets;
+import haxe.Json;
+import flixel.input.mouse.FlxMouse;
+import flixel.addons.ui.FlxUIMouse;
+import flash.display.Sprite;
+import flash.system.System;
+import lime.app.Application;
+import flixel.text.FlxText;
+import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
+import openfl.Vector;
+import openfl.Assets;
+import openfl.AssetType;
+import openfl.AssetLibrary;
+import flixel.system.FlxAssets.FlxShader;
+import openfl.display.BitmapData;
+import openfl.display.Shader;
+import flixel.system.Shader;
+import openfl.display.ShaderInput;
+import openfl.utils.Assets;
+import flixel.FlxG;
+import openfl.Lib;
+import flixel.graphics.FlxGraphic;
+import flixel.animation.FlxAnimation;
+import flixel.FlxBasic;
+import flixel.system.FlxSound;
+import flixel.util.FlxStringUtil;
+import flixel.effects.FlxFlicker;
+import flixel.effects.particles.FlxParticle;
+import flixel.effects.particles.FlxEmmiter;
+import flixel.effects.particles.FlxTypedEmitter;
+import flixel.effects.postprocess.PostProcess;
+import flixel.system.FlxAssets;
+import flixel.util.FlxSave;
+import flixel.util.FlxPath;
+import flixel.util.FlxTimer;
+import flixel.FlxState;
+import flixel.FlxSubState;
+
+//Game States
+import Shaders;
+import PlayState;
+import Character;
+import HealthIcon;
+import BGSprite;
+import Controls;
+import CoolUtil;
+import CreditsState;
+import ClientPrefs;
+import Discord;
+import GameOverSubState;
+import InputFormatter;
+import Main;
+import MainMenuState;
+import MusicBeatState;
+import MusicBeastSubState;
+import Note;
+import StrumNote;
+import NoteSplash;
+import Paths;
+import Song;
+import StageData;
+import WeekData;
+import animateatlas.AtlasFrameMaker;
+import animateatlas.JSONData;
+import animateatlas.JSONData2020;
+import animateatlas.HelperEnums;
+import animateatlas.Main;
+import animateatlas.displayobject.SpriteAnimationLibrary;
+import animateatlas.displayobject.SpriteMovieClip;
+import animateatlas.displayobject.SpriteSymbol;
+import animateatlas.tilecontainer.TileAnimationLibrary;
+import animateatlas.tilecontainer.TileContainerMovieClip;
+import animateatlas.tilecontainer.TileContainerSymbol;
 
 using StringTools;
 
@@ -43,21 +130,21 @@ class FlxThings
 
 		public function mouseJustPressed(click:String, ?returnFalse:Bool = false) {
 			/**
-			 * Checks if the click input have just been pressed
-			 */
-
+ 			 * Checks if the click input have just been pressed
+ 			 */
+			
 			var clicker:String = click.toLowerCase();
 			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
-			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
-			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
-			
-			if (FlxG.justPressedRight && right) {
-				// The right button has just been pressed
-				return true;
-			} else if (FlxG.mouse.justPressedMiddle && middle) {
-				// The middle button has just been pressed
-				return true;
-			} else if (FlxG.mouse.justPressed && left) {
+ 			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+ 			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+
+ 			if (FlxG.justPressedRight && right) {
+ 				// The right button has just been pressed
+ 				return true;
+ 			} else if (FlxG.mouse.justPressedMiddle && middle) {
+ 				// The middle button has just been pressed
+ 				return true;
+ 			} else if (FlxG.mouse.justPressed && left) {
 				// The left mouse button has just been pressed
 				return true;
 			} else if(returnFalse) {
@@ -66,65 +153,64 @@ class FlxThings
 		}
 
 		public function mouseJustReleased(click:String, ?returnFalse:Bool = false) {
-			/**
-			 * Checks if the click input has been released
-			 */
-			var clicker:String = click.toLowerCase();
-			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
-			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
-			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
-			
-			if(FlxG.mouse.justReleasedRight && right) {
-				return true;
-			} else if (FlxG.mouse.justReleased && left) {
-				// The left mouse button has just been released
-				return true;
-			} else if (FlxG.mouse.justReleasedMiddle && middle) {
-				return true;
+ 			/**
+ 			 * Checks if the click input has been released
+ 			 */
+ 			var clicker:String = click.toLowerCase();
+ 			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
+ 			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+ 			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+
+ 			if(FlxG.mouse.justReleasedRight && right) {
+ 				return true;
+ 			} else if (FlxG.mouse.justReleased && left) {
+ 				// The left mouse button has just been released
+ 				return true;
+ 			} else if (FlxG.mouse.justReleasedMiddle && middle) {
+ 				return true;
 			} else if(returnFalse) {
 				return false;
 			}
 		}
 		
 		public function mousePressed(click:String, ?returnFalse:Bool = false) {
-			/**
-			 * Checks if the click input has pressed
-			 */
-			var clicker:String = click.toLowerCase();
-			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
-			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
-			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
-			
-			if(FlxG.mouse.pressedRight && right) {
-				return true;
-			} else if (FlxG.mouse.pressed && left) {
-				// The left mouse button has pressed
-				return true;
-			} else if (FlxG.mouse.pressedMiddle && middle) {
-				return true;
-			} else if(returnFalse) {
-				return false;
-			}
-		}
-		
-		public function mouseJustPressedTimeInTicks(click:String) {
-			/**
-			 * Time in ticks of last click input mouse button press.
-			 */
-			var clicker:String = click.toLowerCase();
-			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
-			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
-			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
-			
-			if(right) {
-				return FlxG.mouse.justPressedTimeInTicksRight;
-			} else if (left) {
-				return FlxG.mouse.justPressedTimeInTicks;
-			} else if (middle) {
-				return FlxG.mouse.justPressedTimeInTicksMiddle;
-			}
-		}
-		
+ 			/**
+ 			 * Checks if the click input has pressed
+ 			 */
+ 			var clicker:String = click.toLowerCase();
+ 			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
+ 			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+ 			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+
+ 			if(FlxG.mouse.pressedRight && right) {
+ 				return true;
+ 			} else if (FlxG.mouse.pressed && left) {
+ 				// The left mouse button has pressed
+ 				return true;
+ 			} else if (FlxG.mouse.pressedMiddle && middle) {
+ 				return true;
+ 			} else if(returnFalse) {
+ 				return false;
+ 			}
+ 		}
+
+ 		public function mouseJustPressedTimeInTicks(click:String) {
+ 			/**
+ 			 * Time in ticks of last click input mouse button press.
+ 			 */
+ 			var clicker:String = click.toLowerCase();
+ 			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
+ 			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+ 			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+
+ 			if(right) {
+ 				return FlxG.mouse.justPressedTimeInTicksRight;
+ 			} else if (left) {
+ 				return FlxG.mouse.justPressedTimeInTicks;
+ 			} else if (middle) {
+ 				return FlxG.mouse.justPressedTimeInTicksMiddle;
+ 			}
+ 		}
 	}
 
 	class Colors extends FlxColor
@@ -233,9 +319,7 @@ class FlxThings
 		}
 		
 	}
-	
-	
-	
+		
 	
 	
 	
