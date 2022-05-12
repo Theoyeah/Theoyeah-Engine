@@ -58,6 +58,7 @@ class FlxThings
 				return false;
 			}
 		}
+		
 	}
 
 	class Colors extends FlxColor
@@ -109,6 +110,7 @@ class FlxThings
 		public function clearFormat(flxText:FlxText) {
 			flxText.clearFormat();
 		}
+		
 	}
 
 	class NewSoundChannel extends SoundChannel
@@ -122,21 +124,48 @@ class FlxThings
 				return sound.position;
 			}
 		}
+		
 	}
-	class MoreCamera extends Camera
+	
+	class Cameras //with camera it refers to the "windows"
 	{
-		public function widthHeight(camera:Camera, returnWidth:Bool, ?returnHeight:Bool = false):Int {
-			var heightt:Bool = if(returnWidth) false else true;
-			var widthh:Bool = if(returnHeight) false else true;
-			var theTwoOfUs:Bool if(returnHeight && returnWidth) true else false;
-			if(!theTwoOfUs) {
-				if(widthh) {
-					return camera.width;
-				} else if(heightt) {
-					return camera.height;
+		class MoreCamera extends Camera
+		{
+			public function getWidthHeight(camera:Camera, returnWidth:Bool, ?returnHeight:Bool = false):Int {
+				var heightt:Bool = if(returnWidth) false else true;
+				var widthh:Bool = if(returnHeight) false else true;
+				var theTwoOfUs:Bool if(returnHeight && returnWidth) true else false;
+				if(!theTwoOfUs) {
+					if(widthh) {
+						return camera.width;
+					} else if(heightt) {
+						return camera.height;
+					}
 				}
 			}
+			
+			public function getMotion(camera:Camera, returnLevel, ?returnTimeout = false):Int {
+				if(returnLevel) {
+					return camera.motionLevel;
+				} else {
+					return camera.motionTimeout;
+				}
+			}
+			
 		}
+		
+		class MoreFlxCamera extends FlxCamera
+		{
+			public function getScale(camera:Camera, returnX:Bool, ?returnY:Bool = false):Float {
+				if (returnX) {
+					return camera.scaleX;
+				} else {
+					return camera.scaleY;
+				}
+			}
+			
+		}
+		
 	}
 	
 	
