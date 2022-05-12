@@ -320,7 +320,30 @@ class FlxThings
 		
 	}
 		
-	
+	class NewFlxTypedEmitter extends FlxTypedEmitter
+	{
+		public function setDefaultAngularThings(typedEmitter:FlxTypedEmitter, angularThing:String) {
+			var acceleration:Bool = switch(angularThing.toLowerCase()) {
+				case 'acceleration' | 'angularacceleration': true;
+				default: false;
+			}
+			var drag:Bool = switch(angularThing.toLowerCase()) {
+				case 'drag' | 'angulardrag': true;
+				default: false;
+			}
+			var velocity:Bool = switch(angularThing.toLowerCase()) {
+				case 'velocity' | 'angularvelocity': true;
+				default: false;
+			}
+			if(acceleration) {
+				typedEmitter.angularAcceleration;
+			} else if(drag) {
+				typedEmitter.angularDrag;
+			} else if(velocity) {
+				typedEmitter.angularVelocity;
+			}
+		}
+	}
 	
 	
 	
