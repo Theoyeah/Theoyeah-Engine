@@ -32,7 +32,7 @@ class FlxThings
 
 	class MouseThings extends FlxMouse implements IFlxInputManager
 	{
-		public function mousePressed(returnFalse:Bool):Void {
+		public function mousePressed(?returnFalse:Bool = false) {
 			if (FlxG.mouse.pressed) {
 				return true;
 				// The left mouse button is currently pressed
@@ -41,7 +41,7 @@ class FlxThings
 			}
 		}
 
-		public function mouseJustPressed(returnFalse:Bool):Void {
+		public function mouseJustPressed(?returnFalse:Bool = false) {
 			if (FlxG.mouse.justPressed) {
 				// The left mouse button has just been pressed
 				return true;
@@ -50,7 +50,7 @@ class FlxThings
 			}
 		}
 
-		public function mouseJustReleased(returnFalse:Bool):Void {
+		public function mouseJustReleased(?returnFalse:Bool = false) {
 			if (FlxG.mouse.justReleased) {
 				// The left mouse button has just been released
 				return true;
@@ -62,27 +62,42 @@ class FlxThings
 
 	class Colors extends FlxColor
 	{
-		public function returnColor(color:String, returnFalse:Bool) {
+		public function returnColor(color:String, returnFalse:Bool):FlxColor {
 			var returnColor:FlxColor;
 			switch(color.toUpperCase()) {
-				case "TRANSPARENT": returnColor = 0x00000000;
-				case "WHITE": returnColor = 0xFFFFFFFF;
-				case "GRAY": returnColor = 0xFF808080;
-				case "BLACK": returnColor = 0xFF000000;
-				case "GREEN": returnColor = 0xFF008000;
-				case "LIME": returnColor = 0xFF00FF00;
-				case "YELLOW": returnColor = 0xFFFFFF00;
-				case "ORANGE": returnColor = 0xFFFFA500;
-				case "RED": returnColor = 0xFFFF0000;
-				case "PURPLE": returnColor = 0xFF800080;
-				case "BLUE": returnColor = 0xFF0000FF;
-				case "BROWN": returnColor = 0xFF8B4513;
-				case "PINK": returnColor = 0xFFFFC0CB;
-				case "MAGENTA": returnColor = 0xFFFF00FF;
-				case "CYAN": returnColor = 0xFF00FFFF;
+				case "TRANSPARENT":
+					returnColor = 0x00000000;
+				case "WHITE":
+					returnColor = 0xFFFFFFFF;
+				case "GRAY":
+					returnColor = 0xFF808080;
+				case "BLACK":
+					returnColor = 0xFF000000;
+				case "GREEN":
+					returnColor = 0xFF008000;
+				case "LIME":
+					returnColor = 0xFF00FF00;
+				case "YELLOW":
+					returnColor = 0xFFFFFF00;
+				case "ORANGE":
+					returnColor = 0xFFFFA500;
+				case "RED":
+					returnColor = 0xFFFF0000;
+				case "PURPLE":
+					returnColor = 0xFF800080;
+				case "BLUE":
+					returnColor = 0xFF0000FF;
+				case "BROWN":
+					returnColor = 0xFF8B4513;
+				case "PINK":
+					returnColor = 0xFFFFC0CB;
+				case "MAGENTA":
+					returnColor = 0xFFFF00FF;
+				case "CYAN":
+					returnColor = 0xFF00FFFF;
 				default: 
 					if(returnFalse) {
-						return false;
+						returnColor = 0x00000000;
 					}
 			}
 			return returnColor;
@@ -99,7 +114,7 @@ class FlxThings
 	class NewSoundChannel extends SoundChannel
 	{
 		public function getPosition(sound:IEventDispatcher, ?returnPositionIfIsLeft:Bool = false, ?returnPositionIfIsRight:Bool = false):Float {
-			if (returnPositionIsIfLeft) {
+			if (returnPositionIfIsLeft) {
 				return sound.leftPeak;
 			} else if(returnPositionIfIsRight) {
 				return sound.rightPeak;
@@ -110,13 +125,31 @@ class FlxThings
 	}
 	class MoreCamera extends Camera
 	{
-		public function wiHe(camera:IEventDispatcher, width:Bool, height:Bool):Int {
-			var heightt:Bool = if(width) false else true;
-			var widthh:Bool = if(height) false else true;
-			var theTwoOfUs:Bool if(height && wi
-			if(widthh) {
-				return camera.width
-		
+		public function widthHeight(camera:Camera, returnWidth:Bool, ?returnHeight:Bool = false):Int {
+			var heightt:Bool = if(returnWidth) false else true;
+			var widthh:Bool = if(returnHeight) false else true;
+			var theTwoOfUs:Bool if(returnHeight && returnWidth) true else false;
+			if(!theTwoOfUs) {
+				if(widthh) {
+					return camera.width;
+				} else if(heightt) {
+					return camera.height;
+				}
+			}
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
