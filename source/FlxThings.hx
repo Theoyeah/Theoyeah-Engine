@@ -86,6 +86,45 @@ class FlxThings
 			}
 		}
 		
+		public function mousePressed(click:String, ?returnFalse:Bool = false) {
+			/**
+			 * Checks if the click input has pressed
+			 */
+			var clicker:String = click.toLowerCase();
+			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
+			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+			
+			if(FlxG.mouse.pressedRight && right) {
+				return true;
+			} else if (FlxG.mouse.pressed && left) {
+				// The left mouse button has pressed
+				return true;
+			} else if (FlxG.mouse.pressedMiddle && middle) {
+				return true;
+			} else if(returnFalse) {
+				return false;
+			}
+		}
+		
+		public function mouseJustPressedTimeInTicks(click:String) {
+			/**
+			 * Time in ticks of last click input mouse button press.
+			 */
+			var clicker:String = click.toLowerCase();
+			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
+			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+			
+			if(right) {
+				return FlxG.mouse.justPressedTimeInTicksRight;
+			} else if (left) {
+				return FlxG.mouse.justPressedTimeInTicks;
+			} else if (middle) {
+				return FlxG.mouse.justPressedTimeInTicksMiddle;
+			}
+		}
+		
 	}
 
 	class Colors extends FlxColor
