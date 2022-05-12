@@ -41,8 +41,20 @@ class FlxThings
 			}
 		}
 
-		public function mouseJustPressed(?returnFalse:Bool = false) {
-			if (FlxG.mouse.justPressed) {
+		public function mouseJustPressed(click:String, ?returnFalse:Bool = false) {
+			var clicker:String = click.toLowerCase();
+			var right:Bool = switch(clicker) {
+				case 'right' | 'rightclick': true;
+				default: false;
+			}
+			var left:Bool = switch(clicker) {
+				case 'left' | 'leftclick': true;
+				default: false;
+			}
+			var middle:Bool = switch(clicker) {
+				case 'middle' | 'middleclick': true;
+			if (FlxG.justPressedRight && right)
+		else(FlxG.mouse.justPressed) {
 				// The left mouse button has just been pressed
 				return true;
 			} else if(returnFalse) {
