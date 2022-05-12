@@ -69,7 +69,7 @@ import InputFormatter;
 import Main;
 import MainMenuState;
 import MusicBeatState;
-import MusicBeastSubState;
+import MusicBeatSubState;
 import Note;
 import StrumNote;
 import NoteSplash;
