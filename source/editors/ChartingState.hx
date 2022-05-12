@@ -163,10 +163,13 @@ class ChartingState extends MusicBeatState
 		0.5,
 		1,
 		2,
+		#if MORE_ZOOM 3,
 		4,
+		#if MORE_ZOOM 6,
 		8,
 		12,
 		16,
+		#if MORE_ZOOM 19,
 		24
 	];
 	#else //The grid gets all black when over 1/12 snap
