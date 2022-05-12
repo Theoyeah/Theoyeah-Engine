@@ -94,3 +94,16 @@ class FlxMoreText extends FlxText
 		flxText.clearFormat();
 	}
 }
+
+class NewSoundChannel extends SoundChannel
+{
+	public function getPosition(sound:IEventDispatcher, ?left:Bool = false, ?right:Bool = false):Float {
+		if (left) {
+			return sound.leftPeak;
+		} else if(right) {
+			return sound.rightPeak;
+		} else {
+			return sound.position;
+		}
+	}
+}
