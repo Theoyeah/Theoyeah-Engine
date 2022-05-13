@@ -260,12 +260,12 @@ class FlxThings
 
 		}
 
-		class NewColorTransform extends ColorTransform
+		class NewColorTransform extends ColorTransform extends FlxColorTransformUtil
 		{
 			// to use this do this:
 			// new(redMultiplier:Float = 1, greenMultiplier:Float = 1, blueMultiplier:Float = 1, alphaMultiplier:Float = 1, redOffset:Float = 0, greenOffset:Float = 0, blueOffset:Float = 0, alphaOffset:Float = 0)
-			public function offsetOrMultiplier(multiplier:Bool, colorTransform:ColorTransform, type:String, ?set:Bool = false, ?setValue:Float):Dynamic {
-				var color:Dynamic = colorTransform;
+			public function offsetOrMultiplier(transform:ColorTransform, multiplier:Bool, type:String, ?set:Bool = false, ?setRedValue:Float, ?setBlueValue:Float, ?setAlphaValue:Float, ?setGreenValue:Float):Dynamic {
+				var color:ColorTransform = transform;
 				var type_:String = type.toLowerCase();
 				var alpha:Bool = switch(type_) {
 					case 'alpha': true;
@@ -283,61 +283,37 @@ class FlxThings
 					case 'green': true;
 					default: false;
 				}
-				if(alpha) {
-					if(!multiplier) {
-						if(set) {
-							color.alphaOffset = setValue;
-						} else {
+				if(!set) {
+					if(alpha) {
+						if(!multiplier) {
 							return color.alphaOffset;
-						}
-					} else {
-						if(set) {
-							color.alphaMultiplier = setValue;
 						} else {
 							return color.alphaMultiplier;
 						}
-					}
-				} else if(blue) {
-					if(!multiplier) {
-						if(set) {
-							color.blueOffset = setValue;
-						} else {
+					} else if(blue) {
+						if(!multiplier) {
 							return color.blueOffset;
-						}
-					} else {
-						if(set) {
-							color.blueMultiplier = setValue;
 						} else {
 							return color.blueMultiplier;
 						}
-					}
-				} else if(red) {
-					if(!multiplier) {
-						if(set) {
-							color.redOffset = setValue;
-						} else {
+					} else if(red) {
+						if(!multiplier) {
 							return color.redOffset;
-						}
-					} else {
-						if(set) {
-							color.redMultiplier = setValue;
 						} else {
 							return color.redMultiplier;
 						}
-					}
-				} else if(green) {
-					if(!multiplier) {
-						if(set) {
-							color.greenOffset = setValue;
-						} else {
+					} else if(green) {
+						if(!multiplier) {
 							return color.greenOffset;
-						}
-					} else {
-						if(set) {
-							color.greenMultiplier = setValue;
 						} else {
 							return color.greenMultiplier;
 						}
+					}
+				} else {
+					if(!multiplier) {
+						return color.setOffsets(color, setRedValue, setGreenValue, setBlueValue, setAlphaValue);
+					} else {
+						return color.setMultipliers(color, setRedValue, setGreenValue, setBlueValue, setAlphaValue);
 					}
 				}
 			}
