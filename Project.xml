@@ -54,6 +54,7 @@
 	<define name="MP3_ALLOWED"/>
 	<define name="WAV_ALLOWED"/>
 	<define name="MUSIC_FOLDER_ALLOWED"/>
+	<define name="MORE_ZOOM"/>
 
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3"  unless="web"/>
