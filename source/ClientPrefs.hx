@@ -61,7 +61,14 @@ class ClientPrefs {
 		'opponentplay' => false
 	];
 
-	public static var comboOffset:Array<Int> = [0, 0, 0, 0, 0, 0]; //Take in mind that the 0 also counts
+	public static var comboOffset:Array<Int> = [
+		0, //rating x
+		0, //rating y
+		0, //comboNums x
+		0, //comboNums y
+		0, //combo thing x
+		0 //combo thing y
+	];
 	public static var ratingOffset:Int = 0;
 	public static var marvelousWindow:Int = 25;
 	public static var sickWindow:Int = 45;
