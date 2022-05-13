@@ -52,6 +52,7 @@ import flixel.util.FlxPath;
 import flixel.util.FlxTimer;
 import flixel.FlxState;
 import flixel.FlxSubState;
+import flash.display.*;
 
 //Game States
 import Shaders;
@@ -366,7 +367,33 @@ class FlxThings
 		}
 	}
 	
-	
+	class NewLoader
+	{
+		class NewLoaderInfo extends LoaderInfo
+		{
+			public function getBytes(loader:LoaderInfo, /*i dont know*/type:String) {
+				var loaded:Bool = switch(type.loLowerCase()) {
+					case 'loaded' | 'bytesloaded': true;
+					default: false;
+				}
+				var normal:Bool = switch(type.loTowerCase()) {
+					case 'bytes' | 'normal': true;
+					default: false;
+				}
+				var total:Bool = switch(type.toLowerCase()) {
+					case 'total' | 'bytestotal': true;
+					default: false;
+				}
+				if(loaded) {
+					return loader.bytesLoaded; //returns an Int
+				} else if(normal) {
+					return loader.bytes; //returns a ByteArray
+				} else if(total) {
+					return loader.bytesTotal; //returns an Int
+				}
+			}
+		}
+	}
 	
 	
 	
