@@ -113,7 +113,6 @@ class NoteOffsetState extends MusicBeatState
 
 		combosprshit = new FlxSprite().loadGraphic(Paths.image('combo'));
 		combosprshit.cameras = [camHUD];
-		combosprshit.setGraphicSize(Std.int(combosprshit.width * 0.7));
 		combosprshit.updateHitbox();
 		combosprshit.antialiasing = ClientPrefs.globalAntialiasing;
 		add(combosprshit);
@@ -295,7 +294,7 @@ class NoteOffsetState extends MusicBeatState
 			   else if (startMousePos.x - 	combosprshit.x >= 0 && startMousePos.x - combosprshit.x <= 	combosprshit.width &&
 					startMousePos.y - combosprshit.y >= 0 && startMousePos.y - 	combosprshit.y <= combosprshit.height)
 		       {     
-			    holdingObjectType = false;
+			    holdingObjectType = true;
 				startComboOffset.x = ClientPrefs.comboOffset[4];
 			    startComboOffset.y = ClientPrefs.comboOffset[5];
 			   trace('he');
@@ -303,7 +302,7 @@ class NoteOffsetState extends MusicBeatState
 			}
 			if(FlxG.mouse.justReleased) {
 				holdingObjectType = null;
-				//trace('dead');
+				trace('dead');
 			}
 
 			if(holdingObjectType != null)
