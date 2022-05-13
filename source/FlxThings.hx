@@ -320,12 +320,42 @@ class FlxThings
 
 		}
 
+		//class ColorsInGeneral extends NewColorTransform extends NewFlxColor {} //for having all the functions in one single class
 	}
 
 	class FlxMoreText extends FlxText
 	{
 		public function clearFormat(flxText:FlxText):Void {
 			flxText.clearFormat();
+		}
+
+		public function border(text:FlxText, type:String/*, ?set:Bool, ?setValue:Float*/) { // i'll finish it in home
+			var t:String = type.toLowerCase();
+			var color:Bool = switch(t) {
+				case 'color': true;
+				default: false;
+			}
+			var qua:Bool = switch(t) {
+				case 'quality': true;
+				default: false;
+			}
+			var size:Bool = switch(t) {
+				case 'size': true;
+				default: false;
+			}
+			var style:Bool = switch(t) {
+				case 'style': true;
+				default: false;
+			}
+			if(color) {
+				return text.borderColor;
+			} else if(qua) {
+				return text.borderQuality;
+			} else if(size) {
+				return text.borderSize;
+			} else if(style) {
+				return text.borderStyle;
+			}
 		}
 
 	}
