@@ -3692,7 +3692,7 @@ class PlayState extends MusicBeatState
 		comboSpr.x = coolText.x;
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
-		comboSpr.visible =  ClientPrefs.hideHud;
+		comboSpr.visible = !ClientPrefs.hideHud;
 		comboSpr.x += ClientPrefs.comboOffset[4];
 		comboSpr.y -= ClientPrefs.comboOffset[5];
 
