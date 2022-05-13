@@ -54,7 +54,16 @@ stoled from HaxeFlixel Docs!!
 */
 class FlxThings
 {
-	class SaveThings
+	class MoreArray /*extends Array *///wtf i dont know
+	{
+		public function deleteAllVExceptFirst(array:Array):Void { //can someone please prove it for me?
+			for (v in array.length-1) {
+				array.pop();
+			}
+		}
+	}
+
+	class SaveThings 
 	{
 		public function createSaveVar(varUsed:Dynamic, loadPrefsFunction:Bool):Void { // THIS ISN'T PROVED!! MAY CAUSE ERRORS!!
 			FlxG.save.data.varUsed = varUsed;
@@ -63,6 +72,7 @@ class FlxThings
 			}
 		}
 	}
+
 	class NewFlxSprite extends FlxSprite
 	{
 		public function setGraphic(sprite:FlxSprite, x:Float, y:Float):Void {
@@ -83,7 +93,7 @@ class FlxThings
 			tween.tween(sprite, { x:x , y:y }, duration);
 		}
 
-	
+
 	}
 
 	class Figures //i dont know english :'<
@@ -102,12 +112,12 @@ class FlxThings
 						return figure.height;
 					}
 				}
-				
 			}
+
 		}
 		
 	}
-	
+
 	class MouseThings extends FlxMouse
 	{
 		public function mousePressed(?returnFalse:Bool = false):Dynamic {
@@ -163,7 +173,7 @@ class FlxThings
 				return false;
 			}
 		}
-		
+
 		public function mousePressed(click:String, ?returnFalse:Bool = false):Dynamic {
  			/**
  			 * Checks if the click input has pressed
@@ -202,48 +212,138 @@ class FlxThings
  				return FlxG.mouse.justPressedTimeInTicksMiddle;
  			}
  		}
+
 	}
 
-	class Colors extends FlxColor
+	class Colors
 	{
-		public function returnColor(color:String):FlxColor {
-			var returnColor:FlxColor;
-			switch(color.toUpperCase()) {
-				case "TRANSPARENT":
-					returnColor = 0x00000000;
-				case "WHITE":
-					returnColor = 0xFFFFFFFF;
-				case "GRAY":
-					returnColor = 0xFF808080;
-				case "BLACK":
-					returnColor = 0xFF000000;
-				case "GREEN":
-					returnColor = 0xFF008000;
-				case "LIME":
-					returnColor = 0xFF00FF00;
-				case "YELLOW":
-					returnColor = 0xFFFFFF00;
-				case "ORANGE":
-					returnColor = 0xFFFFA500;
-				case "RED":
-					returnColor = 0xFFFF0000;
-				case "PURPLE":
-					returnColor = 0xFF800080;
-				case "BLUE":
-					returnColor = 0xFF0000FF;
-				case "BROWN":
-					returnColor = 0xFF8B4513;
-				case "PINK":
-					returnColor = 0xFFFFC0CB;
-				case "MAGENTA":
-					returnColor = 0xFFFF00FF;
-				case "CYAN":
-					returnColor = 0xFF00FFFF;
-				default: 
-					returnColor = 0x00000000; //in case there isn't any color, it will return transparent
+		class NewFlxColor extends FlxColor
+		{
+			public function returnColor(color:String):FlxColor {
+				var returnColor:FlxColor;
+				switch(color.toUpperCase()) {
+					case "TRANSPARENT":
+						returnColor = 0x00000000;
+					case "WHITE":
+						returnColor = 0xFFFFFFFF;
+					case "GRAY":
+						returnColor = 0xFF808080;
+					case "BLACK":
+						returnColor = 0xFF000000;
+					case "GREEN":
+						returnColor = 0xFF008000;
+					case "LIME":
+						returnColor = 0xFF00FF00;
+					case "YELLOW":
+						returnColor = 0xFFFFFF00;
+					case "ORANGE":
+						returnColor = 0xFFFFA500;
+					case "RED":
+						returnColor = 0xFFFF0000;
+					case "PURPLE":
+						returnColor = 0xFF800080;
+					case "BLUE":
+						returnColor = 0xFF0000FF;
+					case "BROWN":
+						returnColor = 0xFF8B4513;
+					case "PINK":
+						returnColor = 0xFFFFC0CB;
+					case "MAGENTA":
+						returnColor = 0xFFFF00FF;
+					case "CYAN":
+						returnColor = 0xFF00FFFF;
+					default: 
+						returnColor = 0x00000000; //in case there isn't any color, it will return transparent
+				}
+				return returnColor;
 			}
-			return returnColor;
+
 		}
+
+		class NewColorTransform extends ColorTransform
+		{
+			// to use this do this:
+			// new(redMultiplier:Float = 1, greenMultiplier:Float = 1, blueMultiplier:Float = 1, alphaMultiplier:Float = 1, redOffset:Float = 0, greenOffset:Float = 0, blueOffset:Float = 0, alphaOffset:Float = 0)
+			public function offsetOrMultiplier(multiplier:Bool, colorTransform:ColorTransform, type:String, ?set:Bool = false, ?setValue:Float):Dynamic {
+				var color:Dynamic = colorTransform;
+				var type_:String = type.toLowerCase();
+				var alpha:Bool = switch(type_) {
+					case 'alpha': true;
+					default: false;
+				}
+				var blue:Bool = switch(type_) {
+					case 'blue': true;
+					default: false;
+				}
+				var red:Bool = switch(type_) {
+					case 'red': true;
+					default: false;
+				}
+				var green:Bool = switch(type_) {
+					case 'green': true;
+					default: false;
+				}
+				if(alpha) {
+					if(!multiplier) {
+						if(set) {
+							color.alphaOffset = setValue;
+						} else {
+							return color.alphaOffset;
+						}
+					} else {
+						if(set) {
+							color.alphaMultiplier = setValue;
+						} else {
+							return color.alphaMultiplier;
+						}
+					}
+				} else if(blue) {
+					if(!multiplier) {
+						if(set) {
+							color.blueOffset = setValue;
+						} else {
+							return color.blueOffset;
+						}
+					} else {
+						if(set) {
+							color.blueMultiplier = setValue;
+						} else {
+							return color.blueMultiplier;
+						}
+					}
+				} else if(red) {
+					if(!multiplier) {
+						if(set) {
+							color.redOffset = setValue;
+						} else {
+							return color.redOffset;
+						}
+					} else {
+						if(set) {
+							color.redMultiplier = setValue;
+						} else {
+							return color.redMultiplier;
+						}
+					}
+				} else if(green) {
+					if(!multiplier) {
+						if(set) {
+							color.greenOffset = setValue;
+						} else {
+							return color.greenOffset;
+						}
+					} else {
+						if(set) {
+							color.greenMultiplier = setValue;
+						} else {
+							return color.greenMultiplier;
+						}
+					}
+				}
+			}
+
+		}
+
 	}
 
 	class FlxMoreText extends FlxText
@@ -251,7 +351,7 @@ class FlxThings
 		public function clearFormat(flxText:FlxText):Void {
 			flxText.clearFormat();
 		}
-		
+
 	}
 
 	class NewSoundChannel extends SoundChannel
@@ -265,7 +365,7 @@ class FlxThings
 				return sound.position;
 			}
 		}
-		
+
 	}
 	
 	class Cameras //with camera it refers to the "windows"
@@ -284,7 +384,7 @@ class FlxThings
 					}
 				}
 			}
-			
+
 			public function getMotion(camera:Camera, returnLevel, ?returnTimeout = false):Int {
 				if(returnLevel) {
 					return camera.motionLevel;
@@ -292,7 +392,7 @@ class FlxThings
 					return camera.motionTimeout;
 				}
 			}
-			
+
 		}
 		
 		class MoreFlxCamera extends FlxCamera
@@ -304,11 +404,11 @@ class FlxThings
 					return camera.scaleY;
 				}
 			}
-			
+
 		}
-		
+
 	}
-		
+
 	class NewFlxTypedEmitter extends FlxTypedEmitter
 	{
 		public function setDefaultAngularThings(typedEmitter:FlxTypedEmitter, angularThing:String):Dynamic {
@@ -333,7 +433,7 @@ class FlxThings
 			}
 		}
 	}
-	
+
 	class NewLoader
 	{
 		class NewLoaderInfo extends LoaderInfo
