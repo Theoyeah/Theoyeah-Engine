@@ -54,21 +54,32 @@ stoled from HaxeFlixel Docs!!
 */
 class FlxThings
 {
+	class SaveThings
+	{
+		public function createSaveVar(varUsed:Dynamic, loadPrefsFunction:Bool):Void { // THIS ISN'T PROVED!! MAY CAUSE ERRORS!!
+			FlxG.save.data.varUsed = varUsed;
+			if(loadPrefsFunction && FlxG.save.data.varUsed != null) {
+				varUsed = FlxG.save.data.varUsed;
+			}
+		}
+	}
 	class NewFlxSprite extends FlxSprite
 	{
-		public function setGraphic(sprite:FlxSprite, x:Float, y:Float) {
+		public function setGraphic(sprite:FlxSprite, x:Float, y:Float):Void {
 			sprite.x = x;
 			sprite.y = y;
 		}
 	
-		public function createGraphic(sprite:FlxSprite, ?image:String) {
+		public function createGraphic(sprite:FlxSprite, ?image:String, ?addTheSprite:Bool = true):Void {
 			if(image != null) {
 				sprite.loadGraphic(image);
 			}
-			add(name);
+			if(addTheSprite) {
+				add(name);
+			}
 		}
 	
-		public function moveSpriteScreen(tween:FlxTween, sprite:FlxSprite, x:Float, y:Float, duration:Float) {
+		public function moveSpriteScreen(tween:FlxTween, sprite:FlxSprite, x:Float, y:Float, duration:Float):Void {
 			tween.tween(sprite, { x:x , y:y }, duration);
 		}
 
@@ -80,7 +91,7 @@ class FlxThings
 		class NewRectangle extends Rectangle
 		{
 			//to create a rectangle use this new(x:Float = 0, y:Float = 0, width:Float = 0, height:Float = 0)
-			public function getWidthOrHeight(figure:Rectangle, returnWidth:Bool, ?returnHeight:Bool) {
+			public function getWidthOrHeight(figure:Rectangle, returnWidth:Bool, ?returnHeight:Bool):Dynamic {
 				var heightt:Bool = if(returnWidth) false else true;
 				var widthh:Bool = if(returnHeight) false else true;
 				var theTwoOfUs:Bool if(returnHeight && returnWidth) true else false;
@@ -99,7 +110,7 @@ class FlxThings
 	
 	class MouseThings extends FlxMouse
 	{
-		public function mousePressed(?returnFalse:Bool = false) {
+		public function mousePressed(?returnFalse:Bool = false):Dynamic {
 			if (FlxG.mouse.pressed) {
 				return true;
 				// The left mouse button is currently pressed
@@ -108,7 +119,7 @@ class FlxThings
 			}
 		}
 
-		public function mouseJustPressed(click:String, ?returnFalse:Bool = false) {
+		public function mouseJustPressed(click:String, ?returnFalse:Bool = false):Dynamic {
 			/**
  			 * Checks if the click input have just been pressed
  			 */
@@ -132,7 +143,7 @@ class FlxThings
 			}
 		}
 
-		public function mouseJustReleased(click:String, ?returnFalse:Bool = false) {
+		public function mouseJustReleased(click:String, ?returnFalse:Bool = false):Dynamic {
  			/**
  			 * Checks if the click input has been released
  			 */
@@ -153,7 +164,7 @@ class FlxThings
 			}
 		}
 		
-		public function mousePressed(click:String, ?returnFalse:Bool = false) {
+		public function mousePressed(click:String, ?returnFalse:Bool = false):Dynamic {
  			/**
  			 * Checks if the click input has pressed
  			 */
@@ -174,7 +185,7 @@ class FlxThings
  			}
  		}
 
- 		public function mouseJustPressedTimeInTicks(click:String) {
+ 		public function mouseJustPressedTimeInTicks(click:String):Dynamic {
  			/**
  			 * Time in ticks of last click input mouse button press.
  			 */
@@ -195,7 +206,7 @@ class FlxThings
 
 	class Colors extends FlxColor
 	{
-		public function returnColor(color:String, returnFalse:Bool):FlxColor {
+		public function returnColor(color:String):FlxColor {
 			var returnColor:FlxColor;
 			switch(color.toUpperCase()) {
 				case "TRANSPARENT":
@@ -229,9 +240,7 @@ class FlxThings
 				case "CYAN":
 					returnColor = 0xFF00FFFF;
 				default: 
-					if(returnFalse) {
-						returnColor = 0x00000000;
-					}
+					returnColor = 0x00000000; //in case there isn't any color, it will return transparent
 			}
 			return returnColor;
 		}
@@ -239,7 +248,7 @@ class FlxThings
 
 	class FlxMoreText extends FlxText
 	{
-		public function clearFormat(flxText:FlxText) {
+		public function clearFormat(flxText:FlxText):Void {
 			flxText.clearFormat();
 		}
 		
@@ -263,7 +272,7 @@ class FlxThings
 	{
 		class MoreCamera extends Camera
 		{
-			public function getWidthHeight(camera:Camera, returnWidth:Bool, ?returnHeight:Bool = false):Int {
+			public function getWidthHeight(camera:Camera, returnWidth:Bool, ?returnHeight:Bool = false):Dynamic {
 				var heightt:Bool = if(returnWidth) false else true;
 				var widthh:Bool = if(returnHeight) false else true;
 				var theTwoOfUs:Bool if(returnHeight && returnWidth) true else false;
@@ -302,7 +311,7 @@ class FlxThings
 		
 	class NewFlxTypedEmitter extends FlxTypedEmitter
 	{
-		public function setDefaultAngularThings(typedEmitter:FlxTypedEmitter, angularThing:String) {
+		public function setDefaultAngularThings(typedEmitter:FlxTypedEmitter, angularThing:String):Dynamic {
 			var acceleration:Bool = switch(angularThing.toLowerCase()) {
 				case 'acceleration' | 'angularacceleration': true;
 				default: false;
@@ -329,7 +338,7 @@ class FlxThings
 	{
 		class NewLoaderInfo extends LoaderInfo
 		{
-			public function getBytes(loader:LoaderInfo, /*i dont know*/type:String) {
+			public function getBytes(loader:LoaderInfo, /*i dont know*/type:String):Dynamic {
 				var loaded:Bool = switch(type.loLowerCase()) {
 					case 'loaded' | 'bytesloaded': true;
 					default: false;
