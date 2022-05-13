@@ -53,6 +53,7 @@ import flixel.util.FlxTimer;
 import flixel.FlxState;
 import flixel.FlxSubState;
 import flash.display.*;
+import flixel.*;
 
 //Game States
 import Shaders;
@@ -137,6 +138,7 @@ class FlxThings
 				
 			}
 		}
+		
 	}
 	
 	class MouseThings extends FlxMouse
