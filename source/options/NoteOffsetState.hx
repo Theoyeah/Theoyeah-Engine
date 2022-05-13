@@ -210,7 +210,7 @@ class NoteOffsetState extends MusicBeatState
 
 	var holdTime:Float = 0;
 	var onComboMenu:Bool = true;
-	var holdingObjectType:Null<Bool> = null;
+	var holdingObjectType:Null<String> = null;
 
 	var startMousePos:FlxPoint = new FlxPoint();
 	var startComboOffset:FlxPoint = new FlxPoint();
@@ -275,32 +275,37 @@ class NoteOffsetState extends MusicBeatState
 			// probably there's a better way to do this but, oh well.
 			if (FlxG.mouse.justPressed)
 			{
+				function omg(first:Dynamic):Bool { //i dont want to write all the code again and again
+					if(startMousePos.x - first.x >= 0 && startMousePos.x - first.x <= first.width &&
+						startMousePos.y - first.y >= 0 && startMousePos.y - first.y <= first.height) {
+						return true;
+					} else {
+						return false;
+					}
+				}
 				holdingObjectType = null;
 				FlxG.mouse.getScreenPosition(camHUD, startMousePos);
-				if (startMousePos.x - comboNums.x >= 0 && startMousePos.x - comboNums.x <= comboNums.width &&
-					startMousePos.y - comboNums.y >= 0 && startMousePos.y - comboNums.y <= comboNums.height)
+				if (omg(comboNums))
 				{
-					holdingObjectType = true;
-					startComboOffset.x = ClientPrefs.comboOffset[2];
-					startComboOffset.y = ClientPrefs.comboOffset[3];
-					trace('yo bro');
+					holdingObjectType = 'nums'; //this was true
+					startComboOffset.x = ClientPrefs.comboOffset[2]; //x
+					startComboOffset.y = ClientPrefs.comboOffset[3]; //y
+					trace("you're holding the combo nums");
 				}
-				else if (startMousePos.x - rating.x >= 0 && startMousePos.x - rating.x <= rating.width &&
-						 startMousePos.y - rating.y >= 0 && startMousePos.y - rating.y <= rating.height)
+				else if (omg(rating))
 				{
-					holdingObjectType = false;
-					startComboOffset.x = ClientPrefs.comboOffset[0];
-					startComboOffset.y = ClientPrefs.comboOffset[1];
-					trace('heya');
+					holdingObjectType = 'rating'; //this was false
+					startComboOffset.x = ClientPrefs.comboOffset[0]; //x
+					startComboOffset.y = ClientPrefs.comboOffset[1]; //y
+					trace("you're holding the rating thing");
 				}
-			   else if (startMousePos.x - 	combosprshit.x >= 0 && startMousePos.x - combosprshit.x <= 	combosprshit.width &&
-					startMousePos.y - combosprshit.y >= 0 && startMousePos.y - 	combosprshit.y <= combosprshit.height)
-		       {     
-			    holdingObjectType = false;
-				startComboOffset.x = ClientPrefs.comboOffset[4];
-			    startComboOffset.y = ClientPrefs.comboOffset[5];
-			   trace('he');
-		       }
+				else if (omg(combosprshit))
+				{     
+				   holdingObjectType = 'combo';
+				   startComboOffset.x = ClientPrefs.comboOffset[4]; //x
+				   startComboOffset.y = ClientPrefs.comboOffset[5]; //y
+				   trace("you're holding the combo thing");
+				}
 			}
 			if(FlxG.mouse.justReleased) {
 				holdingObjectType = null;
@@ -312,7 +317,14 @@ class NoteOffsetState extends MusicBeatState
 				if(FlxG.mouse.justMoved)
 				{
 					var mousePos:FlxPoint = FlxG.mouse.getScreenPosition(camHUD);
-					var addNum:Int = holdingObjectType ? 2 : 0;
+					/*before:
+					//var addNum:Int = holdingObjectType? 2 : 0;
+					//now:*/
+					var addNum:Int = switch(holdingObjectType) {
+						case 'nums': 0; //look at the ClientPrefs file to understand this
+						case 'rating': 2;
+						case 'combo': 4;
+					};
 					ClientPrefs.comboOffset[addNum + 0] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
 					ClientPrefs.comboOffset[addNum + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
 					repositionCombo();
@@ -436,7 +448,7 @@ class NoteOffsetState extends MusicBeatState
 		rating.y -= 60 + ClientPrefs.comboOffset[1];
 
 		combosprshit.screenCenter();
-		combosprshit.x = coolText.x - 40 +ClientPrefs.comboOffset[4];
+		combosprshit.x = coolText.x - 40 + ClientPrefs.comboOffset[4];
 		combosprshit.y -= -30 + ClientPrefs.comboOffset[5]; 
 
 		comboNums.screenCenter();
@@ -469,6 +481,7 @@ class NoteOffsetState extends MusicBeatState
 		{
 			switch(i)
 			{
+				//so, x is the first number, then x + 1 = y, ok, i dont know how, but i understand it
 				case 0: dumbTexts.members[i].text = 'Rating Offset:';
 				case 1: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[0] + ', ' + ClientPrefs.comboOffset[1] + ']';
 				case 2: dumbTexts.members[i].text = 'Numbers Offset:';
