@@ -320,7 +320,7 @@ class NoteOffsetState extends MusicBeatState
 					/*before:
 					//var addNum:Int = holdingObjectType? 2 : 0;
 					//now:*/
-					var addNum = if(holdingObjectType == 'nums') {
+					var addNum:Void<Int> = if(holdingObjectType == 'nums') {
 						2; //look at the ClientPrefs file to understand this
 					} else if(holdingObjectType == 'rating') {
 						0;
