@@ -314,13 +314,22 @@ class NoteOffsetState extends MusicBeatState
 
 			if(holdingObjectType != null)
 			{
+				var addNum_:Dynamic;
 				if(FlxG.mouse.justMoved)
 				{
 					var mousePos:FlxPoint = FlxG.mouse.getScreenPosition(camHUD);
 					/*before:
 					//var addNum:Int = holdingObjectType? 2 : 0;
 					//now:*/
-					var addNum_:Dynamic = if(holdingObjectType == 'nums') {2;} else if(holdingObjectType == 'rating') {0;} else if(holdingObjectType != null) {4;} //look at the ClientPrefs file to understand this
+
+					if(holdingObjectType == 'nums') {
+						addNum_= 2;
+					} else if(holdingObjectType == 'rating') {
+						addNum_= 0;
+					} else if(holdingObjectType != null) {
+						addNum_= 4;
+					} //look at the ClientPrefs file to understand this
+
 					ClientPrefs.comboOffset[addNum_] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
 					ClientPrefs.comboOffset[addNum_ + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
 					repositionCombo();
