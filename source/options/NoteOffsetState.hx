@@ -300,16 +300,16 @@ class NoteOffsetState extends MusicBeatState
 					trace("you're holding the rating thing");
 				}
 				else if (omg(combosprshit))
-				{     
-				   holdingObjectType = 'combo';
-				   startComboOffset.x = ClientPrefs.comboOffset[4]; //x
-				   startComboOffset.y = ClientPrefs.comboOffset[5]; //y
-				   trace("you're holding the combo thing");
+				{
+					holdingObjectType = 'combo';
+					startComboOffset.x = ClientPrefs.comboOffset[4]; //x
+					startComboOffset.y = ClientPrefs.comboOffset[5]; //y
+					trace("you're holding the combo thing");
 				}
 			}
 			if(FlxG.mouse.justReleased) {
 				holdingObjectType = null;
-				trace('dead');
+				trace("you're holding anything");
 			}
 
 			if(holdingObjectType != null)
@@ -321,13 +321,13 @@ class NoteOffsetState extends MusicBeatState
 					//var addNum:Int = holdingObjectType? 2 : 0;
 					//now:*/
 					var addNum:Dynamic = if(holdingObjectType == 'nums') {
-						0; //look at the ClientPrefs file to understand this
+						2; //look at the ClientPrefs file to understand this
 					} else if(holdingObjectType == 'rating') {
-						2;
-					} else {
+						0;
+					} else if(holdingObjectType == 'combo') { //fuck, i just realized that also there is null
 						4;
 					}
-					ClientPrefs.comboOffset[addNum + 0] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
+					ClientPrefs.comboOffset[addNum] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
 					ClientPrefs.comboOffset[addNum + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
 					repositionCombo();
 				}
