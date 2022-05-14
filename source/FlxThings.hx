@@ -1,3 +1,8 @@
+/* ok, this file modifies all the freaking files, this files have acces to ALL the files that you'll need for the
+freaking future, and also this file is for more useful functions for you to use, only use "import FlxThings" to import
+thisfile, and then use the classes that are down, like "Random.int(0, 7)" to use the "int()" function of the "Random"
+class, also use this method to all the other classes, bye!
+*/
 package;
 
 //HaxeFlixel API Packages
