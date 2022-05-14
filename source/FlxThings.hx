@@ -221,7 +221,8 @@ class FlxThings
 		{
 			public function returnColor(color:String):FlxColor {
 				var returnColor:FlxColor;
-				var colors:Array<Array<String><FlxColor>> = [
+				var colors:Array<Array<String><Dynamic><Dynamic>> = [
+					//[name,    flxColor or other name,     flxColor in case that other name],
 					["transparent", 0x00000000],
 					['white', 0xFFFFFFFF],
 					['gray', 0xFF808080],
@@ -230,50 +231,25 @@ class FlxThings
 					['lime', 0xFF00FF00],
 					["yellow", 0xFFFFFF00],
 					['orange', 0xFFFFA500],
-					['red', 0xFFFF0000],
-					['purple', 0xFF800080]
+					['red', 'blood', 0xFFFF0000],
+					['purple', 0xFF800080],
+					['blue', 0xFF0000FF],
+					['brown', 0xFF8B4513],
+					['pink', 0xFFFFC0CB],
+					['magenta', 0xFFFF00FF],
+					['cyan', 0xFF00FFFF]
 				]; //please, fill up this with colors
 				for (i in colors) {
+					if(colors[i][2] != null) { //in case that the color can be called in two different ways
+						if(colors[i][1].toLowerCase() == color.toLowerCase() || colors[i][0].toLowerCase() == color.toLowerCase()) {
+							return colors[i][2];
+						}
+					}
 					if (colors[i][0].toLowerCase() == color.toLowerCase()) {
 						return colors[i][1];
 					}
 				}
 				return 0x00000000; //in case that it didnt found any color, return transparent
-				/*switch(color.toUpperCase()) {
-					case "TRANSPARENT":
-						returnColor = 0x00000000;
-					case "WHITE":
-						returnColor = 0xFFFFFFFF;
-					case "GRAY":
-						returnColor = 0xFF808080;
-					case "BLACK":
-						returnColor = 0xFF000000;
-					case "GREEN":
-						returnColor = 0xFF008000;
-					case "LIME":
-						returnColor = 0xFF00FF00;
-					case "YELLOW":
-						returnColor = 0xFFFFFF00;
-					case "ORANGE":
-						returnColor = 0xFFFFA500;
-					case "RED":
-						returnColor = 0xFFFF0000;
-					case "PURPLE":
-						returnColor = 0xFF800080;
-					case "BLUE":
-						returnColor = 0xFF0000FF;
-					case "BROWN":
-						returnColor = 0xFF8B4513;
-					case "PINK":
-						returnColor = 0xFFFFC0CB;
-					case "MAGENTA":
-						returnColor = 0xFFFF00FF;
-					case "CYAN":
-						returnColor = 0xFF00FFFF;
-					default: 
-						returnColor = 0x00000000; //in case there isn't any color, it will return transparent
-				}
-				return returnColor;*/
 			}
 
 		}
