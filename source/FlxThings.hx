@@ -246,6 +246,15 @@ class FlxThings
 
 	}
 
+	class Dates extends Date
+	{
+		public function returnRandomDate():Date {
+			var fuck:Date = new(Random.int(0, 10000), Random.int(0, 11), Random.int(1, 31), Random.int(0, 23), Random.int(0, 59), Random.int(0, 59));
+			return fuck;
+		}
+
+	}
+
 	class Colors
 	{
 		class NewFlxColor extends FlxColor
@@ -278,6 +287,7 @@ class FlxThings
 					
 					['wtf', 'random', wtf]
 				]; //please, fill up this with colors
+				// down is the code shit
 				for (i in colors) {
 					if(colors[i][2] != null) { //in case that the color can be called in two different ways
 						if(colors[i][1].toLowerCase() == color.toLowerCase() || colors[i][0].toLowerCase() == color.toLowerCase()) {
@@ -288,7 +298,7 @@ class FlxThings
 						return colors[i][1];
 					}
 				}
-				return 0x00000000; //in case that it didnt found any color, return transparent
+				return 0x00000000; //in case that it didn't found any color, return transparent
 			}
 
 		}
