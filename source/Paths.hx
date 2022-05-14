@@ -118,6 +118,13 @@ class Paths
 		currentLevel = name.toLowerCase();
 	}
 
+	/**
+	* Gets the path
+	* @param file file to search
+	* @param type type of the file
+	* @param library where to search
+	* @return i dont know
+	*/
 	public static function getPath(file:String, type:AssetType, ?library:Null<String> = null)
 	{
 		if (library != null)
@@ -140,6 +147,11 @@ class Paths
 		return getPreloadPath(file);
 	}
 
+	/**
+	* Gets the library path
+	* @param file file to search
+	* @param library library
+	*/
 	static public function getLibraryPath(file:String, library = "preload")
 	{
 		return if (library == "preload" || library == "default") getPreloadPath(file); else getLibraryPathForce(file, library);
@@ -153,7 +165,7 @@ class Paths
 
 	inline public static function getPreloadPath(file:String = '')
 	{
-		return 'assets/$file';
+		return 'assets/$file'; //returns 'assets/' + file
 	}
 
 	inline static public function file(file:String, type:AssetType = TEXT, ?library:String)
@@ -163,12 +175,12 @@ class Paths
 
 	inline static public function txt(key:String, ?library:String)
 	{
-		return getPath('data/$key.txt', TEXT, library);
+		return getPath('data/$key.txt', TEXT, library); //returns getPath('data/' + key + '.txt', TEXT, library)
 	}
 
 	inline static public function xml(key:String, ?library:String)
 	{
-		return getPath('data/$key.xml', TEXT, library);
+		return getPath('data/$key.xml', TEXT, library); //returns getPath('data/' + key + '.xml', TEXT, library)
 	}
 
 	inline static public function json(key:String, ?library:String)
@@ -176,6 +188,7 @@ class Paths
 		return getPath('data/$key.json', TEXT, library);
 	}
 
+	// shaders
 	inline static public function shaderFragment(key:String, ?library:String)
 	{
 		return getPath('shaders/$key.frag', TEXT, library);
@@ -184,6 +197,7 @@ class Paths
 	{
 		return getPath('shaders/$key.vert', TEXT, library);
 	}
+
 	inline static public function lua(key:String, ?library:String)
 	{
 		return getPath('$key.lua', TEXT, library);
@@ -197,7 +211,7 @@ class Paths
 			return file;
 		}
 		#end
-		return 'assets/videos/$key.$VIDEO_EXT';
+		return 'assets/videos/$key.$VIDEO_EXT'; //returns 'assets/videos/' + key + '.' + VIDEO_EXT
 	}
 
 	static public function sound(key:String, ?library:String):Sound
