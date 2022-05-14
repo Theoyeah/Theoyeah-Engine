@@ -50,7 +50,7 @@ import animateatlas.tilecontainer.TileContainerSymbol;
 using StringTools;
 
 /*
-stoled from HaxeFlixel Docs!!
+stoled from HaxeFlixel Docs!! But better!
 */
 class FlxThings
 {
@@ -79,7 +79,7 @@ class FlxThings
 			sprite.x = x;
 			sprite.y = y;
 		}
-	
+
 		public function createGraphic(sprite:FlxSprite, ?image:String, ?addTheSprite:Bool = true):Void {
 			if(image != null) {
 				sprite.loadGraphic(image);
@@ -88,7 +88,7 @@ class FlxThings
 				add(name);
 			}
 		}
-	
+
 		public function moveSpriteScreen(tween:FlxTween, sprite:FlxSprite, x:Float, y:Float, duration:Float):Void {
 			tween.tween(sprite, { x:x , y:y }, duration);
 		}
@@ -115,7 +115,7 @@ class FlxThings
 			}
 
 		}
-		
+
 	}
 
 	class MouseThings extends FlxMouse
@@ -133,7 +133,7 @@ class FlxThings
 			/**
  			 * Checks if the click input have just been pressed
  			 */
-			
+
 			var clicker:String = click.toLowerCase();
 			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
  			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
@@ -220,7 +220,7 @@ class FlxThings
 		class NewFlxColor extends FlxColor
 		{
 			public function returnColor(color:String):FlxColor {
-				var returnColor:FlxColor;
+				var wtf:FlxColor = FlxColor.fromCMYK(Math.random(), Math.random(), Math.random(), Math.random(), 1);
 				var colors:Array<Array<String><Dynamic><Dynamic>> = [
 					//[name,    flxColor or other name,     flxColor in case that other name],
 					["transparent", 0x00000000],
@@ -237,7 +237,10 @@ class FlxThings
 					['brown', 0xFF8B4513],
 					['pink', 0xFFFFC0CB],
 					['magenta', 0xFFFF00FF],
-					['cyan', 0xFF00FFFF]
+					['cyan', 0xFF00FFFF],
+					
+					
+					['wtf', 'random', wtf]
 				]; //please, fill up this with colors
 				for (i in colors) {
 					if(colors[i][2] != null) { //in case that the color can be called in two different ways
@@ -367,7 +370,7 @@ class FlxThings
 		}
 
 	}
-	
+
 	class Cameras //with camera it refers to the "windows"
 	{
 		class MoreCamera extends Camera
@@ -394,7 +397,7 @@ class FlxThings
 			}
 
 		}
-		
+
 		class MoreFlxCamera extends FlxCamera
 		{
 			public function getScale(camera:Camera, returnX:Bool, ?returnY:Bool = false):Float {
