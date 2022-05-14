@@ -342,8 +342,7 @@ class NoteOffsetState extends MusicBeatState
 			{
 				for (i in 0...ClientPrefs.comboOffset.length) //should't be this like this: length-1 ?
 				{
-					if(ClientPrefs.comboOffset[i] != null)
-						ClientPrefs.comboOffset[i] = 0;
+					ClientPrefs.comboOffset[i] = 0;
 				}
 				repositionCombo();
 			}
