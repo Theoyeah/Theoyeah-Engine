@@ -57,7 +57,7 @@ class FlxThings
 	class MoreArray /*extends Array *///wtf i dont know
 	{
 		public function deleteAllVExceptFirst(array:Array):Void { //can someone please prove it for me?
-			for (v in array.length-1) {
+			for (v in array.length-2) {
 				array.pop();
 			}
 		}
