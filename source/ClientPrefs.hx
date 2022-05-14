@@ -62,12 +62,12 @@ class ClientPrefs {
 	];
 
 	public static var comboOffset:Array<Int> = [
-		0, //rating x
-		0, //rating y
-		0, //comboNums x
-		0, //comboNums y
-		0, //combo thing x
-		0 //combo thing y
+		0, //rating x, this is [0]
+		0, //rating y, this is [1]
+		0, //comboNums x, this is [2]
+		0, //comboNums y, this is [3]
+		0, //combo thing x, this is [4]
+		0 //combo thing y, this is [5], i learned this with swift lol
 	];
 	public static var ratingOffset:Int = 0;
 	public static var marvelousWindow:Int = 25;
