@@ -320,15 +320,15 @@ class NoteOffsetState extends MusicBeatState
 					/*before:
 					//var addNum:Int = holdingObjectType? 2 : 0;
 					//now:*/
-					var addNum:Int = if(holdingObjectType == 'nums') {
+					var addNum_:Int = if(holdingObjectType == 'nums') {
 						2; //look at the ClientPrefs file to understand this
 					} else if(holdingObjectType == 'rating') {
 						0;
 					} else {
 						4;
 					}
-					ClientPrefs.comboOffset[addNum] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
-					ClientPrefs.comboOffset[addNum + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
+					ClientPrefs.comboOffset[addNum_] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
+					ClientPrefs.comboOffset[addNum_ + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
 					repositionCombo();
 				}
 			}
