@@ -54,6 +54,8 @@ stoled from HaxeFlixel Docs!! But better!
 */
 class FlxThings
 {
+	var nothing:Dynamic;
+	
 	class MoreArray /*extends Array *///wtf i dont know
 	{
 		public function deleteAllVExceptFirst(array:Array):Void { //can someone please prove it for me?
@@ -129,17 +131,19 @@ class FlxThings
 			}
 		}
 
+		/**
+		 * Checks if the `click` param has been clicked
+		 * @param click for evaluating
+		 * @param returnFalse returns false if it didn´t 
+		 * @return Dynamic
+		 */
 		public function mouseJustPressed(click:String, ?returnFalse:Bool = false):Dynamic {
-			/**
- 			 * Checks if the click input have just been pressed
- 			 */
-
 			var clicker:String = click.toLowerCase();
 			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
  			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
  			var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
 
- 			if (FlxG.justPressedRight && right) {
+ 			if (FlxG.mouse.justPressedRight && right) {
  				// The right button has just been pressed
  				return true;
  			} else if (FlxG.mouse.justPressedMiddle && middle) {
@@ -153,10 +157,13 @@ class FlxThings
 			}
 		}
 
+		/**
+		 * Cheks if the `click` param has been released
+		 * @param click for evaluating
+		 * @param returnFalse returns false if it didn't
+		 * @return Dynamic
+		 */
 		public function mouseJustReleased(click:String, ?returnFalse:Bool = false):Dynamic {
- 			/**
- 			 * Checks if the click input has been released
- 			 */
  			var clicker:String = click.toLowerCase();
  			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
  			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
@@ -174,10 +181,13 @@ class FlxThings
 			}
 		}
 
+		/**
+		 * Cheks if the `click` param has been pressed
+		 * @param click for evaluating
+		 * @param returnFalse returns false if it didn't
+		 * @return Dynamic
+		 */
 		public function mousePressed(click:String, ?returnFalse:Bool = false):Dynamic {
- 			/**
- 			 * Checks if the click input has pressed
- 			 */
  			var clicker:String = click.toLowerCase();
  			var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
  			var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
@@ -219,9 +229,14 @@ class FlxThings
 	{
 		class NewFlxColor extends FlxColor
 		{
+			/**
+			 * returns the color of the string gived
+			 * @param color 
+			 * @return `FlxColor`
+			 */
 			public function returnColor(color:String):FlxColor {
 				var wtf:FlxColor = FlxColor.fromCMYK(Math.random(), Math.random(), Math.random(), Math.random(), 1);
-				var colors:Array<Array<String><Dynamic><Dynamic>> = [
+				var colors:Array<Array<Dynamic>> = [
 					//[name,    flxColor or other name,     flxColor in case that other name],
 					["transparent", 0x00000000],
 					['white', 0xFFFFFFFF],
