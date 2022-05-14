@@ -221,6 +221,7 @@ class FlxThings
 		{
 			public function returnColor(color:String):FlxColor {
 				var returnColor:FlxColor;
+				var colors:Array<Array<String><FlxColor>> = [] //i dont know if this shit will work
 				switch(color.toUpperCase()) {
 					case "TRANSPARENT":
 						returnColor = 0x00000000;
