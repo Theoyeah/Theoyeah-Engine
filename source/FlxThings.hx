@@ -222,7 +222,16 @@ class FlxThings
 			public function returnColor(color:String):FlxColor {
 				var returnColor:FlxColor;
 				var colors:Array<Array<String><FlxColor>> = [
-					["transparent", 0x00000000]
+					["transparent", 0x00000000],
+					['white', 0xFFFFFFFF],
+					['gray', 0xFF808080],
+					['black', 0xFF000000],
+					['green', 0xFF008000],
+					['lime', 0xFF00FF00],
+					["yellow", 0xFFFFFF00],
+					['orange', 0xFFFFA500],
+					['red', 0xFFFF0000],
+					['purple', 0xFF800080]
 				]; //please, fill up this with colors
 				for (i in colors) {
 					if (colors[i][0].toLowerCase() == color.toLowerCase()) {
