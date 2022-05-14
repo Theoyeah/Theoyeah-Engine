@@ -192,7 +192,11 @@ class TitleState extends MusicBeatState
 			StoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
 		}
 
-		FlxG.mouse.visible = false;
+		#if ACTIVATE_MOUSE
+			FlxG.mouse.visible = true;
+		#else
+			FlxG.mouse.visible = false;
+		#end
 		#if FREEPLAY
 		MusicBeatState.switchState(new FreeplayState());
 		#elseif CHARTING
