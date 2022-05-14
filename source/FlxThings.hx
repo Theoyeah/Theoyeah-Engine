@@ -221,8 +221,16 @@ class FlxThings
 		{
 			public function returnColor(color:String):FlxColor {
 				var returnColor:FlxColor;
-				var colors:Array<Array<String><FlxColor>> = [] //i dont know if this shit will work
-				switch(color.toUpperCase()) {
+				var colors:Array<Array<String><FlxColor>> = [
+					["transparent", 0x00000000]
+				]; //please, fill up this with colors
+				for (i in colors) {
+					if (colors[i][0].toLowerCase() == color.toLowerCase()) {
+						return colors[i][1];
+					}
+				}
+				return 0x00000000; //in case that it didnt found any color, return transparent
+				/*switch(color.toUpperCase()) {
 					case "TRANSPARENT":
 						returnColor = 0x00000000;
 					case "WHITE":
@@ -256,7 +264,7 @@ class FlxThings
 					default: 
 						returnColor = 0x00000000; //in case there isn't any color, it will return transparent
 				}
-				return returnColor;
+				return returnColor;*/
 			}
 
 		}
