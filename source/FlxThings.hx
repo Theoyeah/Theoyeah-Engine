@@ -52,6 +52,27 @@ using StringTools;
 /*
 stoled from HaxeFlixel Docs!! But better!
 */
+class Random {
+	public static inline function bool():Bool
+ 	{
+ 		return Math.random() < 0.5;
+ 	}
+
+ 	public static inline function int(from:Int, to:Int):Int
+ 	{
+ 		return from + Math.floor(((to - from) * Math.random()));
+ 	}
+
+ 	public static inline function float(from:Float, to:Float):Float
+ 	{
+ 		return from + ((to - from) * Math.random());
+ 	}
+
+ 	public static inline function fromArray<T>(arr:Array<T>):Null<T>
+ 	{
+ 		return (arr != null && arr.length > 0) ? arr[int(0, arr.length - 1)] : null;
+ 	}
+}
 class FlxThings
 {
 	var nothing:Dynamic;
