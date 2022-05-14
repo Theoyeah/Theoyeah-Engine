@@ -320,13 +320,7 @@ class NoteOffsetState extends MusicBeatState
 					/*before:
 					//var addNum:Int = holdingObjectType? 2 : 0;
 					//now:*/
-					var addNum_:Int = if(holdingObjectType == 'nums') {
-						2; //look at the ClientPrefs file to understand this
-					} else if(holdingObjectType == 'rating') {
-						0;
-					} else {
-						4;
-					}
+					var addNum_:Int = if(holdingObjectType == 'nums') 2 else if(holdingObjectType == 'rating') 0 else if(holdingObjectType != null) 4; //look at the ClientPrefs file to understand this
 					ClientPrefs.comboOffset[addNum_] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
 					ClientPrefs.comboOffset[addNum_ + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
 					repositionCombo();
@@ -335,9 +329,10 @@ class NoteOffsetState extends MusicBeatState
 
 			if(controls.RESET)
 			{
-				for (i in 0...ClientPrefs.comboOffset.length)
+				for (i in 0...ClientPrefs.comboOffset.length) //should't be this like this: length-1 ?
 				{
-					ClientPrefs.comboOffset[i] = 0;
+					if(ClientPrefs.comboOffset[i] != null)
+						ClientPrefs.comboOffset[i] = 0;
 				}
 				repositionCombo();
 			}
@@ -443,6 +438,9 @@ class NoteOffsetState extends MusicBeatState
 		lastBeatHit = curBeat;
 	}
 
+	/**
+	 * Changes the position of `rating`, `combosprshit` and `comboNums`
+	 */
 	function repositionCombo()
 	{
 		rating.screenCenter();
@@ -477,6 +475,9 @@ class NoteOffsetState extends MusicBeatState
 		}
 	}
 
+	/**
+	 * Reloads the texts
+	 */
 	function reloadTexts()
 	{
 		for (i in 0...dumbTexts.length)
@@ -492,6 +493,7 @@ class NoteOffsetState extends MusicBeatState
 				case 5: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[4] + ', ' + ClientPrefs.comboOffset[5] + ']';
 			}
 		}
+		trace("texts reloaded");
 	}
 
 	function updateNoteDelay()
