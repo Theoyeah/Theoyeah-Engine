@@ -95,7 +95,9 @@ class ClientPrefs {
 		'debug_2'		=> [EIGHT, NONE],
 		
 		'zoom+'                 => [Z, NONE],
-		'zoom-'                 => [X, NONE]
+		'zoom-'                 => [X, NONE],
+		'decrease'              => [Q, NONE],
+		'increase'              => [E, NONE]
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
