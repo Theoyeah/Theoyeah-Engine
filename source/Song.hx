@@ -31,7 +31,7 @@ typedef SwagSong =
 	var splashSkin:String;
 	var validScore:Bool;
 }
-
+ 
 class Song
 {
 	public var song:String;
