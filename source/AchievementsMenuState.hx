@@ -47,10 +47,12 @@ class AchievementsMenuState extends MusicBeatState
 		add(grpOptions);
 
 		Achievements.loadAchievements();
-		for (i in 0...Achievements.achievementsStuff.length-1) {
-			if(!Achievements.achievementsStuff[i][4] || Achievements.achievementsMap.exists(Achievements.achievementsStuff[i][2])) {
-				options.push(Achievements.achievementsStuff[i]);
-				achievementIndex.push(i);
+		for (i in 0...Achievements.achievementsStuff.length) {
+			if(Achievements.achievementsStuff[i][2] != null) {
+				if(!Achievements.achievementsStuff[i][4] || Achievements.achievementsMap.exists(Achievements.achievementsStuff[i][2])) {
+					options.push(Achievements.achievementsStuff[i]);
+					achievementIndex.push(i);
+				}
 			}
 		}
 
@@ -124,9 +126,11 @@ class AchievementsMenuState extends MusicBeatState
 		}
 
 		for (i in 0...achievementArray.length) {
-			achievementArray[i].alpha = 0.6;
-			if(i == curSelected) {
-				achievementArray[i].alpha = 1;
+			if(achievementArray[i] != null) {
+				achievementArray[i].alpha = 0.6;
+				if(i == curSelected) {
+					achievementArray[i].alpha = 1;
+				}
 			}
 		}
 		descText.text = Achievements.achievementsStuff[achievementIndex[curSelected]][1];
