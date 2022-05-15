@@ -24,6 +24,7 @@ body:
       options:
         - Lua
         - Source
+        - F*ck is from the engine
     validations:
       required: true
 
@@ -38,6 +39,7 @@ body:
         - "HTML5"
         - "Flash/Air-based target"
         - "Neko, HashLink, or other build system"
+        - "FROM THE ENGINE!!!!"
     validations:
       required: true
 
