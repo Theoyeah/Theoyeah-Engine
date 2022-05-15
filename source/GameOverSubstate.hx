@@ -67,7 +67,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.camera.target = null;
 
 		boyfriend.playAnim('firstDeath');
-		FlxG.camera.flash(FlxColor.RED, 0.5);
+		if(ClientPrefs.flashing) {
+			FlxG.camera.flash(FlxColor.RED, 0.5);
+		}
 
 		var exclude:Array<Int> = [];
 
