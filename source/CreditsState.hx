@@ -138,7 +138,7 @@ class CreditsState extends MusicBeatState
 					Paths.currentModDirectory = creditsStuff[i][5];
 				}
 
-				var icon:AttachedSprite = new AttachedSprite('credits/' + creditsStuff[i][1]);
+				var icon:AttachedSprite = if(creditsStuff[i][1] == '') new AttachedSprite('credits/unknown') else new AttachedSprite('credits/' + creditsStuff[i][1]);
 				icon.xAdd = optionText.width + 10;
 				icon.sprTracker = optionText;
 	
