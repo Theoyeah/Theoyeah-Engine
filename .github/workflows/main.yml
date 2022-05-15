@@ -99,7 +99,7 @@ jobs:
         with:
           name: windowsBuild
           path: export/release/windows/bin
-      buildWindows32:
+  buildWindows32:
     runs-on: windows-latest
     
     steps:
