@@ -327,7 +327,7 @@ class CreditsState extends MusicBeatState
 	#end
 
 	function getCurrentBGColor() {
-		var bgColor:String = if(creditsStuff[curSelected[4] == null) 'FFFFFF' else creditsStuff[curSelected][4]; //if it didnt found any color, put the color FFFFFF
+		var bgColor:String = if(creditsStuff[curSelected][4] == null) 'FFFFFF' else creditsStuff[curSelected][4]; //if it didnt found any color, put the color FFFFFF
 
 		if(!bgColor.startsWith('0x')) {
 			bgColor = '0xFF' + bgColor;
