@@ -87,9 +87,9 @@ class CreditsState extends MusicBeatState
 			['Wither362',           'wither',               'Another coolder (do you get it?)',/*yeah, from coder and cool*/  'https://www.youtube.com/channel/UCsVr-qBLxT0uSWH037BmlHw',     'FF0000'/*i hate red, but i dont know to put other colors so...*/],
 			[''],
 			['Pull Requests and Code used'],
-			['Mayo76',	        'unknown',	'Made some code for achivements',		'https://github.com/Mayo76',		'FFFFFF'],
-			['magnumsrtisswag ',	'unknown',	'Creator of stage editor',		'https://github.com/magnumsrtisswag',		'FFFFFF'],
-			['BeastlyGhost',        'unknown',     'Creator of v0.3 FPS Counter (Base Game)\n(Memory used)', 'https://github.com/BeastlyGhost', 'FFFFFF'],
+			['Mayo76',	        'unknown',	'Made some code for achivements',		'https://github.com/Mayo76'   /*, 'FFFFFF' */], //there isnt color because it isnt needed
+			['magnumsrtisswag ',	'unknown',	'Creator of stage editor',		'https://github.com/magnumsrtisswag'                 ],
+			['BeastlyGhost',        'unknown',     'Creator of v0.3 FPS Counter (Base Game)\n(Memory used)', 'https://github.com/BeastlyGhost'   ],
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',							'https://twitter.com/Shadow_Mario_',	'444444'],
@@ -327,7 +327,8 @@ class CreditsState extends MusicBeatState
 	#end
 
 	function getCurrentBGColor() {
-		var bgColor:String = creditsStuff[curSelected][4];
+		var bgColor:String = if(creditsStuff[curSelected[4] == null) 'FFFFFF' else creditsStuff[curSelected][4]; //if it didnt found any color, put the color FFFFFF
+
 		if(!bgColor.startsWith('0x')) {
 			bgColor = '0xFF' + bgColor;
 		}
