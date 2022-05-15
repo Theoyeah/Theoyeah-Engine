@@ -287,21 +287,21 @@ class NoteOffsetState extends MusicBeatState
 				FlxG.mouse.getScreenPosition(camHUD, startMousePos);
 				if (omg(comboNums))
 				{
-					holdingObjectType = 'nums'; //this was true
+					holdingObjectType = 2; //this was true
 					startComboOffset.x = ClientPrefs.comboOffset[2]; //x
 					startComboOffset.y = ClientPrefs.comboOffset[3]; //y
 					trace("you're holding the combo nums");
 				}
 				else if (omg(rating))
 				{
-					holdingObjectType = 'rating'; //this was false
+					holdingObjectType = 0; //this was false
 					startComboOffset.x = ClientPrefs.comboOffset[0]; //x
 					startComboOffset.y = ClientPrefs.comboOffset[1]; //y
 					trace("you're holding the rating thing");
 				}
 				else if (omg(combosprshit))
 				{
-					holdingObjectType = 'combo';
+					holdingObjectType = 4;
 					startComboOffset.x = ClientPrefs.comboOffset[4]; //x
 					startComboOffset.y = ClientPrefs.comboOffset[5]; //y
 					trace("you're holding the combo thing");
@@ -314,7 +314,6 @@ class NoteOffsetState extends MusicBeatState
 
 			if(holdingObjectType != null)
 			{
-				var addNum_:Int = -1;
 				if(FlxG.mouse.justMoved)
 				{
 					var mousePos:FlxPoint = FlxG.mouse.getScreenPosition(camHUD);
@@ -322,17 +321,9 @@ class NoteOffsetState extends MusicBeatState
 					//var addNum:Int = holdingObjectType? 2 : 0;
 					//now:*/
 
-					if(holdingObjectType == 'nums') {
-						addNum_ = 2;
-					} else if(holdingObjectType == 'rating') {
-						addNum_ = 0;
-					} else if(holdingObjectType != null) {
-						addNum_ = 4;
-					} //look at the ClientPrefs file to understand this
-
-					if(addNum_ != -1) {
-						ClientPrefs.comboOffset[addNum_ + 0] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
-						ClientPrefs.comboOffset[addNum_ + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
+					if(holdingObjectType >= 0) {
+						ClientPrefs.comboOffset[holdingObjectType] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
+						ClientPrefs.comboOffset[holdingObjectType + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
 						repositionCombo();
 					}
 				}
