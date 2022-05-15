@@ -339,16 +339,17 @@ class ChartingState extends MusicBeatState
 		UI_box.y = 25;
 		UI_box.scrollFactor.set();
 
+		var keyBonds = ClientPrefs.keyBinds;
 		text =
 		"W/S or Mouse Wheel - Change Conductor's strum time
 		\nA or Left/D or Right - Go to the previous/next section
 		\nHold Shift to move 4x faster
 		\nHold Control and click on an arrow to select it
-		\nZ/X - Zoom in/out
+		\n" + keyBonds["zoom+"][0] + "/" + keyBonds["zoom-"][0] + " - Zoom in/out
 		\n
 		\nEsc - Test your chart inside Chart Editor
 		\nEnter - Play your chart
-		\nQ/E - Decrease/Increase Note Sustain Length
+		\n" + keyBonds["decrease"][0] + "/" + keyBonds["increase"][0] + " - Decrease/Increase Note Sustain Length
 		\nSpace - Stop/Resume song";
 
 		var tipTextArray:Array<String> = text.split('\n');
