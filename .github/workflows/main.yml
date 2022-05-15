@@ -1,4 +1,3 @@
-# This is a basic workflow to help you get started with Actions
 
 name: Build
 
@@ -54,7 +53,7 @@ jobs:
       - name: Compile
         run: haxelib run lime build Project.xml linux --app-version="4.0.0-${{ github.run_id}}"
       - name: Publish Artifact
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v3.0.0
         with:
           name: linuxBuild
           path: 'export/release/linux/bin' 
@@ -95,7 +94,7 @@ jobs:
       - name: Compile
         run: haxelib run lime build windows --app-version="4.0.0-${{ github.run_id}}"
       - name: Publish Artifact
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v3.0.0
         with:
           name: windowsBuild
           path: export/release/windows/bin
@@ -135,16 +134,14 @@ jobs:
       - name: Compile
         run: haxelib run lime build mac --app-version="4.0.0-${{ github.run_id}}"
       - name: Publish Artifact
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v3.0.0
         with:
           name: macBuild
           path: export/release/macos/bin
-          
-          
-    buildAndroid:
+  buildAndroid:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -152,23 +149,23 @@ jobs:
       - uses: krdlab/setup-haxe@v1
         with:
           haxe-version: 4.2.4
-
+          
       - name: Cache haxelib path
         uses: actions/cache@v2
         with:
           path: |
             %~/haxelib%
           key: ${{ runner.os }}-android
-
+          
       - name: Setup Android SDK Tools
         uses: android-actions/setup-android@v2.0.2
-
+        
       - name: Setup Java JDK
         uses: actions/setup-java@v2.3.1
         with:
           distribution: 'zulu'
           java-version: '11'
-
+        
       - uses: nttld/setup-ndk@v1
         with:
           ndk-version: r15c
