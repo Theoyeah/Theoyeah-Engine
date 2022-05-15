@@ -1,5 +1,6 @@
 package editors;
 
+import ModsMenuState.ModMetadata;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -27,7 +28,8 @@ class MasterEditorMenu extends MusicBeatState
 		'Dialogue Portrait Editor',
 		'Character Editor',
 		'Chart Editor',
-		'Stage Editor'
+		'Stage Editor',
+		'Mod Manager'
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
@@ -127,7 +129,10 @@ class MasterEditorMenu extends MusicBeatState
 				case 'Chart Editor'://felt it would be cool maybe
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
 				case 'Stage Editor':
-			    		LoadingState.loadAndSwitchState(new StageEditorState(), false);
+			    	LoadingState.loadAndSwitchState(new StageEditorState(), false);
+				case 'Mod Manager':
+					LoadingState.loadAndSwitchState(new ModsMenuState(), false);
+					   
 			}
 			FlxG.sound.music.volume = 0;
 			#if PRELOAD_ALL

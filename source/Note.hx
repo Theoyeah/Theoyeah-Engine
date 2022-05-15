@@ -106,6 +106,7 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
+					hitByOpponent = false;
 					if(isSustainNote) {
 						missHealth = 0.1;
 					} else {
@@ -119,6 +120,7 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
+					hitByOpponent = false;
 					if(isSustainNote) {
 						missHealth = 0.5;
 					} else {
@@ -132,6 +134,7 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
+					hitByOpponent = false;
 					hitCausesMiss = true;
 				case 'Window Note':
 					ignoreNote = mustPress;
@@ -139,12 +142,14 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
+					hitByOpponent = false;
 					hitCausesMiss = true;
 				case 'Warning Note':
 					ignoreNote = mustPress;
 					reloadNote('WARNING');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
+				    hitByOpponent = false;
 					colorSwap.brightness = 0;
 					if (tooLate) {
 						missHealth = 500;
@@ -156,6 +161,7 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
+					hitByOpponent = false;
 					hitCausesMiss = true;
 				case 'No Animation':
 					noAnimation = true;
