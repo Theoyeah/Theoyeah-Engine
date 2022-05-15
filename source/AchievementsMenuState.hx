@@ -12,7 +12,6 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
-import lime.app.Application;
 import flixel.FlxSubState;
 import Achievements;
 
@@ -27,14 +26,11 @@ class AchievementsMenuState extends MusicBeatState
 	private var achievementArray:Array<AttachedAchievement> = [];
 	private var achievementIndex:Array<Int> = [];
 	private var descText:FlxText;
-	var descBox:AttachedSprite;
 
 	override function create() {
 		#if desktop
 		DiscordClient.changePresence("Achievements Menu", null);
 		#end
-
-		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + "Awards Menu";
 
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
@@ -48,11 +44,9 @@ class AchievementsMenuState extends MusicBeatState
 
 		Achievements.loadAchievements();
 		for (i in 0...Achievements.achievementsStuff.length) {
-			if(Achievements.achievementsStuff[i][2] != null) {
-				if(!Achievements.achievementsStuff[i][4] || Achievements.achievementsMap.exists(Achievements.achievementsStuff[i][2])) {
-					options.push(Achievements.achievementsStuff[i]);
-					achievementIndex.push(i);
-				}
+			if(!Achievements.achievementsStuff[i][4] || Achievements.achievementsMap.exists(Achievements.achievementsStuff[i][2])) {
+				options.push(Achievements.achievementsStuff[i]);
+				achievementIndex.push(i);
 			}
 		}
 
@@ -75,17 +69,8 @@ class AchievementsMenuState extends MusicBeatState
 		descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		descText.scrollFactor.set();
 		descText.borderSize = 2.4;
-		descBox.sprTracker = descText;
 		add(descText);
 		changeSelection();
-
-		descBox = new AttachedSprite();
-		descBox.makeGraphic(1, 1, FlxColor.BLACK);
-		descBox.xAdd = -10;
-		descBox.yAdd = -10;
-		descBox.alphaMult = 0.6;
-		descBox.alpha = 0.6;
-		add(descBox);
 
 		super.create();
 	}
@@ -126,11 +111,9 @@ class AchievementsMenuState extends MusicBeatState
 		}
 
 		for (i in 0...achievementArray.length) {
-			if(achievementArray[i] != null) {
-				achievementArray[i].alpha = 0.6;
-				if(i == curSelected) {
-					achievementArray[i].alpha = 1;
-				}
+			achievementArray[i].alpha = 0.6;
+			if(i == curSelected) {
+				achievementArray[i].alpha = 1;
 			}
 		}
 		descText.text = Achievements.achievementsStuff[achievementIndex[curSelected]][1];
