@@ -47,8 +47,10 @@ class Achievements {
 
 	public static function getAchievementIndex(name:String) {
 		for (i in 0...achievementsStuff.length) {
-			if(achievementsStuff[i][2] == name) {
-				return i;
+			if(achievementsStuff[i][2] != null) {
+				if(achievementsStuff[i][2] == name) {
+					return i;
+				}
 			}
 		}
 		return -1;
