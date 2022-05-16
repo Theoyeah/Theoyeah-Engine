@@ -3610,8 +3610,8 @@ class PlayState extends MusicBeatState
 				totalNotesHit += 0.5;
 				note.ratingMod = 0.5;
 				#if MORE_COMBO_MORE_SCORE
-				if(combo > 0) {
-					score = 100 * combo - 20;
+				if(combo > 1) {
+					score = 100 * combo - 40;
 				} else {
 					score = 100;
 				}
@@ -3623,8 +3623,8 @@ class PlayState extends MusicBeatState
 				totalNotesHit += 0.75;
 				note.ratingMod = 0.75;
 				#if MORE_COMBO_MORE_SCORE
-				if(combo > 0) {
-					score = 200 * combo - 20;
+				if(combo > 1) {
+					score = 200 * combo - 80;
 				} else {
 					score = 200;
 				}
@@ -3636,8 +3636,8 @@ class PlayState extends MusicBeatState
 				totalNotesHit += 0.85;
 				note.ratingMod = 0.85;
 				#if MORE_COMBO_MORE_SCORE
-				if(combo > 0) {
-					score = 350 * combo - 20;
+				if(combo > 1) {
+					score = 350 * combo - 100;
 				} else {
 					score = 350;
 				}
@@ -3648,8 +3648,8 @@ class PlayState extends MusicBeatState
 			case "marvelous": // marvelous
 				totalNotesHit += 1;
 				#if MORE_COMBO_MORE_SCORE
-				if(combo > 0) {
-					score = 500 * combo - 20;
+				if(combo > 1) {
+					score = 500 * combo - 120;
 				} else {
 					score = 500;
 				}
