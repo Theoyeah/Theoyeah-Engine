@@ -1148,14 +1148,14 @@ class PlayState extends MusicBeatState
 
 
 		if (healthDrain > 0 && health > 0.1)
+		{
+			if (health < 0.1)
 			{
-				if (health < 0.1)
-				{
-					health = 0.1;
-				}
-				health -= 0.001;
-				healthDrain -= 0.0001;
+				health = 0.1;
 			}
+			health -= 0.001;
+			healthDrain -= 0.0001;
+		}
 		
 		var daSong:String = Paths.formatToSongPath(curSong);
 		if (isStoryMode && !seenCutscene)
@@ -1418,32 +1418,33 @@ class PlayState extends MusicBeatState
       
   }
 
-  public function removeShaderFromCamera(cam:String,effect:ShaderEffect){
-      
-      
-        switch(cam.toLowerCase()) {
-            case 'camhud' | 'hud': 
-    camHUDShaders.remove(effect);
-    var newCamEffects:Array<BitmapFilter>=[];
-    for(i in camHUDShaders){
-      newCamEffects.push(new ShaderFilter(i.shader));
+  public function removeShaderFromCamera(cam:String,effect:ShaderEffect) {
+
+    switch(cam.toLowerCase()) {
+        case 'camhud' | 'hud': 
+    		camHUDShaders.remove(effect);
+    		var newCamEffects:Array<BitmapFilter>=[];
+			for(i in camHUDShaders) {
+				newCamEffects.push(new ShaderFilter(i.shader));
+			}
+			camHUD.setFilters(newCamEffects);
+
+        case 'camother' | 'other': 
+            camOtherShaders.remove(effect);
+            var newCamEffects:Array<BitmapFilter>=[];
+            for(i in camOtherShaders) {
+				newCamEffects.push(new ShaderFilter(i.shader));
+            }
+            camOther.setFilters(newCamEffects);
+
+        default: 
+            camGameShaders.remove(effect);
+            var newCamEffects:Array<BitmapFilter>=[];
+            for(i in camGameShaders){
+            	newCamEffects.push(new ShaderFilter(i.shader));
+            }
+            camGame.setFilters(newCamEffects);
     }
-    camHUD.setFilters(newCamEffects);
-            case 'camother' | 'other': 
-                    camOtherShaders.remove(effect);
-                    var newCamEffects:Array<BitmapFilter>=[];
-                    for(i in camOtherShaders){
-                      newCamEffects.push(new ShaderFilter(i.shader));
-                    }
-                    camOther.setFilters(newCamEffects);
-            default: 
-                camGameShaders.remove(effect);
-                var newCamEffects:Array<BitmapFilter>=[];
-                for(i in camGameShaders){
-                  newCamEffects.push(new ShaderFilter(i.shader));
-                }
-                camGame.setFilters(newCamEffects);
-        }
         
       
   }
@@ -3572,7 +3573,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public var totalPlayed:Int = 0;
-	public var totalNotesHit:Float = 0.0;
+	public var totalNotesHit:Float = 0.0; // why this is a float value?
 
 	public var showCombo:Bool = true;
 	public var showRating:Bool = true;
@@ -3608,20 +3609,53 @@ class PlayState extends MusicBeatState
 			case "bad": // bad
 				totalNotesHit += 0.5;
 				note.ratingMod = 0.5;
+				#if MORE_COMBO_MORE_SCORE
+				if(combo > 0) {
+					score = 100 * combo - 20;
+				} else {
+					score = 100;
+				}
+				#else
 				score = 100;
+				#end
 				if(!note.ratingDisabled) bads++;
 			case "good": // good
 				totalNotesHit += 0.75;
 				note.ratingMod = 0.75;
+				#if MORE_COMBO_MORE_SCORE
+				if(combo > 0) {
+					score = 200 * combo - 20;
+				} else {
+					score = 200;
+				}
+				#else
 				score = 200;
+				#end
 				if(!note.ratingDisabled) goods++;
 			case "sick": // sick
 				totalNotesHit += 0.85;
 				note.ratingMod = 0.85;
+				#if MORE_COMBO_MORE_SCORE
+				if(combo > 0) {
+					score = 350 * combo - 20;
+				} else {
+					score = 350;
+				}
+				#else
+				score = 350;
+				#end
 				if(!note.ratingDisabled) sicks++;
 			case "marvelous": // marvelous
 				totalNotesHit += 1;
+				#if MORE_COMBO_MORE_SCORE
+				if(combo > 0) {
+					score = 500 * combo - 20;
+				} else {
+					score = 500;
+				}
+				#else
 				score = 500;
+				#end
 				if(!note.ratingDisabled) marvelous++;
 		}
 		note.rating = daRating;
