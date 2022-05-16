@@ -139,7 +139,7 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: windowsBuild32
-          path: /export/32bit/windows/bin
+          path: /export/32bit/release/windows/bin
   buildMac:
     runs-on: macos-latest
 
