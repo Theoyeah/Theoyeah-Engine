@@ -1,4 +1,4 @@
-name: Build32
+name: Windows x32 build
 
 # Controls when the action will run. 
 on:
