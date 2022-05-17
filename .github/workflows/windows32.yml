@@ -1,4 +1,4 @@
-name: Windows x32 build
+name: Windows x32
 
 # Controls when the action will run. 
 on:
@@ -52,5 +52,5 @@ jobs:
       - name: Publish Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: windowsBuild32
+          name: windows x32
           path: export/release/windows/bin
