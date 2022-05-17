@@ -14,6 +14,12 @@ Look at the [`Project.xml`](https://github.com/Theoyeah/Theoyeah-Engine/blob/mai
 
 - New Logo
 - New Icon
+- Added some custom easter eggs
+- Stage Editor (made by @magnumsrtisswag)
+- New fps counter (by @BeastlyGhost)
+- Fixed null error in the chart editor
+- New option category: Music
+- Judgement counter!
 - Winning Icons (from Mic up' Engine)
 - new funkay.png
 - Fucked difficulty 
