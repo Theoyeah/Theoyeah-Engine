@@ -143,6 +143,42 @@ class FlxThings
 			}
 
 		}
+		class NewFlxShapeCross extends FlxShapeCross
+		{
+			public function horizontalVertical(flxShape:FlxShapeCross, horizontal:Bool, length:Bool, ?set:Bool = false, ?valueSet:Float):Dynamic {
+				var flx:FlxShapeCross = flxShape;
+				if(horizontal) {
+					if(set) {
+						if(length) {
+							flx.horizontalLength = valueSet;
+						} else {
+							flx.horizontalThickness = valueSet;
+						}
+					} else {
+						if(length) {
+							return flx.horizontalLength;
+						} else {
+							return flx.horizontalThickness;
+						}
+					}
+				} else {
+					if(set) {
+						if(length) {
+							flx.verticalLength = valueSet;
+						} else {
+							flx.verticalThickness = valueSet;
+						}
+					} else {
+						if(length) {
+							return flx.verticalLength;
+						} else {
+							return flx.verticalThickness;
+						}
+					}
+				}
+			}
+			
+		}
 
 	}
 
