@@ -3,8 +3,8 @@
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?include_prereleases&label=latest%20version)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?style=flat-square&label=latest%20stable%20version)](https://github.com/Theoyeah/Theoyeah-Engine/releases/latest)
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/Theoyeah/Theoyeah-Engine/latest?style=)
-[![GitHub all releases](https://img.shields.io/github/downloads/Theoyeah/Theoyeah-Engine/total?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/releases) [![GitHub issues](https://img.shields.io/github/issues/Theoyeah/Theoyeah-Engine?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/pulls) []() []()
-[![GitHub](https://img.shields.io/github/license/Theoyeah/Theoyeah-Engine?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/LICENSE)
+[![GitHub all releases downloaded](https://img.shields.io/github/downloads/Theoyeah/Theoyeah-Engine/total?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/releases) [![GitHub issues](https://img.shields.io/github/issues/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/pulls) []() []()
+[![GitHub LICENSE](https://img.shields.io/github/license/Theoyeah/Theoyeah-Engine?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/LICENSE) ![GitHub repo size](https://img.shields.io/github/repo-size/Theoyeah/Theoyeah-Engine) ![Lines of code](https://img.shields.io/tokei/lines/github/Theoyeah/Theoyeah-Engine) ![Supported platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20macOS%2C%20linux-red)
 
 
 
