@@ -143,6 +143,19 @@ class FlxThings
 			}
 
 		}
+		class Circumference
+		{
+			public function getPerimeter(radius:Float):Float {
+				return Math.PI * 2 * radius;
+			}
+			public function getLengthRadius(radius:Float, numberOfDegrees:Float):Float {
+				return (Math.PI*2*radius*numberOfDegrees)/360;
+			}
+			public function getArea(radius:Float):Float {
+				return Math.PI * Math.pow(radius, 2);
+			}
+			
+		}
 		class NewFlxShapeCross extends FlxShapeCross
 		{
 			public function horizontalVertical(flxShape:FlxShapeCross, horizontal:Bool, length:Bool, ?set:Bool = false, ?valueSet:Float):Dynamic {
