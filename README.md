@@ -1,6 +1,7 @@
 ![logo](https://github.com/Theoyeah/Theoyeah-Fnf-Engine/blob/main/assets/preload/images/logo.png)
 
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?include_prereleases&label=latest%20version) 
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?include_prereleases&label=latest%20version)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?style=flat-square&label=latest%20stable%20version)](https://github.com/Theoyeah/Theoyeah-Engine/releases/latest)
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/Theoyeah/Theoyeah-Engine/latest?style=)
 [![GitHub all releases](https://img.shields.io/github/downloads/Theoyeah/Theoyeah-Engine/total?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/releases) [![GitHub issues](https://img.shields.io/github/issues/Theoyeah/Theoyeah-Engine?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/pulls) []() []()
 [![GitHub](https://img.shields.io/github/license/Theoyeah/Theoyeah-Engine?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/LICENSE)
