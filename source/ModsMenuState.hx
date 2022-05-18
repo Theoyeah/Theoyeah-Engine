@@ -759,7 +759,7 @@ class ModMetadata
 				}
 				
 				this.restart = restart;
-				if(tags != null) && tags.length > 0) {
+				if(tags != null && tags.length > 0) {
 					this.tags = tags;
 				}
 				/*
