@@ -38,7 +38,7 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 - added flash when selecting something
 - red flash when you die
 - added marvelous
-- Kade Score text option!
+- [Kade Score Text](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/README.md#-2)!
 - insta-kill note
 - funni 9 button easter egg icon
 - Shaders are real
