@@ -49,7 +49,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);*/
 
 		var option:Option = new Option('Kade Engine Score Text',
-			"If checked, the text below the health bar\nwill change to Kade Engine (except the style).",
+			"If checked, the text below the health bar\nwill change to Kade Engine.",
 			'kadetxt',
 			'bool',
 			false);
