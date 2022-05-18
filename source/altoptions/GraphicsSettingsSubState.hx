@@ -1,4 +1,4 @@
-package options;
+package altoptions;
 
 #if desktop
 import Discord.DiscordClient;
@@ -66,6 +66,8 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		option.displayFormat = '%v FPS';
 		option.onChange = onChangeFramerate;
 		#end
+			
+
 
 		/*
 		var option:Option = new Option('Persistent Cached Data',
@@ -76,12 +78,14 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		option.onChange = onChangePersistentData; //Persistent Cached Data changes FlxGraphic.defaultPersist
 		addOption(option);
 		*/
-		var option:Option = new Option('Shaders', 
-		'If checked, you can use shaders to customize your gameplay!', 
-		'shaders', 
-		'bool', 
-		true); 
-	addOption(option);
+
+			//I'd suggest using "Low Quality" as an example for making your own option since it is the simplest here
+			var option:Option = new Option('Shaders', 
+			'If checked, you can use shaders to customize your gameplay!', 
+			'shaders', 
+			'bool', 
+			true); 
+		addOption(option);
 
 		super();
 	}
@@ -97,6 +101,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			}
 		}
 	}
+
 
 	function onChangeFramerate()
 	{

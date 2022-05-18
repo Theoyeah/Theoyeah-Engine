@@ -1372,6 +1372,7 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
+
 	public function addShaderToCamera(cam:String,effect:ShaderEffect){//STOLE FROM ANDROMEDA AND PSYCH ENGINE 0.5.1 WITH SHADERS
       
       
