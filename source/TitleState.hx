@@ -56,6 +56,7 @@ class TitleState extends MusicBeatState
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
 
 	public static var initialized:Bool = false;
+	public var camZooming:Bool = false;
 
 	var blackScreen:FlxSprite;
 	var credGroup:FlxGroup;
@@ -624,7 +625,13 @@ class TitleState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
-
+		
+			if(ClientPrefs.camZooms) {
+        FlxG.camera.zoom += 0.055;
+		if(!camZooming) { //Copied from PlayState.hx
+			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.1);
+		}
+	}
 		if(logoBl != null) 
 			logoBl.animation.play('bump', true);
 
