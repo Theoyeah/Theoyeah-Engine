@@ -625,12 +625,12 @@ class TitleState extends MusicBeatState
 	{
 		super.beatHit();
 				
-			if(ClientPrefs.camZooms) {
-        FlxG.camera.zoom += 0.055;
-		if(!camZooming) { //Copied from PlayState.hx
-			FlxTween.tween(FlxG.camera, {zoom: 1}, 0.1);
+		if(ClientPrefs.camZooms) {
+			FlxG.camera.zoom += 0.055;
+			if(!camZooming) { //Copied from PlayState.hx
+				FlxTween.tween(FlxG.camera, {zoom: 1}, 0.1);
+			}
 		}
-	}
 
 		if(logoBl != null) 
 			logoBl.animation.play('bump', true);
