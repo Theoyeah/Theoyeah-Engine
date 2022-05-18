@@ -57,12 +57,18 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		
 		//bedrock can kiss my ass XD
+
+		/**
+		*	nah, rather, I can get here and maybe fix some of these settings for you
+		*	sounds good? -BeastlyGhost
+		**/
+
 		var option:Option = new Option('Rating System:',
 		    "What should your Rating System be?", 
 			'ratingSystem', 
 			'string', 
-			'Bedrock',
-			['Bedrock', 'Psych', 'Forever', 'Andromeda', "Etterna", 'Mania', "None"]);
+			'Default',
+			['Default', 'Psych', 'Forever', 'Kade']);
 		addOption(option);
 		
 			var option:Option = new Option('Kade Engine Input System',
@@ -99,17 +105,10 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool',
 			false);
 		addOption(option);
-
-		var option:Option = new Option('Enable Lane Underlay', //Stolen from DAB
-		'Check for a underlay behind the notes',
-		'laneunderlay',
-		'bool',
-		true);
-		addOption(option);
 		
-		var option:Option = new Option('Lane Underlay',
-		'Set lane underlay (Lane underlay must be enabled)',
-		'laneTransparency',
+		var option:Option = new Option('Lane Underlay Opacity',
+		'Set your lane underlay opacity.\nthis creates a black bar behind the notes for better visibility',
+		'laneAlpha',
 		'float',
 		0);
 		option.minValue = 0;

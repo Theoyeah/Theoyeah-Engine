@@ -70,18 +70,6 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
-	public static var ratingStuff:Array<Dynamic> = [
-		['Its not hard you just suck as hell', 0.2], //From 0% to 19%
-		['skill issue', 0.4], //From 20% to 39%
-		['Bad', 0.5], //From 40% to 49%
-		['Ok', 0.6], //From 50% to 59%
-		['Not Bad', 0.69], //From 60% to 68%
-		['Great', 0.7], //69%
-		['Cool!', 0.8], //From 70% to 79%
-		['Good!', 0.9], //From 80% to 89%
-		['Sick!!', 1], //From 90% to 99%
-		['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
-	];
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
 	public var modchartTimers:Map<String, FlxTimer> = new Map<String, FlxTimer>();
@@ -136,6 +124,9 @@ class PlayState extends MusicBeatState
 	public var eventNotes:Array<EventNote> = [];
 
 	private var strumLine:FlxSprite;
+
+	public var laneunderlay:FlxSprite;
+	public var laneunderlayOpponent:FlxSprite;
 
 	//Handles the new epic mega sexy cam code that i've done
 	private var camFollow:FlxPoint;
@@ -902,6 +893,25 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.downScroll) strumLine.y = FlxG.height - 150;
 		strumLine.scrollFactor.set();
 
+		laneunderlayOpponent = new FlxSprite(0, 0).makeGraphic(110 * 4 + 50, FlxG.height * 2);
+		laneunderlayOpponent.alpha = 0;
+		laneunderlayOpponent.color = FlxColor.BLACK;
+		laneunderlayOpponent.scrollFactor.set();
+
+		laneunderlay = new FlxSprite(0, 0).makeGraphic(110 * 4 + 50, FlxG.height * 2);
+		laneunderlay.alpha = 0;
+		laneunderlay.color = FlxColor.BLACK;
+		laneunderlay.scrollFactor.set();
+
+		if (ClientPrefs.laneAlpha > 0)
+		{
+			if (!ClientPrefs.middleScroll)
+			{
+				add(laneunderlayOpponent);
+			}
+			add(laneunderlay);
+		}
+
 		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
 		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -1110,6 +1120,8 @@ class PlayState extends MusicBeatState
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
+		laneunderlay.cameras = [camHUD];
+		laneunderlayOpponent.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
 		// if (SONG.song == 'South')
@@ -1682,6 +1694,10 @@ class PlayState extends MusicBeatState
 
 			generateStaticArrows(0);
 			generateStaticArrows(1);
+			laneunderlay.x = playerStrums.members[0].x - 25;
+			laneunderlayOpponent.x = opponentStrums.members[0].x - 25;
+			laneunderlay.screenCenter(Y);
+			laneunderlayOpponent.screenCenter(Y);
 			for (i in 0...playerStrums.length) {
 				setOnLuas('defaultPlayerStrumX' + i, playerStrums.members[i].x);
 				setOnLuas('defaultPlayerStrumY' + i, playerStrums.members[i].y);
@@ -1913,6 +1929,10 @@ class PlayState extends MusicBeatState
 		songLength = FlxG.sound.music.length;
 		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
+
+		// it should only show up after the countdown 
+		FlxTween.tween(laneunderlayOpponent, {alpha: ClientPrefs.laneAlpha}, 0.5, {ease: FlxEase.circOut});
+		FlxTween.tween(laneunderlay, {alpha: ClientPrefs.laneAlpha}, 0.5, {ease: FlxEase.circOut});
 		
 		#if desktop
 		// Updating Discord Rich Presence (with Time Left)
@@ -4733,18 +4753,39 @@ class PlayState extends MusicBeatState
 				ratingPercent = Math.min(1, Math.max(0, totalNotesHit / totalPlayed));
 				//trace((totalNotesHit / totalPlayed) + ', Total: ' + totalPlayed + ', notes hit: ' + totalNotesHit);
 
-				// Rating Name
-				if(ratingPercent >= 1)
+				/**
+				*	here we set up the rating names
+				*	you can change them on the Ratings Class
+				*	then just add them here, by default it uses the one named
+				*	"defaultRatings"
+				**/
+
+				var ratings:Array<Dynamic> = Ratings.defaultRatings;
+				switch (ClientPrefs.ratingSystem)
 				{
-					ratingName = ratingStuff[ratingStuff.length-1][0]; //Uses last string
+					case "Psych":
+						ratings = Ratings.psychRatings;
+
+					case "Forever":
+						ratings = Ratings.foreverRatings;
+
+					case "Kade":
+						ratings = Ratings.wife3Ratings;
+				}
+
+				// Rating Name
+				if (ratingPercent >= 1)
+				{
+					var dummyRating = ratings[ratings.length - 1][0];
+					ratingName = dummyRating;
 				}
 				else
 				{
-					for (i in 0...ratingStuff.length-1)
+					for (i in 0...ratings.length - 1)
 					{
-						if(ratingPercent < ratingStuff[i][1])
+						if (ratingPercent < ratings[i][1])
 						{
-							ratingName = ratingStuff[i][0];
+							ratingName = ratings[i][0];
 							break;
 						}
 					}
