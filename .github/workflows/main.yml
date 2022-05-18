@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  buildLinux:
+  Linux:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -58,7 +58,7 @@ jobs:
         with:
           name: linux
           path: 'export/release/linux/bin' 
-  buildWindows:
+  Windows:
     runs-on: windows-latest
     
     steps:
@@ -99,7 +99,7 @@ jobs:
         with:
           name: windows
           path: export/release/windows/bin
-  buildMac:
+  Mac:
     runs-on: macos-latest
 
     steps:
