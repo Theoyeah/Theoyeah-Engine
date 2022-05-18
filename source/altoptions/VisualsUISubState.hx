@@ -41,11 +41,25 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 		
-		var option:Option = new Option('Winning Icons',
-			'If checked, enables extra icon frames',
-			'winningIcon',
+		var option:Option = new Option('Kade Engine Score Text',
+			"If checked, the text below the health bar\nwill change to Kade Engine.",
+			'kadetxt',
 			'bool',
-			true);
+			false);
+		addOption(option);
+
+		var option:Option = new Option('Intro Background',
+			"If checked, there will be a background in intro.",
+			'introbg',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option('Kade Engine Judgement Counter',
+			"If checked, there will be a judgement counter when playing.",
+			'crazycounter',
+			'bool',
+			false);
 		addOption(option);
 
 		var option:Option = new Option('Hide HUD',
@@ -71,66 +85,38 @@ class VisualsUISubState extends BaseOptionsMenu
 			['Default', 'Golden Apple', 'None']);
 		addOption(option);
 
-		var option:Option = new Option('Judgement Skin:', 
-		"What should your judgements look like?", 
-		'uiSkin', 
-		'string', 
-		'Demolition',
-			['Demolition', 'Classic', 'BEAT!', 'BEAT! Gradient', 'Bedrock', 'Matt :)']);
-		addOption(option);
-		
-		var option:Option = new Option('Simplify Score Text',
-			"If checked, Score Text under the Health Bar \ndisplays less text",
-			'simplifiedScore',
-			'bool',
-		        false);
-		addOption(option);
-
-		var option:Option = new Option('Camera Movement',
-			"If checked, camera moves to the corresponding arrow!",
-			'camMove',
-			'bool',
-			true);
-		addOption(option);
-
-		var option:Option = new Option('Flashing Lights',
-			"Uncheck this if you're sensitive to flashing lights!",
-			'flashing',
-			'bool',
-			true);
-		addOption(option);
-
-		var option:Option = new Option('Show Watermarks',
-			"If unchecked, hides engine watermarks from the bottom left corner.", 
-			'showWatermarks', 
-			'bool', 
-			true);
-		addOption(option);
-
 		var option:Option = new Option('Camera Zooms',
 			"If unchecked, the camera won't zoom in on a beat hit.",
 			'camZooms',
 			'bool',
 			true);
 		addOption(option);
-		
-		/*var option:Option = new Option('Center Menu',
-			"If unchecked, the Menu will be on the left, idk.",
-			'center',
+
+		var option:Option = new Option('Longer Health Bar',
+			"If unchecked, the health bar will be set to the original one.",
+			'longhealthbar',
 			'bool',
 			true);
-		addOption(option);*/
+		addOption(option);
+
+		var option:Option = new Option('Hide Score Text',
+			"If checked, the text under the health bar will not be showed.",
+			'noscore',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option('Camera Follow Player Pose',
+			"If checked, the camera will move when you press a note.",
+			'camfollow',
+			'bool',
+			true);
+		addOption(option);
+
 
 		var option:Option = new Option('Score Text Zoom on Hit',
 			"If unchecked, disables the Score text zooming\neverytime you hit a note.",
 			'scoreZoom',
-			'bool',
-			true);
-		addOption(option);
-		
-		var option:Option = new Option('Long Health Bar',
-			"If unchecked, the health bar will be short.",
-			'longBar',
 			'bool',
 			true);
 		addOption(option);
