@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxObject;
+import lime.app.Application;
 import flixel.FlxSubState;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
@@ -49,6 +50,8 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		Conductor.songPosition = 0;
 
+		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - GAME OVER";
+
 		boyfriend = new Boyfriend(x, y, characterName);
 		boyfriend.x += boyfriend.positionArray[0];
 		boyfriend.y += boyfriend.positionArray[1];
@@ -64,7 +67,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.camera.target = null;
 
 		boyfriend.playAnim('firstDeath');
-		FlxG.camera.flash(FlxColor.RED, 0.5);
+		if(ClientPrefs.flashing) {
+			FlxG.camera.flash(FlxColor.RED, 0.5);
+		}
 
 		var exclude:Array<Int> = [];
 

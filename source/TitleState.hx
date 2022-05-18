@@ -66,6 +66,7 @@ class TitleState extends MusicBeatState
 	var tySpr:FlxSprite;
 	var wrSpr:FlxSprite;
 	var dnSpr:FlxSprite;
+	var coolguys:FlxSprite;
 
 	var curWacky:Array<String> = [];
 
@@ -427,6 +428,15 @@ class TitleState extends MusicBeatState
 		dnSpr.setGraphicSize(436, 436);
 		dnSpr.updateHitbox();
 		dnSpr.screenCenter(X);
+
+		coolguys = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('demolitiondon_wither_logo'));
+		add(coolguys);
+		coolguys.visible = false;
+		coolguys.setGraphicSize(Std.int(coolguys.width * 0.8));
+		coolguys.updateHitbox();
+		coolguys.screenCenter(X);
+		coolguys.antialiasing = ClientPrefs.globalAntialiasing;
+
 		
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
@@ -647,54 +657,50 @@ class TitleState extends MusicBeatState
 				case 6:
 					createCoolText(['With help of'], 15);
 				case 7:
-					addMoreText('Wither362');
-					wrSpr.visible = true;
+					addMoreText('Wither362 and DEMOLITIONDON69');
+					coolguys.visible = true;
 				case 9:
-					wrSpr.visible = false;
+					coolguys.visible = false;
 				case 10:
-					addMoreText('DEMOLITIONDON69');
-					dnSpr.visible = true;
-				case 12:
 					deleteCoolText();
-					dnSpr.visible = false;
-				case 13:
+				case 11:
 					createCoolText(['A Modified Version of'], -40);
-				case 15:
+				case 12:
 					addMoreText('Psych Engine', -40);
 					psychSpr.visible = true;
 			// credTextShit.text += '\nNewgrounds';
-				case 16:
+				case 13:
 					deleteCoolText();
 					psychSpr.visible = false;
 			// credTextShit.visible = false;
 
 			// credTextShit.text = 'Shoutouts Tom Fulp';
 			// credTextShit.screenCenter();
-				case 17:
+				case 14:
 					createCoolText([curWacky[0]]);
 			// credTextShit.visible = true;
-				case 18:
+				case 15:
 					addMoreText(curWacky[1]);
 			// credTextShit.text += '\nlmao';
-				case 19:
+				case 16:
 					if (curWacky[2] != null) { //im stupid bro, i wrote 3 instead of 2
 						addMoreText(curWacky[2]);
 					}
-				case 20:
+				case 17:
 					deleteCoolText();
 			// credTextShit.visible = false;
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
-				case 21:
+				case 18:
 					addMoreText("Friday Night Funkin'");
 			// credTextShit.visible = true;
-				case 22:
+				case 19:
 					addMoreText('Theoyeah');
 			// credTextShit.text += '\nNight';
-				case 23:
+				case 20:
 					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
 
-				case 25:
+				case 21:
 					skipIntro();
 			}
 		}
@@ -708,6 +714,7 @@ class TitleState extends MusicBeatState
 		remove(tySpr);
 		remove(dnSpr);
 		remove(credGroup);
+		remove(coolguys);
 	}
 	function skipIntro():Void
 	{

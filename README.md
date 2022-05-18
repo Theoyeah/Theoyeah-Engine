@@ -1,19 +1,33 @@
-![logo](https://github.com/Theoyeah/Theoyeah-Fnf-Engine/blob/main/assets/preload/images/logo.png)
+![LOGO](https://user-images.githubusercontent.com/97792861/169069737-12fc30e1-4f59-438d-8988-a975ad454d0b.png)
+
+
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?include_prereleases&label=latest%20version)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?style=flat-square&label=latest%20stable%20version)](https://github.com/Theoyeah/Theoyeah-Engine/releases/latest)
+![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/Theoyeah/Theoyeah-Engine/latest?style=)
+[![GitHub all releases downloaded](https://img.shields.io/github/downloads/Theoyeah/Theoyeah-Engine/total?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/releases) [![GitHub issues](https://img.shields.io/github/issues/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/pulls) []() []()
+[![GitHub LICENSE](https://img.shields.io/github/license/Theoyeah/Theoyeah-Engine?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/LICENSE) ![GitHub repo size](https://img.shields.io/github/repo-size/Theoyeah/Theoyeah-Engine)  ![Supported platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20macOS%2C%20linux-red)
+
 
 
 
 
 # Theoyeah Engine
 
-Hello, here a (again) new edited version psych engine !
+Hello, here a (again) new edited version psych engine!
 I will try to add things that shadow mario will never do
 
-Look at the [`Project.xml`](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/Project.xml) file to deactivate some things! Take that in mind!
+Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take that in mind!
 
 # What it adds 
 
 - New Logo
 - New Icon
+- Added some custom easter eggs
+- Stage Editor (made by @magnumsrtisswag)
+- New fps counter (by @BeastlyGhost)
+- Fixed null error in the chart editor
+- New option category: Music
+- Judgement counter!
 - Winning Icons (from Mic up' Engine)
 - new funkay.png
 - Fucked difficulty 
@@ -25,7 +39,7 @@ Look at the [`Project.xml`](https://github.com/Theoyeah/Theoyeah-Engine/blob/mai
 - added flash when selecting something
 - red flash when you die
 - added marvelous
-- Kade Score text option !
+- [Kade Score Text](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/README.md#-2)!
 - insta-kill note
 - funni 9 button easter egg icon
 - Shaders are real
@@ -35,12 +49,11 @@ Look at the [`Project.xml`](https://github.com/Theoyeah/Theoyeah-Engine/blob/mai
 - Mp3 and Wav support !
 - More options
 - **Instakill Note and Crash Note!!** (with a fabulous texture)
-- Added secret songs to be on the music folder!
-- Look at the [`Project.xml`](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/Project.xml) file for more!
+- Look at the [`Project.xml`](Project.xml) file for more!
 # Examples :
-![image](https://user-images.githubusercontent.com/97792861/163772539-3409759d-5fca-4a5a-945f-76f4b7ed87fb.png)
-![image](https://user-images.githubusercontent.com/97792861/163772686-7020ae13-c6ab-48a7-bdcc-6ee2c6d4eb7f.png)
-![image](https://user-images.githubusercontent.com/97792861/163772872-878c2361-1971-4274-b6e2-27125298c35e.png)
+###### ![outdated menu **image**](https://user-images.githubusercontent.com/97792861/163772539-3409759d-5fca-4a5a-945f-76f4b7ed87fb.png)
+###### ![deleted noteskin :'( and old icons **image**](https://user-images.githubusercontent.com/97792861/163772686-7020ae13-c6ab-48a7-bdcc-6ee2c6d4eb7f.png)
+###### ![`Kade Engine Score Text` option **image**](https://user-images.githubusercontent.com/97792861/163772872-878c2361-1971-4274-b6e2-27125298c35e.png)
 
 
 
@@ -49,42 +62,3 @@ Look at the [`Project.xml`](https://github.com/Theoyeah/Theoyeah-Engine/blob/mai
 # How to compile (go to the [wiki](https://github.com/Theoyeah/Theoyeah-Engine/wiki) please!)
 Well, go to the [wiki](https://github.com/Theoyeah/Theoyeah-Engine/wiki)!
 
-You must have the most up-to-date version of Haxe, seriously, stop using 4.1.5, it misses some stuff.
-Installing the Required Programs
-First, you need to install Haxe and HaxeFlixel. I'm too lazy to write and keep updated with that setup (which is pretty simple).
-Install HaxeFlixel after downloading Haxe
-Other installations you'd need are the additional libraries, a fully updated list will be in Project.xml in the project root. Currently, these are all of the things you need to install:
-
-- flixel
-- flixel-addons
-- flixel-ui
-- hscript
-- newgrounds
-
-So for each of those type haxelib install [library] so shit like haxelib install newgrounds
-
-You'll also need to install a couple things that involve Gits. To do this, you need to do a few things first.
-
-Download git-scm. Works for Windows, Mac, and Linux, just select your build.
-Follow instructions to install the application properly.
-Run haxelib git polymod https://github.com/larsiusprime/polymod.git to install Polymod.
-Run haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc to install Discord RPC.
-You should have everything ready for compiling the game! Follow the guide below to continue!
-
-At the moment, you can optionally fix the transition bug in songs with zoomed-out cameras.
-
-Run haxelib git flixel-addons https://github.com/HaxeFlixel/flixel-addons in the terminal/command-prompt.
-
-
-after this you will need to install LuaJIT.
-
-To install LuaJIT do this: haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit on a Command prompt/PowerShell
-
-...Or if you don't want your mod to be able to run .lua scripts, delete the "LUA_ALLOWED" line on Project.xml
-
-To run it from your desktop (Windows, Mac, Linux) it can be a bit more involved. For Linux, you only need to open a terminal in the project directory and run lime test linux -debug and then run the executable file in export/release/linux/bin. For Windows, you need to install Visual Studio Community 2019. While installing VSC, don't click on any of the options to install workloads. Instead, go to the individual components tab and choose the following:
-
-- MSVC v142 - VS 2019 C++ x64/x86 build tools and 
-- Windows SDK (10.0.17763.0)
-
-Once that is done you can open up a command line in the project's directory and run lime test windows -debug. Once that command finishes (it takes forever even on a higher end PC), you can run FNF from the .exe file under export\release\windows\bin As for Mac, 'lime test mac -debug' should work, if not the internet surely has a guide on how to compile Haxe stuff for Mac.

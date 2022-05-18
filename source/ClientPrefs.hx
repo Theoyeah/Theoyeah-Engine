@@ -35,6 +35,7 @@ class ClientPrefs {
 	public static var longhealthbar:Bool = true;
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
+	public static var shaders:Bool = true;
 	public static var winningIcon = true;
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
@@ -75,7 +76,7 @@ class ClientPrefs {
 		'note_left'		=> [A, LEFT],
 		'note_down'		=> [S, DOWN],
 		'note_up'		=> [W, UP],
-		'note_right'	=> [D, RIGHT],
+		'note_right'	        => [D, RIGHT],
 		
 		'ui_left'		=> [A, LEFT],
 		'ui_down'		=> [S, DOWN],
@@ -87,9 +88,9 @@ class ClientPrefs {
 		'pause'			=> [ENTER, ESCAPE],
 		'reset'			=> [R, NONE],
 		
-		'volume_mute'	=> [ZERO, NONE],
+		'volume_mute'	        => [ZERO, NONE],
 		'volume_up'		=> [NUMPADPLUS, PLUS],
-		'volume_down'	=> [NUMPADMINUS, MINUS],
+		'volume_down'	        => [NUMPADMINUS, MINUS],
 		
 		'debug_1'		=> [SEVEN, NONE],
 		'debug_2'		=> [EIGHT, NONE]
@@ -112,6 +113,7 @@ class ClientPrefs {
 		FlxG.save.data.globalAntialiasing = globalAntialiasing;
 		FlxG.save.data.noteSplashes = noteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
+		FlxG.save.data.shaders = shaders;
 		FlxG.save.data.framerate = framerate;
 		FlxG.save.data.longhealthbar = longhealthbar;
 		FlxG.save.data.crazycounter = crazycounter;
@@ -165,6 +167,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.downScroll != null) {			       
 			downScroll = FlxG.save.data.downScroll;
+		}
+		if (FlxG.save.data.shaders !=null) {
+			shaders = FlxG.save.data.shaders;
 		}
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;
