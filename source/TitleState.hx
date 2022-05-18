@@ -627,7 +627,7 @@ class TitleState extends MusicBeatState
 				
 		if(ClientPrefs.camZooms) {
 			FlxG.camera.zoom += 0.055;
-			if(!camZooming) { //Copied from PlayState.hx
+			if(!PlayState.camZooming) { //Copied from PlayState.hx
 				FlxTween.tween(FlxG.camera, {zoom: 1}, 0.1);
 			}
 		}
