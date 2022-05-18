@@ -22,50 +22,50 @@ class TweenV {
 	var type		: TType;
 	var plays		: Int; // -1 = infini, 1 et plus = nombre d'exécutions (1 par défaut)
 	var varType		: TVVar; 
-	var onUpdate	: Null<TweenV->Void>;
+	var onUpdate	        : Null<TweenV->Void>;
 	var onEnd		: Null<TweenV->Void>;
 	var isDebug		= false;
 	
 	public inline function new (
-		parent:Snd	 ,
-	    n:Float		 ,
-	    ln:Float	 ,
-		varType:TVVar,
-	    speed:Float	 ,
-	    from:Float	 ,
-	    to:Float	 ,
-	    type:h2d.Tweenie.TType ,
-	    plays		 ,
-	    onUpdate	 ,
-	    onEnd		 
+		parent:Snd	       ,
+		n:Float		       ,
+		ln:Float	       ,
+		varType:TVVar          ,
+		speed:Float	       ,
+		from:Float	       ,
+		to:Float	       ,
+		type:h2d.Tweenie.TType ,
+		plays		       ,
+		onUpdate	       ,
+		onEnd		 
 	) {
-		this.parent			= parent		;
+		this.parent		    = parent		        ;
 		this.n			    = n			 	;
 		this.ln			    = ln			;
-		this.varType 		= varType 		;
+		this.varType 		    = varType 		        ;
 		this.speed		    = speed			;
 		this.from		    = from			;
 		this.to			    = to			;
 		this.type		    = type		 	;
 		this.plays		    = plays		 	;
-		this.onUpdate	    = onUpdate	 	;
+		this.onUpdate	            = onUpdate	 	        ;
 		this.onEnd		    = onEnd		 	;
 	}
 	
 	public inline function reset(
 		parent:Snd	 ,
-	    n:Float		 ,
-	    ln:Float	 ,
-		varType:TVVar,
-	    speed:Float	 ,
-	    from:Float	 ,
-	    to:Float	 ,
-	    type:TType	 ,
-	    plays:Int	 ,
-	    onUpdate	 ,
-	    onEnd		 
+	        n:Float		 ,
+	        ln:Float	 ,
+		varType:TVVar    ,
+	        speed:Float	 ,
+	        from:Float	 ,
+	        to:Float	 ,
+	        type:TType	 ,
+	        plays:Int	 ,
+	        onUpdate	 ,
+	        onEnd		 
 	) {
-		this.parent			= parent		;
+		this.parent                 = parent		        ;
 		this.n			    = n			 	;
 		this.ln			    = ln			;
 		this.speed		    = speed			;
@@ -73,25 +73,25 @@ class TweenV {
 		this.to			    = to			;
 		this.type		    = type		 	;
 		this.plays		    = plays		 	;
-		this.onUpdate	    = onUpdate	 	;
+		this.onUpdate	            = onUpdate	 	        ;
 		this.onEnd		    = onEnd		 	;
-		this.varType 		= varType 		;
-		isDebug		= false;
-		uid = GUID++;
+		this.varType 		    = varType 		        ;
+		isDebug		            = false                     ;
+		uid                         = GUID++                    ;
 	}
 	
 	public function clear(){
-		n 			= 0.0;
-		ln			= 0.0;
-		speed 		= 0.0;
-		plays		= 0;
-		from		= 0.0;
-		to			= 0.0;
-		parent = null;
-		onEnd = null;
-		onUpdate = null;
-		isDebug		= false;
-		uid = GUID++;
+		n 		= 0.0        ;
+		ln		= 0.0        ;
+		speed 		= 0.0        ;
+		plays		= 0          ;
+		from		= 0.0        ;
+		to		= 0.0        ;
+		parent          = null       ;
+		onEnd           = null       ;
+		onUpdate        = null       ;
+		isDebug		= false      ;
+		uid             = GUID++     ;
 	}
 	
 	
@@ -102,7 +102,7 @@ class TweenV {
 			case TVVVolume: {
 				parent.volume = val;
 				#if debug
-				if( isDebug )
+				if(isDebug)
 				trace("tv:" + val);
 				#end
 			}
