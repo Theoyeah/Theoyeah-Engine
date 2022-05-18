@@ -718,6 +718,7 @@ class ModMetadata
 	public var name:String;
 	public var description:String;
 	public var color:FlxColor;
+	public var tags:Array<String, Null>;
 	public var restart:Bool;//trust me. this is very important
 	public var alphabet:Alphabet;
 	public var icon:AttachedSprite;
@@ -729,6 +730,7 @@ class ModMetadata
 		this.description = "No description provided.";
 		this.color = ModsMenuState.defaultColor;
 		this.restart = false;
+		this.tags = [];
 		
 		//Try loading json
 		var path = Paths.mods(folder + '/pack.json');
@@ -741,6 +743,7 @@ class ModMetadata
 					var description:String = Reflect.getProperty(stuff, "description");
 					var name:String = Reflect.getProperty(stuff, "name");
 					var restart:Bool = Reflect.getProperty(stuff, "restart");
+					var tags:Array<String, Null> = Reflect.getProperty(stuff, "tags");
 					
 				if(name != null && name.length > 0)
 				{
@@ -756,6 +759,9 @@ class ModMetadata
 				}
 				
 				this.restart = restart;
+				if(tags != null) && tags.length > 0) {
+					this.tags = tags;
+				}
 				/*
 				if(stuff.name != null && stuff.name.length > 0)
 				{
