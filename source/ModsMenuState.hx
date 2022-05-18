@@ -743,7 +743,7 @@ class ModMetadata
 					var description:String = Reflect.getProperty(stuff, "description");
 					var name:String = Reflect.getProperty(stuff, "name");
 					var restart:Bool = Reflect.getProperty(stuff, "restart");
-					var tags:Array<String, Null> = Reflect.getProperty(stuff, "tags");
+					var tags:Array<Dynamic> = Reflect.getProperty(stuff, "tags");
 					
 				if(name != null && name.length > 0)
 				{
