@@ -1,8 +1,23 @@
-name: Bug Report
-description: File a bug report
+name: Pull Request
+description: Youre creating a pull request
 title: "[PR]: "
 labels: ""
 body:
-  - type: input
+  - type: textarea
     id: what
+    attributes:
+      label: What does it do?
+      description: Please, a good description
+      placeholder: Tell us what it does!
+    validations:
+      required: true
+
+  - type: textarea
+    id: errors
+    attributes:
+      label: Did you prove it?
+      description: And in case you do it, did it have errors?
+      placeholder: Yes, and it gave an error as an alert...
+    validations:
+      required: true
     
