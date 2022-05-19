@@ -253,11 +253,8 @@ class TitleState extends MusicBeatState
 			// FlxG.sound.list.add(music);
 			// music.play();
 
-			var music = ClientPrefs.musicSelected;
-			if(FlxG.sound.music == null || music != ClientPrefs.musicSelected) {
-				FlxG.sound.playMusic(Paths.music(music), 0);
-
-				FlxG.sound.music.fadeIn(4, 0, 0.7);
+			if(FlxG.sound.music == null) {
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 			}
 		}
 
@@ -640,7 +637,11 @@ class TitleState extends MusicBeatState
 			sickBeats++;
 			switch (sickBeats)
 			{
-				case 1: // why dont we put here 0 to music start at the same time as text
+				case 1: 
+						FlxG.sound.music.stop();
+						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+						FlxG.sound.music.fadeIn(4, 0, 0.7);
+				case 2: // why dont we put here 0 to music start at the same time as text
 					createCoolText(['Theoyeah Engine by'], 15);
 			// credTextShit.visible = true;
 				case 3:
@@ -648,13 +649,13 @@ class TitleState extends MusicBeatState
 					tySpr.visible = true;
 					// credTextShit.text += '\npresent...';
 					// credTextShit.addText();
-				case 5:
+				case 4:
 					deleteCoolText();
 					tySpr.visible = false;
 			// credTextShit.visible = false;
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
-				case 6:
+				case 5:
 					createCoolText(['With help of'], 15);
 				case 7:
 					addMoreText('Wither362');
@@ -689,34 +690,19 @@ class TitleState extends MusicBeatState
 						deleteCoolText();
 					}
 				case 17:
-					if(curWacky[2] != null) {
-						deleteCoolText();
-					} else {
-						addMoreText("Friday Night Funkin'");
-					}
+					deleteCoolText();
 			// credTextShit.visible = false;
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
 				case 18:
-					if(curWacky[2] != null) {
-						addMoreText("Friday Night Funkin'");
-					} else {
-						addMoreText('Theoyeah');
-					}
+					addMoreText("Friday Night Funkin'");
 			// credTextShit.visible = true;
 				case 19:
-					if(curWacky[2] != null) {
-						addMoreText('Theoyeah');
-					} else {
-						addMoreText('Engine');
-					}
+					addMoreText('Theoyeah');
 			// credTextShit.text += '\nNight';
 				case 20:
-					if(curWacky[2] != null) {
-						addMoreText('Engine'); // credTextShit.text += '\nFunkin';
-					} else {
-						skipIntro();
-					}
+					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
+
 				case 21:
 					skipIntro();
 			}
