@@ -1,4 +1,4 @@
-package options;
+package altoptions;
 
 #if desktop
 import Discord.DiscordClient;
@@ -40,7 +40,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool',
 			true);
 		addOption(option);
-
+		
 		var option:Option = new Option('Kade Engine Score Text',
 			"If checked, the text below the health bar\nwill change to Kade Engine.",
 			'kadetxt',
@@ -129,15 +129,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.scrollSpeed = 1.6;
 		option.minValue = 0.0;
 		option.maxValue = 1;
-		if(FlxG.keys.pressed.SHIFT) {
-			if(ClientPrefs.multiplicativeValue > 0) {
-				option.changeValue = ClientPrefs.multiplicativeValue;
-			} else {
-				option.changeValue = 0.3;
-			}
-		} else {
-			option.changeValue = 0.1;
-		}
+		option.changeValue = 0.1;
 		option.decimals = 1;
 		addOption(option);
 		
@@ -151,12 +143,29 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.onChange = onChangeFPSCounter;
 		#end
 		
+		var option:Option = new Option('Pause Screen Song:',
+			"What song do you prefer for the Pause Screen?",
+			'pauseMusic',
+			'string',
+			'Tea Time',
+			['None', 'Breakfast', 'Tea Time']);
+		addOption(option);
+		option.onChange = onChangePauseMusic;
 
 		super();
 	}
 
-	
+	var changedMusic:Bool = false;
+	function onChangePauseMusic()
+	{
+		if(ClientPrefs.pauseMusic == 'None')
+			FlxG.sound.music.volume = 0;
+		else
+			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.pauseMusic)));
 
+		changedMusic = true;
+	}
+	
 	#if !mobile
 	function onChangeFPSCounter()
 	{
