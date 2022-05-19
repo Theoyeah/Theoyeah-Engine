@@ -42,29 +42,27 @@ class HealthIcon extends FlxSprite
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-face'; //Prevents crash from missing icon
 			var file:Dynamic = Paths.image(name);
 
-			if(ClientPrefs.winningIcon)
-			{
-				loadGraphic(file); //Load stupidly first for getting the file size
-				loadGraphic(file, true, Math.floor(width / 3), Math.floor(height)); //Then load it fr
+			loadGraphic(file); //Load stupidly first for getting the file size
+			var oldWidth = width;
+			if (width == 450) {
+				loadGraphic(file, true, Math.floor(width / 3), Math.floor(height)); //Then load it fr // winning icons go br
 				iconOffsets[0] = (width - 150) / 3;
 				iconOffsets[1] = (width - 150) / 3;
 				iconOffsets[2] = (width - 150) / 3;
-				updateHitbox();
-
-				animation.add(char, [0, 1, 2], 0, false, isPlayer);
-				animation.play(char);
-				this.char = char;
 			} else {
-				loadGraphic(file); //Load stupidly first for getting the file size
-				loadGraphic(file, true, Math.floor(width / 3), Math.floor(height)); //Then load it fr
-				iconOffsets[0] = (width - 150) / 3;
-				iconOffsets[1] = (width - 150) / 3;
-				updateHitbox();
-
-				animation.add(char, [0, 1], 0, false, isPlayer);
-				animation.play(char);
-				this.char = char;
+				loadGraphic(file, true, Math.floor(width / 2), Math.floor(height)); //Then load it fr // winning icons go br
+				iconOffsets[0] = (width - 150) / 2;
+				iconOffsets[1] = (width - 150) / 2;
 			}
+			updateHitbox();
+
+			if (oldWidth == 450) {
+				animation.add(char, [0, 1, 2], 0, false, isPlayer);
+			} else {
+				animation.add(char, [0, 1], 0, false, isPlayer);
+			}
+			animation.play(char);
+			this.char = char;
 
 			antialiasing = ClientPrefs.globalAntialiasing;
 			if(char.endsWith('-pixel')) {

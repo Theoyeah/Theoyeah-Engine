@@ -1066,7 +1066,7 @@ class PlayState extends MusicBeatState
 		reloadHealthBarColors();
 
 		scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), ClientPrefs.kadetxt ? 16 : 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.noscore;
@@ -2467,21 +2467,17 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		if (ClientPrefs.kadetxt) {
-
-		if(ratingName == '?') {
-			scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accuracy: 0.00% ' ;
-		} else {
-			scoreTxt.text = 'Score: ' + songScore + ' |  Combo Breaks: ' + songMisses + ' | Accuracy: ' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' ;//peeps wanted no integer rating
-		}
-	    }   
-
-      else {
-		if(ratingName == '?') {
+	if (ClientPrefs.kadetxt)
+	{
+		if(ratingName == '?')
+			scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accuracy: 0.00% ' + '| Rating: N/A' ;
+		else 
+			scoreTxt.text = 'Score: ' + songScore + ' |  Combo Breaks: ' + songMisses + ' | Accuracy: ' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ' | '+ 'Rating: '+ ratingFC;//peeps wanted no integer rating
+	} else {
+		if(ratingName == '?')
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' | N/A' ;
-		} else {
+		else
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ')' + ' | ' + ratingFC;//peeps wanted no integer rating
-		}
 	    }
 
 		if(botplayTxt.visible) {
@@ -2585,37 +2581,34 @@ class PlayState extends MusicBeatState
 		healthDrain -= 0.0001;
 	}
 
-		if(ClientPrefs.winningIcon)
+		if (iconP1.animation.frames == 3)
 		{
-		
-			if (health > 2)	
-				health = 2;
 			if (healthBar.percent < 20)
 				iconP1.animation.curAnim.curFrame = 1;
-			else if (healthBar.percent > 20 && healthBar.percent < 80)	
-				iconP1.animation.curAnim.curFrame = 0;
 			else if (healthBar.percent > 80)
 				iconP1.animation.curAnim.curFrame = 2;
-			
-			switch(SONG.player2)
-			{	
-				default:
-					if (healthBar.percent < 20)
-						iconP2.animation.curAnim.curFrame = 2;
-					else if (healthBar.percent > 20 && healthBar.percent < 80)
-						iconP2.animation.curAnim.curFrame = 0;		
-					else if (healthBar.percent > 80)
-						iconP2.animation.curAnim.curFrame = 1;
-			}
-		} else {
-			if (health > 2)
-				health = 2;
-
+			else
+				iconP1.animation.curAnim.curFrame = 0;
+		}
+		else
+		{
 			if (healthBar.percent < 20)
 				iconP1.animation.curAnim.curFrame = 1;
-			else		
+			else
 				iconP1.animation.curAnim.curFrame = 0;
-	
+		}
+
+		if (iconP2.animation.frames == 3)
+		{
+			if (healthBar.percent > 80)
+				iconP2.animation.curAnim.curFrame = 1;
+			else if (healthBar.percent < 20)
+				iconP2.animation.curAnim.curFrame = 2;
+			else
+				iconP2.animation.curAnim.curFrame = 0;
+		}
+		else
+		{
 			if (healthBar.percent > 80)
 				iconP2.animation.curAnim.curFrame = 1;
 			else
