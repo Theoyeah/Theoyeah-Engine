@@ -1,11 +1,4 @@
 ---
-name:
-about:
-title: '[PR] <title>'
-labels: 
-assignees: ''
-
----
 
  <!--
  Note: Please search to see if an issue already exists for the bug you encountered.
