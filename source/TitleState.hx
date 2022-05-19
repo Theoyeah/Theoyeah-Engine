@@ -253,11 +253,8 @@ class TitleState extends MusicBeatState
 			// FlxG.sound.list.add(music);
 			// music.play();
 
-			var music = ClientPrefs.musicSelected;
-			if(FlxG.sound.music == null || music != ClientPrefs.musicSelected) {
-				FlxG.sound.playMusic(Paths.music(music), 0);
-
-				FlxG.sound.music.fadeIn(4, 0, 0.7);
+			if(FlxG.sound.music == null) {
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 			}
 		}
 
@@ -640,7 +637,11 @@ class TitleState extends MusicBeatState
 			sickBeats++;
 			switch (sickBeats)
 			{
-				case 1: // why dont we put here 0 to music start at the same time as text
+				case 1: 
+						FlxG.sound.music.stop();
+						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+						FlxG.sound.music.fadeIn(4, 0, 0.7);
+				case 2: // why dont we put here 0 to music start at the same time as text
 					createCoolText(['Theoyeah Engine by'], 15);
 			// credTextShit.visible = true;
 				case 3:
@@ -648,59 +649,59 @@ class TitleState extends MusicBeatState
 					tySpr.visible = true;
 					// credTextShit.text += '\npresent...';
 					// credTextShit.addText();
-				case 5:
+				case 4:
 					deleteCoolText();
 					tySpr.visible = false;
 			// credTextShit.visible = false;
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
-				case 6:
+				case 5:
 					createCoolText(['With help of'], 15);
-				case 7:
+				case 6:
 					addMoreText('Wither362 and DEMOLITIONDON69');
 					coolguys.visible = true;
-				case 9:
+				case 7:
 					coolguys.visible = false;
-				case 10:
+				case 8:
 					deleteCoolText();
-				case 11:
+				case 9:
 					createCoolText(['A Modified Version of'], -40);
-				case 12:
+				case 10:
 					addMoreText('Psych Engine', -40);
 					psychSpr.visible = true;
 			// credTextShit.text += '\nNewgrounds';
-				case 13:
+				case 11:
 					deleteCoolText();
 					psychSpr.visible = false;
 			// credTextShit.visible = false;
 
 			// credTextShit.text = 'Shoutouts Tom Fulp';
 			// credTextShit.screenCenter();
-				case 14:
+				case 12:
 					createCoolText([curWacky[0]]);
 			// credTextShit.visible = true;
-				case 15:
+				case 13:
 					addMoreText(curWacky[1]);
 			// credTextShit.text += '\nlmao';
-				case 16:
+				case 14:
 					if (curWacky[2] != null) { //im stupid bro, i wrote 3 instead of 2
 						addMoreText(curWacky[2]);
 					}
-				case 17:
+				case 15:
 					deleteCoolText();
 			// credTextShit.visible = false;
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
-				case 18:
+				case 16:
 					addMoreText("Friday Night Funkin'");
 			// credTextShit.visible = true;
-				case 19:
+				case 17:
 					addMoreText('Theoyeah');
 			// credTextShit.text += '\nNight';
-				case 20:
+				case 18:
 					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
 
-				case 21:
+				case 19:
 					skipIntro();
 			}
 		}
