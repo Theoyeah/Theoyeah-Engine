@@ -657,12 +657,12 @@ class TitleState extends MusicBeatState
 				case 6:
 					createCoolText(['With help of'], 15);
 				case 7:
-					addMoreText('Wither362 and DEMOLITIONDON69');
+					addMoreText('Wither362');
+					addMoreText('DEMOLITIONDON69');
 					coolguys.visible = true;
-				case 9:
-					coolguys.visible = false;
 				case 10:
 					deleteCoolText();
+					coolguys.visible = false;
 				case 11:
 					createCoolText(['A Modified Version of'], -40);
 				case 12:
@@ -685,21 +685,38 @@ class TitleState extends MusicBeatState
 				case 16:
 					if (curWacky[2] != null) { //im stupid bro, i wrote 3 instead of 2
 						addMoreText(curWacky[2]);
+					} else {
+						deleteCoolText();
 					}
 				case 17:
-					deleteCoolText();
+					if(curWacky[2] != null) {
+						deleteCoolText();
+					} else {
+						addMoreText("Friday Night Funkin'");
+					}
 			// credTextShit.visible = false;
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
 				case 18:
-					addMoreText("Friday Night Funkin'");
+					if(curWacky[2] != null) {
+						addMoreText("Friday Night Funkin'");
+					} else {
+						addMoreText('Theoyeah');
+					}
 			// credTextShit.visible = true;
 				case 19:
-					addMoreText('Theoyeah');
+					if(curWacky[2] != null) {
+						addMoreText('Theoyeah');
+					} else {
+						addMoreText('Engine');
+					}
 			// credTextShit.text += '\nNight';
 				case 20:
-					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
-
+					if(curWacky[2] != null) {
+						addMoreText('Engine'); // credTextShit.text += '\nFunkin';
+					} else {
+						skipIntro();
+					}
 				case 21:
 					skipIntro();
 			}
