@@ -1,10 +1,10 @@
 {
 	"song": {
 		"player1": "bf",
-		"events": [],
-		"gfVersion": "gf",
+		"player2": "bf",
 		"notes": [
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						1000,
@@ -13,63 +13,100 @@
 						"Hurt Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"sectionNotes": [],
 				"lengthInSteps": 16,
+				"sectionNotes": [
+					[
+						2100,
+						2,
+						0,
+						"Poisoned Note"
+					]
+				],
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						3400,
 						6,
 						0,
 						"Hurt Note"
+					],
+					[
+						3600,
+						6,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						5400,
 						1,
 						0,
 						"Hurt Note"
+					],
+					[
+						5000,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						6300,
+						6,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						6800,
 						6,
 						0,
 						"Hurt Note"
+					],
+					[
+						7600,
+						0,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						8600,
 						1,
 						0,
 						"Hurt Note"
+					],
+					[
+						8800,
+						6,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						10100,
@@ -82,24 +119,36 @@
 						1,
 						0,
 						"Hurt Note"
+					],
+					[
+						10100,
+						0,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						12600,
 						5,
 						0,
 						"Hurt Note"
+					],
+					[
+						11900,
+						5,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						12800,
@@ -143,12 +192,6 @@
 						"Hurt Note"
 					],
 					[
-						13100,
-						2,
-						0,
-						"Hurt Note"
-					],
-					[
 						13400,
 						3,
 						0,
@@ -159,12 +202,18 @@
 						1,
 						0,
 						"Hurt Note"
+					],
+					[
+						13100,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						14399.999,
@@ -230,12 +279,30 @@
 						2,
 						0,
 						"Hurt Note"
+					],
+					[
+						14900,
+						3,
+						0,
+						"Poisoned Note"
+					],
+					[
+						14700,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						15500,
+						1,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						15999.999,
@@ -293,11 +360,6 @@
 						0
 					],
 					[
-						16600,
-						2,
-						0
-					],
-					[
 						17200,
 						2,
 						0
@@ -309,12 +371,6 @@
 					],
 					[
 						16000,
-						1,
-						0,
-						"Hurt Note"
-					],
-					[
-						16100,
 						1,
 						0,
 						"Hurt Note"
@@ -348,12 +404,30 @@
 						0,
 						0,
 						"Hurt Note"
+					],
+					[
+						16100,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						16500,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						16600,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						17600,
@@ -432,34 +506,34 @@
 						"Hurt Note"
 					],
 					[
-						17700,
-						1,
-						0,
-						"Hurt Note"
-					],
-					[
 						17600,
 						1,
 						0,
 						"Hurt Note"
 					],
 					[
+						17700,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
 						18300,
 						2,
 						0,
-						"Hurt Note"
+						"Poisoned Note"
 					],
 					[
 						18600,
 						3,
 						0,
-						"Hurt Note"
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						19200,
@@ -482,10 +556,10 @@
 						300
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						20800,
@@ -524,12 +598,18 @@
 						3,
 						0,
 						"Hurt Note"
+					],
+					[
+						21800,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						22400,
@@ -568,16 +648,22 @@
 						"Hurt Note"
 					],
 					[
+						22700,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
 						22800,
 						3,
 						0,
-						"Hurt Note"
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						24000,
@@ -603,12 +689,24 @@
 						24800,
 						3,
 						200
+					],
+					[
+						24300,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						24700,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						25600,
@@ -641,12 +739,6 @@
 						0
 					],
 					[
-						25600,
-						3,
-						0,
-						"Hurt Note"
-					],
-					[
 						26300,
 						0,
 						0,
@@ -663,12 +755,24 @@
 						1,
 						0,
 						"Hurt Note"
+					],
+					[
+						25600,
+						3,
+						0,
+						"Poisoned Note"
+					],
+					[
+						26100,
+						1,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						27199.998,
@@ -731,12 +835,24 @@
 						2,
 						0,
 						"Hurt Note"
+					],
+					[
+						27200,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						27500,
+						0,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						28799.998,
@@ -767,12 +883,6 @@
 					[
 						28900,
 						0,
-						0,
-						"Hurt Note"
-					],
-					[
-						29400,
-						2,
 						0,
 						"Hurt Note"
 					],
@@ -781,12 +891,24 @@
 						3,
 						0,
 						"Hurt Note"
+					],
+					[
+						29300,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						29400,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						30399.998,
@@ -855,12 +977,30 @@
 						3,
 						0,
 						"Hurt Note"
+					],
+					[
+						30700,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						30700,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						31300,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						31999.998,
@@ -1009,12 +1149,42 @@
 						2,
 						0,
 						"Hurt Note"
+					],
+					[
+						32500,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						32700,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						33400,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						33300,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						33500,
+						0,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						33600,
@@ -1113,10 +1283,10 @@
 						"Hurt Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						35200,
@@ -1219,12 +1389,6 @@
 						0
 					],
 					[
-						35700,
-						0,
-						0,
-						"Hurt Note"
-					],
-					[
 						36100,
 						3,
 						0,
@@ -1247,12 +1411,30 @@
 						0,
 						0,
 						"Hurt Note"
+					],
+					[
+						35700,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						35800,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						36700,
+						1,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						36800,
@@ -1337,12 +1519,18 @@
 						2,
 						0,
 						"Hurt Note"
+					],
+					[
+						37700,
+						1,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						38400,
@@ -1459,12 +1647,24 @@
 						2,
 						0,
 						"Hurt Note"
+					],
+					[
+						38600,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						39300,
+						1,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						40000,
@@ -1537,22 +1737,40 @@
 						"Hurt Note"
 					],
 					[
-						40900,
-						3,
-						0,
-						"Hurt Note"
-					],
-					[
 						41200,
 						0,
 						0,
 						"Hurt Note"
+					],
+					[
+						40600,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						40300,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						40900,
+						3,
+						0,
+						"Poisoned Note"
+					],
+					[
+						41000,
+						1,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						41600,
@@ -1641,12 +1859,6 @@
 						"Hurt Note"
 					],
 					[
-						41800,
-						2,
-						0,
-						"Hurt Note"
-					],
-					[
 						41600,
 						1,
 						0,
@@ -1683,16 +1895,46 @@
 						"Hurt Note"
 					],
 					[
+						41700,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						41800,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						41800,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						42100,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						42400,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
 						42900,
 						1,
 						0,
-						"Hurt Note"
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						43200,
@@ -1759,10 +2001,10 @@
 						"Hurt Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						44800,
@@ -1825,28 +2067,28 @@
 						0
 					],
 					[
-						44800,
-						1,
-						0,
-						"Hurt Note"
-					],
-					[
-						44950,
-						2,
-						0,
-						"Hurt Note"
-					],
-					[
 						45475,
 						3,
 						0,
 						"Hurt Note"
+					],
+					[
+						44800,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						45000,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						46400,
@@ -1867,12 +2109,24 @@
 						47600,
 						1,
 						400
+					],
+					[
+						47600,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						47700,
+						3,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						48000,
@@ -1935,22 +2189,28 @@
 						0
 					],
 					[
-						48145,
+						48000,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						48140,
 						2,
 						0,
-						"Hurt Note"
+						"Poisoned Note"
 					],
 					[
 						48700,
 						1,
 						0,
-						"Hurt Note"
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						49600,
@@ -1991,10 +2251,10 @@
 						"Hurt Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						51200,
@@ -2081,12 +2341,18 @@
 						1,
 						0,
 						"Hurt Note"
+					],
+					[
+						51200,
+						3,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						52799.9961,
@@ -2172,12 +2438,36 @@
 						53600,
 						2,
 						0
+					],
+					[
+						53500,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						53700,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						53800,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						54100,
+						7,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						54399.9961,
@@ -2383,10 +2673,10 @@
 						"Hurt Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						55999.9961,
@@ -2409,10 +2699,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						57599.9961,
@@ -2516,12 +2806,18 @@
 						1,
 						0,
 						"Hurt Note"
+					],
+					[
+						57600,
+						3,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						59199.9961,
@@ -2640,10 +2936,10 @@
 						"Hurt Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						60799.9961,
@@ -2721,10 +3017,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						62399.9961,
@@ -2814,21 +3110,21 @@
 					],
 					[
 						63500,
-						1,
+						2,
 						0,
 						"Hurt Note"
 					],
 					[
 						63500,
-						2,
+						1,
 						0,
-						"Hurt Note"
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						63999.9961,
@@ -2864,12 +3160,24 @@
 						65400,
 						0,
 						600
+					],
+					[
+						64600,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						65400,
+						1,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						66000,
@@ -2933,12 +3241,24 @@
 						0,
 						0,
 						"Hurt Note"
+					],
+					[
+						66300,
+						3,
+						0,
+						"Poisoned Note"
+					],
+					[
+						66800,
+						0,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						67200,
@@ -3010,12 +3330,114 @@
 						1,
 						0,
 						"Hurt Note"
+					],
+					[
+						68200,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68200,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68180,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68162.5,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68150,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68137.5,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68125,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68112.5,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68100,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68143.75,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68131.25,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68118.75,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68106.25,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68156.25,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68168.75,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68175,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						68168.75,
+						6,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						68800,
@@ -3059,10 +3481,10 @@
 						"Hurt Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						70400,
@@ -3161,16 +3583,52 @@
 						"Hurt Note"
 					],
 					[
+						71200,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						71600,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
 						71900,
 						6,
 						0,
-						"Hurt Note"
+						"Poisoned Note"
+					],
+					[
+						71300,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						71600,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						71200,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						71000,
+						0,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						72400,
@@ -3251,12 +3709,48 @@
 						5,
 						0,
 						"Hurt Note"
+					],
+					[
+						72200,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						72700,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						73100,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						72800,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						73200,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						73500,
+						1,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						73600,
@@ -3345,12 +3839,30 @@
 						5,
 						0,
 						"Hurt Note"
+					],
+					[
+						74000,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						74600,
+						3,
+						0,
+						"Poisoned Note"
+					],
+					[
+						74500,
+						6,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						75200,
@@ -3447,10 +3959,10 @@
 						"Hurt Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						76800,
@@ -3634,12 +4146,36 @@
 						3,
 						0,
 						"Hurt Note"
+					],
+					[
+						77400,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						77700,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						77500,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						77800,
+						0,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						78400,
@@ -3730,12 +4266,18 @@
 						79900,
 						1,
 						0
+					],
+					[
+						79100,
+						5,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						80000,
@@ -3937,12 +4479,18 @@
 						3,
 						0,
 						"Hurt Note"
+					],
+					[
+						80400,
+						3,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						81600,
@@ -4063,12 +4611,18 @@
 						0,
 						0,
 						"Hurt Note"
+					],
+					[
+						82300,
+						3,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						83200,
@@ -4209,12 +4763,42 @@
 						84300,
 						1,
 						0
+					],
+					[
+						84200,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						84100,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						84000,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						83800,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						83700,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						84800,
@@ -4277,10 +4861,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						86400,
@@ -4431,12 +5015,30 @@
 						87500,
 						1,
 						0
+					],
+					[
+						87100,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						87300,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						87600,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						88000,
@@ -4509,10 +5111,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						89600,
@@ -4550,10 +5152,10 @@
 						0
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						91200,
@@ -4586,10 +5188,10 @@
 						300
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						92800,
@@ -4682,16 +5284,28 @@
 						"Hurt Note"
 					],
 					[
+						93300,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						93800,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
 						94100,
 						2,
 						0,
-						"Hurt Note"
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						94400,
@@ -4724,10 +5338,10 @@
 						300
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						96000,
@@ -4756,10 +5370,10 @@
 						"Hurt Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						97600,
@@ -4803,10 +5417,10 @@
 						"Hurt Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						99200,
@@ -4849,10 +5463,10 @@
 						300
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
+				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						100800,
@@ -4883,20 +5497,73 @@
 						102000,
 						2,
 						300
+					],
+					[
+						102300,
+						0,
+						0,
+						"Poisoned Note"
+					],
+					[
+						102300,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						102300,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						102300,
+						3,
+						0,
+						"Poisoned Note"
 					]
 				],
-				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"gfSection": false,
-				"lengthInSteps": 16,
-				"altAnim": false,
-				"typeOfSection": 0,
 				"sectionNotes": [],
-				"bpm": 150,
+				"typeOfSection": 0,
+				"lengthInSteps": 16,
+				"gfSection": false,
+				"altAnim": false,
+				"mustHitSection": true,
 				"changeBPM": false,
-				"mustHitSection": true
+				"bpm": 150
+			},
+			{
+				"sectionNotes": [],
+				"typeOfSection": 0,
+				"lengthInSteps": 16,
+				"gfSection": false,
+				"altAnim": false,
+				"mustHitSection": true,
+				"changeBPM": false,
+				"bpm": 150
+			},
+			{
+				"sectionNotes": [],
+				"typeOfSection": 0,
+				"lengthInSteps": 16,
+				"gfSection": false,
+				"altAnim": false,
+				"mustHitSection": true,
+				"changeBPM": false,
+				"bpm": 150
+			},
+			{
+				"sectionNotes": [],
+				"typeOfSection": 0,
+				"lengthInSteps": 16,
+				"gfSection": false,
+				"altAnim": false,
+				"mustHitSection": true,
+				"changeBPM": false,
+				"bpm": 150
 			},
 			{
 				"gfSection": false,
@@ -4929,12 +5596,13 @@
 				"mustHitSection": true
 			}
 		],
-		"player2": "bf-pixel-opponent",
+		"gfVersion": "gf",
+		"events": [],
 		"player3": null,
 		"song": "Test",
-		"needsVoices": true,
 		"validScore": true,
-		"bpm": 150,
-		"speed": 3.1
+		"needsVoices": true,
+		"speed": 3.1,
+		"bpm": 150
 	}
 }
