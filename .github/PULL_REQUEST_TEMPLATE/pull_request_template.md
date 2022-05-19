@@ -1,8 +1,8 @@
 ---
-name: 🐞 Bug
-about: File a bug/issue
-title: '[BUG] <title>'
-labels: Bug, Needs Triage
+name: Pull Request
+about: Create a pull request
+title: '[PR] <title>'
+labels: Pull request
 assignees: ''
 
 ---
@@ -11,27 +11,15 @@ assignees: ''
 Note: Please search to see if an issue already exists for the bug you encountered.
 -->
 
-### Current Behavior:
+### For what it is:
 <!-- A concise description of what you're experiencing. -->
 
-### Expected Behavior:
-<!-- A concise description of what you expected to happen. -->
+### Errors:
+<!-- A concise description of the errors. -->
 
-### Steps To Reproduce:
+### Times you have proved this:
 <!--
-Example: steps to reproduce the behavior:
-1. In this environment...
-2. With this config...
-3. Run '...'
-4. See error...
--->
-
-### Environment:
-<!--
-Example:
-- OS: Ubuntu 20.04
-- Node: 13.14.0
-- npm: 7.6.3
+Times
 -->
 
 ### Anything else:
