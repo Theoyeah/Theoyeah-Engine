@@ -1,7 +1,7 @@
 ---
 
  <!--
- Note: Please search to see if an issue already exists for the bug you encountered.
+ Note: Please search to see if an pr already exists for the pr you created.
  -->
 
 ### For what it is:
@@ -17,5 +17,5 @@
 
 ### Anything else:
  <!--
- Links? References? Anything that will give us more context about the issue that you are encountering!
+ Links? References? Anything that will give us more context about the pr that you are creating!
  -->
