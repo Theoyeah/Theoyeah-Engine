@@ -89,7 +89,7 @@ class CreditsState extends MusicBeatState
 			['Pull Requests and Code used'],
 			['Mayo76',	        'unknown',	'Made some code for achivements',		'https://github.com/Mayo76'   /*, 'FFFFFF' */], //there isnt color because it isnt needed
 			['magnumsrtisswag ',	'unknown',	'Creator of stage editor',		'https://github.com/magnumsrtisswag'                 ],
-			['BeastlyGhost',        'unknown',     'Creator of v0.3 FPS Counter (Base Game)\n(Memory used)', 'https://github.com/BeastlyGhost'   ],
+			['BeastlyGhost',        'unknown',     'Creator of v0.3 FPS Counter (Base Game)\n(Memory used), and other good things', 'https://github.com/BeastlyGhost'   ],
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',							'https://twitter.com/Shadow_Mario_',	'444444'],
