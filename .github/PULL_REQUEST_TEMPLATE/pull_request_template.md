@@ -2,7 +2,7 @@
 name: Pull Request
 about: Create a pull request
 title: '[PR] <title>'
-labels: Pull request
+labels: 
 assignees: ''
 
 ---
