@@ -657,51 +657,53 @@ class TitleState extends MusicBeatState
 			// credTextShit.screenCenter();
 				case 5:
 					createCoolText(['With help of'], 15);
-				case 6:
-					addMoreText('Wither362 and DEMOLITIONDON69');
-					coolguys.visible = true;
 				case 7:
-					coolguys.visible = false;
-				case 8:
-					deleteCoolText();
-				case 9:
-					createCoolText(['A Modified Version of'], -40);
+					addMoreText('Wither362');
+					addMoreText('DEMOLITIONDON69');
+					coolguys.visible = true;
 				case 10:
+					deleteCoolText();
+					coolguys.visible = false;
+				case 11:
+					createCoolText(['A Modified Version of'], -40);
+				case 12:
 					addMoreText('Psych Engine', -40);
 					psychSpr.visible = true;
 			// credTextShit.text += '\nNewgrounds';
-				case 11:
+				case 13:
 					deleteCoolText();
 					psychSpr.visible = false;
 			// credTextShit.visible = false;
 
 			// credTextShit.text = 'Shoutouts Tom Fulp';
 			// credTextShit.screenCenter();
-				case 12:
+				case 14:
 					createCoolText([curWacky[0]]);
 			// credTextShit.visible = true;
-				case 13:
+				case 15:
 					addMoreText(curWacky[1]);
 			// credTextShit.text += '\nlmao';
-				case 14:
+				case 16:
 					if (curWacky[2] != null) { //im stupid bro, i wrote 3 instead of 2
 						addMoreText(curWacky[2]);
+					} else {
+						deleteCoolText();
 					}
-				case 15:
+				case 17:
 					deleteCoolText();
 			// credTextShit.visible = false;
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
-				case 16:
+				case 18:
 					addMoreText("Friday Night Funkin'");
 			// credTextShit.visible = true;
-				case 17:
+				case 19:
 					addMoreText('Theoyeah');
 			// credTextShit.text += '\nNight';
-				case 18:
+				case 20:
 					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
 
-				case 19:
+				case 21:
 					skipIntro();
 			}
 		}
