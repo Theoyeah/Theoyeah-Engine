@@ -1,6 +1,6 @@
 ---
-name: Pull Request
-about: Create a pull request
+name:
+about:
 title: '[PR] <title>'
 labels: 
 assignees: ''
@@ -11,18 +11,18 @@ assignees: ''
  Note: Please search to see if an issue already exists for the bug you encountered.
  -->
 
- ### For what it is:
+### For what it is:
  <!-- A concise description of what you're experiencing. -->
 
- ### Errors:
+### Errors:
  <!-- A concise description of the errors. -->
 
- ### Times you have proved this:
+### Times you have proved this:
  <!--
  Times
  -->
 
- ### Anything else:
+### Anything else:
  <!--
  Links? References? Anything that will give us more context about the issue that you are encountering!
  -->
