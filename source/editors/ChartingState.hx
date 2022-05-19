@@ -2781,7 +2781,7 @@ class ChartingState extends MusicBeatState
 	function loadJson(song:String, ?difficulty:Dynamic = null):Void
 	{
 		//make it look sexier if possible
-		if ((CoolUtil.difficulties[PlayState.storyDifficulty] != "Normal" && CoolUtil.difficulties[PlayState.storyDifficulty] != null) || (difficulty != null && difficulty != "Normal") {
+		if ((CoolUtil.difficulties[PlayState.storyDifficulty] != "Normal" && CoolUtil.difficulties[PlayState.storyDifficulty] != null) || (difficulty != null && difficulty != "Normal")) {
 			if(difficulty != null && Std.isOfType(difficulty, "hello")) {
 				PlayState.SONG = Song.loadFromJson(song.toLowerCase() + "-" + CoolUtil.difficulties[difficulty], song.toLowerCase());
 			} else {
