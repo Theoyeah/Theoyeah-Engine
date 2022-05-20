@@ -14,6 +14,9 @@ class NoteSplash extends FlxSprite
 		super(x, y);
 
 		var skin:String = 'noteSplashes';
+		switch(ClientPrefs.noteSplashes.toLowerCase()) {
+			case 'inverted': var skin = 'inverted_noteSplashes';
+		}
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 
 		loadAnims(skin);
@@ -31,6 +34,9 @@ class NoteSplash extends FlxSprite
 
 		if(texture == null) {
 			texture = 'noteSplashes';
+			switch(ClientPrefs.noteSplashes.toLowerCase()) {
+				case 'inverted': var texture = 'inverted_noteSplashes';
+			}
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
 		}
 
@@ -44,7 +50,7 @@ class NoteSplash extends FlxSprite
 
 		var animNum:Int = FlxG.random.int(1, 2);
 		animation.play('note' + note + '-' + animNum, true);
-		if(animation.curAnim != null)animation.curAnim.frameRate = 24 + FlxG.random.int(-2, 2);
+		if(animation.curAnim != null) animation.curAnim.frameRate = 24 + FlxG.random.int(-2, 2);
 	}
 
 	function loadAnims(skin:String) {
