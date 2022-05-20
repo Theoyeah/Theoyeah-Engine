@@ -2711,9 +2711,10 @@ class ChartingState extends MusicBeatState
 		updateGrid();
 		updateNoteUI();
 	}
-	var und;
+	var und:Array<Dynamic> = [];
 	// will figure this out l8r
-	function redo(){
+	function redo() {
+		//_song.notes.push(und[und.length]);
 		_song.notes = undos.push(und[und.length]);
 		//_song = redos[curRedoIndex];
 		updateGrid();
