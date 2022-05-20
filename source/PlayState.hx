@@ -4146,11 +4146,11 @@ class PlayState extends MusicBeatState
 						lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');						
 						
 					case 'Poisoned Note':
-						new FlxTimer().start(2.3, function(tmr:FlxTimer) //i dont know how this works
+						new FlxTimer().start(1.3, function(tmr:FlxTimer) //i dont know how this works
  						{
- 							health -= 0.1; 
+ 							health -= 0.05; 
  						});
-						healthDrain = 0.20; // what does this means?
+						healthDrain = 0.10; // what does this means?
 						
 					case 'Hurt Note': //Hurt note
 						if(boyfriend.animation.getByName('hurt') != null) {
