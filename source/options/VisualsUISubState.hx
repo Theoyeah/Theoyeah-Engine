@@ -35,10 +35,11 @@ class VisualsUISubState extends BaseOptionsMenu
 		rpcTitle = 'Visuals & UI Settings Menu'; //for Discord Rich Presence
 
 		var option:Option = new Option('Note Splashes',
-			"If unchecked, hitting \"Sick!\" notes won't show particles.",
+			"What type of noteSplashes do you want?",
 			'noteSplashes',
-			'bool',
-			true);
+			'string',
+			'Normal',
+			['Normal', 'None', 'Inverted']);
 		addOption(option);
 
 		var option:Option = new Option('Kade Engine Score Text',
