@@ -2714,7 +2714,7 @@ class ChartingState extends MusicBeatState
 	var und:Dynamic = [];
 	// will figure this out l8r
 	function redo() {
-		if(und != null) {
+		if(und[0] != null) {
 			_song.notes.push(und[und.length]);
 			//_song.notes = undos.push(und[und.length]);
 			//_song = redos[curRedoIndex];
