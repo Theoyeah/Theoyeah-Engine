@@ -640,7 +640,6 @@ class TitleState extends MusicBeatState
 			switch (sickBeats)
 			{
 				case 1: 
-					FlxG.sound.music.stop();
 					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 					FlxG.sound.music.fadeIn(4, 0, 0.7);
 				case 2:
