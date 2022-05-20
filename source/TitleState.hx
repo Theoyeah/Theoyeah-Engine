@@ -253,9 +253,9 @@ class TitleState extends MusicBeatState
 			// FlxG.sound.list.add(music);
 			// music.play();
 
-			/*if(FlxG.sound.music == null) {
+			if(FlxG.sound.music == null) {
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-			}*/
+			}
 		}
 
 		Conductor.changeBPM(titleJSON.bpm);
