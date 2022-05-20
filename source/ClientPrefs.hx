@@ -29,6 +29,7 @@ class ClientPrefs {
 	public static var noReset:Bool = false;
 	public static var healthBarAlpha:Float = 1;
 	public static var controllerMode:Bool = false;
+	public static var language:String = 'English';
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
 	public static var introbg:Bool = false;
@@ -130,6 +131,7 @@ class ClientPrefs {
 		FlxG.save.data.scoreZoom = scoreZoom;
 		FlxG.save.data.kadetxt = kadetxt;
 		FlxG.save.data.introbg = introbg;
+		FlxG.save.data.language = language;
 		FlxG.save.data.noReset = noReset;
 		FlxG.save.data.noscore = noscore;
 		FlxG.save.data.camfollow = camfollow;
@@ -191,6 +193,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.globalAntialiasing != null) {
 			globalAntialiasing = FlxG.save.data.globalAntialiasing;
+		}
+		if(FlxG.save.data.language != null) {
+			globalAntialiasing = FlxG.save.data.language;
 		}
 		if(FlxG.save.data.noteSplashes != null) {
 			noteSplashes = FlxG.save.data.noteSplashes;

@@ -70,7 +70,9 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
-	public static var ratingStuff:Array<Dynamic> = [
+		if(ClientPrefs.language == "English") 
+		{
+		public static var ratingStuff:Array<Dynamic> = [
 		['Its not hard you just suck as hell', 0.2], //From 0% to 19%
 		['skill issue', 0.4], //From 20% to 39%
 		['Bad', 0.5], //From 40% to 49%
@@ -81,7 +83,22 @@ class PlayState extends MusicBeatState
 		['Good!', 0.9], //From 80% to 89%
 		['Sick!!', 1], //From 90% to 99%
 		['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
-	];
+		];
+		} else {
+		public static var ratingStuff:Array<Dynamic> = [
+		['Pas dur tes juste mauvais', 0.2], //From 0% to 19%
+		['Problème', 0.4], //From 20% to 39%
+		['Nul', 0.5], //From 40% to 49%
+		['Ok', 0.6], //From 50% to 59%
+		['Pas mauvais', 0.69], //From 60% to 68%
+		['Yo', 0.7], //69%
+		['Cool!', 0.8], //From 70% to 79%
+		['Bien!', 0.9], //From 80% to 89%
+		['Génial!!', 1], //From 90% to 99%
+		['Parfait!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		];
+		}
+		
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
 	public var modchartTimers:Map<String, FlxTimer> = new Map<String, FlxTimer>();
@@ -1080,7 +1097,11 @@ class PlayState extends MusicBeatState
 			judgementCounter.scrollFactor.set();
 			judgementCounter.cameras = [camHUD];
 			judgementCounter.screenCenter(Y);
+			if(ClientPrefs.language == "English") {
 			judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
+			} else {
+			judgementCounter.text = 'Merveilleux: ${marvelous}\nGénials: ${sicks}\nBiens: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}\n';
+			}
 			add(judgementCounter);
 		}
 		              
@@ -1088,7 +1109,7 @@ class PlayState extends MusicBeatState
 
 
 	
-		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "CHEATING MODE", 32);
+		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
@@ -4764,7 +4785,10 @@ class PlayState extends MusicBeatState
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
 		if (ClientPrefs.crazycounter) {
+			ifif(ClientPrefs.language == "English") {
 			judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
+			} else {
+			judgementCounter.text = 'Merveilleux: ${marvelous}\nGénials: ${sicks}\nCools: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}\n';
 	        }
 		    }
 
