@@ -2036,7 +2036,7 @@ class ChartingState extends MusicBeatState
 		}
 		#if MUSIC_FOLDER_ALLOWED
 		else if (FileSystem.exists(Paths.modFolders('music/' + currentSongName + '/Voices.ogg'))) {
-			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.ogg'));
+			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('music/' + currentSongName + '/Voices.ogg'));
 			//trace('Custom vocals found');
 		}
 		#end
@@ -2046,7 +2046,7 @@ class ChartingState extends MusicBeatState
 		}
 		#if MUSIC_FOLDER_ALLOWED
 		else if (FileSystem.exists(Paths.modFolders('music/' + currentSongName + '/Voices.mp3'))) {
-			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.mp3'));
+			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('music/' + currentSongName + '/Voices.mp3'));
 			//trace('Custom vocals found');
 		}
 		#end
@@ -2057,7 +2057,7 @@ class ChartingState extends MusicBeatState
 		}
 		#if MUSIC_FOLDER_ALLOWED
 		else if (FileSystem.exists(Paths.modFolders('music/' + currentSongName + '/Voices.wav'))) {
-			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.wav'));
+			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('music/' + currentSongName + '/Voices.wav'));
 			//trace('Custom vocals found');
 		}
 		#end
