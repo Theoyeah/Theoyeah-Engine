@@ -10,7 +10,7 @@ class NoteSplash extends FlxSprite
 	private var idleAnim:String;
 	private var textureLoaded:String = null;
 
-	public function noteS(note:String):String { // from noteSplashes
+	public static function noteS(note:String):String { // from noteSplashes
 		return note.toLowerCase() + '_noteSplashes';
 	}
 	public function new(x:Float = 0, y:Float = 0, ?note:Int = 0) {
