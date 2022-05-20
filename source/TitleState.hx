@@ -253,9 +253,9 @@ class TitleState extends MusicBeatState
 			// FlxG.sound.list.add(music);
 			// music.play();
 
-			if(FlxG.sound.music == null) {
+			/*if(FlxG.sound.music == null) {
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-			}
+			}*/
 		}
 
 		Conductor.changeBPM(titleJSON.bpm);
@@ -503,7 +503,9 @@ class TitleState extends MusicBeatState
 			{
 				if(titleText != null) titleText.animation.play('press');
 
-				FlxG.camera.flash(FlxColor.WHITE, 1);
+				if(ClientPrefs.flashing) {
+					FlxG.camera.flash(FlxColor.WHITE, 1);
+				}
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 				transitioning = true;
@@ -638,10 +640,10 @@ class TitleState extends MusicBeatState
 			switch (sickBeats)
 			{
 				case 1: 
-						FlxG.sound.music.stop();
-						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-						FlxG.sound.music.fadeIn(4, 0, 0.7);
-				case 2: // why dont we put here 0 to music start at the same time as text
+					FlxG.sound.music.stop();
+					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+					FlxG.sound.music.fadeIn(4, 0, 0.7);
+				case 2:
 					createCoolText(['Theoyeah Engine by'], 15);
 			// credTextShit.visible = true;
 				case 3:
@@ -743,7 +745,9 @@ class TitleState extends MusicBeatState
 					
 					default: //Go back to normal ugly ass boring GF
 						removeThings();
-						FlxG.camera.flash(FlxColor.WHITE, 2);
+						if(ClientPrefs.flashing) {
+							FlxG.camera.flash(FlxColor.WHITE, 2);
+						}
 						skippedIntro = true;
 						playJingle = false;
 						
@@ -758,14 +762,18 @@ class TitleState extends MusicBeatState
 					new FlxTimer().start(3.2, function(tmr:FlxTimer)
 					{
 						removeThings();
-						FlxG.camera.flash(FlxColor.WHITE, 0.6);
+						if(ClientPrefs.flashing) {
+							FlxG.camera.flash(FlxColor.WHITE, 0.6);
+						}
 						transitioning = false;
 					});
 				}
 				else
 				{
 					removeThings();
-					FlxG.camera.flash(FlxColor.WHITE, 3);
+					if(ClientPrefs.flashing) {
+						FlxG.camera.flash(FlxColor.WHITE, 3);
+					}
 					sound.onComplete = function() {
 						FlxG.sound.playMusic(Paths.music(ClientPrefs.musicSelected), 0);
 						FlxG.sound.music.fadeIn(4, 0, 0.7);
@@ -777,7 +785,9 @@ class TitleState extends MusicBeatState
 			else //Default! Edit this one!!
 			{
 				removeThings();
-				FlxG.camera.flash(FlxColor.WHITE, 4);
+				if(ClientPrefs.flashing) {
+					FlxG.camera.flash(FlxColor.WHITE, 4);
+				}
 
 				var easteregg:String = FlxG.save.data.psychDevsEasterEgg;
 				if (easteregg == null) easteregg = '';
