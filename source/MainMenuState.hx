@@ -48,7 +48,7 @@ class MainMenuState extends MusicBeatState
 	var camFollowPos:FlxObject;
 	var debugKeys:Array<FlxKey>;
 
-    var logo:FlxSprite;
+	var logo:FlxSprite;
 	
 	override function create()
 	{
@@ -256,10 +256,10 @@ class MainMenuState extends MusicBeatState
 								{
 									case 'story_mode':
 										MusicBeatState.switchState(new StoryMenuState());
-										Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + "Story Mode";
+										Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Story Mode";
 									case 'freeplay':
 										MusicBeatState.switchState(new FreeplayState());
-										Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + "Freeplay";
+										Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Freeplay";
 									#if MODS_ALLOWED
 									case 'mods':
 										MusicBeatState.switchState(new ModsMenuState());
@@ -276,10 +276,11 @@ class MainMenuState extends MusicBeatState
 					});
 				}
 			}
-			#if desktop
+			#if (desktop && MODS_ALLOWED)
 			else if (FlxG.keys.anyJustPressed(debugKeys))
 			{
 				selectedSomethin = true;
+				//Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Master Editor Menu";
 				MusicBeatState.switchState(new MasterEditorMenu());
 			}
 			#end
