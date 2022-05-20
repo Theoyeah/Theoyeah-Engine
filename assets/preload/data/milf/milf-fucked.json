@@ -1,20 +1,41 @@
 {
 	"song": {
 		"player1": "bf-car",
-		"player2": "mom-car",
+		"events": [
+			[
+				110500,
+				[
+					[
+						"Screen Shake",
+						"0.5, 0.05",
+						""
+					]
+				]
+			],
+			[
+				120000,
+				[
+					[
+						"Screen Shake",
+						"2, 0.05",
+						""
+					]
+				]
+			]
+		],
+		"gfVersion": "gf-car",
 		"notes": [
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						3416.66675,
@@ -57,10 +78,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						4166.667,
@@ -93,10 +114,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						6250,
@@ -139,10 +160,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						6833.3335,
@@ -185,10 +206,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						8750,
@@ -231,10 +252,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						9500,
@@ -267,10 +288,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						11583.334,
@@ -313,10 +334,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						12166.667,
@@ -359,10 +380,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						13333.334,
@@ -395,10 +416,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						15166.667,
@@ -431,10 +452,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						16166.667,
@@ -467,10 +488,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						17333.334,
@@ -523,10 +544,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						18666.6673333333,
@@ -559,10 +580,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						20500.0003333333,
@@ -595,10 +616,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						21500.0003333333,
@@ -631,10 +652,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						22666.6673333333,
@@ -687,10 +708,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						24000,
@@ -738,10 +759,10 @@
 						83.3333333333333
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						25500,
@@ -779,10 +800,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						26916.668,
@@ -835,10 +856,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						28166.668,
@@ -886,10 +907,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						29333.3333333333,
@@ -942,10 +963,10 @@
 						250
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						30833.3333333333,
@@ -983,10 +1004,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						32250.0013333333,
@@ -1039,10 +1060,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						33500.0013333333,
@@ -1090,10 +1111,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						34666.668,
@@ -1131,10 +1152,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						36000,
@@ -1192,10 +1213,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						37333.3359,
@@ -1238,10 +1259,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						39166.668,
@@ -1314,10 +1335,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						40000.0013333333,
@@ -1355,10 +1376,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						41333.3333333333,
@@ -1416,10 +1437,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						42666.6692333333,
@@ -1462,10 +1483,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						44500.0013333333,
@@ -1538,10 +1559,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						45333.334,
@@ -1574,10 +1595,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						47166.667,
@@ -1610,10 +1631,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						48166.667,
@@ -1646,10 +1667,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						49333.334,
@@ -1702,10 +1723,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						50666.6673333333,
@@ -1736,12 +1757,18 @@
 						51916.6666666667,
 						2,
 						0
+					],
+					[
+						51166.6666666667,
+						1,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						52500.0003333333,
@@ -1772,12 +1799,18 @@
 						53166.6666666667,
 						3,
 						0
+					],
+					[
+						52166.6666666667,
+						0,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						53500.0003333333,
@@ -1808,12 +1841,18 @@
 						53583.3333333333,
 						3,
 						0
+					],
+					[
+						54333.3333333334,
+						3,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						54666.6673333333,
@@ -1866,10 +1905,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						56333.3359,
@@ -1922,10 +1961,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						57500,
@@ -2003,10 +2042,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						58833.3359,
@@ -2087,21 +2126,70 @@
 						59750,
 						3,
 						0
+					],
+					[
+						59166.6666666667,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						59333.3333333334,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						59500,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						59666.6666666667,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						59833.3333333334,
+						7,
+						0,
+						"Poisoned Note"
+					],
+					[
+						59833.3333333334,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						58666.6666666667,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						59000,
+						7,
+						0,
+						"Poisoned Note"
+					],
+					[
+						59333.3333333334,
+						7,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						60166.668,
 						1,
-						0
-					],
-					[
-						60333.3359,
-						2,
 						0
 					],
 					[
@@ -2173,12 +2261,59 @@
 						61166.6666666667,
 						0,
 						0
+					],
+					[
+						60333.3333333334,
+						2,
+						0
+					],
+					[
+						60333.3333333334,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						60833.3333333334,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						61000,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						61166.6666666667,
+						7,
+						0,
+						"Poisoned Note"
+					],
+					[
+						60166.6666666667,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						60666.6666666667,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						60833.3333333334,
+						7,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						61666.6692333333,
@@ -2229,12 +2364,24 @@
 						62416.6666666667,
 						2,
 						0
+					],
+					[
+						61500,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						62166.6666666667,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						62833.3333333333,
@@ -2312,10 +2459,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						64166.6692333333,
@@ -2398,10 +2545,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						65500.0013333333,
@@ -2484,10 +2631,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						66666.6666666667,
@@ -2535,10 +2682,10 @@
 						83.3333333333333
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						68166.6666666667,
@@ -2576,10 +2723,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						69583.3346666667,
@@ -2632,10 +2779,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						70833.3346666667,
@@ -2683,10 +2830,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						72000,
@@ -2739,10 +2886,10 @@
 						333.333333333333
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						73500,
@@ -2778,12 +2925,18 @@
 						73666.6666666666,
 						0,
 						0
+					],
+					[
+						74166.6666666667,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						74916.668,
@@ -2834,12 +2987,24 @@
 						75833.3333333333,
 						3,
 						0
+					],
+					[
+						75166.6666666667,
+						1,
+						0,
+						"Poisoned Note"
+					],
+					[
+						75666.6666666667,
+						0,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						76166.668,
@@ -2885,12 +3050,18 @@
 						76833.3333333333,
 						2,
 						0
+					],
+					[
+						76333.3333333333,
+						1,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						77333.3359,
@@ -2923,10 +3094,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						78666.67,
@@ -2987,12 +3158,24 @@
 						79833.3359,
 						5,
 						83.3333359
+					],
+					[
+						79000,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						79333.3333333333,
+						7,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						80000,
@@ -3143,12 +3326,18 @@
 						81166.6666666667,
 						6,
 						0
+					],
+					[
+						80166.6666666667,
+						5,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						81333.3359,
@@ -3289,12 +3478,30 @@
 						82333.3333333333,
 						7,
 						0
+					],
+					[
+						81583.3333333333,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						81916.6666666667,
+						7,
+						0,
+						"Poisoned Note"
+					],
+					[
+						81750,
+						4,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						82666.67,
@@ -3365,12 +3572,42 @@
 						83833.3333333333,
 						6,
 						0
+					],
+					[
+						82916.6666666667,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						83083.3333333333,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						83333.3333333333,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						83416.6666666667,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						83500,
+						7,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						84000,
@@ -3426,12 +3663,30 @@
 						85000,
 						5,
 						0
+					],
+					[
+						84166.6666666667,
+						7,
+						0,
+						"Poisoned Note"
+					],
+					[
+						84500,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						84833.3333333333,
+						7,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						85333.3359,
@@ -3534,10 +3789,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						86666.67,
@@ -3603,12 +3858,18 @@
 						87166.6666666666,
 						3,
 						0
+					],
+					[
+						87333.3333333333,
+						0,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						88000,
@@ -3654,20 +3915,33 @@
 						88833.3333333333,
 						1,
 						0
+					],
+					[
+						88000,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						88000,
+						7,
+						0,
+						"Poisoned Note"
+					],
+					[
+						88000,
+						6,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						89500,
-						1,
-						0
-					],
-					[
-						89833.3359,
 						1,
 						0
 					],
@@ -3690,12 +3964,18 @@
 						90166.6666666666,
 						2,
 						0
+					],
+					[
+						89833.3333333333,
+						2,
+						0,
+						"Crash Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						90666.67,
@@ -3743,10 +4023,10 @@
 						41.6666666666667
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						92000,
@@ -3804,10 +4084,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						93333.3359,
@@ -3918,12 +4198,24 @@
 						94500,
 						4,
 						0
+					],
+					[
+						94000,
+						2,
+						0,
+						"Poisoned Note"
+					],
+					[
+						94166.6666666666,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						95500,
@@ -3984,12 +4276,18 @@
 						95499.9999999999,
 						6,
 						0
+					],
+					[
+						94999.9999999999,
+						2,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						96000,
@@ -4075,12 +4373,24 @@
 						97166.6666666666,
 						3,
 						0
+					],
+					[
+						96333.3333333333,
+						3,
+						0,
+						"Poisoned Note"
+					],
+					[
+						96666.6666666666,
+						0,
+						0,
+						"Poisoned Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						97333.3359,
@@ -4191,12 +4501,528 @@
 						98333.3333333333,
 						7,
 						41.6666666666667
+					],
+					[
+						98249.9999999999,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98194.4444444444,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98222.2222222222,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98194.4444444444,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98222.2222222222,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98249.9999999999,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98277.7777777777,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98277.7777777777,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98305.5555555555,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98333.3333333333,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98361.1111111111,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98388.8888888888,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98388.8888888888,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98388.8888888888,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98361.1111111111,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98333.3333333333,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98277.7777777777,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98305.5555555555,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98305.5555555555,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98333.3333333333,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98361.1111111111,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98444.4444444444,
+						7,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98416.6666666666,
+						7,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98388.8888888888,
+						7,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98361.1111111111,
+						7,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98444.4444444444,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98416.6666666666,
+						6,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98416.6666666666,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98444.4444444444,
+						5,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98444.4444444444,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98416.6666666666,
+						4,
+						0,
+						"Poisoned Note"
+					],
+					[
+						98427.0833333333,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98437.4999999999,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98427.0833333333,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98427.0833333333,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98427.0833333333,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98437.4999999999,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98437.4999999999,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98437.4999999999,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98406.2499999999,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98395.8333333333,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98395.8333333333,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98395.8333333333,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98406.2499999999,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98406.2499999999,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98406.2499999999,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98395.8333333333,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98208.3333333333,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98208.3333333333,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98201.3888888888,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98208.3333333333,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98201.3888888888,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98201.3888888888,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98201.3888888888,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98215.2777777777,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98215.2777777777,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98215.2777777777,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98215.2777777777,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98208.3333333333,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98222.2222222222,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98222.2222222222,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98229.1666666666,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98229.1666666666,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98229.1666666666,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98236.1111111111,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98243.0555555555,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98243.0555555555,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98236.1111111111,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98236.1111111111,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98243.0555555555,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98243.0555555555,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98236.1111111111,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98229.1666666666,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98256.9444444444,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98256.9444444444,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98256.9444444444,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98256.9444444444,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98249.9999999999,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98263.8888888888,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98270.8333333333,
+						7,
+						0,
+						"Crash Note"
+					],
+					[
+						98270.8333333333,
+						6,
+						0,
+						"Crash Note"
+					],
+					[
+						98270.8333333333,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98270.8333333333,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98263.8888888888,
+						4,
+						0,
+						"Crash Note"
+					],
+					[
+						98263.8888888888,
+						5,
+						0,
+						"Crash Note"
+					],
+					[
+						98263.8888888888,
+						6,
+						0,
+						"Crash Note"
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						98666.67,
@@ -4210,11 +5036,6 @@
 					],
 					[
 						99666.67,
-						1,
-						0
-					],
-					[
-						99833.3359,
 						1,
 						0
 					],
@@ -4240,14 +5061,14 @@
 					],
 					[
 						99833.3333333333,
-						0,
+						2,
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						100500,
@@ -4268,12 +5089,22 @@
 						101166.672,
 						1,
 						250
+					],
+					[
+						100500,
+						0,
+						0
+					],
+					[
+						100541.666666667,
+						1,
+						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						101500,
@@ -4301,10 +5132,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						102666.672,
@@ -4350,12 +5181,17 @@
 						103833.336,
 						1,
 						0
+					],
+					[
+						102958.333333333,
+						1,
+						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						104000,
@@ -4388,15 +5224,15 @@
 						0
 					],
 					[
-						105166.666666667,
-						0,
+						105083.333333333,
+						2,
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						105833.336,
@@ -4417,12 +5253,27 @@
 						106500,
 						1,
 						250
+					],
+					[
+						106166.666666667,
+						1,
+						0
+					],
+					[
+						106500,
+						0,
+						166.666666666667
+					],
+					[
+						106500,
+						3,
+						291.666666666667
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						106833.336,
@@ -4450,10 +5301,10 @@
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						108000,
@@ -4463,11 +5314,6 @@
 					[
 						108166.672,
 						3,
-						0
-					],
-					[
-						108250,
-						2,
 						0
 					],
 					[
@@ -4496,15 +5342,40 @@
 						0
 					],
 					[
-						109166.672,
+						108250,
+						2,
+						0
+					],
+					[
+						108291.666666667,
+						1,
+						0
+					],
+					[
+						108583.333333333,
+						2,
+						0
+					],
+					[
+						108916.666666667,
+						1,
+						0
+					],
+					[
+						109250,
+						2,
+						0
+					],
+					[
+						109125,
 						1,
 						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						109333.336,
@@ -4517,23 +5388,8 @@
 						0
 					],
 					[
-						109500,
-						0,
-						0
-					],
-					[
 						109583.336,
 						3,
-						0
-					],
-					[
-						109833.336,
-						3,
-						0
-					],
-					[
-						110000,
-						1,
 						0
 					],
 					[
@@ -4544,7 +5400,7 @@
 					[
 						110500,
 						0,
-						0
+						125
 					],
 					[
 						109500,
@@ -4552,20 +5408,40 @@
 						0
 					],
 					[
-						109583.333333333,
-						1,
+						109541.666666667,
+						2,
 						0
 					],
 					[
 						109833.333333333,
-						1,
+						2,
 						0
+					],
+					[
+						110000,
+						3,
+						0
+					],
+					[
+						110500,
+						1,
+						125
+					],
+					[
+						110500,
+						2,
+						125
+					],
+					[
+						110500,
+						3,
+						125
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						110833.336,
@@ -4583,25 +5459,35 @@
 						0
 					],
 					[
-						111333.336,
-						1,
-						0
-					],
-					[
-						111583.336,
-						1,
-						0
-					],
-					[
 						111833.336,
 						3,
 						0
+					],
+					[
+						111333.333333333,
+						1,
+						0
+					],
+					[
+						111375,
+						2,
+						0
+					],
+					[
+						111208.333333333,
+						2,
+						0
+					],
+					[
+						111583.333333333,
+						2,
+						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						112083.336,
@@ -4634,20 +5520,35 @@
 						0
 					],
 					[
-						112916.672,
+						113166.672,
+						2,
+						250
+					],
+					[
+						112125,
+						2,
+						0
+					],
+					[
+						112194.444444444,
+						2,
+						0
+					],
+					[
+						112222.222222222,
 						1,
 						0
 					],
 					[
-						113166.672,
-						2,
-						250
+						112916.666666667,
+						0,
+						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						113500,
@@ -4693,12 +5594,32 @@
 						114500,
 						3,
 						0
+					],
+					[
+						113708.333333333,
+						2,
+						0
+					],
+					[
+						114208.333333333,
+						2,
+						0
+					],
+					[
+						114083.333333333,
+						2,
+						0
+					],
+					[
+						113916.666666667,
+						0,
+						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": false
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						114666.672,
@@ -4726,11 +5647,6 @@
 						0
 					],
 					[
-						115166.672,
-						3,
-						0
-					],
-					[
 						115333.336,
 						1,
 						0
@@ -4746,25 +5662,50 @@
 						0
 					],
 					[
-						114833.333333333,
-						1,
-						0
-					],
-					[
-						114916.666666667,
-						1,
-						0
-					],
-					[
 						115166.666666667,
 						1,
 						0
+					],
+					[
+						114708.333333333,
+						2,
+						0
+					],
+					[
+						114791.666666667,
+						1,
+						0
+					],
+					[
+						114777.777777778,
+						2,
+						0
+					],
+					[
+						114888.888888889,
+						2,
+						0
+					],
+					[
+						114861.111111111,
+						1,
+						0
+					],
+					[
+						115208.333333333,
+						2,
+						0
+					],
+					[
+						115375,
+						2,
+						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						116166.672,
@@ -4787,20 +5728,40 @@
 						0
 					],
 					[
-						116916.672,
-						1,
-						0
-					],
-					[
 						117166.672,
 						3,
 						0
+					],
+					[
+						116527.777777778,
+						0,
+						0
+					],
+					[
+						116708.333333333,
+						0,
+						0
+					],
+					[
+						116916.666666667,
+						2,
+						0
+					],
+					[
+						116916.666666667,
+						3,
+						0
+					],
+					[
+						116958.333333333,
+						1,
+						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						117416.672,
@@ -4841,12 +5802,47 @@
 						118500,
 						2,
 						250
+					],
+					[
+						117458.333333333,
+						2,
+						0
+					],
+					[
+						117527.777777778,
+						0,
+						0
+					],
+					[
+						117555.555555555,
+						3,
+						0
+					],
+					[
+						117611.111111111,
+						2,
+						0
+					],
+					[
+						117958.333333333,
+						2,
+						0
+					],
+					[
+						118083.333333333,
+						0,
+						0
+					],
+					[
+						118333.333333333,
+						0,
+						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						118833.336,
@@ -4892,34 +5888,560 @@
 						119833.336,
 						3,
 						0
+					],
+					[
+						119041.666666667,
+						2,
+						0
+					],
+					[
+						119416.666666667,
+						2,
+						0
+					],
+					[
+						119541.666666667,
+						2,
+						0
 					]
 				],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
-				"lengthInSteps": 16,
 				"sectionNotes": [
 					[
 						120000,
 						2,
 						833.3334
+					],
+					[
+						120000,
+						0,
+						0,
+						"Hurt Note"
+					],
+					[
+						120000,
+						1,
+						0,
+						"Hurt Note"
+					],
+					[
+						120000,
+						3,
+						0,
+						"Hurt Note"
+					],
+					[
+						120166.666666667,
+						3,
+						0,
+						"Hurt Note"
+					],
+					[
+						120333.333333333,
+						3,
+						0,
+						"Hurt Note"
+					],
+					[
+						120500,
+						3,
+						0,
+						"Hurt Note"
+					],
+					[
+						120666.666666667,
+						3,
+						0,
+						"Hurt Note"
+					],
+					[
+						120833.333333333,
+						1,
+						0,
+						"Hurt Note"
+					],
+					[
+						120666.666666667,
+						1,
+						0,
+						"Hurt Note"
+					],
+					[
+						120333.333333333,
+						1,
+						0,
+						"Hurt Note"
+					],
+					[
+						120166.666666667,
+						1,
+						0,
+						"Hurt Note"
+					],
+					[
+						120500,
+						1,
+						0,
+						"Hurt Note"
+					],
+					[
+						120833.333333333,
+						0,
+						0,
+						"Hurt Note"
+					],
+					[
+						120666.666666667,
+						0,
+						0,
+						"Hurt Note"
+					],
+					[
+						120333.333333333,
+						0,
+						0,
+						"Hurt Note"
+					],
+					[
+						120166.666666667,
+						0,
+						0,
+						"Hurt Note"
+					],
+					[
+						120500,
+						0,
+						0,
+						"Hurt Note"
+					],
+					[
+						120833.333333333,
+						3,
+						0,
+						"Hurt Note"
+					],
+					[
+						121166.666666667,
+						2,
+						0,
+						"Crash Note"
 					]
 				],
+				"lengthInSteps": 16,
+				"mustHitSection": true
+			},
+			{
+				"sectionNotes": [
+					[
+						121333.333333333,
+						2,
+						0,
+						"Crash Note"
+					]
+				],
+				"lengthInSteps": 16,
+				"mustHitSection": true
+			},
+			{
+				"sectionNotes": [
+					[
+						122666.666666667,
+						0,
+						0,
+						"Crash Note"
+					],
+					[
+						122666.666666667,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122666.666666667,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122666.666666667,
+						3,
+						0,
+						"Crash Note"
+					],
+					[
+						122694.444444444,
+						3,
+						0,
+						"Crash Note"
+					],
+					[
+						122694.444444444,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122694.444444444,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122694.444444444,
+						0,
+						0,
+						"Crash Note"
+					],
+					[
+						122722.222222222,
+						0,
+						0,
+						"Crash Note"
+					],
+					[
+						122722.222222222,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122722.222222222,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122722.222222222,
+						3,
+						0,
+						"Crash Note"
+					],
+					[
+						122750,
+						3,
+						0,
+						"Crash Note"
+					],
+					[
+						122750,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122750,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122750,
+						0,
+						0,
+						"Crash Note"
+					],
+					[
+						122952.083333333,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122936.805555555,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122926.388888889,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122920.833333333,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122915.277777778,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122910.416666667,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122906.944444444,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122902.777777778,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122894.444444444,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122890.277777778,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122886.805555555,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122881.944444444,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122879.166666667,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122872.916666667,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122870.833333333,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122866.666666667,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122863.194444444,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122856.25,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122852.777777778,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122850,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122848.611111111,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122843.75,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122838.888888889,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122837.5,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122917.361111111,
+						0,
+						0,
+						"Crash Note"
+					],
+					[
+						122906.25,
+						0,
+						0,
+						"Crash Note"
+					],
+					[
+						122880.555555555,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122871.527777778,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122861.111111111,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122827.777777778,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122816.666666667,
+						3,
+						0,
+						"Crash Note"
+					],
+					[
+						122854.166666667,
+						3,
+						0,
+						"Crash Note"
+					],
+					[
+						122881.25,
+						3,
+						0,
+						"Crash Note"
+					],
+					[
+						122915.972222222,
+						3,
+						0,
+						"Crash Note"
+					],
+					[
+						122977.777777778,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122970.833333333,
+						0,
+						0,
+						"Crash Note"
+					],
+					[
+						122949.305555555,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122933.333333333,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122918.055555555,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122866.666666667,
+						0,
+						0,
+						"Crash Note"
+					],
+					[
+						122820.138888889,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122806.25,
+						2,
+						0,
+						"Crash Note"
+					],
+					[
+						122811.805555555,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122852.083333333,
+						1,
+						0,
+						"Crash Note"
+					],
+					[
+						122837.5,
+						0,
+						0,
+						"Crash Note"
+					],
+					[
+						122818.75,
+						0,
+						0,
+						"Crash Note"
+					],
+					[
+						122807.638888889,
+						0,
+						0,
+						"Crash Note"
+					]
+				],
+				"lengthInSteps": 16,
+				"mustHitSection": true
+			},
+			{
+				"sectionNotes": [],
+				"lengthInSteps": 16,
 				"mustHitSection": true
 			},
 			{
 				"lengthInSteps": 16,
+				"typeOfSection": 0,
 				"sectionNotes": [],
-				"mustHitSection": true
-			},
-			{
-				"lengthInSteps": 16,
-				"sectionNotes": [],
-				"mustHitSection": true
-			},
-			{
-				"lengthInSteps": 16,
-				"sectionNotes": [],
+				"altAnim": false,
+				"gfSection": false,
+				"bpm": 180,
+				"changeBPM": false,
 				"mustHitSection": true
 			},
 			{
@@ -4943,13 +6465,12 @@
 				"mustHitSection": true
 			}
 		],
-		"gfVersion": "gf-car",
-		"events": [],
+		"player2": "mom-car",
 		"player3": null,
 		"song": "Milf",
-		"validScore": true,
 		"needsVoices": true,
-		"speed": 3,
-		"bpm": 180
+		"validScore": true,
+		"bpm": 180,
+		"speed": 3
 	}
 }
