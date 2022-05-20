@@ -995,7 +995,12 @@ class EditorPlayState extends MusicBeatState
 	function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
 		var skin:String = 'noteSplashes';
 		switch(ClientPrefs.noteSplashes.toLowerCase()) {
-			case 'inverted': skin = 'inverted_noteSplashes';
+			case 'inverted': skin = NoteSplash.noteS('inverted');
+			case 'red': skin = NoteSplash.noteS('red');
+			case 'cyan': skin = NoteSplash.noteS('cyan');
+			case 'green': skin = NoteSplash.noteS('green');
+			case 'pink': skin = NoteSplash.noteS('pink');
+			case 'idk': skin = NoteSplash.noteS('idk');
 		}
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 		
