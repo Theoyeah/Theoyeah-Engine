@@ -10,22 +10,24 @@ class NoteSplash extends FlxSprite
 	private var idleAnim:String;
 	private var textureLoaded:String = null;
 
-	public static function noteS(note:String):String { // from noteSplashes
-		return note.toLowerCase() + '_noteSplashes';
+	public static function noteS():String { // from noteSplashes
+		var hola:String = 'noteSplashes';
+		switch(ClientPrefs.noteSplashes.toLowerCase()) {
+			case 'inverted': hola = 'inverted';
+			case 'red': hola = 'red';
+			case 'cyan': hola = 'cyan';
+			case 'green': hola = 'green';
+			case 'pink': hola = 'pink';
+			case 'idk': hola = 'idk';
+			case 'original': hola = 'og';
+			default: hola = 'noteSplashes';
+		}
+		return hola.toLowerCase() + '_noteSplashes';
 	}
 	public function new(x:Float = 0, y:Float = 0, ?note:Int = 0) {
 		super(x, y);
 
-		var skin:String = 'noteSplashes';
-		switch(ClientPrefs.noteSplashes.toLowerCase()) {
-			case 'inverted': skin = noteS('inverted');
-			case 'red': skin = noteS('red');
-			case 'cyan': skin = noteS('cyan');
-			case 'green': skin = noteS('green');
-			case 'pink': skin = noteS('pink');
-			case 'idk': skin = noteS('idk');
-			case 'original': skin = noteS('og');
-		}
+		var skin:String = noteS();
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 
 		loadAnims(skin);
@@ -42,16 +44,7 @@ class NoteSplash extends FlxSprite
 		alpha = 0.6;
 
 		if(texture == null) {
-			texture = 'noteSplashes';
-			switch(ClientPrefs.noteSplashes.toLowerCase()) {
-				case 'inverted': texture = noteS('inverted');
-				case 'red': texture = noteS('red');
-				case 'cyan': texture = noteS('cyan');
-				case 'green': texture = noteS('green');
-				case 'pink': texture = noteS('pink');
-				case 'idk': texture = noteS('idk');
-				case 'original': texture = noteS('og');
-			}
+			texture = noteS();
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
 		}
 
