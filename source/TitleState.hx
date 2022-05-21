@@ -253,9 +253,9 @@ class TitleState extends MusicBeatState
 			// FlxG.sound.list.add(music);
 			// music.play();
 
-			/*if(FlxG.sound.music == null) {
+			if(FlxG.sound.music == null) {
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-			}*/
+			}
 		}
 
 		Conductor.changeBPM(titleJSON.bpm);
@@ -640,9 +640,8 @@ class TitleState extends MusicBeatState
 			switch (sickBeats)
 			{
 				case 1: 
-					FlxG.sound.music.stop();
 					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-					FlxG.sound.music.fadeIn(4, 0, 0.7);
+					FlxG.sound.music.fadeIn(4, 0, 1);
 				case 2:
 					createCoolText(['Theoyeah Engine by'], 15);
 			// credTextShit.visible = true;
