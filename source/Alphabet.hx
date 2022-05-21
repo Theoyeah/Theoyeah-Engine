@@ -28,6 +28,8 @@ class Alphabet extends FlxSpriteGroup
 	public var isMenuItem:Bool = false;
 	public var textSize:Float = 1.0;
 
+	public var itemType:String = "Classic";
+
 	public var text:String = "";
 
 	var _finalText:String = "";
@@ -348,13 +350,34 @@ class Alphabet extends FlxSpriteGroup
 		if (isMenuItem)
 		{
 			var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
-
 			var lerpVal:Float = CoolUtil.boundTo(elapsed * 9.6, 0, 1);
-			y = FlxMath.lerp(y, (scaledY * yMult) + (FlxG.height * 0.48) + yAdd, lerpVal);
-			if(forceX != Math.NEGATIVE_INFINITY) {
-				x = forceX;
-			} else {
-				x = FlxMath.lerp(x, (targetY * 20) + 90 + xAdd, lerpVal);
+			
+			switch (itemType) 
+			{
+				case "Classic":
+					y = FlxMath.lerp(y, (scaledY * yMult) + (FlxG.height * 0.48) + yAdd, lerpVal);
+					if(forceX != Math.NEGATIVE_INFINITY) {
+						x = forceX;
+					} else {
+						x = FlxMath.lerp(x, (targetY * 20) + 90 + xAdd, lerpVal);
+					}
+
+				case "Vertical":
+					y = FlxMath.lerp(y, (scaledY * 120) + (FlxG.height * 0.5), 0.16 / (openfl.Lib.application.window.frameRate / 60));
+
+				case "C-Shape":
+					y = FlxMath.lerp(y, (scaledY * 65) + (FlxG.height * 0.39), 0.16 / (openfl.Lib.application.window.frameRate / 60));
+					x = FlxMath.lerp(x, Math.exp(scaledY * 0.8) * 70 + (FlxG.width * 0.1), 0.16 / (openfl.Lib.application.window.frameRate / 60));
+					if (scaledY < 0)
+						x = FlxMath.lerp(x, Math.exp(scaledY * -0.8) * 70 + (FlxG.width * 0.1), 0.16 / (openfl.Lib.application.window.frameRate / 60));
+					if (x > FlxG.width + 30)
+						x = FlxG.width + 30;
+
+				case "D-Shape":
+					y = FlxMath.lerp(y, (scaledY * 90) + (FlxG.height * 0.45), 0.16 / (openfl.Lib.application.window.frameRate / 60));
+					x = FlxMath.lerp(x, Math.exp(Math.abs(scaledY * 0.8)) * -70 + (FlxG.width * 0.35), 0.16 / (openfl.Lib.application.window.frameRate / 60));
+					if (x < -900)
+						x = -900;
 			}
 		}
 
@@ -372,11 +395,11 @@ class Alphabet extends FlxSpriteGroup
 
 class AlphaCharacter extends FlxSprite
 {
-	public static var alphabet:String = "abcdefghijklmnopqrstuvwxyz";
+	public static var alphabet:String = "abcdefghijklmnopqrstuvwxyzàáãâåèéêëìíîïòóôöùúûüñçþæğş";
 
 	public static var numbers:String = "1234567890";
 
-	public static var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
+	public static var symbols:String = "|~#$%()[]*+-:;<=>@^_.,'!?¿/\\";
 
 	public var row:Int = 0;
 
@@ -418,12 +441,18 @@ class AlphaCharacter extends FlxSprite
 				animation.addByPrefix(letter, 'APOSTRAPHIE bold', 24);
 			case "?":
 				animation.addByPrefix(letter, 'QUESTION MARK bold', 24);
+			case "¿":
+				animation.addByPrefix(letter, 'FLIPPED QUESTION MARK bold', 24);
 			case "!":
 				animation.addByPrefix(letter, 'EXCLAMATION POINT bold', 24);
 			case "(":
 				animation.addByPrefix(letter, 'bold (', 24);
 			case ")":
 				animation.addByPrefix(letter, 'bold )', 24);
+			case "$":
+				animation.addByPrefix(letter, '$', 24);
+			case '^':
+				animation.addByPrefix(letter, '^ bold', 24);
 			default:
 				animation.addByPrefix(letter, 'bold ' + letter, 24);
 		}
@@ -491,10 +520,14 @@ class AlphaCharacter extends FlxSprite
 				y -= 50;
 			case "?":
 				animation.addByPrefix(letter, 'question mark', 24);
+			case "¿":
+				animation.addByPrefix(letter, 'FLIPPED question mark', 24);
 			case "!":
 				animation.addByPrefix(letter, 'exclamation point', 24);
 			case ",":
 				animation.addByPrefix(letter, 'comma', 24);
+			case '/':
+				animation.addByPrefix(letter, 'forward slash', 24);
 			default:
 				animation.addByPrefix(letter, letter, 24);
 		}
