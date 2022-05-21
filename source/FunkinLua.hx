@@ -183,7 +183,6 @@ class FunkinLua {
 		set('noResetButton', ClientPrefs.noReset);
 		set('lowQuality', ClientPrefs.lowQuality);
 		set('multiplicativeValue', ClientPrefs.multiplicativeValue); //unused
-		set('winningIcons', ClientPrefs.winningIcon);
 		set('crazyCounter', ClientPrefs.crazycounter);
 		set('camFollow', ClientPrefs.camfollow);
 		set('introBg', ClientPrefs.introbg);
