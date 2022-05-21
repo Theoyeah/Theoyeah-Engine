@@ -4293,6 +4293,7 @@ class PlayState extends MusicBeatState
 			case 'green': skin = NoteSplash.noteS('green');
 			case 'pink': skin = NoteSplash.noteS('pink');
 			case 'idk': skin = NoteSplash.noteS('idk');
+			case 'Original': skin = NoteSplash.noteS('og');
 		}
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 		
