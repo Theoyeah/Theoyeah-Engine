@@ -59,8 +59,10 @@ class MusicSettingsSubState extends BaseOptionsMenu
 			'musicSelected',
 			'String',
 			'freakyMenu',
-			['freakyMenu', 'offsetSong', 'breakfast', 'tea-time', 'flyAgainBro']);
-		addOption(option);*/
+			['none', 'freakyMenu', 'offsetSong', 'breakfast', 'tea-time', 'flyAgainBro']);
+		addOption(option);
+		option.onChange = onChangeMenuMusic;
+		*/
 		
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them."',
@@ -107,6 +109,19 @@ class MusicSettingsSubState extends BaseOptionsMenu
 
 		changedMusic = true;
 	}
+
+	var changedMenuMusic:Bool = false;
+	function onChangeMenuMusic()
+	{
+		if(ClientPrefs.musicSelected == 'none') {
+			FlxG.sound.music.volume = 0;
+		} else {
+			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.musicSelected)));
+		}
+
+		changedMenuMusic = true;
+	}
+
 	
 	override function destroy()
 	{

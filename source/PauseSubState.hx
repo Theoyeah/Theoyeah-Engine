@@ -37,7 +37,10 @@ class PauseSubState extends MusicBeatSubstate
 	public function new(x:Float, y:Float)
 	{
 		super();
-		if(CoolUtil.difficulties.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
+
+		if(CoolUtil.difficulties.length < 2 || CoolUtil.defaultDifficulties.length < 2) {
+			menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
+		}
 
 		if(PlayState.chartingMode)
 		{
@@ -70,6 +73,10 @@ class PauseSubState extends MusicBeatSubstate
 		}
 		pauseMusic.volume = 0;
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+
+		if(ClientPrefs.pauseMusic.toLowerCase() == 'none') {
+			pauseMusic.volume = 0;
+		}
 
 		FlxG.sound.list.add(pauseMusic);
 
@@ -332,6 +339,9 @@ class PauseSubState extends MusicBeatSubstate
 		}
 	}
 
+	/**
+	 * Destroys the menu
+	 */
 	function regenMenu():Void {
 		for (i in 0...grpMenuShit.members.length) {
 			var obj = grpMenuShit.members[0];
