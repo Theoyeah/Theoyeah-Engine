@@ -105,6 +105,7 @@ class FunkinLua {
 		set('weekRaw', PlayState.storyWeek);
 		set('week', WeekData.weeksList[PlayState.storyWeek]);
 		set('seenCutscene', PlayState.seenCutscene);
+		set('deaths', PlayState.deathCounter);
 		
 		// Block require and os, Should probably have a proper function but this should be good enough for now until someone smarter comes along and recreates a safe version of the OS library
 
@@ -160,7 +161,7 @@ class FunkinLua {
 		// Character shit
 		set('boyfriendName', PlayState.SONG.player1);
 		set('dadName', PlayState.SONG.player2);
-		set('gfName', PlayState.SONG.player3);
+		set('gfName', PlayState.SONG.gfVersion);
 
 //______________ Some settings, no jokes _______________\\
 //______________ Scroll things _________________________\\
@@ -1740,6 +1741,7 @@ class FunkinLua {
 			FlxG.sound.music.fadeOut(duration, toValue);
 			luaTrace('musicFadeOut is deprecated! Use soundFadeOut instead.', false, true);
 		});
+		if (ClientPrefs.shaders) {
 		Lua_helper.add_callback(lua, "chromaticEffect", function(camera:String, chromeOffset:Float = 0.005) {
 			
 			PlayState.instance.addShaderToCamera(camera, new ChromaticAberrationEffect(chromeOffset));
@@ -1808,7 +1810,7 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "killShaders", function(camera:String) {
 			PlayState.instance.clearShaderFromCamera(camera);
 		});
-					
+	}			
 		call('onCreate', []);
 		#end
 	}

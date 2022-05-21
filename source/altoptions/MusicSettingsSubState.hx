@@ -1,4 +1,4 @@
-package options;
+package altoptions;
 
 #if desktop
 import Discord.DiscordClient;
@@ -109,7 +109,7 @@ class MusicSettingsSubState extends BaseOptionsMenu
 
 		changedMusic = true;
 	}
-	
+
 	var changedMenuMusic:Bool = false;
 	function onChangeMenuMusic()
 	{
@@ -122,6 +122,7 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		changedMenuMusic = true;
 	}
 
+	
 	override function destroy()
 	{
 		if(changedMusic) FlxG.sound.playMusic(Paths.music(ClientPrefs.musicSelected));

@@ -2037,7 +2037,7 @@ class ChartingState extends MusicBeatState
 		}
 		#if MUSIC_FOLDER_ALLOWED
 		else if (FileSystem.exists(Paths.modFolders('music/' + currentSongName + '/Voices.ogg'))) {
-			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.ogg'));
+			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('music/' + currentSongName + '/Voices.ogg'));
 			//trace('Custom vocals found');
 		}
 		#end
@@ -2047,7 +2047,7 @@ class ChartingState extends MusicBeatState
 		}
 		#if MUSIC_FOLDER_ALLOWED
 		else if (FileSystem.exists(Paths.modFolders('music/' + currentSongName + '/Voices.mp3'))) {
-			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.mp3'));
+			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('music/' + currentSongName + '/Voices.mp3'));
 			//trace('Custom vocals found');
 		}
 		#end
@@ -2058,7 +2058,7 @@ class ChartingState extends MusicBeatState
 		}
 		#if MUSIC_FOLDER_ALLOWED
 		else if (FileSystem.exists(Paths.modFolders('music/' + currentSongName + '/Voices.wav'))) {
-			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.wav'));
+			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('music/' + currentSongName + '/Voices.wav'));
 			//trace('Custom vocals found');
 		}
 		#end
@@ -2782,11 +2782,11 @@ class ChartingState extends MusicBeatState
 	function loadJson(song:String):Void
 	{
 		//make it look sexier if possible
-		if (CoolUtil.difficulties[PlayState.storyDifficulty] != "Normal" && CoolUtil.difficulties[PlayState.storyDifficulty] != null){
-		PlayState.SONG = Song.loadFromJson(song.toLowerCase()+"-"+CoolUtil.difficulties[PlayState.storyDifficulty], song.toLowerCase());
+		if ((CoolUtil.difficulties[PlayState.storyDifficulty] != CoolUtil.defaultDifficulty /*'Normal'*/) && CoolUtil.difficulties[PlayState.storyDifficulty] != null) {
+			PlayState.SONG = Song.loadFromJson(song.toLowerCase() + "-" + CoolUtil.difficulties[PlayState.storyDifficulty], song.toLowerCase());
 			
-		}else{
-		PlayState.SONG = Song.loadFromJson(song.toLowerCase(), song.toLowerCase());
+		} else {
+			PlayState.SONG = Song.loadFromJson(song.toLowerCase(), song.toLowerCase());
 		}
 		MusicBeatState.resetState();
 	}

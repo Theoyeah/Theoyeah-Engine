@@ -253,11 +253,8 @@ class TitleState extends MusicBeatState
 			// FlxG.sound.list.add(music);
 			// music.play();
 
-			var music = ClientPrefs.musicSelected;
-			if(FlxG.sound.music == null || music != ClientPrefs.musicSelected) {
-				FlxG.sound.playMusic(Paths.music(music), 0);
-
-				FlxG.sound.music.fadeIn(4, 0, 0.7);
+			if(FlxG.sound.music == null) {
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 			}
 		}
 
@@ -506,7 +503,9 @@ class TitleState extends MusicBeatState
 			{
 				if(titleText != null) titleText.animation.play('press');
 
-				FlxG.camera.flash(FlxColor.WHITE, 1);
+				if(ClientPrefs.flashing) {
+					FlxG.camera.flash(FlxColor.WHITE, 1);
+				}
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 				transitioning = true;
@@ -640,7 +639,10 @@ class TitleState extends MusicBeatState
 			sickBeats++;
 			switch (sickBeats)
 			{
-				case 1: // why dont we put here 0 to music start at the same time as text
+				case 1: 
+					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+					FlxG.sound.music.fadeIn(4, 0, 1);
+				case 2:
 					createCoolText(['Theoyeah Engine by'], 15);
 			// credTextShit.visible = true;
 				case 3:
@@ -648,21 +650,21 @@ class TitleState extends MusicBeatState
 					tySpr.visible = true;
 					// credTextShit.text += '\npresent...';
 					// credTextShit.addText();
-				case 5:
+				case 4:
 					deleteCoolText();
 					tySpr.visible = false;
 			// credTextShit.visible = false;
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
-				case 6:
+				case 5:
 					createCoolText(['With help of'], 15);
 				case 7:
-					addMoreText('Wither362 and DEMOLITIONDON69');
+					addMoreText('Wither362');
+					addMoreText('DEMOLITIONDON69');
 					coolguys.visible = true;
-				case 9:
-					coolguys.visible = false;
 				case 10:
 					deleteCoolText();
+					coolguys.visible = false;
 				case 11:
 					createCoolText(['A Modified Version of'], -40);
 				case 12:
@@ -685,6 +687,8 @@ class TitleState extends MusicBeatState
 				case 16:
 					if (curWacky[2] != null) { //im stupid bro, i wrote 3 instead of 2
 						addMoreText(curWacky[2]);
+					} else {
+						deleteCoolText();
 					}
 				case 17:
 					deleteCoolText();
@@ -740,7 +744,9 @@ class TitleState extends MusicBeatState
 					
 					default: //Go back to normal ugly ass boring GF
 						removeThings();
-						FlxG.camera.flash(FlxColor.WHITE, 2);
+						if(ClientPrefs.flashing) {
+							FlxG.camera.flash(FlxColor.WHITE, 2);
+						}
 						skippedIntro = true;
 						playJingle = false;
 						
@@ -755,14 +761,18 @@ class TitleState extends MusicBeatState
 					new FlxTimer().start(3.2, function(tmr:FlxTimer)
 					{
 						removeThings();
-						FlxG.camera.flash(FlxColor.WHITE, 0.6);
+						if(ClientPrefs.flashing) {
+							FlxG.camera.flash(FlxColor.WHITE, 0.6);
+						}
 						transitioning = false;
 					});
 				}
 				else
 				{
 					removeThings();
-					FlxG.camera.flash(FlxColor.WHITE, 3);
+					if(ClientPrefs.flashing) {
+						FlxG.camera.flash(FlxColor.WHITE, 3);
+					}
 					sound.onComplete = function() {
 						FlxG.sound.playMusic(Paths.music(ClientPrefs.musicSelected), 0);
 						FlxG.sound.music.fadeIn(4, 0, 0.7);
@@ -774,7 +784,9 @@ class TitleState extends MusicBeatState
 			else //Default! Edit this one!!
 			{
 				removeThings();
-				FlxG.camera.flash(FlxColor.WHITE, 4);
+				if(ClientPrefs.flashing) {
+					FlxG.camera.flash(FlxColor.WHITE, 4);
+				}
 
 				var easteregg:String = FlxG.save.data.psychDevsEasterEgg;
 				if (easteregg == null) easteregg = '';
