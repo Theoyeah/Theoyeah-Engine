@@ -4157,7 +4157,10 @@ class PlayState extends MusicBeatState
  						FlxTween.tween(SONG, {speed: SONG.speed = 0}, 0);
  						PlayState.instance.practiceMode = true;
 						endSong();
+						//English
 						lime.app.Application.current.window.alert( 'Oops ! You pressed a crash note !!!');
+						//Francais
+						lime.app.Application.current.window.alert( 'Oups ! Tu a cliqué une note Crash !!!');
 					 	{
  							System.exit(0);
  						}; //tes
@@ -4165,7 +4168,10 @@ class PlayState extends MusicBeatState
 
 					case 'Window Note': 
 					 	FlxG.sound.play(Paths.sound('windowsError'), 1);
-						lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');						
+						//English
+						lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');	
+						//Francais
+						lime.app.Application.current.window.alert( 'Truc Embêtant:\nTu as cliqué une note Window !');	
 						
 					case 'Poisoned Note':
 						new FlxTimer().start(1.3, function(tmr:FlxTimer) //i dont know how this works
