@@ -24,6 +24,7 @@ class NoteSplash extends FlxSprite
 			case 'green': skin = noteS('green');
 			case 'pink': skin = noteS('pink');
 			case 'idk': skin = noteS('idk');
+			case 'original': skin = noteS('og');
 		}
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 
@@ -49,6 +50,7 @@ class NoteSplash extends FlxSprite
 				case 'green': texture = noteS('green');
 				case 'pink': texture = noteS('pink');
 				case 'idk': texture = noteS('idk');
+				case 'original': texture = noteS('og');
 			}
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
 		}
@@ -67,7 +69,7 @@ class NoteSplash extends FlxSprite
 	}
 
 	function loadAnims(skin:String) {
-		frames = Paths.getSparrowAtlas(skin);
+		frames = Paths.getSparrowAtlas(skin, 'noteSplashes');
 		for (i in 1...3) {
 			animation.addByPrefix("note1-" + i, "note splash blue " + i, 24, false);
 			animation.addByPrefix("note2-" + i, "note splash green " + i, 24, false);
