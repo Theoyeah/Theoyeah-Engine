@@ -1,4 +1,5 @@
-![logo](https://github.com/Theoyeah/Theoyeah-Fnf-Engine/blob/main/assets/preload/images/logo.png)
+![LOGO](https://user-images.githubusercontent.com/97792861/169069737-12fc30e1-4f59-438d-8988-a975ad454d0b.png)
+
 
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?include_prereleases&label=latest%20version)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?style=flat-square&label=latest%20stable%20version)](https://github.com/Theoyeah/Theoyeah-Engine/releases/latest)
@@ -12,10 +13,10 @@
 
 # Theoyeah Engine
 
-Hello, here a (again) new edited version psych engine !
+Hello, here a (again) new edited version psych engine!
 I will try to add things that shadow mario will never do
 
-Look at the [`Project.xml`](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/Project.xml) file to deactivate some things! Take that in mind!
+Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take that in mind!
 
 # What it adds 
 
@@ -38,7 +39,7 @@ Look at the [`Project.xml`](https://github.com/Theoyeah/Theoyeah-Engine/blob/mai
 - added flash when selecting something
 - red flash when you die
 - added marvelous
-- Kade Score text option !
+- [Kade Score Text](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/README.md#-2)!
 - insta-kill note
 - funni 9 button easter egg icon
 - Shaders are real
@@ -48,12 +49,11 @@ Look at the [`Project.xml`](https://github.com/Theoyeah/Theoyeah-Engine/blob/mai
 - Mp3 and Wav support !
 - More options
 - **Instakill Note and Crash Note!!** (with a fabulous texture)
-- Added secret songs to be on the music folder!
-- Look at the [`Project.xml`](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/Project.xml) file for more!
+- Look at the [`Project.xml`](Project.xml) file for more!
 # Examples :
-![image](https://user-images.githubusercontent.com/97792861/163772539-3409759d-5fca-4a5a-945f-76f4b7ed87fb.png)
-![image](https://user-images.githubusercontent.com/97792861/163772686-7020ae13-c6ab-48a7-bdcc-6ee2c6d4eb7f.png)
-![image](https://user-images.githubusercontent.com/97792861/163772872-878c2361-1971-4274-b6e2-27125298c35e.png)
+###### ![outdated menu **image**](https://user-images.githubusercontent.com/97792861/163772539-3409759d-5fca-4a5a-945f-76f4b7ed87fb.png)
+###### ![deleted noteskin :'( and old icons **image**](https://user-images.githubusercontent.com/97792861/163772686-7020ae13-c6ab-48a7-bdcc-6ee2c6d4eb7f.png)
+###### ![`Kade Engine Score Text` option **image**](https://user-images.githubusercontent.com/97792861/163772872-878c2361-1971-4274-b6e2-27125298c35e.png)
 
 
 

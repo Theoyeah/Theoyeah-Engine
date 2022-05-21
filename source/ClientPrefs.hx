@@ -32,9 +32,11 @@ class ClientPrefs {
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
 	public static var introbg:Bool = false;
+	public static var noteskin:String = 'Arrows';
 	public static var longhealthbar:Bool = true;
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
+	public static var shaders:Bool = true;
 	public static var winningIcon = true;
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
@@ -99,7 +101,12 @@ class ClientPrefs {
 		'volume_down'	        => [NUMPADMINUS, MINUS],
 		
 		'debug_1'		=> [SEVEN, NONE],
-		'debug_2'		=> [EIGHT, NONE]
+		'debug_2'		=> [EIGHT, NONE],
+		
+		'zoom+'                 => [Z, NONE],
+		'zoom-'                 => [X, NONE],
+		'decrease'              => [Q, NONE],
+		'increase'              => [E, NONE]
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -119,6 +126,7 @@ class ClientPrefs {
 		FlxG.save.data.globalAntialiasing = globalAntialiasing;
 		FlxG.save.data.noteSplashes = noteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
+		FlxG.save.data.shaders = shaders;
 		FlxG.save.data.framerate = framerate;
 		FlxG.save.data.longhealthbar = longhealthbar;
 		FlxG.save.data.crazycounter = crazycounter;
@@ -137,6 +145,7 @@ class ClientPrefs {
 		FlxG.save.data.introbg = introbg;
 		FlxG.save.data.noReset = noReset;
 		FlxG.save.data.noscore = noscore;
+		FlxG.save.data.noteskin = noteskin;
 		FlxG.save.data.camfollow = camfollow;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
 		FlxG.save.data.comboOffset = comboOffset;
@@ -173,6 +182,9 @@ class ClientPrefs {
 		if(FlxG.save.data.downScroll != null) {			       
 			downScroll = FlxG.save.data.downScroll;
 		}
+		if (FlxG.save.data.shaders !=null) {
+			shaders = FlxG.save.data.shaders;
+		}
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;
 		}
@@ -190,6 +202,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.flashing != null) {
 			flashing = FlxG.save.data.flashing;
+		}
+		if(FlxG.save.data.noteskin != null) {
+			noteskin = FlxG.save.data.noteskin;
 		}
 		if(FlxG.save.data.globalAntialiasing != null) {
 			globalAntialiasing = FlxG.save.data.globalAntialiasing;

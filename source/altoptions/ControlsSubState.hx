@@ -1,4 +1,4 @@
-package options;
+package altoptions;
 
 #if desktop
 import Discord.DiscordClient;
@@ -59,13 +59,7 @@ class ControlsSubState extends MusicBeatSubstate {
 		[''],
 		['DEBUG'],
 		['Key 1', 'debug_1'],
-		['Key 2', 'debug_2'],
-		[''],
-		['CHARTING'],
-		['Zoom in', 'zoom+'],
-		['Zoom out', 'zoom-'],
-		['Note sustain +', 'increase'],
-		['Note sustain -', 'decrease']
+		['Key 2', 'debug_2']
 	];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -73,11 +67,12 @@ class ControlsSubState extends MusicBeatSubstate {
 	private var grpInputsAlt:Array<AttachedText> = [];
 	var rebindingKey:Bool = false;
 	var nextAccept:Int = 5;
+	var bg:FlxSprite;
 
 	public function new() {
 		super();
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
@@ -115,6 +110,7 @@ class ControlsSubState extends MusicBeatSubstate {
 				if(curSelected < 0) curSelected = i;
 			}
 		}
+		
 		changeSelection();
 	}
 
