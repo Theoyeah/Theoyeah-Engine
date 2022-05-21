@@ -71,7 +71,7 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	
-	public static var ratingStuff:Array<Dynamic> = if(ClientPrefs.language.toLowerCase() == 'english') {
+	public static var ratingStuff:Array<Dynamic> = if(ClientPrefs.language.toLowerCase() == 'english')
 		[
 			['Its not hard you just suck as hell', 0.2], //From 0% to 19%
 			['skill issue', 0.4], //From 20% to 39%
@@ -83,8 +83,8 @@ class PlayState extends MusicBeatState
 			['Good!', 0.9], //From 80% to 89%
 			['Sick!!', 1], //From 90% to 99%
 			['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
-		];
-	} else if(ClientPrefs.language.toLowerCase() == 'francais') {
+		]
+	else if(ClientPrefs.language.toLowerCase() == 'francais')
 		[
 			['Pas dur tes juste mauvais', 0.2], //From 0% to 19%
 			['Problème', 0.4], //From 20% to 39%
@@ -97,7 +97,6 @@ class PlayState extends MusicBeatState
 			['Génial!!', 1], //From 90% to 99%
 			['Parfait!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 		];
-	}
 		
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
