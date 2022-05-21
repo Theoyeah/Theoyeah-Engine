@@ -1098,10 +1098,10 @@ class PlayState extends MusicBeatState
 			judgementCounter.scrollFactor.set();
 			judgementCounter.cameras = [camHUD];
 			judgementCounter.screenCenter(Y);
-			if(ClientPrefs.language == "English") {
-			judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
-			} else {
-			judgementCounter.text = 'Merveilleux: ${marvelous}\nGénials: ${sicks}\nBiens: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}\n';
+			if(ClientPrefs.language.toLowerCase() == "english") {
+				judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
+			} else if(ClientPrefs.language.toLowerCase() == "francais") {
+				judgementCounter.text = 'Merveilleux: ${marvelous}\nGénials: ${sicks}\nBiens: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}\n';
 			}
 			add(judgementCounter);
 		}
@@ -4792,6 +4792,7 @@ class PlayState extends MusicBeatState
 				judgementCounter.text = 'Merveilleux: ${marvelous}\nGénials: ${sicks}\nCools: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}\n';
 			}
 		}
+	}
 
 	#if ACHIEVEMENTS_ALLOWED
 	private function checkForAchievement(achievesToCheck:Array<String> = null):String
