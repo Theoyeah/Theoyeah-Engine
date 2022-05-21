@@ -71,10 +71,8 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	
-	public static var ratingStuff:Array<Dynamic> = [];
-
-	if(ClientPrefs.language.toLowerCase() == 'english') {
-		ratingStuff = [
+	public static var ratingStuff:Array<Dynamic> = if(ClientPrefs.language.toLowerCase() == 'english') {
+		[
 			['Its not hard you just suck as hell', 0.2], //From 0% to 19%
 			['skill issue', 0.4], //From 20% to 39%
 			['Bad', 0.5], //From 40% to 49%
@@ -87,7 +85,7 @@ class PlayState extends MusicBeatState
 			['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 		];
 	} else if(ClientPrefs.language.toLowerCase() == 'francais') {
-		ratingStuff = [
+		[
 			['Pas dur tes juste mauvais', 0.2], //From 0% to 19%
 			['Problème', 0.4], //From 20% to 39%
 			['Nul', 0.5], //From 40% to 49%
