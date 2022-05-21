@@ -641,7 +641,7 @@ class TitleState extends MusicBeatState
 			{
 				case 1: 
 					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-					FlxG.sound.music.fadeIn(4, 0, 0.7);
+					FlxG.sound.music.fadeIn(4, 0, 1);
 				case 2:
 					createCoolText(['Theoyeah Engine by'], 15);
 			// credTextShit.visible = true;
