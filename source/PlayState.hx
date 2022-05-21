@@ -70,7 +70,7 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
-	var language = ClientPrefs.language.toLowerCase();
+	static var language = ClientPrefs.language.toLowerCase();
 	
 	public static var ratingStuff:Array<Dynamic> = if(language == "english") {
 		[
