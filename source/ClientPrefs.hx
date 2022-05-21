@@ -195,7 +195,7 @@ class ClientPrefs {
 			globalAntialiasing = FlxG.save.data.globalAntialiasing;
 		}
 		if(FlxG.save.data.language != null) {
-			globalAntialiasing = FlxG.save.data.language;
+			language = FlxG.save.data.language;
 		}
 		if(FlxG.save.data.noteSplashes != null) {
 			noteSplashes = FlxG.save.data.noteSplashes;
