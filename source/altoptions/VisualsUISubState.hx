@@ -57,6 +57,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Flashing Lights',
+		"Uncheck this if you're sensitive to flashing lights!",
+		'flashing',
+		'bool',
+		true);
+	addOption(option);
+
 		var option:Option = new Option('Intro Background',
 			"If checked, there will be a background in intro.",
 			'introbg',
