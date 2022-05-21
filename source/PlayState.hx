@@ -70,35 +70,36 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
-	static var language = ClientPrefs.language.toLowerCase();
 	
-	public static var ratingStuff:Array<Dynamic> = if(language == "english") {
-		[
-			['Its not hard you just suck as hell', 0.2], //From 0% to 19%
-			['skill issue', 0.4], //From 20% to 39%
-			['Bad', 0.5], //From 40% to 49%
-			['Ok', 0.6], //From 50% to 59%
-			['Not Bad', 0.69], //From 60% to 68%
-			['Great', 0.7], //69%
-			['Cool!', 0.8], //From 70% to 79%
-			['Good!', 0.9], //From 80% to 89%
-			['Sick!!', 1], //From 90% to 99%
-			['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
-		];
-		} else if(language == "francais") {
-		[
-		['Pas dur tes juste mauvais', 0.2], //From 0% to 19%
-		['Problème', 0.4], //From 20% to 39%
-		['Nul', 0.5], //From 40% to 49%
-		['Ok', 0.6], //From 50% to 59%
-		['Pas mauvais', 0.69], //From 60% to 68%
-		['Yo', 0.7], //69%
-		['Cool!', 0.8], //From 70% to 79%
-		['Bien!', 0.9], //From 80% to 89%
-		['Génial!!', 1], //From 90% to 99%
-		['Parfait!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
-		];
-		};
+	public static var ratingStuff:Array<Dynamic> = [];
+	switch(ClientPrefs.language.toLowerCase()) {
+		case 'english':
+			ratingStuff = [
+				['Its not hard you just suck as hell', 0.2], //From 0% to 19%
+				['skill issue', 0.4], //From 20% to 39%
+				['Bad', 0.5], //From 40% to 49%
+				['Ok', 0.6], //From 50% to 59%
+				['Not Bad', 0.69], //From 60% to 68%
+				['Great', 0.7], //69%
+				['Cool!', 0.8], //From 70% to 79%
+				['Good!', 0.9], //From 80% to 89%
+				['Sick!!', 1], //From 90% to 99%
+				['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+			];
+		case 'francais':
+			ratingStuff = [
+				['Pas dur tes juste mauvais', 0.2], //From 0% to 19%
+				['Problème', 0.4], //From 20% to 39%
+				['Nul', 0.5], //From 40% to 49%
+				['Ok', 0.6], //From 50% to 59%
+				['Pas mauvais', 0.69], //From 60% to 68%
+				['Yo', 0.7], //69%
+				['Cool!', 0.8], //From 70% to 79%
+				['Bien!', 0.9], //From 80% to 89%
+				['Génial!!', 1], //From 90% to 99%
+				['Parfait!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+			];
+	}
 		
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
