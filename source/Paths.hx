@@ -320,6 +320,11 @@ class Paths
 		#end
 	}
 
+	inline static public function getNoteSplashes(key:String, ?library:String):FlxAtlasFrames
+	{
+		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/noteSplashes/$key.xml', library));
+	}
+
 
 	inline static public function getPackerAtlas(key:String, ?library:String)
 	{
