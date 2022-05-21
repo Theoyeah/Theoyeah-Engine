@@ -294,6 +294,11 @@ class Note extends FlxSprite
 		if(prefix == null) prefix = '';
 		if(texture == null) texture = '';
 		if(suffix == null) suffix = '';
+	
+	var coolswag:String = '';
+	if(ClientPrefs.noteskin != 'Arrows') {
+		coolswag = '-' + ClientPrefs.noteskin.toLowerCase().replace(' ', '-');
+	}
 		
 		var skin:String = texture;
 		if(texture.length < 1) {

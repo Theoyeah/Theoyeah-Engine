@@ -33,6 +33,7 @@ class ClientPrefs {
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
 	public static var introbg:Bool = false;
+	public static var noteskin:String = 'Arrows';
 	public static var longhealthbar:Bool = true;
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
@@ -94,7 +95,12 @@ class ClientPrefs {
 		'volume_down'	        => [NUMPADMINUS, MINUS],
 		
 		'debug_1'		=> [SEVEN, NONE],
-		'debug_2'		=> [EIGHT, NONE]
+		'debug_2'		=> [EIGHT, NONE],
+		
+		'zoom+'                 => [Z, NONE],
+		'zoom-'                 => [X, NONE],
+		'decrease'              => [Q, NONE],
+		'increase'              => [E, NONE]
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -134,6 +140,7 @@ class ClientPrefs {
 		FlxG.save.data.language = language;
 		FlxG.save.data.noReset = noReset;
 		FlxG.save.data.noscore = noscore;
+		FlxG.save.data.noteskin = noteskin;
 		FlxG.save.data.camfollow = camfollow;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
 		FlxG.save.data.comboOffset = comboOffset;
@@ -190,6 +197,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.flashing != null) {
 			flashing = FlxG.save.data.flashing;
+		}
+		if(FlxG.save.data.noteskin != null) {
+			noteskin = FlxG.save.data.noteskin;
 		}
 		if(FlxG.save.data.globalAntialiasing != null) {
 			globalAntialiasing = FlxG.save.data.globalAntialiasing;
