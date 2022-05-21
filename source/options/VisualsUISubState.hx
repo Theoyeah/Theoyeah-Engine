@@ -42,7 +42,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		['Arrows', 'Circles']);
 	addOption(option);
 
-		var option:Option = new Option('Note Splashes',
+		var option:Option = new Option('Note Splashes:',
 			"What type of noteSplashes do you want?",
 			'noteSplashes',
 			'string',
