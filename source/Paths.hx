@@ -320,9 +320,16 @@ class Paths
 		#end
 	}
 
+	inline static public function imageNote(key:String, ?library:String):FlxGraphic
+	{
+		// streamlined the assets process more
+		var returnAsset:FlxGraphic = returnGraphicNote(key, library);
+		return returnAsset;
+	}
+	
 	inline static public function getNoteSplashes(key:String, ?library:String):FlxAtlasFrames
 	{
-		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/noteSplashes/$key.xml', library));
+		return FlxAtlasFrames.fromSparrow(imageNote(key, library), file('images/$key.xml', library));
 	}
 
 
@@ -372,7 +379,22 @@ class Paths
 			localTrackedAssets.push(path);
 			return currentTrackedAssets.get(path);
 		}
-		trace('oh no its returning null NOOOO');
+		trace('oh no $key is returning null NOOOO');
+		return null;
+	}
+	
+	public static function returnGraphicNote(key:String, ?library:String) {
+		var path = getPath('images/noteSplashes/$key.png', IMAGE, library);
+		if (OpenFlAssets.exists(path, IMAGE)) {
+			if(!currentTrackedAssets.exists(path)) {
+				var newGraphic:FlxGraphic = FlxG.bitmap.add(path, false, path);
+				newGraphic.persist = true;
+				currentTrackedAssets.set(path, newGraphic);
+			}
+			localTrackedAssets.push(path);
+			return currentTrackedAssets.get(path);
+		}
+		trace('oh no $key is returning null NOOOO');
 		return null;
 	}
 
