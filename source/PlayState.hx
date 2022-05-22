@@ -895,7 +895,7 @@ class PlayState extends MusicBeatState
 
 		var file:String = Paths.json(songName + '/dialogue'); //Checks for json/Psych Engine dialogue
 		var fFile:String = Paths.json(songName + '/dialogue-french');
-		var sFile:String = Paths.json(songName + '/dialogue-spanish')
+		var sFile:String = Paths.json(songName + '/dialogue-spanish');
 		if(OpenFlAssets.exists(fFile) && ClientPrefs.language == 'Francais') {
 			dialogueJson = DialogueBoxPsych.parseDialogue(fFile);
 		} else if(OpenFlAssets.exists(sFile) && ClientPrefs.language == 'Spanish') {
