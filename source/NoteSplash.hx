@@ -20,7 +20,6 @@ class NoteSplash extends FlxSprite
 			case 'pink': hola = 'pink';
 			case 'idk': hola = 'idk';
 			case 'original': hola = 'og';
-			case 'beastlyghost': hola = 'beast';
 			default: hola = 'noteSplashes';
 		}
 		if(hola != 'noteSplashes') {
@@ -66,11 +65,11 @@ class NoteSplash extends FlxSprite
 		colorSwap.hue = hueColor;
 		colorSwap.saturation = satColor;
 		colorSwap.brightness = brtColor;
-		if(texture == 'beast_noteSplashes') {
+		/*if(texture == 'og_noteSplashes') {
 			offset.set(Std.int(0.3 * width), Std.int(0.3 * height));
-		} else {
+		} else {*/
 			offset.set(10, 10);
-		}
+		//}
 		var animNum:Int = FlxG.random.int(1, 2);
 		animation.play('note' + note + '-' + animNum, true);
 		if(animation.curAnim != null) animation.curAnim.frameRate = 24 + FlxG.random.int(-2, 2);
