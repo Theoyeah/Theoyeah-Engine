@@ -10,10 +10,35 @@ class NoteSplash extends FlxSprite
 	private var idleAnim:String;
 	private var textureLoaded:String = null;
 
+	public static function noteS():String { // from noteSplashes
+		var hola:String = 'noteSplashes';
+		switch(ClientPrefs.noteSplashes.toLowerCase()) {
+			case 'inverted': hola = 'inverted';
+			case 'red': hola = 'red';
+			case 'cyan': hola = 'cyan';
+			case 'green': hola = 'green';
+			case 'pink': hola = 'pink';
+			case 'idk': hola = 'idk';
+			case 'original': hola = 'og';
+			default: hola = 'noteSplashes';
+		}
+		if(hola != 'noteSplashes') {
+			return hola.toLowerCase() + '_noteSplashes';
+		} else {
+			return hola;
+		}
+	}
+
+	/**
+	 * Generates a noteSplash
+	 * @param x x
+	 * @param y y
+	 * @param note what note is (in numbers)
+	 */
 	public function new(x:Float = 0, y:Float = 0, ?note:Int = 0) {
 		super(x, y);
 
-		var skin:String = 'noteSplashes';
+		var skin:String = noteS();
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 
 		loadAnims(skin);
@@ -30,7 +55,7 @@ class NoteSplash extends FlxSprite
 		alpha = 0.6;
 
 		if(texture == null) {
-			texture = 'noteSplashes';
+			texture = noteS();
 			if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
 		}
 
@@ -40,15 +65,18 @@ class NoteSplash extends FlxSprite
 		colorSwap.hue = hueColor;
 		colorSwap.saturation = satColor;
 		colorSwap.brightness = brtColor;
-		offset.set(10, 10);
-
+		/*if(texture == 'og_noteSplashes') {
+			offset.set(Std.int(0.3 * width), Std.int(0.3 * height));
+		} else {*/
+			offset.set(10, 10);
+		//}
 		var animNum:Int = FlxG.random.int(1, 2);
 		animation.play('note' + note + '-' + animNum, true);
-		if(animation.curAnim != null)animation.curAnim.frameRate = 24 + FlxG.random.int(-2, 2);
+		if(animation.curAnim != null) animation.curAnim.frameRate = 24 + FlxG.random.int(-2, 2);
 	}
 
 	function loadAnims(skin:String) {
-		frames = Paths.getSparrowAtlas(skin);
+		frames = Paths.getSparrowAtlas('noteSplashes/' + skin);
 		for (i in 1...3) {
 			animation.addByPrefix("note1-" + i, "note splash blue " + i, 24, false);
 			animation.addByPrefix("note2-" + i, "note splash green " + i, 24, false);
