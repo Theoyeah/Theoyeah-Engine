@@ -42,11 +42,12 @@ class VisualsUISubState extends BaseOptionsMenu
 		['Arrows', 'Circles']);
 	addOption(option);
 
-		var option:Option = new Option('Note Splashes',
-			"If unchecked, hitting \"Sick!\" notes won't show particles.",
+		var option:Option = new Option('Note Splashes:',
+			"What type of noteSplashes do you want?",
 			'noteSplashes',
-			'bool',
-			true);
+			'string',
+			'Normal',
+			['Normal', 'None', 'Original', 'Inverted', 'Red', 'Pink', 'Cyan', 'Green', 'IDK']);
 		addOption(option);
 
 		var option:Option = new Option('Kade Engine Score Text',
