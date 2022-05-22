@@ -294,17 +294,17 @@ class Note extends FlxSprite
 		if(prefix == null) prefix = '';
 		if(texture == null) texture = '';
 		if(suffix == null) suffix = '';
-	
-	var coolswag:String = '';
-	if(ClientPrefs.noteskin != 'Arrows') {
-		coolswag = '-' + ClientPrefs.noteskin.toLowerCase().replace(' ', '-');
-	}
 		
 		var skin:String = texture;
 		if(texture.length < 1) {
 			skin = PlayState.SONG.arrowSkin;
 			if(skin == null || skin.length < 1) {
-				skin = 'NOTE_assets';
+				switch(ClientPrefs.noteskin.toLowerCase()) {
+					case 'circles':
+						skin = 'NOTE_assets-Circles';
+					default:
+						skin = 'NOTE_assets';
+				}
 			}
 		}
 
