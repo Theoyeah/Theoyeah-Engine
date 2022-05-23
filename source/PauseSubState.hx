@@ -31,9 +31,25 @@ class PauseSubState extends MusicBeatSubstate
 	static var endL:String = '';
 	static var tog:String = '';
 	static var bot:String = '';
-	
-	
-	switch(ClientPrefs.language.toLowerCase()) {
+
+	var menuItemsOG:Array<String> = [resumeL, restartL, changeL, optionsL, exitL];
+	var difficultyChoices = [];
+	var curSelected:Int = 0;
+
+	var pauseMusic:FlxSound;
+	var practiceText:FlxText;
+	var skipTimeText:FlxText;
+	var skipTimeTracker:Alphabet;
+	var curTime:Float = Math.max(0, Conductor.songPosition);
+	//var botplayText:FlxText;
+
+	public static var songName:String = '';
+
+	public function new(x:Float, y:Float)
+	{
+		super();
+		
+		switch(ClientPrefs.language.toLowerCase()) {
 		case 'francais':
 			resumeL = 'Résumer';
 			restartL = 'Redémarrer';
@@ -78,24 +94,7 @@ class PauseSubState extends MusicBeatSubstate
 			endL = 'End Song';
 			tog = 'Toggle Practice Mode';
 			bot = 'Toggle Botplay';
-	}
-	var menuItemsOG:Array<String> = [resumeL, restartL, changeL, optionsL, exitL];
-	var difficultyChoices = [];
-	var curSelected:Int = 0;
-
-	var pauseMusic:FlxSound;
-	var practiceText:FlxText;
-	var skipTimeText:FlxText;
-	var skipTimeTracker:Alphabet;
-	var curTime:Float = Math.max(0, Conductor.songPosition);
-	//var botplayText:FlxText;
-
-	public static var songName:String = '';
-
-	public function new(x:Float, y:Float)
-	{
-		super();
-		
+		}
 		if(CoolUtil.difficulties.length < 2 || CoolUtil.defaultDifficulties.length < 2) {
 			menuItemsOG.remove(changeL); //No need to change difficulty if there is only one!
 		}
