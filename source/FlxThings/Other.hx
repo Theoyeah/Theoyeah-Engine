@@ -67,3 +67,108 @@ class SaveThings extends ClientPrefs
 		}
 	}
 }
+
+class MouseThings extends FlxMouse
+{
+	public function mousePressed(?returnFalse:Bool = false):Dynamic {
+		if (FlxG.mouse.pressed) {
+			return true;
+			// The left mouse button is currently pressed
+		} else if (returnFalse) {
+			return false;
+		}
+	}
+
+	/**
+	 * Checks if the `click` param has been clicked
+	 * @param click for evaluating
+	 * @param returnFalse returns false if it didn´t 
+	 * @return Dynamic
+	 */
+	public function mouseJustPressed(click:String, ?returnFalse:Bool = false):Dynamic {
+		var clicker:String = click.toLowerCase();
+		var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
+ 		var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+ 		var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+
+ 		if (FlxG.mouse.justPressedRight && right) {
+ 			// The right button has just been pressed
+ 			return true;
+ 		} else if (FlxG.mouse.justPressedMiddle && middle) {
+ 			// The middle button has just been pressed
+ 			return true;
+ 		} else if (FlxG.mouse.justPressed && left) {
+			// The left mouse button has just been pressed
+			return true;
+		} else if(returnFalse) {
+			return false;
+		}
+	}
+
+	/**
+	 * Cheks if the `click` param has been released
+	 * @param click for evaluating
+	 * @param returnFalse returns false if it didn't
+	 * @return Dynamic
+	 */
+	public function mouseJustReleased(click:String, ?returnFalse:Bool = false):Dynamic {
+ 		var clicker:String = click.toLowerCase();
+ 		var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
+ 		var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+ 		var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+
+ 		if(FlxG.mouse.justReleasedRight && right) {
+ 			return true;
+ 		} else if (FlxG.mouse.justReleased && left) {
+ 			// The left mouse button has just been released
+ 			return true;
+ 		} else if (FlxG.mouse.justReleasedMiddle && middle) {
+ 			return true;
+		} else if(returnFalse) {
+			return false;
+		}
+	}
+
+	/**
+	 * Cheks if the `click` param has been pressed
+	 * @param click for evaluating
+	 * @param returnFalse returns false if it didn't
+	 * @return Dynamic
+	 */
+	public function mousePressed(click:String, ?returnFalse:Bool = false):Dynamic {
+ 		var clicker:String = click.toLowerCase();
+ 		var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
+ 		var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+ 		var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+
+ 		if(FlxG.mouse.pressedRight && right) {
+ 			return true;
+ 		} else if (FlxG.mouse.pressed && left) {
+ 			// The left mouse button has pressed
+ 			return true;
+ 		} else if (FlxG.mouse.pressedMiddle && middle) {
+ 			return true;
+ 		} else if(returnFalse) {
+ 			return false;
+ 		}
+ 	}
+
+ 	public function mouseJustPressedTimeInTicks(click:String):Dynamic {
+ 		/**
+ 		 * Time in ticks of last click input mouse button press.
+ 		 */
+ 		var clicker:String = click.toLowerCase();
+ 		var right:Bool = switch(clicker) case 'right' | 'rightclick': true default: false;
+ 		var left:Bool = switch(clicker) case 'left' | 'leftclick': true default: false;
+ 		var middle:Bool = switch(clicker) case 'middle' | 'middleclick': true default: false;
+
+ 		if(right) {
+ 			return FlxG.mouse.justPressedTimeInTicksRight;
+ 		} else if (left) {
+ 			return FlxG.mouse.justPressedTimeInTicks;
+ 		} else if (middle) {
+ 			return FlxG.mouse.justPressedTimeInTicksMiddle;
+ 		}
+ 	}
+
+}
