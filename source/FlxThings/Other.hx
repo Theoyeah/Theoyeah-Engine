@@ -172,3 +172,41 @@ class MouseThings extends FlxMouse
  	}
 
 }
+class MoreCamera extends Camera
+{
+	public function getWidthHeight(camera:Camera, returnWidth:Bool, ?returnHeight:Bool = false):Dynamic {
+		var heightt:Bool = if(returnWidth) false else true;
+		var widthh:Bool = if(returnHeight) false else true;
+		var theTwoOfUs:Bool if(returnHeight && returnWidth) true else false;
+		if(!theTwoOfUs) {
+			if(widthh) {
+				return camera.width;
+			} else if(heightt) {
+				return camera.height;
+			}
+		}
+	}
+
+	public function getMotion(camera:Camera, returnLevel, ?returnTimeout = false):Int {
+		if(returnLevel) {
+			return camera.motionLevel;
+		} else {
+			return camera.motionTimeout;
+		}
+	}
+
+}
+
+class MoreFlxCamera extends FlxCamera
+{
+		public function getScale(camera:Camera, returnX:Bool, ?returnY:Bool = false):Float {
+			if (returnX) {
+				return camera.scaleX;
+			} else {
+				return camera.scaleY;
+			}
+		}
+
+	}
+
+}
