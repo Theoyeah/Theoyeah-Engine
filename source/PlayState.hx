@@ -894,14 +894,25 @@ class PlayState extends MusicBeatState
 		}
 
 		var file:String = Paths.json(songName + '/dialogue'); //Checks for json/Psych Engine dialogue
-		var fFile:String = Paths.json(songName + '/dialogue-french');
-		var sFile:String = Paths.json(songName + '/dialogue-spanish');
-		if(OpenFlAssets.exists(fFile) && ClientPrefs.language == 'Francais') {
-			dialogueJson = DialogueBoxPsych.parseDialogue(fFile);
-		} else if(OpenFlAssets.exists(sFile) && ClientPrefs.language == 'Spanish') {
-			dialogueJson = DialogueBoxPsych.parseDialogue(sFile);
-		} else if (OpenFlAssets.exists(file)) {
-			dialogueJson = DialogueBoxPsych.parseDialogue(file);
+		var langSuffix:String = '';
+
+		switch (ClientPrefs.language.toLowerCase())
+		{
+			case "francais":
+				langSuffix = '-french';
+			case "espanol":
+				langSuffix = '-spanish';
+			case "portugues":
+				langSuffix = '-pt';
+				
+			//etc..
+       
+			default:
+				langSuffix = '';
+		}
+
+		if (OpenFlAssets.exists(file)) {
+			dialogueJson = DialogueBoxPsych.parseDialogue(file + langSuffix);
 		}
 
 		var file:String = Paths.txt(songName + '/' + songName + 'Dialogue'); //Checks for vanilla/Senpai dialogue
