@@ -103,6 +103,13 @@ class FlxThings
 
 	class NewFlxSprite extends FlxSprite
 	{
+		public function titleSprite(sprite:FlxSprite, graphicSize:Int = (Std.int(sprite.width * 0.8))):Void {
+			sprite.visible = false;
+			sprite.setGraphicSize(graphicSize);
+			sprite.updateHitbox();
+			sprite.screenCenter(X);
+			sprite.antialiasing = ClientPrefs.globalAntialiasing;
+		}
 		public function setGraphic(sprite:FlxSprite, x:Float, y:Float):Void {
 			sprite.x = x;
 			sprite.y = y;
