@@ -264,7 +264,7 @@ stoled from HaxeFlixel Docs!! But better!
 
 	/*class NewLoader
 	{*/
-		class NewLoaderInfo extends LoaderInfo
+		class NewLoaderInfo extends flash.display.LoaderInfo
 		{
 			public function getBytes(loader:LoaderInfo, /*i dont know*/type:String):Dynamic {
 				var loaded:Bool = switch(type.loLowerCase()) {
