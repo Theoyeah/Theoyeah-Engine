@@ -73,7 +73,7 @@ stoled from HaxeFlixel Docs!! But better!
 
 	class NewFlxSprite extends FlxSprite
 	{
-		public function titleSprite(sprite:FlxSprite, graphicSize:Int = (Std.int(sprite.width * 0.8)), antialiasing:Bool = true):Void {
+		public function titleSprite(sprite:FlxSprite, graphicSize:Int = Std.int(sprite.width * 0.8), antialiasing:Bool = true):Void {
 			sprite.visible = false;
 			sprite.setGraphicSize(graphicSize);
 			sprite.updateHitbox();
