@@ -164,7 +164,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'language',
 			'string',
 			'English', //this is the default option
-			['English', 'Francais'/*, 'Spanish'*/]);
+			['English', 'Francais', 'Spanish', 'Portugues']);
 		addOption(option);
 		
 
