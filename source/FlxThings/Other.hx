@@ -58,3 +58,12 @@ class MoreArray extends FlxThings
 		}
 	}
 }
+class SaveThings extends FlxThings
+{
+	public function createSaveVar(varUsed:Dynamic, loadPrefsFunction:Bool):Void { // THIS ISN'T PROVED!! MAY CAUSE ERRORS!!
+		FlxG.save.data.varUsed = varUsed;
+		if(loadPrefsFunction && FlxG.save.data.varUsed != null) {
+			varUsed = FlxG.save.data.varUsed;
+		}
+	}
+}
