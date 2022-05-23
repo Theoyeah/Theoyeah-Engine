@@ -81,8 +81,7 @@ class Random {
 class FlxThings
 {
 	var nothing:Dynamic;
-	
-	package flxthings.moreArray;
+
 	class MoreArray /*extends Array *///wtf i dont know
 	{
 		public function deleteItemsExcept(array:Array, ?except:Int = 1):Void { //can someone please prove it for me?
