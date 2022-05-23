@@ -390,36 +390,27 @@ class TitleState extends MusicBeatState
 
 		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('newgrounds_logo'));
 		add(ngSpr);
-		FlxThings.NewFlxSprite.titleSprite(ngSpr);
+		NewFlxSprite.titleSprite(ngSpr);
 
 		psychSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('psych_logo'));
 		add(psychSpr);
-		FlxThings.NewFlxSprite.titleSprite(psychSpr);
+		NewFlxSprite.titleSprite(psychSpr);
 
 		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
 		add(tySpr);
-		tySpr.visible = false;
-		tySpr.setGraphicSize(Std.int(125 * 0.74)); //i dont know how this works, edit it later theoyeah to correct the image and all that
-		tySpr.updateHitbox();
-		tySpr.screenCenter(X);
+		NewFlxSprite.titleSprite(tySpr, Std.int(125 * 0.74), false);
 		
 		wrSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('wither_logo'));
 		add(wrSpr);
-		wrSpr.visible = false;
-		wrSpr.setGraphicSize(800, 600);
-		wrSpr.updateHitbox();
-		wrSpr.screenCenter(X);
+		NewFlxSprite.titleSprite(wrSpr, Std.int(wrSpr.width * 0.8), false);
 		
 		dnSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('demolitiondon_logo'));
 		add(dnSpr);
-		dnSpr.visible = false;
-		dnSpr.setGraphicSize(436, 436);
-		dnSpr.updateHitbox();
-		dnSpr.screenCenter(X);
+		NewFlxSprite.titleSprite(dnSpr, Std.int(dnSpr.width * 0.8), false);
 
 		coolguys = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('demolitiondon_wither_logo'));
 		add(coolguys);
-		FlxThings.NewFlxSprite.titleSprite(coolguys);
+		NewFlxSprite.titleSprite(coolguys);
 
 		
 
