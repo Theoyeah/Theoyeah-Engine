@@ -106,7 +106,7 @@ stoled from HaxeFlixel Docs!! But better!
 	class Dates extends Date
 	{
 		public function returnRandomDate():Date {
-			var fuck:Date = new(flxthings.Random.int(0, 10000), flxthings.Random.int(0, 11), flxthings.Random.int(1, 31), flxthings.Random.int(0, 23), flxthings.Random.int(0, 59), flxthings.Random.int(0, 59));
+			var fuck:Date = new Date(flxthings.Random.int(0, 10000), flxthings.Random.int(0, 11), flxthings.Random.int(1, 31), flxthings.Random.int(0, 23), flxthings.Random.int(0, 59), flxthings.Random.int(0, 59));
 			return fuck;
 		}
 
