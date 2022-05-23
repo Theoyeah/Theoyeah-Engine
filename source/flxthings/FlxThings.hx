@@ -299,8 +299,8 @@ stoled from HaxeFlixel Docs!! But better!
 		}
 	}
 
-	class NewLoader
-	{
+	/*class NewLoader
+	{*/
 		class NewLoaderInfo extends LoaderInfo
 		{
 			public function getBytes(loader:LoaderInfo, /*i dont know*/type:String):Dynamic {
@@ -325,7 +325,7 @@ stoled from HaxeFlixel Docs!! But better!
 				}
 			}
 		}
-	}
+	//}
 	
 	
 	
