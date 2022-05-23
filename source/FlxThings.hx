@@ -3,7 +3,7 @@ freaking future, and also this file is for more useful functions for you to use,
 thisfile, and then use the classes that are down, like "Random.int(0, 7)" to use the "int()" function of the "Random"
 class, also use this method to all the other classes, bye!
 */
-package;
+package flxthings;
 
 //HaxeFlixel API Packages
 import flash.*;
@@ -82,7 +82,8 @@ class FlxThings
 {
 	var nothing:Dynamic;
 	
-	abstract class MoreArray /*extends Array *///wtf i dont know
+	package flxthings.moreArray;
+	class MoreArray /*extends Array *///wtf i dont know
 	{
 		public function deleteItemsExcept(array:Array, ?except:Int = 1):Void { //can someone please prove it for me?
 			for (i in 0...array.length-except) {
