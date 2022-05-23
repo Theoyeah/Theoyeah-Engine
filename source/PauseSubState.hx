@@ -20,8 +20,20 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', 'Exit to menu'];
+	static var menuItems:Array<String> = [];
+	static var resumeL:String = '';
+	static var restartL:String = '';
+	static var changeL:String = '';
+	static var optionsL:String = '';
+	static var exitL:String = '';
+	static var leaveL:String = '';
+	static var skipL:String = '';
+	static var endL:String = '';
+	static var tog:String = '';
+	static var bot:String = '';
+	static var bac:String = '';
+
+	var menuItemsOG:Array<String> = [resumeL, restartL, changeL, optionsL, exitL];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -37,21 +49,74 @@ class PauseSubState extends MusicBeatSubstate
 	public function new(x:Float, y:Float)
 	{
 		super();
-		if(CoolUtil.difficulties.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
+		
+		switch(ClientPrefs.language.toLowerCase()) {
+		case 'francais':
+			resumeL = 'Résumer';
+			restartL = 'Redémarrer';
+			changeL = 'Changer de Difficulté';
+			optionsL = 'Choix';
+			exitL = 'Quitter le menu';
+			leaveL = 'Quitter le Mode Graphique';
+			skipL = 'Sauter le Temps';
+			endL = 'Chanson de Fin';
+			tog = 'Basculer en Mode Entraînement';
+			bot = 'Basculer le Botplay';
+			bac = 'ARRIÈRE';
+		case 'portugues':
+			resumeL = 'Retomar';
+			restartL = 'Reiniciar';
+			changeL = 'Dificuldade de Mudança';
+			optionsL = 'Opções';
+			exitL = 'Sair para o menu';
+			leaveL = 'Sair do Modo de Gráfico';
+			skipL = 'Pular Tempo';
+			endL = 'Música Final';
+			tog = 'Alternar o Modo de Prática';
+			bot = 'Alternar Botplay';
+			bac = 'COSTAS';
+		case 'spanish':
+			resumeL = 'Continuar';
+			restartL = 'Reiniciar';
+			changeL = 'Cambiar Dificultad';
+			optionsL = 'Opciones';
+			exitL = 'Salir al menú';
+			leaveL = 'Salir del Modo Charting';
+			skipL = 'Saltar Tiempo';
+			endL = 'Terminar Canción';
+			tog = 'Alternar Modo Práctica';
+			bot = 'Alternar Botplay';
+			bac = 'ATRÁS';
+		default:
+			resumeL = 'Resume';
+			restartL = 'Restart Song';
+			changeL = 'Change Difficulty';
+			optionsL = 'Options';
+			exitL = 'Exit to menu';
+			leaveL = 'Leave Charting Mode';
+			skipL = 'Skip Time';
+			endL = 'End Song';
+			tog = 'Toggle Practice Mode';
+			bot = 'Toggle Botplay';
+			bac = 'BACK';
+		}
+		if(CoolUtil.difficulties.length < 2 || CoolUtil.defaultDifficulties.length < 2) {
+			menuItemsOG.remove(changeL); //No need to change difficulty if there is only one!
+		}
 
 		if(PlayState.chartingMode)
 		{
-			menuItemsOG.insert(2, 'Leave Charting Mode');
+			menuItemsOG.insert(2, leaveL);
 			
 			var num:Int = 0;
 			if(!PlayState.instance.startingSong)
 			{
 				num = 1;
-				menuItemsOG.insert(3, 'Skip Time');
+				menuItemsOG.insert(3, skipL);
 			}
-			menuItemsOG.insert(3 + num, 'End Song');
-			menuItemsOG.insert(4 + num, 'Toggle Practice Mode');
-			menuItemsOG.insert(5 + num, 'Toggle Botplay');
+			menuItemsOG.insert(3 + num, endL);
+			menuItemsOG.insert(4 + num, tog);
+			menuItemsOG.insert(5 + num, bot);
 		}
 		menuItems = menuItemsOG;
 
@@ -59,7 +124,7 @@ class PauseSubState extends MusicBeatSubstate
 			var diff:String = '' + CoolUtil.difficulties[i];
 			difficultyChoices.push(diff);
 		}
-		difficultyChoices.push('BACK');
+		difficultyChoices.push(bac);
 
 
 		pauseMusic = new FlxSound();
@@ -71,6 +136,10 @@ class PauseSubState extends MusicBeatSubstate
 		pauseMusic.volume = 0;
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
 
+		if(ClientPrefs.pauseMusic.toLowerCase() == 'none') {
+			pauseMusic.volume = 0;
+		}
+
 		FlxG.sound.list.add(pauseMusic);
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
@@ -78,7 +147,19 @@ class PauseSubState extends MusicBeatSubstate
 		bg.scrollFactor.set();
 		add(bg);
 
-		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + PlayState.SONG.song + ' [' + CoolUtil.difficultyString() + ']' + ' [PAUSED]';
+		var pauseL:String = '';
+		switch(ClientPrefs.language.toLowerCase()) {
+			case 'francais':
+				pauseL = 'EN PAUSE'; //please correct me if is incorrect
+			case 'spanish':
+				pauseL = 'PAUSADO';
+			case 'portugues':
+				pauseL = 'PAUSADO'; //please correct me if is incorrect
+			default:
+				pauseL = 'PAUSED';
+		}
+
+		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + PlayState.SONG.song + ' [' + CoolUtil.difficultyString() + '] [' + pauseL + ']';
 
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
 		levelInfo.text += PlayState.SONG.song;
@@ -163,7 +244,7 @@ class PauseSubState extends MusicBeatSubstate
 		var daSelected:String = menuItems[curSelected];
 		switch (daSelected)
 		{
-			case 'Skip Time':
+			case skipL:
 				if (controls.UI_LEFT_P)
 				{
 					FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
@@ -213,22 +294,22 @@ class PauseSubState extends MusicBeatSubstate
 
 			switch (daSelected)
 			{
-				case "Resume":
+				case resumeL:
 					Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + PlayState.SONG.song + ' [' + CoolUtil.difficultyString() + ']';
 					close();
-				case 'Change Difficulty':
+				case changeL:
 					menuItems = difficultyChoices;
 					regenMenu();
-				case 'Toggle Practice Mode':
+				case tog:
 					PlayState.instance.practiceMode = !PlayState.instance.practiceMode;
 					PlayState.changedDifficulty = true;
 					practiceText.visible = PlayState.instance.practiceMode;
-				case "Restart Song":
+				case restartL:
 					restartSong();
-				case "Leave Charting Mode":
+				case leaveL:
 					restartSong();
 					PlayState.chartingMode = false;
-				case 'Skip Time':
+				case skipL:
 					if(curTime < Conductor.songPosition)
 					{
 						PlayState.startOnTime = curTime;
@@ -243,20 +324,20 @@ class PauseSubState extends MusicBeatSubstate
 						}
 						close();
 					}
-				case "End Song":
+				case endL:
 					close();
 					PlayState.instance.finishSong(true);
-				case 'Toggle Botplay':
+				case bot:
 					PlayState.instance.cpuControlled = !PlayState.instance.cpuControlled;
 					PlayState.changedDifficulty = true;
 					PlayState.instance.botplayTxt.visible = PlayState.instance.cpuControlled;
 					PlayState.instance.botplayTxt.alpha = 1;
 					PlayState.instance.botplaySine = 0;
-				case "Options":
+				case optionsL:
 					Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
 					LoadingState.loadAndSwitchState(new altoptions.PauseOptionsState());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
-				case "Exit to menu":
+				case exitL:
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
 					if(PlayState.isStoryMode) {
@@ -332,6 +413,9 @@ class PauseSubState extends MusicBeatSubstate
 		}
 	}
 
+	/**
+	 * Destroys the menu
+	 */
 	function regenMenu():Void {
 		for (i in 0...grpMenuShit.members.length) {
 			var obj = grpMenuShit.members[0];

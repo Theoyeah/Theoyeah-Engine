@@ -70,35 +70,31 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
-	var language = ClientPrefs.language.toLowerCase();
 	
-	public static var ratingStuff:Array<Dynamic> = if(language == "english") {
-		[
-			['Its not hard you just suck as hell', 0.2], //From 0% to 19%
-			['skill issue', 0.4], //From 20% to 39%
+	public static var ratingStuff:Array<Dynamic> = if(ClientPrefs.language == 'English') [
+		['Its not hard you just suck as hell', 0.2], //From 0% to 19%
+		['skill issue', 0.4], //From 20% to 39%
 			['Bad', 0.5], //From 40% to 49%
-			['Ok', 0.6], //From 50% to 59%
-			['Not Bad', 0.69], //From 60% to 68%
-			['Great', 0.7], //69%
-			['Cool!', 0.8], //From 70% to 79%
-			['Good!', 0.9], //From 80% to 89%
-			['Sick!!', 1], //From 90% to 99%
-			['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
-		];
-		} else if(language == "francais") {
-		[
-		['Pas dur tes juste mauvais', 0.2], //From 0% to 19%
-		['Problème', 0.4], //From 20% to 39%
-		['Nul', 0.5], //From 40% to 49%
-		['Ok', 0.6], //From 50% to 59%
-		['Pas mauvais', 0.69], //From 60% to 68%
-		['Yo', 0.7], //69%
-		['Cool!', 0.8], //From 70% to 79%
-		['Bien!', 0.9], //From 80% to 89%
-		['Génial!!', 1], //From 90% to 99%
-		['Parfait!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
-		];
-		};
+				['Ok', 0.6], //From 50% to 59%
+					['Not Bad', 0.69], //From 60% to 68%
+						['Great', 0.7], //69%
+							['Cool!', 0.8], //From 70% to 79%
+								['Good!', 0.9], //From 80% to 89%
+									['Sick!!', 1], //From 90% to 99%
+										['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+											]
+			else /*if(ClientPrefs.language == 'Francais') */[
+				['Pas dur tes juste mauvais', 0.2], //From 0% to 19%
+					['Problème', 0.4], //From 20% to 39%
+						['Nul', 0.5], //From 40% to 49%
+							['Ok', 0.6], //From 50% to 59%
+								['Pas mauvais', 0.69], //From 60% to 68%
+									['Yo', 0.7], //69%
+										['Cool!', 0.8], //From 70% to 79%
+											['Bien!', 0.9], //From 80% to 89%
+												['Génial!!', 1], //From 90% to 99%
+													['Parfait!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+														];
 		
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
@@ -898,13 +894,30 @@ class PlayState extends MusicBeatState
 		}
 
 		var file:String = Paths.json(songName + '/dialogue'); //Checks for json/Psych Engine dialogue
+		var langSuffix:String = '';
+
+		switch (ClientPrefs.language.toLowerCase())
+		{
+			case "francais":
+				langSuffix = '-french';
+			case "espanol":
+				langSuffix = '-spanish';
+			case "portugues":
+				langSuffix = '-pt';
+				
+			//etc..
+       
+			default:
+				langSuffix = '';
+		}
+
 		if (OpenFlAssets.exists(file)) {
-			dialogueJson = DialogueBoxPsych.parseDialogue(file);
+			dialogueJson = DialogueBoxPsych.parseDialogue(file + langSuffix);
 		}
 
 		var file:String = Paths.txt(songName + '/' + songName + 'Dialogue'); //Checks for vanilla/Senpai dialogue
 		if (OpenFlAssets.exists(file)) {
-			dialogue = CoolUtil.coolTextFile(file);
+			dialogue = CoolUtil.coolTextFile(file + langSuffix);
 		}
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
 		// doof.x += 70;
@@ -1098,10 +1111,10 @@ class PlayState extends MusicBeatState
 			judgementCounter.scrollFactor.set();
 			judgementCounter.cameras = [camHUD];
 			judgementCounter.screenCenter(Y);
-			if(ClientPrefs.language == "English") {
-			judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
-			} else {
-			judgementCounter.text = 'Merveilleux: ${marvelous}\nGénials: ${sicks}\nBiens: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}\n';
+			if(ClientPrefs.language.toLowerCase() == "english") {
+				judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
+			} else if(ClientPrefs.language.toLowerCase() == "francais") {
+				judgementCounter.text = 'Merveilleux: ${marvelous}\nGénials: ${sicks}\nBiens: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}\n';
 			}
 			add(judgementCounter);
 		}
@@ -4304,7 +4317,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function spawnNoteSplashOnNote(note:Note) {
-		if(ClientPrefs.noteSplashes && note != null) {
+		if(ClientPrefs.noteSplashes.toLowerCase() != 'none' && note != null) {
 			var strum:StrumNote = playerStrums.members[note.noteData];
 			if(strum != null) {
 				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
@@ -4313,7 +4326,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
-		var skin:String = 'noteSplashes';
+		var skin:String = NoteSplash.noteS();
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 		
 		var hue:Float = ClientPrefs.arrowHSV[data % 4][0] / 360;
@@ -4798,6 +4811,7 @@ class PlayState extends MusicBeatState
 				judgementCounter.text = 'Merveilleux: ${marvelous}\nGénials: ${sicks}\nCools: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}\n';
 			}
 		}
+	}
 
 	#if ACHIEVEMENTS_ALLOWED
 	private function checkForAchievement(achievesToCheck:Array<String> = null):String
