@@ -73,8 +73,8 @@ class NoteSplash extends FlxSprite
 		colorSwap.hue = hueColor;
 		colorSwap.saturation = satColor;
 		colorSwap.brightness = brtColor;
-		if(texture == 'og_noteSplashes') {
-			offset.set(Std.int(0.3 * width), Std.int(0.3 * height));
+		if(StringTools.startsWith(texture, 'og')) {
+			offset.set(80, 90);
 		} else {
 			offset.set(10, 10);
 		}
