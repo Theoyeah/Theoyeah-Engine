@@ -31,6 +31,7 @@ class PauseSubState extends MusicBeatSubstate
 	static var endL:String = '';
 	static var tog:String = '';
 	static var bot:String = '';
+	static var bac:String = '';
 
 	var menuItemsOG:Array<String> = [resumeL, restartL, changeL, optionsL, exitL];
 	var difficultyChoices = [];
@@ -61,6 +62,7 @@ class PauseSubState extends MusicBeatSubstate
 			endL = 'Chanson de Fin';
 			tog = 'Basculer en Mode Entraînement';
 			bot = 'Basculer le Botplay';
+			bac = 'ARRIÈRE';
 		case 'portugues':
 			resumeL = 'Retomar';
 			restartL = 'Reiniciar';
@@ -72,6 +74,7 @@ class PauseSubState extends MusicBeatSubstate
 			endL = 'Música Final';
 			tog = 'Alternar o Modo de Prática';
 			bot = 'Alternar Botplay';
+			bac = 'COSTAS';
 		case 'spanish':
 			resumeL = 'Continuar';
 			restartL = 'Reiniciar';
@@ -83,6 +86,7 @@ class PauseSubState extends MusicBeatSubstate
 			endL = 'Terminar Canción';
 			tog = 'Alternar Modo Práctica';
 			bot = 'Alternar Botplay';
+			bac = 'ATRÁS';
 		default:
 			resumeL = 'Resume';
 			restartL = 'Restart Song';
@@ -94,6 +98,7 @@ class PauseSubState extends MusicBeatSubstate
 			endL = 'End Song';
 			tog = 'Toggle Practice Mode';
 			bot = 'Toggle Botplay';
+			bac = 'BACK';
 		}
 		if(CoolUtil.difficulties.length < 2 || CoolUtil.defaultDifficulties.length < 2) {
 			menuItemsOG.remove(changeL); //No need to change difficulty if there is only one!
@@ -119,7 +124,7 @@ class PauseSubState extends MusicBeatSubstate
 			var diff:String = '' + CoolUtil.difficulties[i];
 			difficultyChoices.push(diff);
 		}
-		difficultyChoices.push('BACK');
+		difficultyChoices.push(bac);
 
 
 		pauseMusic = new FlxSound();
