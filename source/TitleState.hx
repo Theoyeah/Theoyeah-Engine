@@ -390,21 +390,12 @@ class TitleState extends MusicBeatState
 
 		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('newgrounds_logo'));
 		add(ngSpr);
-		ngSpr.visible = false;
-		ngSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
-		ngSpr.updateHitbox();
-		ngSpr.screenCenter(X);
-		ngSpr.antialiasing = ClientPrefs.globalAntialiasing;
-
+		FlxThings.NewFlxSprite.titleSprite(ngSpr);
 
 		psychSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('psych_logo'));
 		add(psychSpr);
-		psychSpr.visible = false;
-		psychSpr.setGraphicSize(Std.int(psychSpr.width * 0.8));
-		psychSpr.updateHitbox();
-		psychSpr.screenCenter(X);
-		psychSpr.antialiasing = ClientPrefs.globalAntialiasing;
-		
+		FlxThings.NewFlxSprite.titleSprite(psychSpr);
+
 		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
 		add(tySpr);
 		tySpr.visible = false;
@@ -428,11 +419,7 @@ class TitleState extends MusicBeatState
 
 		coolguys = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('demolitiondon_wither_logo'));
 		add(coolguys);
-		coolguys.visible = false;
-		coolguys.setGraphicSize(Std.int(coolguys.width * 0.8));
-		coolguys.updateHitbox();
-		coolguys.screenCenter(X);
-		coolguys.antialiasing = ClientPrefs.globalAntialiasing;
+		FlxThings.NewFlxSprite.titleSprite(coolguys);
 
 		
 
