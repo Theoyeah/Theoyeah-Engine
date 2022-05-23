@@ -1,4 +1,4 @@
-package flxthings.other;
+package flxthings;
 
 //HaxeFlixel API Packages
 import flash.*;
@@ -50,7 +50,7 @@ import animateatlas.tilecontainer.TileContainerSymbol;
 using StringTools;
 
 
-class MoreArray extends FlxThings
+class MoreArray
 {
 	public function deleteItemsExcept(array:Array, except:Int = 1):Void { //can someone please prove it for me?
 		for (i in 0...array.length-except) {
@@ -58,7 +58,7 @@ class MoreArray extends FlxThings
 		}
 	}
 }
-class SaveThings extends FlxThings
+class SaveThings extends ClientPrefs
 {
 	public function createSaveVar(varUsed:Dynamic, loadPrefsFunction:Bool):Void { // THIS ISN'T PROVED!! MAY CAUSE ERRORS!!
 		FlxG.save.data.varUsed = varUsed;
