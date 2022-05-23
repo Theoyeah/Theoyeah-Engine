@@ -21,7 +21,50 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', 'Exit to menu'];
+	var resumeL:String = '';
+	var restartL:String = '';
+	var changeL:String = '';
+	var optionsL:String = '';
+	var exitL:String = '';
+	var leaveL:String = '';
+	var skipL:String = '';
+	var endL:String = '';
+	switch(ClientPrefs.language.toLowerCase()) {
+		case 'francais':
+			resumeL = 'Résumer';
+			restartL = 'Redémarrer';
+			changeL = 'Changer de Difficulté';
+			optionsL = 'Choix';
+			exitL = 'Quitter le menu';
+			leaveL = 'Quitter le Mode Graphique';
+			skipL = 'Sauter le Temps';
+		case 'portugues':
+			resumeL = 'Retomar';
+			restartL = 'Reiniciar';
+			changeL = 'Dificuldade de Mudança';
+			optionsL = 'Opções';
+			exitL = 'Sair para o menu';
+			leaveL = 'Sair do Modo de Gráfico';
+			skipL = 'Pular Tempo';
+		case 'spanish':
+			resumeL = 'Continuar';
+			restartL = 'Reiniciar';
+			changeL = 'Cambiar Dificultad';
+			optionsL = 'Opciones';
+			exitL = 'Salir al menú';
+			leaveL = 'Salir del Modo Charting';
+			skipL = 'Saltar Tiempo';
+		default:
+			resumeL = 'Resume';
+			restartL = 'Restart Song';
+			changeL = 'Change Difficulty';
+			optionsL = 'Options';
+			exitL = 'Exit to menu';
+			leaveL = 'Leave Charting Mode';
+			skipL = 'Skip Time';
+			endL = 'End Song';
+	}
+	var menuItemsOG:Array<String> = [resumeL, restartL, changeL, optionsL, exitL];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -37,22 +80,22 @@ class PauseSubState extends MusicBeatSubstate
 	public function new(x:Float, y:Float)
 	{
 		super();
-
+		
 		if(CoolUtil.difficulties.length < 2 || CoolUtil.defaultDifficulties.length < 2) {
-			menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
+			menuItemsOG.remove(changeL); //No need to change difficulty if there is only one!
 		}
 
 		if(PlayState.chartingMode)
 		{
-			menuItemsOG.insert(2, 'Leave Charting Mode');
+			menuItemsOG.insert(2, leaveL);
 			
 			var num:Int = 0;
 			if(!PlayState.instance.startingSong)
 			{
 				num = 1;
-				menuItemsOG.insert(3, 'Skip Time');
+				menuItemsOG.insert(3, skipL);
 			}
-			menuItemsOG.insert(3 + num, 'End Song');
+			menuItemsOG.insert(3 + num, endL);
 			menuItemsOG.insert(4 + num, 'Toggle Practice Mode');
 			menuItemsOG.insert(5 + num, 'Toggle Botplay');
 		}
@@ -85,7 +128,19 @@ class PauseSubState extends MusicBeatSubstate
 		bg.scrollFactor.set();
 		add(bg);
 
-		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + PlayState.SONG.song + ' [' + CoolUtil.difficultyString() + ']' + ' [PAUSED]';
+		var pauseL:String = '';
+		switch(ClientPrefs.language.toLowerCase()) {
+			case 'francais':
+				pauseL = 'EN PAUSE'; //please correct me if is incorrect
+			case 'spanish':
+				pauseL = 'PAUSADO';
+			case 'portugues':
+				pauseL = 'PAUSADO'; //please correct me if is incorrect
+			default:
+				pauseL = 'PAUSED';
+		}
+
+		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + PlayState.SONG.song + ' [' + CoolUtil.difficultyString() + '] [' + pauseL + ']';
 
 		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
 		levelInfo.text += PlayState.SONG.song;
