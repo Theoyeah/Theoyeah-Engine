@@ -1,4 +1,4 @@
-package flxthings.array;
+package flxthings.other;
 
 //HaxeFlixel API Packages
 import flash.*;
