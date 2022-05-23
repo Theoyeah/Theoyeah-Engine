@@ -77,11 +77,11 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		*/
 		var option:Option = new Option('Shaders', 
-		'If checked, you can use shaders to customize your gameplay!', 
-		'shaders', 
-		'bool', 
-		true); 
-	addOption(option);
+			'If checked, you can use shaders to customize your gameplay!', 
+			'shaders', 
+			'bool', 
+			true); 
+		addOption(option);
 
 		super();
 	}

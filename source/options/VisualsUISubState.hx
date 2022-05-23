@@ -34,11 +34,20 @@ class VisualsUISubState extends BaseOptionsMenu
 		title = 'Visuals and UI';
 		rpcTitle = 'Visuals & UI Settings Menu'; //for Discord Rich Presence
 
-		var option:Option = new Option('Note Splashes',
-			"If unchecked, hitting \"Sick!\" notes won't show particles.",
+		var option:Option = new Option('Note Skin:',
+			'What Note skin would you like?',
+			'noteskin',
+			'string',
+			'Arrows',
+			['Arrows', 'Circles']);
+		addOption(option);
+
+		var option:Option = new Option('Note Splashes:',
+			"What type of noteSplashes do you want?",
 			'noteSplashes',
-			'bool',
-			true);
+			'string',
+			'Normal',
+			['Normal', 'None', 'Original', 'Inverted', 'Red', 'Pink', 'Cyan', 'Green', 'IDK']);
 		addOption(option);
 
 		var option:Option = new Option('Kade Engine Score Text',
@@ -46,6 +55,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			'kadetxt',
 			'bool',
 			false);
+		addOption(option);
+	
+		var option:Option = new Option('Flashing Lights',
+			"Uncheck this if you're sensitive to flashing lights!",
+			'flashing',
+			'bool',
+			true);
 		addOption(option);
 
 		var option:Option = new Option('Intro Background',
