@@ -155,7 +155,9 @@ class FlxThings
 				var v:Float = if(!radius) value / 2 else value;
 				return Math.PI * Math.pow(v, 2);
 			}
-			
+			public function getAreaFromPerimeter(p:Float) {
+				return getArea(p / (Math.PI * 2), true);
+			}
 		}
 		class NewFlxShapeCross extends FlxShapeCross
 		{
