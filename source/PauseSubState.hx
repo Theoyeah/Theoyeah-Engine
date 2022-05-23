@@ -51,54 +51,54 @@ class PauseSubState extends MusicBeatSubstate
 		super();
 		
 		switch(ClientPrefs.language.toLowerCase()) {
-		case 'francais':
-			resumeL = 'Résumer';
-			restartL = 'Redémarrer';
-			changeL = 'Changer de Difficulté';
-			optionsL = 'Choix';
-			exitL = 'Quitter le menu';
-			leaveL = 'Quitter le Mode Graphique';
-			skipL = 'Sauter le Temps';
-			endL = 'Chanson de Fin';
-			tog = 'Basculer en Mode Entraînement';
-			bot = 'Basculer le Botplay';
-			bac = 'ARRIÈRE';
-		case 'portugues':
-			resumeL = 'Retomar';
-			restartL = 'Reiniciar';
-			changeL = 'Dificuldade de Mudança';
-			optionsL = 'Opções';
-			exitL = 'Sair para o menu';
-			leaveL = 'Sair do Modo de Gráfico';
-			skipL = 'Pular Tempo';
-			endL = 'Música Final';
-			tog = 'Alternar o Modo de Prática';
-			bot = 'Alternar Botplay';
-			bac = 'COSTAS';
-		case 'spanish':
-			resumeL = 'Continuar';
-			restartL = 'Reiniciar';
-			changeL = 'Cambiar Dificultad';
-			optionsL = 'Opciones';
-			exitL = 'Salir al menú';
-			leaveL = 'Salir del Modo Charting';
-			skipL = 'Saltar Tiempo';
-			endL = 'Terminar Canción';
-			tog = 'Alternar Modo Práctica';
-			bot = 'Alternar Botplay';
-			bac = 'ATRÁS';
-		default:
-			resumeL = 'Resume';
-			restartL = 'Restart Song';
-			changeL = 'Change Difficulty';
-			optionsL = 'Options';
-			exitL = 'Exit to menu';
-			leaveL = 'Leave Charting Mode';
-			skipL = 'Skip Time';
-			endL = 'End Song';
-			tog = 'Toggle Practice Mode';
-			bot = 'Toggle Botplay';
-			bac = 'BACK';
+			case 'francais':
+				resumeL = 'Résumer';
+				restartL = 'Redémarrer';
+				changeL = 'Changer de Difficulté';
+				optionsL = 'Choix';
+				exitL = 'Quitter le menu';
+				leaveL = 'Quitter le Mode Graphique';
+				skipL = 'Sauter le Temps';
+				endL = 'Chanson de Fin';
+				tog = 'Basculer en Mode Entraînement';
+				bot = 'Basculer le Botplay';
+				bac = 'ARRIÈRE';
+			case 'portugues':
+				resumeL = 'Continuar Musica';
+				restartL = 'Reiniciar Musica';
+				changeL = 'Dificuldade de Mudança';
+				optionsL = 'Opções';
+				exitL = 'Sair para o menu';
+				leaveL = 'Sair do Charting Mode';
+				skipL = 'Pular Tempo';
+				endL = 'Terminar Musica';
+				tog = 'Ligar Modo Prática';
+				bot = 'Ligar Botplay';
+				bac = 'COSTAS';
+			case 'spanish':
+				resumeL = 'Continuar';
+				restartL = 'Reiniciar';
+				changeL = 'Cambiar Dificultad';
+				optionsL = 'Opciones';
+				exitL = 'Salir al Menú';
+				leaveL = 'Salir Modo Charting';
+				skipL = 'Saltar Tiempo';
+				endL = 'Terminar Canción';
+				tog = 'Alternar Modo Practicar';
+				bot = 'Alternar Botplay';
+				bac = 'ATRÁS';
+			default:
+				resumeL = 'Resume';
+				restartL = 'Restart Song';
+				changeL = 'Change Difficulty';
+				optionsL = 'Options';
+				exitL = 'Exit to menu';
+				leaveL = 'Leave Charting Mode';
+				skipL = 'Skip Time';
+				endL = 'End Song';
+				tog = 'Toggle Practice Mode';
+				bot = 'Toggle Botplay';
+				bac = 'BACK';
 		}
 		if(CoolUtil.difficulties.length < 2 || CoolUtil.defaultDifficulties.length < 2) {
 			menuItemsOG.remove(changeL); //No need to change difficulty if there is only one!
@@ -430,7 +430,7 @@ class PauseSubState extends MusicBeatSubstate
 			item.targetY = i;
 			grpMenuShit.add(item);
 
-			if(menuItems[i] == 'Skip Time')
+			if(menuItems[i] == skipL)
 			{
 				skipTimeText = new FlxText(0, 0, 0, '', 64);
 				skipTimeText.setFormat(Paths.font("vcr.ttf"), 64, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
