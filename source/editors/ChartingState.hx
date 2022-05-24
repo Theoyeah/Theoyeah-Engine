@@ -69,7 +69,7 @@ class ChartingState extends MusicBeatState
 		'Crash Note', //so we can actually test it EDIT: Wait, that released right ?
 		'GF Sing',
 		'No Animation',
-	]; else if(language == 'spanish') [
+	] else /*if(language == 'spanish')*/ [
 		'',
 		'Animación Alt',
 		'¡Hey!',
