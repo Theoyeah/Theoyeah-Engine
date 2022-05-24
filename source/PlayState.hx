@@ -2332,6 +2332,7 @@ class PlayState extends MusicBeatState
 	private function generateSong(dataPath:String):Void
 	{
 		// FlxG.log.add(ChartParser.parse());
+		#if CHEATING_ALLOWED
 		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype','multiplicative');
 
 		switch(songSpeedType)
@@ -2341,7 +2342,9 @@ class PlayState extends MusicBeatState
 			case "constant":
 				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed', 1);
 		}
-		
+		#else
+		songSpeed = SONG.speed;
+		#end
 		var songData = SONG;
 		Conductor.changeBPM(songData.bpm);
 		
