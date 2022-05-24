@@ -716,6 +716,7 @@ class TitleState extends MusicBeatState
 						addMoreText(curWacky[2]);
 					} else {
 						deleteCoolText();
+						sickBeats++;
 					}
 				case 17:
 					deleteCoolText();
