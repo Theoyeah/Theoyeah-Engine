@@ -195,10 +195,16 @@ class FreeplayState extends MusicBeatState
 		add(textBG);
 
 		#if PRELOAD_ALL
-		var leText:String = "Press SPACE to listen to the Song / " + #if CHEATING_ALLOWED "Press CTRL to open the Gameplay Changers Menu / " + #end "Press RESET to Reset your Score and Accuracy.";
+		var leText:String = if(ClientPrefs.language == 'Spanish')
+			"Pulsa ESPACIO para escuchar la Canción / Pulsa CTRL para abrir el Menú de Modificaciones / Pulsa RESET para Resetear tu Score y Valoración"
+		else 
+			"Press SPACE to listen to the Song / " + #if CHEATING_ALLOWED "Press CTRL to open the Gameplay Changers Menu / " + #end "Press RESET to Reset your Score and Accuracy.";
 		var size:Int = 16;
 		#else
-		var leText:String = #if CHEATING_ALLOWED "Press CTRL to open the Gameplay Changers Menu / " + #end "Press RESET to Reset your Score and Accuracy.";
+		var leText:String = if(ClientPrefs.language == 'Spanish') 
+			"Pulsa CTRL para abrir el Menú de Modificaciones / Pulsa RESET para Resetear tu Score y Valoración"
+		else
+			#if CHEATING_ALLOWED "Press CTRL to open the Gameplay Changers Menu / " + #end "Press RESET to Reset your Score and Accuracy.";
 		var size:Int = 18;
 		#end
 		var text:FlxText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
@@ -267,7 +273,10 @@ class FreeplayState extends MusicBeatState
 			ratingSplit[1] += '0';
 		}
 
-		scoreText.text = 'PERSONAL BEST: ' + lerpScore + ' (' + ratingSplit.join('.') + '%)';
+		scoreText.text = if(ClientPrefs.language == 'Spanish')
+			'MEJOR PERSONAL: ' + lerpScore + '(' + ratingSplit.join('.') + '%)'
+		else
+			'PERSONAL BEST: ' + lerpScore + ' (' + ratingSplit.join('.') + '%)';
 		positionHighscore();
 
 		var upP = controls.UI_UP_P;
