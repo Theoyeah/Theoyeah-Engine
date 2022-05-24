@@ -20,18 +20,17 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	static var menuItems:Array<String> = [];
-	static var resumeL:String = '';
-	static var restartL:String = '';
-	static var changeL:String = '';
-	static var optionsL:String = '';
-	static var exitL:String = '';
-	static var leaveL:String = '';
-	static var skipL:String = '';
-	static var endL:String = '';
-	static var tog:String = '';
-	static var bot:String = '';
-	static var bac:String = '';
+	static var resumeL:String = 'Resume';
+	static var restartL:String = 'Restart Song';
+	static var changeL:String = 'Change Difficulty';
+	static var optionsL:String = 'Options';
+	static var exitL:String = 'Exit to menu';
+	static var leaveL:String = 'Leave Charting Mode';
+	static var skipL:String = 'Skip Time';
+	static var endL:String = 'End Song';
+	static var tog:String = 'Toggle Practice Mode';
+	static var bot:String = 'Toggle Botplay';
+	static var bac:String = 'BACK';
 
 	var menuItemsOG:Array<String> = [resumeL, restartL, changeL, optionsL, exitL];
 	var difficultyChoices = [];
