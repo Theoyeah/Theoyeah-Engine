@@ -101,6 +101,8 @@ class PauseSubState extends MusicBeatSubstate
 				bot = 'Toggle Botplay';
 				bac = 'BACK';
 		}
+		menuItemsOG:Array<String> = [resumeL, restartL, changeL, optionsL, exitL];
+
 		if(CoolUtil.difficulties.length < 2 || CoolUtil.defaultDifficulties.length < 2) {
 			menuItemsOG.remove(changeL); //No need to change difficulty if there is only one!
 		}
