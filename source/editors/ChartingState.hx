@@ -56,7 +56,7 @@ using StringTools;
 class ChartingState extends MusicBeatState
 {
 	static var language:String = ClientPrefs.language.toLowerCase();
-	public static var noteTypeList:Array<String> = if(language == 'english')//Used for backwards compatibility with 0.1 - 0.3.2 charts, though, you should add your hardcoded custom note types here too.
+	public static var noteTypeList:Array<String> = if(language == 'english'){//Used for backwards compatibility with 0.1 - 0.3.2 charts, though, you should add your hardcoded custom note types here too.
 	[
 		'',
 		'Alt Animation',
@@ -69,7 +69,7 @@ class ChartingState extends MusicBeatState
 		'Crash Note', //so we can actually test it EDIT: Wait, that released right ?
 		'GF Sing',
 		'No Animation',
-	] else if(language == 'spanish') [
+	]} else if(language == 'spanish') {[
 		'',
 		'Animación Alt',
 		'¡Hey!',
@@ -81,7 +81,7 @@ class ChartingState extends MusicBeatState
 		'Nota Crash', //so we can actually test it EDIT: Wait, that released right ?
 		'GF Canta',
 		'No Animación',
-	];
+	];};
 		
 	private var noteTypeIntMap:Map<Int, String> = new Map<Int, String>();
 	private var noteTypeMap:Map<String, Null<Int>> = new Map<String, Null<Int>>();
