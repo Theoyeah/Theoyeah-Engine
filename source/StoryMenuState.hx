@@ -239,13 +239,12 @@ class StoryMenuState extends MusicBeatState
 			else if (upP || downP)
 				changeDifficulty();
 
-			#if CHEATING_ALLOWED
-				if(FlxG.keys.justPressed.CONTROL)
-				{
-					persistentUpdate = false;
-					openSubState(new GameplayChangersSubstate());
-				}
-			else #end if(controls.RESET)
+			if(FlxG.keys.justPressed.CONTROL)
+			{
+				persistentUpdate = false;
+				openSubState(new GameplayChangersSubstate());
+			}
+			else if(controls.RESET)
 			{
 				persistentUpdate = false;
 				openSubState(new ResetScoreSubState('', curDifficulty, '', curWeek));
