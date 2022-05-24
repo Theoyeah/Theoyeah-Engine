@@ -252,11 +252,11 @@ class Paths
 		return returnAsset;
 	}
 	
-	static public function getTextFromFile(key:String, ?ignoreMods:Bool = false):String
+	static public function getTextFromFile(key:String):String
 	{
 		#if sys
 		#if MODS_ALLOWED
-		if (!ignoreMods && FileSystem.exists(modFolders(key)))
+		if (FileSystem.exists(modFolders(key)))
 			return File.getContent(modFolders(key));
 		#end
 
@@ -280,11 +280,11 @@ class Paths
 		return Assets.getText(getPath(key, TEXT));
 	}
 
-	inline static public function font(key:String, ?ignoreMods:Bool = false)
+	inline static public function font(key:String)
 	{
 		#if MODS_ALLOWED
 		var file:String = modsFont(key);
-		if(FileSystem.exists(file) && !ignoreMods) {
+		if(FileSystem.exists(file)) {
 			return file;
 		}
 		#end
@@ -294,7 +294,7 @@ class Paths
 	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)
 	{
 		#if MODS_ALLOWED
-		if((FileSystem.exists(mods(currentModDirectory + '/' + key)) || FileSystem.exists(mods(key))) && !ignoreMods) {
+		if(FileSystem.exists(mods(currentModDirectory + '/' + key)) || FileSystem.exists(mods(key))) {
 			return true;
 		}
 		#end
@@ -305,36 +305,32 @@ class Paths
 		return false;
 	}
 
-	inline static public function getSparrowAtlas(key:String, ?library:String, ?ignoreMods:Bool = false):FlxAtlasFrames
+	inline static public function getSparrowAtlas(key:String, ?library:String):FlxAtlasFrames
 	{
 		#if MODS_ALLOWED
-		if(!ignoreMods) {
-			var imageLoaded:FlxGraphic = returnGraphic(key);
-			var xmlExists:Bool = false;
-			if(FileSystem.exists(modsXml(key))) {
-				xmlExists = true;
-			}
-
-			return FlxAtlasFrames.fromSparrow((imageLoaded != null ? imageLoaded : image(key, library)), (xmlExists ? File.getContent(modsXml(key)) : file('images/$key.xml', library)));
+		var imageLoaded:FlxGraphic = returnGraphic(key);
+		var xmlExists:Bool = false;
+		if(FileSystem.exists(modsXml(key))) {
+			xmlExists = true;
 		}
+
+		return FlxAtlasFrames.fromSparrow((imageLoaded != null ? imageLoaded : image(key, library)), (xmlExists ? File.getContent(modsXml(key)) : file('images/$key.xml', library)));
 		#else
 		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));
 		#end
 	}
 
 
-	inline static public function getPackerAtlas(key:String, ?library:String, ?ignoreMods:Bool = false)
+	inline static public function getPackerAtlas(key:String, ?library:String)
 	{
 		#if MODS_ALLOWED
-		if(!ignoreMods) {
-			var imageLoaded:FlxGraphic = returnGraphic(key);
-			var txtExists:Bool = false;
-			if(FileSystem.exists(modsTxt(key))) {
-				txtExists = true;
-			}
-
-			return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), (txtExists ? File.getContent(modsTxt(key)) : file('images/$key.txt', library)));
+		var imageLoaded:FlxGraphic = returnGraphic(key);
+		var txtExists:Bool = false;
+		if(FileSystem.exists(modsTxt(key))) {
+			txtExists = true;
 		}
+
+		return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), (txtExists ? File.getContent(modsTxt(key)) : file('images/$key.txt', library)));
 		#else
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
 		#end
@@ -346,10 +342,10 @@ class Paths
 
 	// completely rewritten asset loading? fuck!
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
-	public static function returnGraphic(key:String, ?library:String, ?ignoreMods:Bool = false) {
+	public static function returnGraphic(key:String, ?library:String) {
 		#if MODS_ALLOWED
 		var modKey:String = modsImages(key);
-		if(FileSystem.exists(modKey) && !ignoreMods) {
+		if(FileSystem.exists(modKey)) {
 			if(!currentTrackedAssets.exists(modKey)) {
 				var newBitmap:BitmapData = BitmapData.fromFile(modKey);
 				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, modKey);
@@ -376,17 +372,15 @@ class Paths
 	}
 
 	public static var currentTrackedSounds:Map<String, Sound> = [];
-	public static function returnSound(path:String, key:String, ?library:String, ?ignoreMods:Bool = false) {
+	public static function returnSound(path:String, key:String, ?library:String) {
 		#if MODS_ALLOWED
-		if(!ignoreMods) {
-			var file:String = modsSounds(path, key);
-			if(FileSystem.exists(file)) {
-				if(!currentTrackedSounds.exists(file)) {
-					currentTrackedSounds.set(file, Sound.fromFile(file));
-				}
-				localTrackedAssets.push(key);
-				return currentTrackedSounds.get(file);
+		var file:String = modsSounds(path, key);
+		if(FileSystem.exists(file)) {
+			if(!currentTrackedSounds.exists(file)) {
+				currentTrackedSounds.set(file, Sound.fromFile(file));
 			}
+			localTrackedAssets.push(key);
+			return currentTrackedSounds.get(file);
 		}
 		#end
 		// I hate this so god damn much
@@ -395,9 +389,7 @@ class Paths
 		// trace(gottenPath);
 		if(!currentTrackedSounds.exists(gottenPath)) 
 		#if MODS_ALLOWED
-			if(!ignoreMods){
-				currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
-			}
+			currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
 		#else
 		{
 			var folder:String = '';
