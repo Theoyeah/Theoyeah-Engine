@@ -666,7 +666,7 @@ class TitleState extends MusicBeatState
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
 				case 5:
-					switch(ClientPrefs.language.toLowerCase())
+					switch(ClientPrefs.language.toLowerCase()) {
 						case 'francais':
 							createCoolText(["Avec l'aide de"], 15);
 						case 'portugues':
