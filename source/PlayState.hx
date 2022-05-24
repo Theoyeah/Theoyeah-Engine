@@ -4568,7 +4568,7 @@ class PlayState extends MusicBeatState
 
 				switch(note.noteType) {
 
-					case 'Crash Note':
+					case 'Crash Note' | 'Nota Crash':
 						FlxG.sound.play(Paths.sound('wiicrash'), 1);
  						FlxTween.tween(SONG, {speed: SONG.speed = 0}, 0);
  						PlayState.instance.practiceMode = true;
@@ -4582,21 +4582,21 @@ class PlayState extends MusicBeatState
  						}; //tes
 
 
-					case 'Window Note': 
+					case 'Window Note' | 'Nota Window': 
 					 	FlxG.sound.play(Paths.sound('windowsError'), 1);
 						//English
 						lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');	
 						//Francais
 						lime.app.Application.current.window.alert( 'Truc Embêtant:\nTu as cliqué une note Window !');	
 						
-					case 'Poisoned Note':
+					case 'Poisoned Note' | 'Nota Envenenada':
 						new FlxTimer().start(1.3, function(tmr:FlxTimer) //i dont know how this works
  						{
  							health -= 0.05; 
  						});
 						healthDrain = 0.10; // what does this means?
 						
-					case 'Hurt Note': //Hurt note
+					case 'Hurt Note' | 'Nota Daño': //Hurt note
 						if(boyfriend.animation.getByName('hurt') != null) {
 							boyfriend.playAnim('hurt', true);
 							boyfriend.specialAnim = true;
@@ -4624,7 +4624,7 @@ class PlayState extends MusicBeatState
 
 			if(!note.noAnimation) {
 				var daAlt = '';
-				if(note.noteType == 'Alt Animation') daAlt = '-alt';
+				if(note.noteType == 'Alt Animation' || note.noteType == 'Animación Alt') daAlt = '-alt';
 			
 			var animToPlay:String = '';
 				switch (Std.int(Math.abs(note.noteData)))
@@ -4672,7 +4672,7 @@ class PlayState extends MusicBeatState
 					boyfriend.holdTimer = 0;
 				}
 
-				if(note.noteType == 'Hey!') {
+				if(note.noteType == 'Hey!' || note.noteType == '¡Hey!') {
 					if(boyfriend.animOffsets.exists('hey')) {
 						boyfriend.playAnim('hey', true);
 						boyfriend.specialAnim = true;
