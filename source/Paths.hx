@@ -203,11 +203,11 @@ class Paths
 		return getPath('$key.lua', TEXT, library);
 	}
 
-	static public function video(key:String)
+	static public function video(key:String, ?ignoreMods:Bool = false)
 	{
 		#if MODS_ALLOWED
 		var file:String = modsVideo(key);
-		if(FileSystem.exists(file)) {
+		if(FileSystem.exists(file) && !ignoreMods) {
 			return file;
 		}
 		#end
@@ -256,7 +256,7 @@ class Paths
 	{
 		#if sys
 		#if MODS_ALLOWED
-		if (!ignoreMods && FileSystem.exists(modFolders(key)))
+		if (FileSystem.exists(modFolders(key)) && !ignoreMods)
 			return File.getContent(modFolders(key));
 		#end
 
