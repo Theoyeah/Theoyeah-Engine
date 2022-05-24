@@ -99,7 +99,7 @@ class Note extends FlxSprite
 
 		if(noteData > -1 && noteType != value) {
 			switch(value) {
-				case 'Hurt Note': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
+				case 'Hurt Note' | 'Nota Daño': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
 					ignoreNote = mustPress;
 					reloadNote('HURT');
 					noteSplashTexture = 'HURTnoteSplashes';
@@ -113,7 +113,7 @@ class Note extends FlxSprite
 						missHealth = 0.3;
 					}
 					hitCausesMiss = true;
-				case 'Instakill Note':
+				case 'Instakill Note' | 'Nota Instakill':
 					ignoreNote = mustPress;
 					reloadNote('INSTAKILL');
 					noteSplashTexture = 'HURTnoteSplashes';
@@ -127,7 +127,7 @@ class Note extends FlxSprite
 						missHealth = 500;//lol you will die
 					}
 					hitCausesMiss = true;
-				case 'Crash Note':
+				case 'Crash Note' | 'Nota Crash':
 					ignoreNote = mustPress;
 					reloadNote('CRASH');
 					noteSplashTexture = 'HURTnoteSplashes';
@@ -136,7 +136,7 @@ class Note extends FlxSprite
 					colorSwap.brightness = 0;
 					hitByOpponent = false;
 					hitCausesMiss = true;
-				case 'Window Note':
+				case 'Window Note' | 'Nota Window':
 					ignoreNote = mustPress;
 					reloadNote('WINDOW');
 					colorSwap.hue = 0;
@@ -144,7 +144,7 @@ class Note extends FlxSprite
 					colorSwap.brightness = 0;
 					hitByOpponent = false;
 					hitCausesMiss = true;
-				case 'Warning Note':
+				case 'Warning Note' | 'Nota Alerta':
 					ignoreNote = mustPress;
 					reloadNote('WARNING');
 					colorSwap.hue = 0;
@@ -154,7 +154,7 @@ class Note extends FlxSprite
 					if (tooLate) {
 						missHealth = 500;
 					}
-				case 'Poisoned Note':
+				case 'Poisoned Note' | 'Nota Envenenada':
 					ignoreNote = mustPress;
 					reloadNote('POISONED');
 					noteSplashTexture = 'POISONEDnoteSplashes';
@@ -163,9 +163,9 @@ class Note extends FlxSprite
 					colorSwap.brightness = 0;
 					hitByOpponent = false;
 					hitCausesMiss = true;
-				case 'No Animation':
+				case 'No Animation' | 'No Animación':
 					noAnimation = true;
-				case 'GF Sing':
+				case 'GF Sing' | 'GF Canta':
 					gfNote = true;
 			}
 			noteType = value;
