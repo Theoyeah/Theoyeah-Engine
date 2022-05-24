@@ -106,11 +106,15 @@ class AttachedAchievement extends FlxSprite {
 
 	public function reloadAchievementImage() {
 		if(Achievements.isAchievementUnlocked(tag)) {
-				//if(Paths.fileExists('achievements/' + tag + '.png', IMAGE))
-					loadGraphic(Paths.image('achievements/' + tag));
-				//else
-					//loadGraphic(Paths.image('achievements/blank'));
+			var tag_:String = StringTools.replace(tag, "_", " ");
+			if(Paths.fileExists('achievements/' + tag + '.png', IMAGE)) {
+				loadGraphic(Paths.image('achievements/' + tag));
+			} else if(Paths.fileExists('achievements/' + tag_ + '.png', IMAGE)) {
+				loadGraphic(Paths.image('achievements/' + tag_));
 			} else {
+				loadGraphic(Paths.image('achievements/blank'));
+			}
+		} else {
 			loadGraphic(Paths.image('lockedachievement'));
 		}
 		scale.set(0.7, 0.7);
