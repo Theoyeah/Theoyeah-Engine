@@ -10,7 +10,26 @@ import flixel.text.FlxText;
 using StringTools;
 
 class Achievements {
-	public static var achievementsStuff:Array<Dynamic> = [ //Name, Description, Achievement save tag, Hidden achievement
+	public static var achievementsStuff:Array<Dynamic> = if(ClientPrefs.language == 'spanish') 
+		[ //Name, Description, Achievement save tag, Hidden achievement
+		["Freaky on a Friday Night",	"Juega un Viernes por la... Noche.",						'friday_night_play',	 true],
+		["Ella También Me Llama Daddy",		"Termina sin misses la Week 1",				'week1_nomiss',			false],
+		["No Más Truco",				"Termina sin misses la Week 2",				'week2_nomiss',			false],
+		['Llámame El Pistolero',			"Termina sin misses la Week 3",				'week3_nomiss',			false],
+		["Dama Asesina",					"Termina sin misses la Week 4",				'week4_nomiss',			false],
+		["Navidad Con Pocos Misses",			"Termina sin misses la Week 5",				'week5_nomiss',			false],
+		["¡¡Highscore!!",					"Termina sin misses la Week 6",				'week6_nomiss',			false],
+		["¡Maldita Sea, Maldita Sea!",		"Termina sin misses la Week 7",				'week7_nomiss',			 false], 
+		["¡Qué Desastre Ritmítico!",	"Completa una Canción con una valoración de menos de 20%.",	'ur_bad',				false],
+		["Perfeccionista",			   	  "Completa una Canción con una valoración del 100%.",			'ur_good',				false],
+		["Estusiasmo Atropellista",		 "Mira a los Henchmen morir por 100 veces.",			'roadkill_enthusiast',	false],
+		["¿Sobrecantando Mucho...?",   "Mantén pulsado una nota por 10 segundos.",					'oversinging',			false],
+		["Hiperactivo",					"Completa una Canción sin dejar que se vea el Idle",				'hype',					false],
+		["Solo Nosotros 2",		 "Completa una Canción con solo pulsando 2 notas.",			'two_keys',				false],
+		["Gamer Tostador",			  "¿Has intentado jugar el juego en una tostadora?",		'toastie',				false],
+		["Debugger",					"Completa la Canción \"Test\" desde el Chart Editor.",	'debugger',				 true],
+		["Not Freaky on a Friday Night",	"Juega un... ¿Sábado por la Noche? \nBro ez sábado",						'saturday_night_play',	 true]
+	] else [
 		["Freaky on a Friday Night",	"Play on a Friday... Night.",						'friday_night_play',	 true],
 		["She Calls Me Daddy Too",		"Beat Week 1 with no Misses.",				'week1_nomiss',			false],
 		["No More Tricks",				"Beat Week 2 with no Misses.",				'week2_nomiss',			false],
@@ -29,6 +48,7 @@ class Achievements {
 		["Debugger",					"Beat the \"Test\" Stage from the Chart Editor.",	'debugger',				 true],
 		["Not Freaky on a Friday Night",	"Play on a Saturday... Night ? \n Bro itz Saturday ",						'saturday_night_play',	 true]
 	];
+		
 	public static var achievementsMap:Map<String, Bool> = new Map<String, Bool>();
 
 	public static var henchmenDeath:Int = 0;
