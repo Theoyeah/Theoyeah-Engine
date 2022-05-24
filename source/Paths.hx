@@ -305,7 +305,7 @@ class Paths
 		return false;
 	}
 
-	inline static public function getSparrowAtlas(key:String, ?library:String, ?ignoreMods):FlxAtlasFrames
+	inline static public function getSparrowAtlas(key:String, ?library:String, ?ignoreMods:Bool = false):FlxAtlasFrames
 	{
 		#if MODS_ALLOWED
 		if(!ignoreMods) {
