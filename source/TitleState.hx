@@ -645,7 +645,14 @@ class TitleState extends MusicBeatState
 					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 					FlxG.sound.music.fadeIn(4, 0, 1);
 				case 2:
-					createCoolText(['Theoyeah Engine by'], 15);
+					switch(ClientPrefs.language.toLowerCase()) {
+						case 'francais':
+							createCoolText(['Theoyeah Engine par'], 15);
+						case 'portugues' | 'spanish':
+							createCoolText(['Theoyeah Engine por'], 15);
+						default:
+							createCoolText(['Theoyeah Engine by'], 15);
+					}
 			// credTextShit.visible = true;
 				case 3:
 					addMoreText('Theoyeah', 15);
@@ -659,7 +666,16 @@ class TitleState extends MusicBeatState
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
 				case 5:
-					createCoolText(['With help of'], 15);
+					switch(ClientPrefs.language.toLowerCase())
+						case 'francais':
+							createCoolText(["Avec l'aide de"], 15);
+						case 'portugues':
+							createCoolText(['Com ajuda de'], 15);
+						case 'spanish':
+							createCoolText(['Con ayuda de'], 15);
+						default:
+							createCoolText(['With help of'], 15);
+					}
 				case 7:
 					addMoreText('Wither362');
 					addMoreText('DEMOLITIONDON69');
@@ -668,7 +684,16 @@ class TitleState extends MusicBeatState
 					deleteCoolText();
 					coolguys.visible = false;
 				case 11:
-					createCoolText(['A Modified Version of'], -40);
+					switch(ClientPrefs.language.toLowerCase()) {
+						case 'francais':
+							createCoolText(['Une Version Modifiée de'], -40);
+						case 'portugues':
+							createCoolText(['Uma Versão Modificada de'], -40);
+						case 'spanish':
+							createCoolText(['Una Versión Modificada de'], -40);
+						default:
+							createCoolText(['A Modified Version of'], -40);
+					}
 				case 12:
 					addMoreText('Psych Engine', -40);
 					psychSpr.visible = true;
