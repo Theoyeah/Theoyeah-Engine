@@ -74,30 +74,40 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	
-	public static var ratingStuff:Array<Dynamic> = if(ClientPrefs.language == 'English') [
+	public static var ratingStuff:Array<Dynamic> = if(ClientPrefs.language == 'Francais') [
+		['Pas dur tes juste mauvais', 0.2], //From 0% to 19%
+		['Problème', 0.4], //From 20% to 39%
+		['Nul', 0.5], //From 40% to 49%
+		['Ok', 0.6], //From 50% to 59%
+		['Pas mauvais', 0.69], //From 60% to 68%
+		['Yo', 0.7], //69%
+		['Cool!', 0.8], //From 70% to 79%
+		['Bien!', 0.9], //From 80% to 89%
+		['Génial!!', 1], //From 90% to 99%
+		['Parfait!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+	] else if(ClientPrefs.language == 'Spanish') [
+		['No es difícil es solo que eres lo peor', 0.2], //From 0% to 19%
+		['Problema de Habilidad', 0.4], //From 20% to 39%
+		['Mal', 0.5], //From 40% to 49%
+		['Ok', 0.6], //From 50% to 59%
+		['No está Mal', 0.69], //From 60% to 68%
+		['Genial', 0.7], //69%
+		['¡Guay!', 0.8], //From 70% to 79%
+		['¡Bien!', 0.9], //From 80% to 89%
+		['¡¡Fabuloso!!', 1], //From 90% to 99%
+		['¡¡¡Perfecto!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+	] else [
 		['Its not hard you just suck as hell', 0.2], //From 0% to 19%
 		['skill issue', 0.4], //From 20% to 39%
-			['Bad', 0.5], //From 40% to 49%
-				['Ok', 0.6], //From 50% to 59%
-					['Not Bad', 0.69], //From 60% to 68%
-						['Great', 0.7], //69%
-							['Cool!', 0.8], //From 70% to 79%
-								['Good!', 0.9], //From 80% to 89%
-									['Sick!!', 1], //From 90% to 99%
-										['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
-											]
-			else /*if(ClientPrefs.language == 'Francais') */[
-				['Pas dur tes juste mauvais', 0.2], //From 0% to 19%
-					['Problème', 0.4], //From 20% to 39%
-						['Nul', 0.5], //From 40% to 49%
-							['Ok', 0.6], //From 50% to 59%
-								['Pas mauvais', 0.69], //From 60% to 68%
-									['Yo', 0.7], //69%
-										['Cool!', 0.8], //From 70% to 79%
-											['Bien!', 0.9], //From 80% to 89%
-												['Génial!!', 1], //From 90% to 99%
-													['Parfait!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
-														];
+		['Bad', 0.5], //From 40% to 49%
+		['Ok', 0.6], //From 50% to 59%
+		['Not Bad', 0.69], //From 60% to 68%
+		['Great', 0.7], //69%
+		['Cool!', 0.8], //From 70% to 79%
+		['Good!', 0.9], //From 80% to 89%
+		['Sick!!', 1], //From 90% to 99%
+		['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+	];
 		
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
@@ -999,9 +1009,9 @@ class PlayState extends MusicBeatState
 			dialogueJson = DialogueBoxPsych.parseDialogue(file + langSuffix);
 		}
 
-		var file:String = Paths.txt(songName + '/' + songName + 'Dialogue'); //Checks for vanilla/Senpai dialogue
+		var file:String = Paths.txt(songName + '/' + songName + 'Dialogue' + langSuffix); //Checks for vanilla/Senpai dialogue
 		if (OpenFlAssets.exists(file)) {
-			dialogue = CoolUtil.coolTextFile(file + langSuffix);
+			dialogue = CoolUtil.coolTextFile(file);
 		}
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
 		// doof.x += 70;
