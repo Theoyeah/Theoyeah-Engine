@@ -252,11 +252,11 @@ class Paths
 		return returnAsset;
 	}
 	
-	static public function getTextFromFile(key:String):String
+	static public function getTextFromFile(key:String, ?ignoreMods:Bool = false):String
 	{
 		#if sys
 		#if MODS_ALLOWED
-		if (FileSystem.exists(modFolders(key)))
+		if (FileSystem.exists(modFolders(key)) && !ignoreMods)
 			return File.getContent(modFolders(key));
 		#end
 
