@@ -92,7 +92,7 @@ class ChartingState extends MusicBeatState
 	var eventStuff:Array<Dynamic> = if(language == 'spanish')
 	[ // name of the event for code - name of the text that appears - description
 		['', '', "Nada. Sip, es verdad."],
-		['Hey!', '¡Hey!' "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
+		['Hey!', '¡Hey!', "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
 		['Set GF Speed', 'Cambiar Velocidad de GF', "Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"],
 		['Philly Glow', "Exclusive to Week 3\nValue 1: 0/1/2 = OFF/ON/Reset Gradient\n \nNo, i won't add it to other weeks."],
 		['Kill Henchmen', "For Mom's songs, don't use this please, i love them :("],
