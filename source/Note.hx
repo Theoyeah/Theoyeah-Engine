@@ -301,9 +301,9 @@ class Note extends FlxSprite
 			if(skin == null || skin.length < 1) {
 				switch(ClientPrefs.noteskin.toLowerCase()) {
 					case 'circles':
-						skin = 'NOTE_assets-Circles';
+						skin = '-Circles';
 					default:
-						skin = 'NOTE_assets';
+						skin = '';
 				}
 			}
 		}
@@ -319,17 +319,23 @@ class Note extends FlxSprite
 		var lastScaleY:Float = scale.y;
 		var blahblah:String = arraySkin.join('/');
 		if(PlayState.isPixelStage) {
+			var thing:String = 'pixelUI/NOTE_assets';
+			if(Paths.fileExists('pixelUI/NOTE_assets' + blahblah, IMAGE, true)) {
+				thing = 'pixelUI/NOTE_assets' + blahblah;
+			} else {
+				thing = 'pixelUI/NOTE_assets';
+			}
 			if(isSustainNote) {
-				loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'));
+				loadGraphic(Paths.image(thing + 'ENDS'));
 				width = width / 4;
 				height = height / 2;
 				originalHeightForCalcs = height;
-				loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'), true, Math.floor(width), Math.floor(height));
+				loadGraphic(Paths.image(thing + 'ENDS'), true, Math.floor(width), Math.floor(height));
 			} else {
-				loadGraphic(Paths.image('pixelUI/' + blahblah));
+				loadGraphic(Paths.image(thing));
 				width = width / 4;
 				height = height / 5;
-				loadGraphic(Paths.image('pixelUI/' + blahblah), true, Math.floor(width), Math.floor(height));
+				loadGraphic(Paths.image(thing), true, Math.floor(width), Math.floor(height));
 			}
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 			loadPixelNoteAnims();
@@ -348,7 +354,7 @@ class Note extends FlxSprite
 				}*/
 			}
 		} else {
-			frames = Paths.getSparrowAtlas('noteSkins/' + blahblah);
+			frames = Paths.getSparrowAtlas('noteSkins/' + skin);
 			loadNoteAnims();
 			antialiasing = ClientPrefs.globalAntialiasing;
 		}
