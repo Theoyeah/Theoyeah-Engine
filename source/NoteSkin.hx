@@ -3,7 +3,7 @@ package;
 
 using StringTools;
 
-class NoteSkin extends Note extends StrumNote extends NoteSplash
+class NoteSkin
 {
 	public static function noteSkin():String {
 		var skin:String = PlayState.SONG.arrowSkin;
