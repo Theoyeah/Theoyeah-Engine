@@ -52,7 +52,7 @@ class StrumNote extends FlxSprite
 
 		if(PlayState.isPixelStage)
 		{
-			if(Paths.fileExists('pixelUI/' + texture)) {
+			if(Paths.fileExists('pixelUI/' + texture, IMAGE, true)) {
 				loadGraphic(Paths.image('pixelUI/' + texture));
 			} else {
 				loadGraphic(Paths.image('pixelUI/NOTE_assets'));
