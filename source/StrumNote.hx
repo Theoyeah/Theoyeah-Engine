@@ -56,7 +56,7 @@ class StrumNote extends FlxSprite
 			if(Paths.fileExists('pixelUI/' + texture, IMAGE, true)) {
 				loadGraphic(Paths.image('pixelUI/' + texture));
 				thing = 'pixelUI/' + texture;
-			} else if(StringTools.startsWith(texture, 'noteSkins/') && Paths.fileExists('pixelUI/' + StringTools.replace(texture, 'noteSkins/', ''))) {
+			} else if(StringTools.startsWith(texture, 'noteSkins/') && Paths.fileExists('pixelUI/' + StringTools.replace(texture, 'noteSkins/', ''), IMAGE, true) ) {
 				loadGraphic(Paths.image('pixelUI/' + StringTools.replaxe(texture, 'noteSkins/', '')));
 				thing = 'pixelUI/' + StringTools.replace(texture, 'noteSkins/', '');
 			} else {
