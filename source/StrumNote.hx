@@ -34,7 +34,7 @@ class StrumNote extends FlxSprite
 		this.noteData = leData;
 		super(x, y);
 
-		var skin:String = NoteSkins.noteSkinFile(true);
+		var skin:String = NoteSkin.noteSkinFile(true);
 		if(PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1) skin = PlayState.SONG.arrowSkin;
 		texture = skin; //Load texture and anims
 
@@ -53,11 +53,11 @@ class StrumNote extends FlxSprite
 				width = width / 4;
 				height = height / 5;
 				loadGraphic(Paths.image('pixelUI/' + texture), true, Math.floor(width), Math.floor(height));
-			} else if(Paths.fileExists('pixelUI/' + NoteSkins.noteSkinFile(false))) {
+			} else if(Paths.fileExists('pixelUI/' + NoteSkin.noteSkinFile(false))) {
 				loadGraphic(Paths.image('pixelUI/' + NoteSkins.noteSkinFile(false)));
 				width = width / 4;
 				height = height / 5;
-				loadGraphic(Paths.image('pixelUI/' + NoteSkins.noteSkinFile(false)), true, Math.floor(width), Math.floor(height));
+				loadGraphic(Paths.image('pixelUI/' + NoteSkin.noteSkinFile(false)), true, Math.floor(width), Math.floor(height));
 			} else {
 				loadGraphic(Paths.image('pixelUI/NOTE_assets'));
 				width = width / 4;
