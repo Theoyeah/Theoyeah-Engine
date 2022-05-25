@@ -8,6 +8,7 @@ import flixel.util.FlxColor;
 import flash.display.BitmapData;
 import editors.ChartingState;
 import flash.system.System;
+import NoteSkins;
 
 using StringTools;
 
