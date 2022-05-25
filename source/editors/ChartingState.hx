@@ -1034,12 +1034,11 @@ class ChartingState extends MusicBeatState
 			var selectedEvent:Int = Std.parseInt(pressed);
 			descText.text = eventStuff[selectedEvent][1];
 				if (curSelectedNote != null &&  eventStuff != null) {
-				if (curSelectedNote != null && curSelectedNote[2] == null){
-				curSelectedNote[1][curEventSelected][0] = eventStuff[selectedEvent][0];
-					
+					if (curSelectedNote != null && curSelectedNote[2] == null) {
+						curSelectedNote[1][curEventSelected][0] = eventStuff[selectedEvent][0];
+					}
+					updateGrid();
 				}
-				updateGrid();
-			}
 		});
 		blockPressWhileScrolling.push(eventDropDown);
 
