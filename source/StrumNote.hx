@@ -52,15 +52,21 @@ class StrumNote extends FlxSprite
 
 		if(PlayState.isPixelStage)
 		{
+			var thing:String = 'pixelUI/NOTE_assets';
 			if(Paths.fileExists('pixelUI/' + texture, IMAGE, true)) {
 				loadGraphic(Paths.image('pixelUI/' + texture));
+				thing = 'pixelUI/' + texture;
+			} else if(StringTools.startsWith(texture, 'noteSkins/') && Paths.fileExists('pixelUI/' + StringTools.replace(texture, 'noteSkins/', ''))) {
+				loadGraphic(Paths.image('pixelUI/' + StringTools.replaxe(texture, 'noteSkins/', '')));
+				thing = 'pixelUI/' + StringTools.replaxe(texture, 'noteSkins/', ''));
 			} else {
 				loadGraphic(Paths.image('pixelUI/NOTE_assets'));
+				thing = 'pixelUI/NOTE_assets';
 			}
 					  
 			width = width / 4;
 			height = height / 5;
-			loadGraphic(Paths.image('pixelUI/' + texture), true, Math.floor(width), Math.floor(height));
+			loadGraphic(Paths.image(thing), true, Math.floor(width), Math.floor(height));
 
 			antialiasing = false;
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom));
