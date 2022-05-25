@@ -203,11 +203,11 @@ class Paths
 		return getPath('$key.lua', TEXT, library);
 	}
 
-	static public function video(key:String)
+	static public function video(key:String, ?ignoreMods:Bool = false)
 	{
 		#if MODS_ALLOWED
 		var file:String = modsVideo(key);
-		if(FileSystem.exists(file)) {
+		if(FileSystem.exists(file) && !ignoreMods) {
 			return file;
 		}
 		#end
@@ -240,7 +240,7 @@ class Paths
 
 	inline static public function inst(song:String):Any
 	{
-		var songKey:String = '${song.toLowerCase().replace(' ', '-')}/Inst';
+		var songKey:String = '${formatToSongPath(song)}/Inst';
 		var inst = returnSound('songs', songKey);
 		return inst;
 	}
@@ -256,7 +256,7 @@ class Paths
 	{
 		#if sys
 		#if MODS_ALLOWED
-		if (!ignoreMods && FileSystem.exists(modFolders(key)))
+		if (FileSystem.exists(modFolders(key)) && !ignoreMods)
 			return File.getContent(modFolders(key));
 		#end
 
@@ -391,7 +391,13 @@ class Paths
 		#if MODS_ALLOWED
 			currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
 		#else
-			currentTrackedSounds.set(gottenPath, OpenFlAssets.getSound(getPath('$path/$key.$SOUND_EXT', SOUND, library)));
+		{
+			var folder:String = '';
+			#if html5
+			if(path == 'songs') folder = 'songs:';
+			#end
+			currentTrackedSounds.set(gottenPath, OpenFlAssets.getSound(folder + getPath('$path/$key.$SOUND_EXT', SOUND, library)));
+		}
 		#end
 		localTrackedAssets.push(gottenPath);
 		return currentTrackedSounds.get(gottenPath);

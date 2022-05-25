@@ -54,12 +54,12 @@ class FreeplayState extends MusicBeatState
 	override function create()
 	{
 		Paths.clearStoredMemory();
-		Paths.clearUnusedMemory();
+		//Paths.clearUnusedMemory();
 		
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);
-		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + "Freeplay";
+		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Freeplay";
 
 		#if desktop
 		// Updating Discord Rich Presence

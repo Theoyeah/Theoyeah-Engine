@@ -34,9 +34,8 @@ class VisualsUISubState extends BaseOptionsMenu
 		title = 'Visuals and UI';
 		rpcTitle = 'Visuals & UI Settings Menu'; //for Discord Rich Presence
 
-    
-	    var option:Option = new Option('Note Skin',
-	         'What Note skin would you like?',
+		var option:Option = new Option('Note Skin',
+	        'What Note skin would you like?',
 	        'noteskin',
 	        'string',
 	        'Arrows',
@@ -57,6 +56,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool',
 			false);
 		addOption(option);
+
+		var option:Option = new Option('Flashing Lights',
+		"Uncheck this if you're sensitive to flashing lights!",
+		'flashing',
+		'bool',
+		true);
+	addOption(option);
 
 		var option:Option = new Option('Intro Background',
 			"If checked, there will be a background in intro.",
