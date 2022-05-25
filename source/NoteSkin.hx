@@ -5,9 +5,9 @@ using StringTools;
 
 class NoteSkin
 {
-	public static function noteSkin():String {
+	public static function noteSkin() {
 		var skin:String = PlayState.SONG.arrowSkin;
-		if((skin == null || skin == '' || skin.length < 1) && ClientPrefs.noteskin != 'Arrows') {
+		if((skin == null || skin == '') && ClientPrefs.noteskin != 'Arrows') {
 			switch(ClientPrefs.noteskin.toLowerCase()) {
 				case 'circles':
 					skin = '-Circles';
