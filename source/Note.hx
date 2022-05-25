@@ -294,17 +294,12 @@ class Note extends FlxSprite
 		if(prefix == null) prefix = '';
 		if(texture == null) texture = '';
 		if(suffix == null) suffix = '';
-	
-	var coolswag:String = '';
-	if(ClientPrefs.noteskin != 'Arrows') {
-		coolswag = '-' + ClientPrefs.noteskin.toLowerCase().replace(' ', '-');
-	}
 		
 		var skin:String = texture;
 		if(texture.length < 1) {
 			skin = PlayState.SONG.arrowSkin;
 			if(skin == null || skin.length < 1) {
-				skin = 'NOTE_assets';
+				skin = NoteSkins.noteSkinFile(true);
 			}
 		}
 
@@ -320,16 +315,31 @@ class Note extends FlxSprite
 		var blahblah:String = arraySkin.join('/');
 		if(PlayState.isPixelStage) {
 			if(isSustainNote) {
-				loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'));
-				width = width / 4;
-				height = height / 2;
-				originalHeightForCalcs = height;
-				loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'), true, Math.floor(width), Math.floor(height));
+				if(Paths.fileExists('pixelUI/' + blahblah, IMAGE, true)) {
+					loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'));
+					width = width / 4;
+					height = height / 2;
+					originalHeightForCalcs = height;
+					loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'), true, Math.floor(width), Math.floor(height));
+				} else {
+					loadGraphic(Paths.image('pixelUI/NOTE_assetsENDS'));
+					width = width / 4;
+					height = height / 2;
+					originalHeightForCalcs = height;
+					loadGraphic(Paths.image('pixelUI/NOTE_assetsENDS'), true, Math.floor(width), Math.floor(height));
+				}
 			} else {
-				loadGraphic(Paths.image('pixelUI/' + blahblah));
-				width = width / 4;
-				height = height / 5;
-				loadGraphic(Paths.image('pixelUI/' + blahblah), true, Math.floor(width), Math.floor(height));
+				if(Paths.fileExists('pixelUI/' + blahblah, IMAGE, true)) {
+					loadGraphic(Paths.image('pixelUI/' + blahblah));
+					width = width / 4;
+					height = height / 5;
+					loadGraphic(Paths.image('pixelUI/' + blahblah), true, Math.floor(width), Math.floor(height));
+				} else {
+					loadGraphic(Paths.image('pixelUI/NOTE_assets'));
+					width = width / 4;
+					height = height / 5;
+					loadGraphic(Paths.image('pixelUI/NOTE_assets'), true, Math.floor(width), Math.floor(height));
+				}
 			}
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 			loadPixelNoteAnims();
