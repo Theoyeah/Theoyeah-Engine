@@ -89,10 +89,27 @@ class ChartingState extends MusicBeatState
 	public var ignoreWarnings = false;
 	var undos = [];
 	var redos = [];
-	var eventStuff:Array<Dynamic> =
-	[
+	var eventStuff:Array<Dynamic> = if(language == 'spanish')
+	[ // name of the event for code - name of the text that appears - description
+		['', '', "Nada. Sip, es verdad."],
+		['Hey!', '¡Hey!' "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
+		['Set GF Speed', 'Cambiar Velocidad de GF', "Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"],
+		['Philly Glow', "Exclusive to Week 3\nValue 1: 0/1/2 = OFF/ON/Reset Gradient\n \nNo, i won't add it to other weeks."],
+		['Kill Henchmen', "For Mom's songs, don't use this please, i love them :("],
+		['Add Camera Zoom', 'Añadir Cámara Zoom', "Usado en MILF en esa parte \"difícil\" \nValor 1: Cuanto (Por defecto: 0.015)\nValor 2: UI zoom (por defecto: 0.03)\nDeja los valores en BLANCO si quieres utilizar los valores Por Defecto."],
+		['BG Freaks Expression', "Should be used only in \"school\" Stage!"],
+		['Trigger BG Ghouls', "Should be used only in \"schoolEvil\" Stage!"],
+		['Play Animation', "Plays an animation on a Character,\nonce the animation is completed,\nthe animation changes to Idle\n\nValue 1: Animation to play.\nValue 2: Character (Dad, BF, GF)"],
+		['Camera Follow Pos', "Value 1: X\nValue 2: Y\n\nThe camera won't change the follow point\nafter using this, for getting it back\nto normal, leave both values blank."],
+		['Alt Idle Animation', "Sets a specified suffix after the idle animation name.\nYou can use this to trigger 'idle-alt' if you set\nValue 2 to -alt\n\nValue 1: Character to set (Dad, BF or GF)\nValue 2: New suffix (Leave it blank to disable)"],
+		['Screen Shake', "Value 1: Camera shake\nValue 2: HUD shake\n\nEvery value works as the following example: \"1, 0.05\".\nThe first number (1) is the duration.\nThe second number (0.05) is the intensity."],
+		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
+		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
+		['Set Property', "Value 1: Variable name\nValue 2: New value"],
+		['Change Icon', "Value 1: Character to change icon (Dad, BF)\nValue 2: Icon name"]
+	] else [
 		['', "Nothing. Yep, that's right."],
-		['Hey!', "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
+		['Hey!', 'Hey!', "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
 		['Set GF Speed', "Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"],
 		['Philly Glow', "Exclusive to Week 3\nValue 1: 0/1/2 = OFF/ON/Reset Gradient\n \nNo, i won't add it to other weeks."],
 		['Kill Henchmen', "For Mom's songs, don't use this please, i love them :("],
@@ -355,7 +372,18 @@ class ChartingState extends MusicBeatState
 		UI_box.scrollFactor.set();
 
 		var keyBonds = ClientPrefs.keyBinds;
-		text =
+		text = if(language == 'spanish')
+			"W/S o Mouse Wheel - Ir abajo o arriba
+			\nA o Izquierda/D o Derecha - Ir a la siguiente/anterior sección
+			\nMantén Shift para mover 4 veces más rápido
+			\nHold Control and click on an arrow to select it
+			\n" + keyBonds["zoom+"][0] + "/" + keyBonds["zoom-"][0] + " - Más/Menos Zoom
+			\n
+			\nEsc - Prueba tu chart dentro del Chart Editor
+			\nEnter - Juega tu chart
+			\n" + keyBonds["decrease"][0] + "/" + keyBonds["increase"][0] + " - Incrementar/Decrementar Largo de Nota
+			\nSpace - Parar/Continuar canción"
+		else
 		"W/S or Mouse Wheel - Change Conductor's strum time
 		\nA or Left/D or Right - Go to the previous/next section
 		\nHold Shift to move 4x faster
@@ -447,48 +475,103 @@ class ChartingState extends MusicBeatState
 			updateWaveform();
 		});
 
-		var reloadSongJson:FlxButton = new FlxButton(reloadSong.x, saveButton.y + 30, "Reload JSON", function()
-		{
-			openSubState(new Prompt('This action will clear current progress.\n\nProceed?', 0, function(){loadJson(_song.song.toLowerCase()); }, null,ignoreWarnings));
-		});
-
-		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Load Autosave', function()
-		{
-			PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
-			MusicBeatState.resetState();
-		});
-
-		var loadEventJson:FlxButton = new FlxButton(loadAutosaveBtn.x, loadAutosaveBtn.y + 30, 'Load Events', function()
-		{
-			
-			var songName:String = Paths.formatToSongPath(_song.song);
-			var file:String = Paths.json(songName + '/events');
-			#if sys
-			if (#if MODS_ALLOWED FileSystem.exists(Paths.modsJson(songName + '/events')) || #end FileSystem.exists(file))
-			#else
-			if (OpenFlAssets.exists(file))
-			#end
+		var reloadSongJson:FlxButton = if(language == 'spanish')
+			new FlxButton(reloadSong.x, saveButton.y + 30, "Resetear JSON", function()
 			{
-				clearEvents();
-				var events:SwagSong = Song.loadFromJson('events', songName);
-				_song.events = events.events;
-				changeSection(curSection);
-			}
-		});
+				openSubState(new Prompt('Esta acción destruirá el progreso no guardado.\n\n¿Proceder?', 0, function(){loadJson(_song.song.toLowerCase()); }, null,ignoreWarnings));
+			})
+		else
+			new FlxButton(reloadSong.x, saveButton.y + 30, "Reload JSON", function()
+			{
+				openSubState(new Prompt('This action will clear current progress.\n\nProceed?', 0, function(){loadJson(_song.song.toLowerCase()); }, null,ignoreWarnings));
+			});
 
-		var saveEvents:FlxButton = new FlxButton(110, reloadSongJson.y, 'Save Events', function ()
-		{
-			saveEvents();
-		});
+		var loadAutosaveBtn:FlxButton = if(language == 'spanish')
+			new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Cargar Autoguardado', function()
+			{
+				PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
+				MusicBeatState.resetState();
+			})
+		else
+			new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Load Autosave', function()
+			{
+				PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
+				MusicBeatState.resetState();
+			});
 
-		var clear_events:FlxButton = new FlxButton(320, 310, 'Clear events', function()
+		var loadEventJson:FlxButton = if(language == 'spanish')
+			new FlxButton(loadAutosaveBtn.x, loadAutosaveBtn.y + 30, 'Cargar Eventos', function()
+			{
+			
+				var songName:String = Paths.formatToSongPath(_song.song);
+				var file:String = Paths.json(songName + '/events');
+				#if sys
+				if (#if MODS_ALLOWED FileSystem.exists(Paths.modsJson(songName + '/events')) || #end FileSystem.exists(file))
+				#else
+				if (OpenFlAssets.exists(file))
+				#end
+				{
+					clearEvents();
+					var events:SwagSong = Song.loadFromJson('events', songName);
+					_song.events = events.events;
+					changeSection(curSection);
+				}
+			})
+		else
+			new FlxButton(loadAutosaveBtn.x, loadAutosaveBtn.y + 30, 'Load Events', function()
+			{
+			
+				var songName:String = Paths.formatToSongPath(_song.song);
+				var file:String = Paths.json(songName + '/events');
+				#if sys
+				if (#if MODS_ALLOWED FileSystem.exists(Paths.modsJson(songName + '/events')) || #end FileSystem.exists(file))
+				#else
+				if (OpenFlAssets.exists(file))
+				#end
+				{
+					clearEvents();
+					var events:SwagSong = Song.loadFromJson('events', songName);
+					_song.events = events.events;
+					changeSection(curSection);
+				}
+			});
+
+		var saveEvents:FlxButton = if(language == 'spanish')
+			new FlxButton(110, reloadSongJson.y, 'Guardar Eventos', function ()
+			{
+				saveEvents();
+			})
+		else
+			new FlxButton(110, reloadSongJson.y, 'Save Events', function ()
+			{
+				saveEvents();
+			});
+
+		var clear_events:FlxButton = if(language == 'spanish')
+			new FlxButton(320, 310, 'Quitar Eventos', function()
+			{
+				openSubState(new Prompt('Esta acción eliminará todos los eventos no guardados.\n\n¿Proceder?', 0, clearEvents, null,ignoreWarnings));
+			})
+		else
+			new FlxButton(320, 310, 'Clear events', function()
 			{
 				openSubState(new Prompt('This action will clear current progress.\n\nProceed?', 0, clearEvents, null,ignoreWarnings));
 			});
 		clear_events.color = FlxColor.RED;
 		clear_events.label.color = FlxColor.WHITE;
 
-		var clear_notes:FlxButton = new FlxButton(320, clear_events.y + 30, 'Clear notes', function()
+		var clear_notes:FlxButton = if(language == 'spanish')
+			new FlxButton(320, clear_events.y + 30, 'Eliminar Notas', function()
+			{
+				openSubState(new Prompt('Esta acción elmininará las notas de esta section.\n\n¿Proceder?', 0, function(){for (sec in 0..._song.notes.length) {
+					_song.notes[sec].sectionNotes = [];
+				}
+				updateGrid();
+			}, null,ignoreWarnings));
+				
+			})
+		else 
+			new FlxButton(320, clear_events.y + 30, 'Clear notes', function()
 			{
 				openSubState(new Prompt('This action will clear current progress.\n\nProceed?', 0, function(){for (sec in 0..._song.notes.length) {
 					_song.notes[sec].sectionNotes = [];
@@ -631,10 +714,16 @@ class ChartingState extends MusicBeatState
 		noteSplashesInputText = new FlxUIInputText(noteSkinInputText.x, noteSkinInputText.y + 35, 150, _song.splashSkin, 8);
 		blockPressWhileTypingOn.push(noteSplashesInputText);
 
-		var reloadNotesButton:FlxButton = new FlxButton(noteSplashesInputText.x + 5, noteSplashesInputText.y + 20, 'Change Notes', function() {
-			_song.arrowSkin = noteSkinInputText.text;
-			updateGrid();
-		});
+		var reloadNotesButton:FlxButton = if(language == 'spanish')
+			new FlxButton(noteSplashesInputText.x + 5, noteSplashesInputText.y + 20, 'Cambiar Notas', function() {
+				_song.arrowSkin = noteSkinInputText.text;
+				updateGrid();
+			})
+		else
+			new FlxButton(noteSplashesInputText.x + 5, noteSplashesInputText.y + 20, 'Change Notes', function() {
+				_song.arrowSkin = noteSkinInputText.text;
+				updateGrid();
+			});
 
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
@@ -1025,20 +1114,28 @@ class ChartingState extends MusicBeatState
 
 		var leEvents:Array<String> = [];
 		for (i in 0...eventStuff.length) {
-			leEvents.push(eventStuff[i][0]);
+			if(eventStuff[i][2] != null) { //checks if the event has a 
+				leEvents.push(eventStuff[i][1]);
+			} else {
+				leEvents.push(eventStuff[i][0]);
+			}
 		}
 
 		var text:FlxText = new FlxText(20, 30, 0, "Event:");
 		tab_group_event.add(text);
 		eventDropDown = new FlxUIDropDownMenuCustom(20, 50, FlxUIDropDownMenuCustom.makeStrIdLabelArray(leEvents, true), function(pressed:String) {
 			var selectedEvent:Int = Std.parseInt(pressed);
-			descText.text = eventStuff[selectedEvent][1];
-				if (curSelectedNote != null &&  eventStuff != null) {
-					if (curSelectedNote != null && curSelectedNote[2] == null) {
-						curSelectedNote[1][curEventSelected][0] = eventStuff[selectedEvent][0];
-					}
-					updateGrid();
+			if(eventStuff[selectedEvent][2] != null) {
+				descText.text = eventStuff[selectedEvent][2];
+			} else {
+				descText.text = eventStuff[selectedEvent][1];
+			}
+			if (curSelectedNote != null && eventStuff != null) {
+				if (curSelectedNote != null && curSelectedNote[2] == null) {
+					curSelectedNote[1][curEventSelected][0] = eventStuff[selectedEvent][0];
 				}
+				updateGrid();
+			}
 		});
 		blockPressWhileScrolling.push(eventDropDown);
 
@@ -1142,12 +1239,17 @@ class ChartingState extends MusicBeatState
 			curEventSelected += change;
 			if(curEventSelected < 0) curEventSelected = Std.int(curSelectedNote[1].length) - 1;
 			else if(curEventSelected >= curSelectedNote[1].length) curEventSelected = 0;
-			selectedEventText.text = 'Selected Event: ' + (curEventSelected + 1) + ' / ' + curSelectedNote[1].length;
+			selectedEventText.text = if(language == 'spanish') 'Evento Seleccionado: ' + (curEventSelected + 1)  + ' / ' + curSelectedNote[1].length
+				else
+					'Selected Event: ' + (curEventSelected + 1) + ' / ' + curSelectedNote[1].length;
 		}
 		else
 		{
 			curEventSelected = 0;
-			selectedEventText.text = 'Selected Event: None';
+			selectedEventText.text = if(language == 'spanish') 
+				'Evento Seleccionado: Ninguno'
+				else
+					'Selected Event: None';
 		}
 		updateNoteUI();
 	}
