@@ -21,15 +21,48 @@ using StringTools;
 
 class MasterEditorMenu extends MusicBeatState
 {
-	var options:Array<String> = [
-		'Week Editor',
-		'Menu Character Editor',
-		'Dialogue Editor',
-		'Dialogue Portrait Editor',
-		'Character Editor',
-		'Chart Editor',
-		'Stage Editor',
-		'Mod Manager'
+	static var language:String = ClientPrefs.language.toLowerCase();
+	static var weekEditor:String = if(language == 'spanish')
+		'Editor de Weeks'
+	else 
+		'Week Editor';
+	static var menuCharacterEditor:String = if(language == 'spanish')
+		'Editor de Menú Personajes'
+	else
+		'Menu Character Editor';
+	static var characterEditor:String = if(language == 'spanish')
+		'Editor de Personajes'
+	else
+		'Character Editor';
+	static var dialogueEditor:String = if(language == 'spanish')
+		'Editor de Diálogo'
+	else
+		'Dialogue Editor';
+	static var dialoguePortraitEditor:String = if(language == 'spanish')
+		'Editor de Personajes de Diálogo'
+	else
+		'Dialogue Portrait Editor';
+	static var chartEditor:String = if(language == 'spanish')
+		'Editor de Chart'
+	else
+		'Chart Editor';
+	static var stageEditor:String = if(language == 'spanish')
+		'Editor de Stages'
+	else
+		'Stage Editor';
+	static var modManager:String = if(language == 'spanish')
+		'Mánager de Mods'
+	else
+		'Mod Manager';
+	var options:Array<Dynamic> = [
+		weekEditor,
+		menuCharacterEditor,
+		dialogueEditor,
+		dialoguePortraitEditor,
+		characterEditor,
+		chartEditor,
+		stageEditor,
+		modManager
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
@@ -116,21 +149,21 @@ class MasterEditorMenu extends MusicBeatState
 		if (controls.ACCEPT)
 		{
 			switch(options[curSelected]) {
-				case 'Character Editor':
+				case characterEditor:
 					LoadingState.loadAndSwitchState(new CharacterEditorState(Character.DEFAULT_CHARACTER, false));
-				case 'Week Editor':
+				case weekEditor:
 					MusicBeatState.switchState(new WeekEditorState());
-				case 'Menu Character Editor':
+				case menuCharacterEditor:
 					MusicBeatState.switchState(new MenuCharacterEditorState());
-				case 'Dialogue Portrait Editor':
+				case dialoguePortraitEditor:
 					LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
-				case 'Dialogue Editor':
+				case dialogueEditor:
 					LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
-				case 'Chart Editor'://felt it would be cool maybe
+				case chartEditor://felt it would be cool maybe
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
-				case 'Stage Editor':
-			    	LoadingState.loadAndSwitchState(new StageEditorState(), false);
-				case 'Mod Manager':
+				case stageEditor:
+					LoadingState.loadAndSwitchState(new StageEditorState(), false);
+				case modManager:
 					LoadingState.loadAndSwitchState(new ModsMenuState(), false);
 					   
 			}
@@ -184,11 +217,17 @@ class MasterEditorMenu extends MusicBeatState
 	
 		WeekData.setDirectoryFromWeek();
 		if(directories[curDirectory] == null || directories[curDirectory].length < 1)
-			directoryTxt.text = '< No Mod Directory Loaded >';
+			directoryTxt.text = if(language == 'spanish')
+				'< Directorio de Mod No Cargado >'
+			else
+				'< No Mod Directory Loaded >';
 		else
 		{
 			Paths.currentModDirectory = directories[curDirectory];
-			directoryTxt.text = '< Loaded Mod Directory: ' + Paths.currentModDirectory + ' >';
+			directoryTxt.text = if(language == 'spanish')
+				'< Cargado Directorio de Mod: ' + Paths.currentModDirectory + ' >'
+			else
+				'< Loaded Mod Directory: ' + Paths.currentModDirectory + ' >';
 		}
 		directoryTxt.text = directoryTxt.text.toUpperCase();
 	}
