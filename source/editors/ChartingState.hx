@@ -453,7 +453,10 @@ class ChartingState extends MusicBeatState
 		UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
 		blockPressWhileTypingOn.push(UI_songTitle);
 		
-		var check_voices = new FlxUICheckBox(10, 25, null, null, "Has voice track", 100);
+		var check_voices = if(language == 'spanish')
+			new FlxUICheckBox(10, 25, null, null, "Tiene voces", 100)
+		else
+			new FlxUICheckBox(10, 25, null, null, "Has voice track", 100);
 		check_voices.checked = _song.needsVoices;
 		// _song.needsVoices = check_voices.checked;
 		check_voices.callback = function()
@@ -462,18 +465,33 @@ class ChartingState extends MusicBeatState
 			//trace('CHECKED!');
 		};
 
-		var saveButton:FlxButton = new FlxButton(110, 8, "Save", function()
-		{
-			saveLevel();
-		});
+		var saveButton:FlxButton = if(language == 'spanish')
+			new FlxButton(110, 8, "Save", function()
+			{
+				saveLevel();
+			})
+		else
+			new FlxButton(110, 8, "Save", function()
+			{
+				saveLevel();
+			});
 
-		var reloadSong:FlxButton = new FlxButton(saveButton.x + 90, saveButton.y, "Reload Audio", function()
-		{
-			currentSongName = Paths.formatToSongPath(UI_songTitle.text);
-			loadSong();
-			loadAudioBuffer();
-			updateWaveform();
-		});
+		var reloadSong:FlxButton = if(language == 'spanish')
+			new FlxButton(saveButton.x + 90, saveButton.y, "Actualizar Audio", function()
+			{
+				currentSongName = Paths.formatToSongPath(UI_songTitle.text);
+				loadSong();
+				loadAudioBuffer();
+				updateWaveform();
+			})
+		else
+			new FlxButton(saveButton.x + 90, saveButton.y, "Reload Audio", function()
+			{
+				currentSongName = Paths.formatToSongPath(UI_songTitle.text);
+				loadSong();
+				loadAudioBuffer();
+				updateWaveform();
+			});
 
 		var reloadSongJson:FlxButton = if(language == 'spanish')
 			new FlxButton(reloadSong.x, saveButton.y + 30, "Resetear JSON", function()
@@ -563,7 +581,7 @@ class ChartingState extends MusicBeatState
 		var clear_notes:FlxButton = if(language == 'spanish')
 			new FlxButton(320, clear_events.y + 30, 'Eliminar Notas', function()
 			{
-				openSubState(new Prompt('Esta acción elmininará las notas de esta section.\n\n¿Proceder?', 0, function(){for (sec in 0..._song.notes.length) {
+				openSubState(new Prompt('Esta acción elmininará las notas de esta sección.\n\n¿Proceder?', 0, function(){for (sec in 0..._song.notes.length) {
 					_song.notes[sec].sectionNotes = [];
 				}
 				updateGrid();
