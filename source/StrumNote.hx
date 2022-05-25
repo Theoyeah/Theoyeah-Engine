@@ -37,7 +37,7 @@ class StrumNote extends FlxSprite
 		var skin:String = 'NOTE_assets';
 		switch(ClientPrefs.noteskin.toLowerCase()) {
 			case 'circles': skin = 'NOTE_assets-Circles';
-			default: skin = 'NOTE_assets-Circles';
+			default: skin = 'NOTE_assets';
 		}
 		if(PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1) skin = PlayState.SONG.arrowSkin;
 		texture = 'noteSkins/' + skin; //Load texture and anims
@@ -52,7 +52,12 @@ class StrumNote extends FlxSprite
 
 		if(PlayState.isPixelStage)
 		{
-			loadGraphic(Paths.image('pixelUI/' + texture));
+			if(Paths.fileExists('pixelUI/' + texture)) {
+				loadGraphic(Paths.image('pixelUI/' + texture));
+			} else {
+				loadGraphic(Paths.image('pixelUI/NOTE_assets'));
+			}
+					  
 			width = width / 4;
 			height = height / 5;
 			loadGraphic(Paths.image('pixelUI/' + texture), true, Math.floor(width), Math.floor(height));
