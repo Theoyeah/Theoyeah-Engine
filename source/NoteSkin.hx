@@ -14,6 +14,8 @@ class NoteSkin
 				default:
 					skin = '';
 			}
+		} else {
+			skin = PlayState.SONG.arrowSkin;
 		}
 		return skin;
 	}
