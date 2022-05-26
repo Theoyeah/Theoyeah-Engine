@@ -29,7 +29,8 @@ class TankmenBG extends FlxSprite
 			antialiasing = ClientPrefs.globalAntialiasing;
 
 			updateHitbox();
-			setGraphicSize(Std.int(0.8 * width));updateHitbox();
+			setGraphicSize(Std.int(0.8 * width));
+			updateHitbox();
 		}
 	}
 
