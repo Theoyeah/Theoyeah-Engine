@@ -53,7 +53,7 @@ class StrumNote extends FlxSprite
 				width = width / 4;
 				height = height / 5;
 				loadGraphic(Paths.image('pixelUI/' + texture), true, Math.floor(width), Math.floor(height));
-			} else if(Paths.fileExists('pixelUI/' + NoteSkin.noteSkinFile(false))) {
+			} else if(Paths.fileExists('pixelUI/' + NoteSkin.noteSkinFile(false), IMAGE, true)) {
 				loadGraphic(Paths.image('pixelUI/' + NoteSkins.noteSkinFile(false)));
 				width = width / 4;
 				height = height / 5;
