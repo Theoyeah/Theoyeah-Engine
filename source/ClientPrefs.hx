@@ -166,11 +166,14 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-		if($type(noteSplashes) != $type(FlxG.save.data.noteSplashes)) { //prevents crash from the previously Bool noteSplashes
-			if(FlxG.save.data.noteSplashes) {
-				FlxG.save.data.noteSplashes = 'Normal';
-			} else {
-				FlxG.save.data.noteSplashes = 'None';
+		if(!FlxG.save.data.noteSkinRepared) { //prevents crash from the previously Bool noteSplashes
+			if(FlxG.save.data.noteSplashes == true || FlxG.save.data.noteSplashes == false) {
+				if(FlxG.save.data.noteSplashes) {
+					FlxG.save.data.noteSplashes = 'Normal';
+				} else {
+					FlxG.save.data.noteSplashes = 'None';
+				}
+				FlxG.save.data.noteSkinRepared = true;
 			}
 		}
 		if(FlxG.save.data.multiplicativeValue != null) {
