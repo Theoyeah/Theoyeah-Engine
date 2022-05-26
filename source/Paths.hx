@@ -407,7 +407,14 @@ class Paths
 	inline static public function mods(key:String = '') {
 		return 'mods/' + key;
 	}
-	
+
+	inline static public function currentModImages(key:String) {
+		var img:String = if(StringTools.contains(key, '.png')) key else key + '.png';
+		if(currentModDirectory == '') {
+			return 'mods/images/' + img;
+		}
+		return "mods/" + currentModDirectory + "/images/" + img;
+	}
 	inline static public function modsFont(key:String) {
 		return modFolders('fonts/' + key);
 	}
