@@ -28,6 +28,7 @@ class NoteSkin
 				return 'noteSkins/NOTE_assets' + noteSkin();
 			} else {
 				return 'noteSkins/NOTE_assets';
+			}
 		} else {
 			if(noteSkinPlay) {
 				return 'NOTE_assets' + noteSkin();
