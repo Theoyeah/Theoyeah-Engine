@@ -37,4 +37,11 @@ class NoteSkin
 			}
 		}
 	}
+	
+	
+	
+	public static function reloadNoteSkinPlay() {
+		noteSkinPlay = if((noteSkin().length > 0 || noteSkin() != null) && noteSkin() != PlayState.SONG.arrowSkin) true else false;
+	}
+
 }
