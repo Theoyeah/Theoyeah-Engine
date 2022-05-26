@@ -19,14 +19,17 @@ class NoteSkin
 		}
 		return skin;
 	}
+
+	public static var noteSkinPlay:Bool = if((noteSkin().length > 0 || noteSkin() != null) && noteSkin() != PlayState.SONG.arrowSkin) true else false;
+
 	public static function noteSkinFile(folder:Bool = true) {
 		if(folder) {
-			if((noteSkin() != null || noteSkin().length > 0) && noteSkin() != PlayState.SONG.arrowSkin) {
+			if(noteSkinPlay) {
 				return 'noteSkins/NOTE_assets' + noteSkin();
 			} else {
 				return 'noteSkins/NOTE_assets';
 		} else {
-			if(noteSkin().length > 0 || noteSkin() != null) {
+			if(noteSkinPlay) {
 				return 'NOTE_assets' + noteSkin();
 			} else {
 				return 'NOTE_assets';
