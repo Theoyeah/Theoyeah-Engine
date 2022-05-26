@@ -909,7 +909,7 @@ class PlayState extends MusicBeatState
 		
 			if(gfVersion == 'pico-speaker')
 				{
-					if(!ClientPrefs.lowQuality)
+					if(!ClientPrefs.lowQuality || !ClientPrefs.violence)
 					{
 						var firstTank:TankmenBG = new TankmenBG(20, 500, true);
 						firstTank.resetShit(20, 600, true);
