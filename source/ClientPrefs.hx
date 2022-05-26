@@ -123,7 +123,7 @@ class ClientPrefs {
 		FlxG.save.data.framerate = framerate;
 		FlxG.save.data.longhealthbar = longhealthbar;
 		FlxG.save.data.crazycounter = crazycounter;
-		FlxG.save.data.cursing = cursing;
+		//FlxG.save.data.cursing = cursing;
 		FlxG.save.data.violence = violence;
 		FlxG.save.data.iconBounce = iconBounce;
 		FlxG.save.data.camZooms = camZooms;
