@@ -415,6 +415,21 @@ class Paths
 		}
 		return "mods/" + currentModDirectory + "/images/" + img;
 	}
+	#if LUA_ALLOWED
+	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false) {
+		if(!getPreload) {
+			if(notetype) {
+				return modFolders('custom_notetypes/' + thing + '.lua');
+			}
+			return modFolders('custom_events/' + thing + '.lua');
+		} else {
+			if(notetype) {
+				return getPreloadPath('custom_notetypes/' + thing + '.lua');
+			}
+			return getPreloadPath('custom_events/' + thing + '.lua');
+		}
+	}
+	#end
 	inline static public function modsFont(key:String) {
 		return modFolders('fonts/' + key);
 	}
@@ -445,11 +460,11 @@ class Paths
 
 	inline static public function modsShaderFragment(key:String, ?library:String)
 	{
-		return modFolders('shaders/'+key+'.frag');
+		return modFolders('shaders/' + key + '.frag');
 	}
 	inline static public function modsShaderVertex(key:String, ?library:String)
 	{
-		return modFolders('shaders/'+key+'.vert');
+		return modFolders('shaders/' + key + '.vert');
 	}
 	inline static public function modsAchievements(key:String) {
 		return modFolders('achievements/' + key + '.json');
