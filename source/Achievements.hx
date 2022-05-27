@@ -18,7 +18,7 @@ class Achievements {
 		["Lady Killer",					"Beat Week 4 with no Misses.",				'week4_nomiss',			false],
 		["Missless Christmas",			"Beat Week 5 with no Misses.",				'week5_nomiss',			false],
 		["Highscore!!",					"Beat Week 6 with no Misses.",				'week6_nomiss',			false],
-		["God Effing Damn It!",		"Beat Week 7 with no Misses.",				'week7_nomiss',			 true], 
+		["God Effing Damn It!",		"Beat Week 7 with no Misses.",				'week7_nomiss',			 false], 
 		["What a Funkin' Disaster!",	"Complete a Song with a rating lower than 20%.",	'ur_bad',				false],
 		["Perfectionist",			   	  "Complete a Song with a rating of 100%.",			'ur_good',				false],
 		["Roadkill Enthusiast",		 "Watch the Henchmen die over 100 times.",			'roadkill_enthusiast',	false],
@@ -106,11 +106,15 @@ class AttachedAchievement extends FlxSprite {
 
 	public function reloadAchievementImage() {
 		if(Achievements.isAchievementUnlocked(tag)) {
-				//if(Paths.fileExists('achievements/' + tag + '.png', IMAGE))
-					loadGraphic(Paths.image('achievements/' + tag));
-				//else
-					//loadGraphic(Paths.image('achievements/blank'));
+			var tag_:String = StringTools.replace(tag, "_", " ");
+			if(Paths.fileExists('achievements/' + tag + '.png', IMAGE)) {
+				loadGraphic(Paths.image('achievements/' + tag));
+			} else if(Paths.fileExists('achievements/' + tag_ + '.png', IMAGE)) {
+				loadGraphic(Paths.image('achievements/' + tag_));
 			} else {
+				loadGraphic(Paths.image('achievements/blank'));
+			}
+		} else {
 			loadGraphic(Paths.image('lockedachievement'));
 		}
 		scale.set(0.7, 0.7);

@@ -203,11 +203,11 @@ class Paths
 		return getPath('$key.lua', TEXT, library);
 	}
 
-	static public function video(key:String)
+	static public function video(key:String, ?ignoreMods:Bool = false)
 	{
 		#if MODS_ALLOWED
 		var file:String = modsVideo(key);
-		if(FileSystem.exists(file)) {
+		if(FileSystem.exists(file) && !ignoreMods) {
 			return file;
 		}
 		#end
@@ -256,7 +256,7 @@ class Paths
 	{
 		#if sys
 		#if MODS_ALLOWED
-		if (!ignoreMods && FileSystem.exists(modFolders(key)))
+		if (FileSystem.exists(modFolders(key)) && !ignoreMods)
 			return File.getContent(modFolders(key));
 		#end
 
@@ -407,7 +407,29 @@ class Paths
 	inline static public function mods(key:String = '') {
 		return 'mods/' + key;
 	}
-	
+
+	inline static public function currentModImages(key:String) {
+		var img:String = if(StringTools.contains(key, '.png')) key else key + '.png';
+		if(currentModDirectory == '') {
+			return 'mods/images/' + img;
+		}
+		return "mods/" + currentModDirectory + "/images/" + img;
+	}
+	#if LUA_ALLOWED
+	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false) {
+		if(!getPreload) {
+			if(notetype) {
+				return modFolders('custom_notetypes/' + thing + '.lua');
+			}
+			return modFolders('custom_events/' + thing + '.lua');
+		} else {
+			if(notetype) {
+				return getPreloadPath('custom_notetypes/' + thing + '.lua');
+			}
+			return getPreloadPath('custom_events/' + thing + '.lua');
+		}
+	}
+	#end
 	inline static public function modsFont(key:String) {
 		return modFolders('fonts/' + key);
 	}
@@ -438,11 +460,11 @@ class Paths
 
 	inline static public function modsShaderFragment(key:String, ?library:String)
 	{
-		return modFolders('shaders/'+key+'.frag');
+		return modFolders('shaders/' + key + '.frag');
 	}
 	inline static public function modsShaderVertex(key:String, ?library:String)
 	{
-		return modFolders('shaders/'+key+'.vert');
+		return modFolders('shaders/' + key + '.vert');
 	}
 	inline static public function modsAchievements(key:String) {
 		return modFolders('achievements/' + key + '.json');
