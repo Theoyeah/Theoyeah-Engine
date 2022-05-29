@@ -216,13 +216,15 @@ class CreditsState extends MusicBeatState
 			}
 
 			if(controls.ACCEPT) {
-				var link:String = StringTools.replace(creditsStuff[curSelected][3].toLowerCase(), ' ', '');
+				var link:String = creditsStuff[curSelected][3].toLowerCase().replace(' ', '');
 				if(link == 'nolink' || link == 'no' || link == 'n') {
 					FlxG.sound.play(Paths.sound('cancelMenu'));
 				} else if(link == 'github' || link == '') {
-					CoolUtil.browserLoad('https://github.com/' + creditsStuff[curSelected][0]);
-				} else if(StringTools.contains(link, '//') || StringTools.contains(link, 'www')) {
+					CoolUtil.browserLoad('https://github.com/' + creditsStuff[curSelected][0].replace(' ', ''));
+				} else if(link.contains('//') || link.contains('www')) {
 					CoolUtil.browserLoad(creditsStuff[curSelected][3]);
+				} else {
+					FlxG.sound.play(Paths.sound('cancelMenu'));
 				}
 			}
 			if (controls.BACK)
