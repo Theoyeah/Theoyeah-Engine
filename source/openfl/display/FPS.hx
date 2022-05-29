@@ -86,29 +86,32 @@ class FPS extends TextField
 
 		if (currentCount != cacheCount /*&& visible*/)
 		{
-			text = "FPS: " + currentFPS;
+			if(ClientPrefs.showFPS) {
+				text = "FPS: " + currentFPS;
 			
-			#if openfl
-			memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
-			//memoryMegas = Math.round(System.totalMemory / 1024 / 1024 * 100)/100;
-			if(memoryMegas>memoryTotal)
-				memoryTotal=memoryMegas;
-			text += "\nRAM: " + memoryMegas + "mb" + " / " + memoryTotal + 'mb';
-			#end
+				#if openfl
+					memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
+				//memoryMegas = Math.round(System.totalMemory / 1024 / 1024 * 100)/100;
+				if(memoryMegas>memoryTotal)
+					memoryTotal=memoryMegas;
+				text += "\nRAM: " + memoryMegas + "mb" + " / " + memoryTotal + 'mb';
+				#end
 
-			textColor = 0xFFFFFFFF;
-			if (memoryMegas > 3000 || currentFPS <= ClientPrefs.framerate / 2)
-			{
-				textColor = 0xFFFF0000;
+				textColor = 0xFFFFFFFF;
+
+				if (memoryMegas > 3000 || currentFPS <= ClientPrefs.framerate / 2)
+				{
+					textColor = 0xFFFF0000;
+				}
+
+				#if (gl_stats && !disable_cffi && (!html5 || !canvas))
+				text += "\ntotalDC: " + Context3DStats.totalDrawCalls();
+				text += "\nstageDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE);
+				text += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
+				#end
+
+				text += "\n";
 			}
-
-			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
-			text += "\ntotalDC: " + Context3DStats.totalDrawCalls();
-			text += "\nstageDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE);
-			text += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
-			#end
-
-			text += "\n";
 		}
 
 		cacheCount = currentCount;
