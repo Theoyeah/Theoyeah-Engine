@@ -160,6 +160,7 @@ class FunkinLua {
 
 		// Character shit
 		set('boyfriendName', PlayState.SONG.player1);
+		set('bfName', PlayState.SONG.player1);
 		set('dadName', PlayState.SONG.player2);
 		set('gfName', PlayState.SONG.gfVersion);
 
@@ -239,7 +240,7 @@ class FunkinLua {
 				PlayState.instance.luaArray.push(new FunkinLua(cervix)); 
 				return;
 			}
-			luaTrace("Script doesn't exist!");
+			luaTrace('Script "' + cervix + '" doesn' + "t exist!");
 		});
 		Lua_helper.add_callback(lua, "removeLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
 			var cervix = luaFile + ".lua";
@@ -263,15 +264,14 @@ class FunkinLua {
 						if(luaInstance.scriptName == cervix)
 						{
 							//luaTrace('The script "' + cervix + '" is already running!');
-							
-								PlayState.instance.luaArray.remove(luaInstance); 
+							PlayState.instance.luaArray.remove(luaInstance); 
 							return;
 						}
 					}
 				}
 				return;
 			}
-			luaTrace("Script doesn't exist!");
+			luaTrace('Script "' + cervix + '" doesn' + "t exist!");
 		});
 		
 		Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
@@ -1306,12 +1306,12 @@ class FunkinLua {
 				var shit:DialogueFile = DialogueBoxPsych.parseDialogue(path);
 				if(shit.dialogue.length > 0) {
 					PlayState.instance.startDialogue(shit, music);
-					luaTrace('Successfully loaded dialogue');
+					luaTrace('Successfully loaded dialogue "' + dialogueFile + '"');
 				} else {
-					luaTrace('Your dialogue file is badly formatted!');
+					luaTrace('Dialogue file "' + dialogueFile + '" is badly formatted!');
 				}
 			} else {
-				luaTrace('Dialogue file not found');
+				luaTrace('Dialogue file "' + dialogueFile + '" not found');
 				if(PlayState.instance.endingSong) {
 					PlayState.instance.endSong();
 				} else {
@@ -1842,7 +1842,7 @@ class FunkinLua {
 			case "texture" | "textureatlas" | "tex":
 				spr.frames = AtlasFrameMaker.construct(image);
 				
-			case "texture_noaa" | "textureatlas_noaa" | "tex_noaa":
+			case "texture_noaa" | "textureatlas_noaa" | "tex_noaa" | "noaa":
 				spr.frames = AtlasFrameMaker.construct(image, null, true);
 				
 			case "packer" | "packeratlas" | "pac":
