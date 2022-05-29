@@ -82,14 +82,14 @@ class CreditsState extends MusicBeatState
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['Theoyeah Engine Team'],
-			['Theoyeah',		'theoyeah',		'Creator of Theoyeah Engine and main director',							'github',	'009BF4'], // Fuck you, im a minor, so i can't have a freaking youtube channel
+			['Theoyeah',		'theoyeah',		'Creator of Theoyeah Engine and main director',							'',	'009BF4'], // Fuck you, im a minor, so i can't have a freaking youtube channel
 			['DEMOLITIONDON96',		'demolitiondon',	'Another cool contributor',			'https://youtube.com/c/DEMOLITIONDON96',	'03C6FC'],
 			['Wither362',           'wither',               'Another coolder (do you get it?)',/*yeah, from coder and cool*/  'https://www.youtube.com/channel/UCsVr-qBLxT0uSWH037BmlHw',     'FF0000'/*i hate red, but i dont know to put other colors so...*/],
 			[''],
 			['Pull Requests and Code used'],
-			['Mayo76',	        '',	'Made some code for achivements',		'github'   /*, 'FFFFFF' */], //there isnt color because it isnt needed
-			['magnumsrtisswag ',	'',	'Creator of stage editor',		'github'                 ],
-			['BeastlyGhost',        '',     'Creator of v0.3 FPS Counter (Base Game)\n(Memory used), and other GOD things', 'github'   ],
+			['Mayo76',	        '',	'Made some code for achivements',		''   /*, 'FFFFFF' */], //there isnt color because it isnt needed
+			['magnumsrtisswag ',	'',	'Creator of stage editor',		''                 ],
+			['BeastlyGhost',        '',     'Creator of v0.3 FPS Counter (Base Game)\n(Memory used), and other GOD things', ''   ],
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',							'https://twitter.com/Shadow_Mario_',	'444444'],
@@ -216,10 +216,15 @@ class CreditsState extends MusicBeatState
 			}
 
 			if(controls.ACCEPT) {
-				if(creditsStuff[curSelected][3] == 'github' || creditsStuff[curSelected][3] == '') {
-					CoolUtil.browserLoad('https://github.com/' + creditsStuff[curSelected][0]);
-				} else if(StringTools.contains(creditsStuff[curSelected][3], '//') || StringTools.contains(creditsStuff[curSelected][3], 'www')) {
+				var link:String = creditsStuff[curSelected][3].toLowerCase().replace(' ', '');
+				if(link == 'nolink' || link == 'no' || link == 'n') {
+					FlxG.sound.play(Paths.sound('cancelMenu'));
+				} else if(link == 'github' || link == '') {
+					CoolUtil.browserLoad('https://github.com/' + creditsStuff[curSelected][0].replace(' ', ''));
+				} else if(link.contains('//') || link.contains('www')) {
 					CoolUtil.browserLoad(creditsStuff[curSelected][3]);
+				} else {
+					FlxG.sound.play(Paths.sound('cancelMenu'));
 				}
 			}
 			if (controls.BACK)
