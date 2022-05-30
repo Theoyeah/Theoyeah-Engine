@@ -1432,8 +1432,7 @@ class PlayState extends MusicBeatState
 		songSpeed = value;
 		noteKillOffset = 350 / songSpeed;
 		return value;
-	}
-
+	}}
 	public function addTextToDebug(text:String) {
 		#if LUA_ALLOWED
 		luaDebugGroup.forEachAlive(function(spr:DebugLuaText) {
