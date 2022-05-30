@@ -340,10 +340,10 @@ class TitleState extends MusicBeatState
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
 		#if (desktop && MODS_ALLOWED)
-		var path = "mods/" + Paths.currentModDirectory + "/images/titleEnter.png";
+		var path = Paths.currentModImages("titleEnter");
 		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)){
-			path = "mods/images/titleEnter.png";
+			path = Paths.currentModImages("titleEnter");
 		}
 		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)){
@@ -407,7 +407,7 @@ class TitleState extends MusicBeatState
 		psychSpr.screenCenter(X);
 		psychSpr.antialiasing = ClientPrefs.globalAntialiasing;
 		
-		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
+		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('Theoyeah_logo'));
 		add(tySpr);
 		tySpr.visible = false;
 		tySpr.setGraphicSize(Std.int(125 * 0.74)); //i dont know how this works, edit it later theoyeah to correct the image and all that
@@ -505,9 +505,8 @@ class TitleState extends MusicBeatState
 			{
 				if(titleText != null) titleText.animation.play('press');
 
-				if(ClientPrefs.flashing) {
+				if(ClientPrefs.flashing)
 					FlxG.camera.flash(FlxColor.WHITE, 1);
-				}
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 				transitioning = true;
@@ -515,11 +514,11 @@ class TitleState extends MusicBeatState
 
 				new FlxTimer().start(1, function(tmr:FlxTimer)
 				{
-					if (mustUpdate) {
+					if (mustUpdate)
 						MusicBeatState.switchState(new OutdatedState());
-					} else {
+					else
 						MusicBeatState.switchState(new MainMenuState());
-					}
+
 					closedState = true;
 				});
 				// FlxG.sound.play(Paths.music('titleShoot'), 0.7);
@@ -680,10 +679,10 @@ class TitleState extends MusicBeatState
 					addMoreText('Wither362');
 					addMoreText('DEMOLITIONDON69');
 					coolguys.visible = true;
-				case 10:
+				case 9:
 					deleteCoolText();
 					coolguys.visible = false;
-				case 11:
+				case 10:
 					switch(ClientPrefs.language.toLowerCase()) {
 						case 'francais':
 							createCoolText(['Une Version Modifiée de'], -40);
@@ -694,45 +693,45 @@ class TitleState extends MusicBeatState
 						default:
 							createCoolText(['A Modified Version of'], -40);
 					}
-				case 12:
+				case 11:
 					addMoreText('Psych Engine', -40);
 					psychSpr.visible = true;
 			// credTextShit.text += '\nNewgrounds';
-				case 13:
+				case 12:
 					deleteCoolText();
 					psychSpr.visible = false;
 			// credTextShit.visible = false;
 
 			// credTextShit.text = 'Shoutouts Tom Fulp';
 			// credTextShit.screenCenter();
-				case 14:
+				case 13:
 					createCoolText([curWacky[0]]);
 			// credTextShit.visible = true;
-				case 15:
+				case 14:
 					addMoreText(curWacky[1]);
 			// credTextShit.text += '\nlmao';
-				case 16:
+				case 15:
 					if (curWacky[2] != null) { //im stupid bro, i wrote 3 instead of 2
 						addMoreText(curWacky[2]);
 					} else {
 						deleteCoolText();
 						sickBeats++;
 					}
-				case 17:
+				case 16:
 					deleteCoolText();
 			// credTextShit.visible = false;
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
-				case 18:
+				case 17:
 					addMoreText("Friday Night Funkin'");
 			// credTextShit.visible = true;
-				case 19:
+				case 18:
 					addMoreText('Theoyeah');
 			// credTextShit.text += '\nNight';
-				case 20:
+				case 19:
 					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
 
-				case 21:
+				case 20:
 					skipIntro();
 			}
 		}
@@ -752,6 +751,7 @@ class TitleState extends MusicBeatState
 	{
 		if (!skippedIntro)
 		{
+			//deleteCoolText();
 			if (playJingle) //Ignore deez
 			{
 				var easteregg:String = FlxG.save.data.psychDevsEasterEgg;

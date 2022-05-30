@@ -38,7 +38,7 @@ class ClientPrefs {
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
 	public static var shaders:Bool = true;
-	public static var winningIcon = true;
+	public static var winningIcon:Bool = true;
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
 	public static var multiplicativeValue:Float = 0;
@@ -168,6 +168,16 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
+		if(FlxG.save.data.noteSplashes == true || FlxG.save.data.noteSplashes == false) {
+			if(FlxG.save.data.noteSplashes == true || FlxG.save.data.noteSplashes == false) {
+				if(FlxG.save.data.noteSplashes) {
+					FlxG.save.data.noteSplashes = 'Normal';
+				} else {
+					FlxG.save.data.noteSplashes = 'None';
+				}
+				FlxG.save.data.noteSplashesRepared = true;
+			}
+		}
 		if(FlxG.save.data.multiplicativeValue != null) {
 			multiplicativeValue = FlxG.save.data.multiplicativeValue;
 		}

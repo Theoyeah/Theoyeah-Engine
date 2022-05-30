@@ -160,6 +160,7 @@ class FunkinLua {
 
 		// Character shit
 		set('boyfriendName', PlayState.SONG.player1);
+		set('bfName', PlayState.SONG.player1);
 		set('dadName', PlayState.SONG.player2);
 		set('gfName', PlayState.SONG.gfVersion);
 
@@ -192,7 +193,8 @@ class FunkinLua {
 		set('kadeTxt', ClientPrefs.kadetxt);
 		set('iconBounce', ClientPrefs.iconBounce);
 		
-		
+		// other things
+		set('mouseVisible', FlxG.mouse.visible);
 		
 
 
@@ -239,7 +241,7 @@ class FunkinLua {
 				PlayState.instance.luaArray.push(new FunkinLua(cervix)); 
 				return;
 			}
-			luaTrace("Script doesn't exist!");
+			luaTrace('Script "' + cervix + '" doesn' + "t exist!");
 		});
 		Lua_helper.add_callback(lua, "removeLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
 			var cervix = luaFile + ".lua";
@@ -263,15 +265,14 @@ class FunkinLua {
 						if(luaInstance.scriptName == cervix)
 						{
 							//luaTrace('The script "' + cervix + '" is already running!');
-							
-								PlayState.instance.luaArray.remove(luaInstance); 
+							PlayState.instance.luaArray.remove(luaInstance); 
 							return;
 						}
 					}
 				}
 				return;
 			}
-			luaTrace("Script doesn't exist!");
+			luaTrace('Script "' + cervix + '" doesn' + "t exist!");
 		});
 		
 		Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
@@ -617,6 +618,9 @@ class FunkinLua {
 			}
 			return boobs;
 		});
+		Lua_helper.add_callback(lua, "mouseVisible", function(state:Bool) {
+			FlxG.mouse.visible = state;
+		});
 		Lua_helper.add_callback(lua, "noteTweenAngle", function(tag:String, note:Int, value:Dynamic, duration:Float, ease:String) {
 			cancelTween(tag);
 			if(note < 0) note = 0;
@@ -835,20 +839,20 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "getCharacterX", function(type:String) {
-			switch(type.toLowerCase()) {
-				case 'dad' | 'opponent':
+			switch(type.toLowerCase().replace(' ', '')) {
+				case 'dad' | 'opponent' | 'player2':
 					return PlayState.instance.dadGroup.x;
-				case 'gf' | 'girlfriend':
+				case 'gf' | 'girlfriend' | 'girl' | 'gfversion':
 					return PlayState.instance.gfGroup.x;
 				default:
 					return PlayState.instance.boyfriendGroup.x;
 			}
 		});
 		Lua_helper.add_callback(lua, "setCharacterX", function(type:String, value:Float) {
-			switch(type.toLowerCase()) {
-				case 'dad' | 'opponent':
+			switch(type.toLowerCase().replace(' ', '')) {
+				case 'dad' | 'opponent' | "player2":
 					PlayState.instance.dadGroup.x = value;
-				case 'gf' | 'girlfriend':
+				case 'gf' | 'girlfriend' | 'girl':
 					PlayState.instance.gfGroup.x = value;
 				default:
 					PlayState.instance.boyfriendGroup.x = value;
@@ -856,19 +860,19 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "getCharacterY", function(type:String) {
 			switch(type.toLowerCase()) {
-				case 'dad' | 'opponent':
+				case 'dad' | 'opponent' | 'player2':
 					return PlayState.instance.dadGroup.y;
-				case 'gf' | 'girlfriend':
+				case 'gf' | 'girlfriend' | 'girl':
 					return PlayState.instance.gfGroup.y;
 				default:
 					return PlayState.instance.boyfriendGroup.y;
 			}
 		});
 		Lua_helper.add_callback(lua, "setCharacterY", function(type:String, value:Float) {
-			switch(type.toLowerCase()) {
-				case 'dad' | 'opponent':
+			switch(type.toLowerCase().replace(' ', '')) {
+				case 'dad' | 'opponent' | 'player2':
 					PlayState.instance.dadGroup.y = value;
-				case 'gf' | 'girlfriend':
+				case 'gf' | 'girlfriend' | 'girl':
 					PlayState.instance.gfGroup.y = value;
 				default:
 					PlayState.instance.boyfriendGroup.y = value;
@@ -952,7 +956,7 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "characterPlayAnim", function(character:String, anim:String, ?forced:Bool = false) {
 			switch(character.toLowerCase()) {
-				case 'dad':
+				case 'dad' | 'opponent':
 					if(PlayState.instance.dad.animOffsets.exists(anim))
 						PlayState.instance.dad.playAnim(anim, forced);
 				case 'gf' | 'girlfriend':
@@ -1306,12 +1310,12 @@ class FunkinLua {
 				var shit:DialogueFile = DialogueBoxPsych.parseDialogue(path);
 				if(shit.dialogue.length > 0) {
 					PlayState.instance.startDialogue(shit, music);
-					luaTrace('Successfully loaded dialogue');
+					luaTrace('Successfully loaded dialogue "' + dialogueFile + '"');
 				} else {
-					luaTrace('Your dialogue file is badly formatted!');
+					luaTrace('Dialogue file "' + dialogueFile + '" is badly formatted!');
 				}
 			} else {
-				luaTrace('Dialogue file not found');
+				luaTrace('Dialogue file "' + dialogueFile + '" not found');
 				if(PlayState.instance.endingSong) {
 					PlayState.instance.endSong();
 				} else {
@@ -1842,7 +1846,7 @@ class FunkinLua {
 			case "texture" | "textureatlas" | "tex":
 				spr.frames = AtlasFrameMaker.construct(image);
 				
-			case "texture_noaa" | "textureatlas_noaa" | "tex_noaa":
+			case "texture_noaa" | "textureatlas_noaa" | "tex_noaa" | "noaa":
 				spr.frames = AtlasFrameMaker.construct(image, null, true);
 				
 			case "packer" | "packeratlas" | "pac":
