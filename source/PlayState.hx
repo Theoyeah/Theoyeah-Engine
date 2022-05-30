@@ -1582,14 +1582,17 @@ class PlayState extends MusicBeatState
 		char.y += char.positionArray[1];
 	}
 
-	public function startVideo(name:String):Void {
+	public function startVideo(name:String, ?ignoreMkv:Bool = false):Void {
 		#if VIDEOS_ALLOWED
 		var foundFile:Bool = false;
-		var fileName:String = #if MODS_ALLOWED Paths.modFolders('videos/' + name + '.' + Paths.VIDEO_EXT); #else ''; #end
+		var foundFile_:Bool = false;
+		var fileName:String = #if MODS_ALLOWED Paths.modFolders('videos/' + name + '.' + Paths.VIDEO_EXT) #else '' #end ;
+		var fileName_:String = #if MODS_ALLOWED Paths.modFolders('videos/$name.mkv') #else '' #end ;
 		#if sys
-		if(FileSystem.exists(fileName)) {
+		if(FileSystem.exists(fileName))
 			foundFile = true;
-		}
+		if(FileSystem.exists(fileName_))
+			foundFile_ = true;
 		#end
 
 		if(!foundFile) {
@@ -1602,7 +1605,31 @@ class PlayState extends MusicBeatState
 				foundFile = true;
 			}
 		}
+		#if MKV_ALLOWED
+		if(!foundFile_ && !ignoreMkv) {
+			fileName = Paths.video(name, false, true);
+			#if sys
+			if(FileSystem.exists(fileName_)) {
+			#else
+			if(OpenFlAssets.exists(fileName_)) {
+			#end
+				foundFile_ = true;
+			}
+		}
 
+		if(foundFile_ && !ignoreMkv) {
+			inCutscene = true;
+			var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+			bg.scrollFactor.set();
+			bg.cameras = [camHUD];
+			add(bg);
+
+			(new FlxVideo(fileName_)).finishCallback = function() {
+				remove(bg);
+				startAndEnd();
+			}
+			return;
+		} else #end
 		if(foundFile) {
 			inCutscene = true;
 			var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
@@ -1618,7 +1645,7 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			FlxG.log.warn('Couldnt find video file: ' + fileName);
+			FlxG.log.warn('Couldnt find video file: $fileName');
 			startAndEnd();
 		}
 		#end
