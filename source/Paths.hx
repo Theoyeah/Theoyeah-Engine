@@ -26,6 +26,9 @@ using StringTools;
 
 class Paths
 {
+	public static function returnNull(key:String) {
+		trace('oh no $key is returning null NOOOO');
+	}
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
 	inline public static var VIDEO_EXT = "mp4";
 
@@ -173,19 +176,19 @@ class Paths
 		return getPath(file, type, library);
 	}
 
-	inline static public function txt(key:String, ?library:String)
+	inline static public function txt(key:String, ?library:String, ?where:String = 'data')
 	{
-		return getPath('data/$key.txt', TEXT, library); //returns getPath('data/' + key + '.txt', TEXT, library)
+		return getPath('$where/$key.txt', TEXT, library); //returns getPath('data/' + key + '.txt', TEXT, library)
 	}
 
-	inline static public function xml(key:String, ?library:String)
+	inline static public function xml(key:String, ?library:String, ?where:String = 'data')
 	{
-		return getPath('data/$key.xml', TEXT, library); //returns getPath('data/' + key + '.xml', TEXT, library)
+		return getPath('$where/$key.xml', TEXT, library); //returns getPath('data/' + key + '.xml', TEXT, library)
 	}
 
-	inline static public function json(key:String, ?library:String)
+	inline static public function json(key:String, ?library:String, ?where:String = 'data')
 	{
-		return getPath('data/$key.json', TEXT, library);
+		return getPath('$where/$key.json', TEXT, library);
 	}
 
 	// shaders
@@ -203,15 +206,30 @@ class Paths
 		return getPath('$key.lua', TEXT, library);
 	}
 
-	static public function video(key:String, ?ignoreMods:Bool = false)
+	static public function video(key:String, ?ignoreMods:Bool = false, ?mkvFile:Bool = false)
 	{
 		#if MODS_ALLOWED
 		var file:String = modsVideo(key);
-		if(FileSystem.exists(file) && !ignoreMods) {
+		var file_:String = modsVideo2(key);
+		#if MKV_ALLOWED
+		if(FileSystem.exists(file_) && !ignoreMods && mkvFile) {
+			return file_;
+		} else #end if(FileSystem.exists(file) && !ignoreMods) {
 			return file;
+		} else if(!ignoreMods && (!FileSystem.exists(file) || !FileSystem.exists(file_))) {
+			returnNull(key);
+			return null;
 		}
 		#end
-		return 'assets/videos/$key.$VIDEO_EXT'; //returns 'assets/videos/' + key + '.' + VIDEO_EXT
+		#if MKV_ALLOWED
+		if(mkvFile && FileSystem.exists('assets/videos/$key.mkv')) {
+			return 'assets/videos/$key.mkv';
+		} else #end if(FileSystem.exists('assets/videos/$key.$VIDEO_EXT')) {
+			return 'assets/videos/$key.$VIDEO_EXT'; //returns 'assets/videos/' + key + '.' + VIDEO_EXT
+		} else {
+			returnNull(key);
+			return null;
+		}
 	}
 
 	static public function sound(key:String, ?library:String):Sound
@@ -294,7 +312,7 @@ class Paths
 	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)
 	{
 		#if MODS_ALLOWED
-		if(FileSystem.exists(mods(currentModDirectory + '/' + key)) || FileSystem.exists(mods(key))) {
+		if(FileSystem.exists(mods('$currentModDirectory/$key')) || FileSystem.exists(mods(key))) {
 			return true;
 		}
 		#end
@@ -345,6 +363,7 @@ class Paths
 	public static function returnGraphic(key:String, ?library:String) {
 		#if MODS_ALLOWED
 		var modKey:String = modsImages(key);
+		var modKey_:String = modImages2(key);
 		if(FileSystem.exists(modKey)) {
 			if(!currentTrackedAssets.exists(modKey)) {
 				var newBitmap:BitmapData = BitmapData.fromFile(modKey);
@@ -354,6 +373,15 @@ class Paths
 			}
 			localTrackedAssets.push(modKey);
 			return currentTrackedAssets.get(modKey);
+		} else if(FileSystem.exists(modKey_)) {
+			if(!currentTrackedAssets.exists(modKey_)) {
+				var newBitmap:BitmapData = BitmapData.fromFile(modKey_);
+				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, modKey_);
+				newGraphic.persist = true;
+				currentTrackedAssets.set(modKey_, newGraphic);
+			}
+			localTrackedAssets.push(modKey_);
+			return currentTrackedAssets.get(modKey_);
 		}
 		#end
 
@@ -398,7 +426,7 @@ class Paths
 		// trace(gottenPath);
 		if(!currentTrackedSounds.exists(gottenPath)) 
 		#if MODS_ALLOWED
-			currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
+			currentTrackedSounds.set(gottenPath, Sound.fromFile('./$gottenPath'));
 		#else
 		{
 			var folder:String = '';
@@ -414,66 +442,71 @@ class Paths
 	
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '') {
-		return 'mods/' + key;
+		return 'mods/$key';
 	}
 
 	inline static public function currentModImages(key:String) {
-		var img:String = if(StringTools.contains(key, '.png')) key else key + '.png';
+		var img:String = if(key.contains('.png')) key else '$key.png';
 		if(currentModDirectory == '') {
-			return 'mods/images/' + img;
+			return 'mods/images/$img';
 		}
-		return "mods/" + currentModDirectory + "/images/" + img;
+		return 'mods/$currentModDirectory/images/$img';
 	}
 	#if LUA_ALLOWED
 	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false) {
 		if(!getPreload) {
 			if(notetype) {
-				return modFolders('custom_notetypes/' + thing + '.lua');
+				return modFolders('custom_notetypes/$thing.lua');
 			}
-			return modFolders('custom_events/' + thing + '.lua');
-		} else {
-			if(notetype) {
-				return getPreloadPath('custom_notetypes/' + thing + '.lua');
-			}
-			return getPreloadPath('custom_events/' + thing + '.lua');
+			return modFolders('custom_events/$thing.lua');
 		}
+		if(notetype) {
+			return getPreloadPath('custom_notetypes/$thing.lua');
+		}
+		return getPreloadPath('custom_events/$thing.lua');
 	}
 	#end
 	inline static public function modsFont(key:String) {
-		return modFolders('fonts/' + key);
+		return modFolders('fonts/$key');
 	}
 
-	inline static public function modsJson(key:String) {
-		return modFolders('data/' + key + '.json');
+	inline static public function modsJson(key:String, ?where:String = 'data') {
+		return modFolders('$where/$key.json');
 	}
 
 	inline static public function modsVideo(key:String) {
-		return modFolders('videos/' + key + '.' + VIDEO_EXT);
+		return modFolders('videos/$key.$VIDEO_EXT);
+	}
+	inline static public function modsVideo2(key:String) {
+		return modFolders('videos/$key.mkv');
 	}
 
 	inline static public function modsSounds(path:String, key:String) {
-		return modFolders(path + '/' + key + '.' + SOUND_EXT);
+		return modFolders('$path/$key.$SOUND_EXT);
 	}
 
 	inline static public function modsImages(key:String) {
-		return modFolders('images/' + key + '.png');
+		return modFolders('images/$key.png');
+	}
+	inline static public function modImages2(key:String) {
+		return modFolders('images/$key.PNG');
 	}
 
 	inline static public function modsXml(key:String) {
-		return modFolders('images/' + key + '.xml');
+		return modFolders('images/$key.xml');
 	}
 
 	inline static public function modsTxt(key:String) {
-		return modFolders('images/' + key + '.txt');
+		return modFolders('images/$key.txt');
 	}
 
 	inline static public function modsShaderFragment(key:String, ?library:String)
 	{
-		return modFolders('shaders/' + key + '.frag');
+		return modFolders('shaders/$key.frag');
 	}
 	inline static public function modsShaderVertex(key:String, ?library:String)
 	{
-		return modFolders('shaders/' + key + '.vert');
+		return modFolders('shaders/$key.vert');
 	}
 	inline static public function modsAchievements(key:String) {
 		return modFolders('achievements/' + key + '.json');
@@ -486,7 +519,7 @@ class Paths
 				return fileToCheck;
 			}
 		}
-		return 'mods/' + key;
+		return 'mods/$key';
 	}
 	static public function getModDirectories():Array<String> {
 		var list:Array<String> = [];
