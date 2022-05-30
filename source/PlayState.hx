@@ -1010,7 +1010,7 @@ class PlayState extends MusicBeatState
 		}
 
 		var file:String = Paths.txt(songName + '/' + songName + 'Dialogue' + langSuffix); //Checks for vanilla/Senpai dialogue
-		if (OpenFlAssets.exists(file)) {
+		if (OpenFlAssets.exists(file))
 			dialogue = CoolUtil.coolTextFile(file);
 
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
@@ -1432,7 +1432,7 @@ class PlayState extends MusicBeatState
 		songSpeed = value;
 		noteKillOffset = 350 / songSpeed;
 		return value;
-	}}
+	}
 	public function addTextToDebug(text:String) {
 		#if LUA_ALLOWED
 		luaDebugGroup.forEachAlive(function(spr:DebugLuaText) {
