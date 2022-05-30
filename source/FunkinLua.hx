@@ -173,19 +173,24 @@ class FunkinLua {
 
 //_____________ more options things ____________________\\
 		set('framerate', ClientPrefs.framerate);
+		set('fps', ClientPrefs.framerate);
+		set('anti-Aliasing', ClientPrefs.globalAntialiasing);
+		set('antiAliasing', ClientPrefs.globalAntialiasing);
+		set('antialiasing', ClientPrefs.globalAntialiasing);
 		set('ghostTapping', ClientPrefs.ghostTapping);
 		set('hideHud', ClientPrefs.hideHud);
 		set('timeBarType', ClientPrefs.timeBarType);
 		set('scoreZoom', ClientPrefs.scoreZoom);
 		set('cameraZoomOnBeat', ClientPrefs.camZooms);
 		set('flashingLights', ClientPrefs.flashing);
+		set('flashing', ClientPrefs.flashing);
 		set('noteOffset', ClientPrefs.noteOffset);
 		set('healthBarAlpha', ClientPrefs.healthBarAlpha);
 		set('noResetButton', ClientPrefs.noReset);
 		set('lowQuality', ClientPrefs.lowQuality);
-		set('multiplicativeValue', ClientPrefs.multiplicativeValue); //unused
-		set('winningIcons', ClientPrefs.winningIcon);
+		set('winningIcons', ClientPrefs.winningIcon); //unused
 		set('crazyCounter', ClientPrefs.crazycounter);
+		set('judgementCounter', ClientPrefs.crazycounter);
 		set('camFollow', ClientPrefs.camfollow);
 		set('introBg', ClientPrefs.introbg);
 		set('longHealthBar', ClientPrefs.longhealthbar);
