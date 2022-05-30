@@ -56,6 +56,26 @@ class FunkinLua {
 	var gonnaClose:Bool = false;
 
 	public var accessedProps:Map<String, Dynamic> = null;
+
+	public function controlsStuff(name:String, type:String = '', other:Bool = false) {
+		var key:Bool = false;
+		switch(name.toLowerCase()) {
+			case 'left': key = PlayState.instance.getControl('NOTE_LEFT' + type);
+			case 'down': key = PlayState.instance.getControl('NOTE_DOWN' + type);
+			case 'up': key = PlayState.instance.getControl('NOTE_UP' + type);
+			case 'right': key = PlayState.instance.getControl('NOTE_RIGHT' + type);
+			case 'uileft' | 'ui_left': key = PlayState.instance.getControl('UI_LEFT' + type);
+			case 'uiright' | 'ui_right': key = PlayState.instance.getControl('UI_RIGHT' + type);
+			case 'uiup' | 'ui_up': key = PlayState.instance.getControl('UI_UP' + type);
+			case 'uidown' | 'ui_down': key = PlayState.instance.getControl('UI_DOWN' + type);
+			case 'accept': if(other) key = PlayState.instance.getControl('ACCEPT');
+			case 'back': if(other) key = PlayState.instance.getControl('BACK');
+			case 'pause': if(other) key = PlayState.instance.getControl('PAUSE');
+			case 'reset': if(other) key = PlayState.instance.getControl('RESET');
+			case 'space': key = FlxG.keys.justReleased.SPACE;//an extra key for convinience
+		}
+		return key;
+	}
 	public function new(script:String) {
 		#if LUA_ALLOWED
 		lua = LuaL.newstate();
@@ -746,56 +766,13 @@ class FunkinLua {
 			return Std.parseInt(color);
 		});
 		Lua_helper.add_callback(lua, "keyJustPressed", function(name:String) {
-			var key:Bool = false;
-			var type:String = '_P';
-			switch(name.toLowerCase()) {
-				case 'left': key = PlayState.instance.getControl('NOTE_LEFT_P');
-				case 'down': key = PlayState.instance.getControl('NOTE_DOWN_P');
-				case 'up': key = PlayState.instance.getControl('NOTE_UP_P');
-				case 'right': key = PlayState.instance.getControl('NOTE_RIGHT_P');
-				case 'accept': key = PlayState.instance.getControl('ACCEPT');
-				case 'back': key = PlayState.instance.getControl('BACK');
-				case 'pause': key = PlayState.instance.getControl('PAUSE');
-				case 'reset': key = PlayState.instance.getControl('RESET');
-				case 'uileft' | 'ui_left': key = PlayState.instance.getControl('UI_LEFT' + type);
-				case 'uiright' | 'ui_right': key = PlayState.instance.getControl('UI_RIGHT' + type);
-				case 'uiup' | 'ui_up': key = PlayState.instance.getControl('UI_UP' + type);
-				case 'uidown' | 'ui_down': key = PlayState.instance.getControl('UI_DOWN' + type);
-				case 'space': key = FlxG.keys.justPressed.SPACE;//an extra key for convinience
-			}
-			return key;
+			return controlsStuff(name, '_P', true);
 		});
 		Lua_helper.add_callback(lua, "keyPressed", function(name:String) {
-			var key:Bool = false;
-			var type:String = '';
-			switch(name) {
-				case 'left': key = PlayState.instance.getControl('NOTE_LEFT');
-				case 'down': key = PlayState.instance.getControl('NOTE_DOWN');
-				case 'up': key = PlayState.instance.getControl('NOTE_UP');
-				case 'right': key = PlayState.instance.getControl('NOTE_RIGHT');
-				case 'uileft' | 'ui_left': key = PlayState.instance.getControl('UI_LEFT' + type);
-				case 'uiright' | 'ui_right': key = PlayState.instance.getControl('UI_RIGHT' + type);
-				case 'uiup' | 'ui_up': key = PlayState.instance.getControl('UI_UP' + type);
-				case 'uidown' | 'ui_down': key = PlayState.instance.getControl('UI_DOWN' + type);
-				case 'space': key = FlxG.keys.pressed.SPACE;//an extra key for convinience
-			}
-			return key;
+			return controlsStuff(name);
 		});
 		Lua_helper.add_callback(lua, "keyReleased", function(name:String) {
-			var key:Bool = false;
-			var type:String = '_R';
-			switch(name) {
-				case 'left': key = PlayState.instance.getControl('NOTE_LEFT_R');
-				case 'down': key = PlayState.instance.getControl('NOTE_DOWN_R');
-				case 'up': key = PlayState.instance.getControl('NOTE_UP_R');
-				case 'right': key = PlayState.instance.getControl('NOTE_RIGHT_R');
-				case 'uileft' | 'ui_left': key = PlayState.instance.getControl('UI_LEFT' + type);
-				case 'uiright' | 'ui_right': key = PlayState.instance.getControl('UI_RIGHT' + type);
-				case 'uiup' | 'ui_up': key = PlayState.instance.getControl('UI_UP' + type);
-				case 'uidown' | 'ui_down': key = PlayState.instance.getControl('UI_DOWN' + type);
-				case 'space': key = FlxG.keys.justReleased.SPACE;//an extra key for convinience
-			}
-			return key;
+			return controlsStuff(name, '_R');
 		});
 		Lua_helper.add_callback(lua, "addCharacterToList", function(name:String, type:String) {
 			var charType:Int = 0;
