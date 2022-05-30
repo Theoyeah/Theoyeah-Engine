@@ -35,20 +35,20 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 - tweaked scoretxt 
 - opponent take health when pressing note
 - Better Menu !
-- no more donate button (look at readme.txt if you want to donate at original creator of fnf)
+- no more donate button (look at [readme.txt](art/readme.txt) if you want to donate at original creator of fnf)
 - added flash when selecting something
 - red flash when you die
-- added marvelous
-- [Kade Score Text](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/README.md#-2)!
-- insta-kill note
+- added [Marvelous](assets/shared/images/marvelous.png)
+- Kade Score Text!
 - funni 9 button easter egg icon
 - Shaders are real
 - Os is back !!!
 - Added a cool background in intro
 - Added the original MiddleScroll !
-- Mp3 and Wav support !
+- [Mp3](Project.xml#L54) and [Wav](Project.xml#L55) support !
 - More options
 - **Instakill Note and Crash Note!!** (with a fabulous texture)
+- **Windows Note and Warning Note** (with *another* fabulous texture)
 - Look at the [`Project.xml`](Project.xml) file for more!
 # Examples :
 ![Sans titreS](https://user-images.githubusercontent.com/97792861/169879482-ba19602c-7dc7-49d7-9243-726921786b56.png)
