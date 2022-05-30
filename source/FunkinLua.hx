@@ -1816,6 +1816,8 @@ class FunkinLua {
 		});
 	}			
 		call('onCreate', []);
+		#else
+		trace("You have LUA disabled, so you can't access to LUA functions, sorry ;)");
 		#end
 	}
 
@@ -2009,6 +2011,8 @@ class FunkinLua {
 			PlayState.instance.addTextToDebug(text);
 			trace(text);
 		}
+		#else
+		trace("You have LUA disabled, so you can't access to LUA functions, sorry ;)");
 		#end
 	}
 	
@@ -2040,6 +2044,8 @@ class FunkinLua {
 			var conv:Dynamic = Convert.fromLua(lua, result);
 			return conv;
 		}
+		#else
+		trace("You have LUA disabled, so you can't access to LUA functions, sorry ;)");
 		#end
 		return Function_Continue;
 	}
@@ -2053,8 +2059,7 @@ class FunkinLua {
 		return coverMeInPiss;
 	}
 
-public static function getObjectDirectly(objectName:String, ?checkForTextsToo:Bool = true, ?noGameOver:Bool = false):Dynamic
-
+	public static function getObjectDirectly(objectName:String, ?checkForTextsToo:Bool = true, ?noGameOver:Bool = false):Dynamic
 	{
 		var coverMeInPiss:Dynamic = null;
 		if(PlayState.instance.modchartSprites.exists(objectName)) {
@@ -2067,15 +2072,18 @@ public static function getObjectDirectly(objectName:String, ?checkForTextsToo:Bo
 		return coverMeInPiss;
 	}
 
-	#if LUA_ALLOWED
 	function resultIsAllowed(leLua:State, leResult:Null<Int>) { //Makes it ignore warnings
+		#if LUA_ALLOWED
 		switch(Lua.type(leLua, leResult)) {
 			case Lua.LUA_TNIL | Lua.LUA_TBOOLEAN | Lua.LUA_TNUMBER | Lua.LUA_TSTRING | Lua.LUA_TTABLE:
 				return true;
 		}
 		return false;
+		#else
+		trace("You have LUA disabled, so you can't access to LUA functions, sorry ;)");
+		return null;
+		#end
 	}
-	#end
 
 	public function set(variable:String, data:Dynamic) {
 		#if LUA_ALLOWED
@@ -2085,11 +2093,13 @@ public static function getObjectDirectly(objectName:String, ?checkForTextsToo:Bo
 
 		Convert.toLua(lua, data);
 		Lua.setglobal(lua, variable);
+		#else
+			trace("You have LUA disabled, so you can't access to LUA functions, sorry ;)");
 		#end
 	}
 
-	#if LUA_ALLOWED
 	public function getBool(variable:String) {
+		#if LUA_ALLOWED
 		var result:String = null;
 		Lua.getglobal(lua, variable);
 		result = Convert.fromLua(lua, -1);
@@ -2102,8 +2112,11 @@ public static function getObjectDirectly(objectName:String, ?checkForTextsToo:Bo
 		// YES! FINALLY IT WORKS
 		//trace('variable: ' + variable + ', ' + result);
 		return (result == 'true');
+		#else
+		trace("You have LUA disabled, so you can't access to LUA functions, sorry ;)");
+		return null;
+		#end
 	}
-	#end
 
 	public function stop() {
 		#if LUA_ALLOWED
@@ -2117,6 +2130,8 @@ public static function getObjectDirectly(objectName:String, ?checkForTextsToo:Bo
 
 		Lua.close(lua);
 		lua = null;
+		#else
+		trace("You have LUA disabled, so you can't access to LUA functions, sorry ;)");
 		#end
 	}
 
