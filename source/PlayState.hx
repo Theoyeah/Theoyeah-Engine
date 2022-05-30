@@ -1233,6 +1233,8 @@ class PlayState extends MusicBeatState
 
 
 		if (healthDrain > 0 && health > 0.1)
+		{
+			if (health < 0.1)
 			{
 				if (health < 0.1)
 				{
@@ -1240,7 +1242,14 @@ class PlayState extends MusicBeatState
 				}
 				health -= 0.001;
 				healthDrain -= 0.0001;
+				health = 0.1;
 			}
+			health -= 0.001;
+			healthDrain -= 0.0001;
+		}
+		if(health > 1) { // prevents having more health than default
+			health = 1;
+		}
 		
 		var daSong:String = Paths.formatToSongPath(curSong);
 		if (isStoryMode && !seenCutscene)
