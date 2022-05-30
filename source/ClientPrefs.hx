@@ -40,7 +40,7 @@ class ClientPrefs {
 	public static var winningIcon:Bool = true;
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
-	public static var multiplicativeValue:Float = 0;
+	//public static var multiplicativeValue:Float = 0;
 	public static var musicSelected:String = 'freakyMenu';
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
@@ -110,7 +110,7 @@ class ClientPrefs {
 
 	public static function saveSettings() {
 		FlxG.save.data.winningIcon = winningIcon;
-		FlxG.save.data.multiplicativeValue = multiplicativeValue;
+		//FlxG.save.data.multiplicativeValue = multiplicativeValue;
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.showFPS = showFPS;
@@ -176,16 +176,13 @@ class ClientPrefs {
 				FlxG.save.data.noteSplashesRepared = true;
 			}
 		}
-		if(FlxG.save.data.multiplicativeValue != null) {
-			multiplicativeValue = FlxG.save.data.multiplicativeValue;
-		}
 		if(FlxG.save.data.winningIcon != null) {
 			winningIcon = FlxG.save.data.winningIcon;
 		}
 		if(FlxG.save.data.downScroll != null) {			       
 			downScroll = FlxG.save.data.downScroll;
 		}
-		if (FlxG.save.data.shaders !=null) {
+		if (FlxG.save.data.shaders != null) {
 			shaders = FlxG.save.data.shaders;
 		}
 		if(FlxG.save.data.middleScroll != null) {
@@ -234,7 +231,10 @@ class ClientPrefs {
 				FlxG.updateFramerate = framerate;
 			}
 		}
-		/*if(FlxG.save.data.cursing != null) {
+		/*if(FlxG.save.data.multiplicativeValue != null) {
+			multiplicativeValue = FlxG.save.data.multiplicativeValue;
+		}
+		if(FlxG.save.data.cursing != null) {
 			cursing = FlxG.save.data.cursing;
 		}
 		if(FlxG.save.data.violence != null) {
