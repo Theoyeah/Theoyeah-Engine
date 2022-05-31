@@ -2219,19 +2219,17 @@ class PlayState extends MusicBeatState
 							}
 						});
 						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
-					case 4:
-				}
-	
-				if(ClientPrefs.opponentStrums)
- 				{
- 					notes.forEachAlive(function(note:Note) {
- 						note.copyAlpha = false;
- 						note.alpha = note.multAlpha;
- 						if(ClientPrefs.middleScroll && !note.mustPress) {
- 							note.alpha *= 0.35;
- 						}
- 					});
- 				}
+					}
+					if(ClientPrefs.opponentStrums)
+					{
+ 						notes.forEachAlive(function(note:Note) {
+							note.copyAlpha = false;
+							note.alpha = note.multAlpha;
+							if(ClientPrefs.middleScroll && !note.mustPress) {
+								note.alpha *= 0.35;
+							}
+						});
+					}
 				});
 				callOnLuas('onCountdownTick', [swagCounter]);
 
