@@ -84,9 +84,15 @@ class Main extends Sprite
 		}
 		#end
 
+		if(ClientPrefs.autoPause) {
+		FlxG.autoPause = true;
+ 		} else {
+		FlxG.autoPause = false;
+		 }
 		#if html5
 		FlxG.autoPause = false;
 		FlxG.mouse.visible = false;
 		#end
+
 	}
 }

@@ -42,6 +42,7 @@ class ClientPrefs {
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
 	//public static var multiplicativeValue:Float = 0;
 	public static var musicSelected:String = 'freakyMenu';
+	public static var autoPause:Bool = false;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -126,6 +127,7 @@ class ClientPrefs {
 		//FlxG.save.data.cursing = cursing;
 		//FlxG.save.data.violence = violence;
 		FlxG.save.data.iconBounce = iconBounce;
+		FlxG.save.data.autoPause = autoPause;
 		FlxG.save.data.camZooms = camZooms;
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
@@ -297,6 +299,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.badWindow != null) {
 			badWindow = FlxG.save.data.badWindow;
+		}
+		if(FlxG.save.data.autoPause != null) {
+			autoPause = FlxG.save.data.autoPause;
 		}
 		if(FlxG.save.data.safeFrames != null) {
 			safeFrames = FlxG.save.data.safeFrames;
