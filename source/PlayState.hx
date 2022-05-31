@@ -1047,6 +1047,7 @@ class PlayState extends MusicBeatState
 		#if LUA_ALLOWED
 		for (notetype in noteTypeMap.keys())
 		{
+			#if MODS_ALLOWED
 			var luaToLoad:String = Paths.customLua(notetype, true);
 			if(FileSystem.exists(luaToLoad))
 			{
@@ -1060,9 +1061,17 @@ class PlayState extends MusicBeatState
 					luaArray.push(new FunkinLua(luaToLoad));
 				}
 			}
+			#elseif sys
+ 			var luaToLoad:String = Paths.getPreloadPath('custom_notetypes/' + notetype + '.lua');
+ 			if(OpenFlAssets.exists(luaToLoad))
+ 			{
+ 				luaArray.push(new FunkinLua(luaToLoad));
+ 			}
+ 			#end
 		}
 		for (event in eventPushedMap.keys())
 		{
+			#if MODS_ALLOWED
 			var luaToLoad:String = Paths.customLua(event, false);
 			if(FileSystem.exists(luaToLoad))
 			{
@@ -1076,6 +1085,13 @@ class PlayState extends MusicBeatState
 					luaArray.push(new FunkinLua(luaToLoad));
 				}
 			}
+			#elseif sys
+ 			var luaToLoad:String = Paths.getPreloadPath('custom_events/' + event + '.lua');
+ 			if(OpenFlAssets.exists(luaToLoad))
+ 			{
+ 				luaArray.push(new FunkinLua(luaToLoad));
+ 			}
+ 			#end
 		}
 		#end
 		noteTypeMap.clear();
@@ -1457,6 +1473,7 @@ class PlayState extends MusicBeatState
 		#if LUA_ALLOWED
 		var doPush:Bool = false;
 		var luaFile:String = 'characters/$name.lua';
+		#if MODS_ALLOWED
 		if(FileSystem.exists(Paths.modFolders(luaFile))) {
 			luaFile = Paths.modFolders(luaFile);
 			doPush = true;
@@ -1466,6 +1483,12 @@ class PlayState extends MusicBeatState
 				doPush = true;
 			}
 		}
+		#else
+ 		luaFile = Paths.getPreloadPath(luaFile);
+ 		if(Assets.exists(luaFile)) {
+ 			doPush = true;
+ 		}
+ 		#end
 		
 		if(doPush)
 		{
@@ -2197,13 +2220,18 @@ class PlayState extends MusicBeatState
 						});
 						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
 					case 4:
-						}
-						notes.forEachAlive(function(note:Note) {
-					note.copyAlpha = false;
-					note.alpha = note.multAlpha;
-					if(ClientPrefs.middleScroll && !note.mustPress) {
-						note.alpha *= 0.0;
-					}
+				}
+	
+				if(ClientPrefs.opponentStrums)
+ 				{
+ 					notes.forEachAlive(function(note:Note) {
+ 						note.copyAlpha = false;
+ 						note.alpha = note.multAlpha;
+ 						if(ClientPrefs.middleScroll && !note.mustPress) {
+ 							note.alpha *= 0.35;
+ 						}
+ 					});
+ 				}
 				});
 				callOnLuas('onCountdownTick', [swagCounter]);
 
@@ -2365,7 +2393,7 @@ class PlayState extends MusicBeatState
 
 		var songName:String = Paths.formatToSongPath(SONG.song);
 		var file:String = Paths.json(songName + '/events');
-		#if sys
+		#if MODS_ALLOWED
 		if (FileSystem.exists(Paths.modsJson(songName + '/events')) || FileSystem.exists(file)) {
 		#else
 		if (OpenFlAssets.exists(file)) {
@@ -2571,7 +2599,11 @@ class PlayState extends MusicBeatState
 		{
 			// FlxG.log.add(i);
 			var targetAlpha:Float = 1;
-			if (player < 1 && ClientPrefs.middleScroll) targetAlpha = 0;
+			if (player < 1)
+ 			{
+ 				if(!ClientPrefs.opponentStrums) targetAlpha = 0;
+ 				else if(ClientPrefs.middleScroll) targetAlpha = 0.35;
+ 			}
 
 			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
 			babyArrow.downScroll = ClientPrefs.downScroll;
@@ -2737,6 +2769,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public var paused:Bool = false;
+	public var canReset:Bool = true;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 	var limoSpeed:Float = 0;
@@ -2895,18 +2928,18 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-	if (ClientPrefs.kadetxt)
-	{
-		if(ratingName == '?')
-			scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accuracy: 0.00% ' + '| Rating: N/A' ;
-		else 
-			scoreTxt.text = 'Score: ' + songScore + ' |  Combo Breaks: ' + songMisses + ' | Accuracy: ' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ' | '+ 'Rating: '+ ratingFC;//peeps wanted no integer rating
-	} else {
-		if(ratingName == '?')
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' | N/A' ;
-		else
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ')' + ' | ' + ratingFC;//peeps wanted no integer rating
-	    }
+		if (ClientPrefs.kadetxt)
+		{
+			if(ratingName == '?')
+				scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accuracy: 0.00% ' + '| Rating: N/A' ;
+			else 
+				scoreTxt.text = 'Score: ' + songScore + ' |  Combo Breaks: ' + songMisses + ' | Accuracy: ' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ' | '+ 'Rating: '+ ratingFC;//peeps wanted no integer rating
+		} else {
+			if(ratingName == '?')
+				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' | N/A' ;
+			else
+				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ')' + ' | ' + ratingFC;//peeps wanted no integer rating
+		}
 
 		if(botplayTxt.visible) {
 			botplaySine += 180 * elapsed;
@@ -3000,14 +3033,14 @@ class PlayState extends MusicBeatState
 			}
 		}
 		if (healthDrain > 0 && health > 0.1)
-	{
-		if (health < 0.1)
 		{
-			health = 0.1;
+			if (health < 0.1)
+			{
+				health = 0.1;
+			}
+			health -= 0.001;
+			healthDrain -= 0.0001;
 		}
-		health -= 0.001;
-		healthDrain -= 0.0001;
-	}
 
 		if (iconP1.animation.frames == 3)
 		{
@@ -3106,7 +3139,7 @@ class PlayState extends MusicBeatState
 		FlxG.watch.addQuick("stepShit", curStep);
 
 		// RESET = Quick Game Over Screen
-		if (!ClientPrefs.noReset && controls.RESET && !inCutscene && startedCountdown &&  !endingSong)
+		if (!ClientPrefs.noReset && controls.RESET && canReset && !inCutscene && startedCountdown &&  !endingSong)
 		{
 			health = 0;
 			trace("RESET = True");
@@ -4414,6 +4447,8 @@ class PlayState extends MusicBeatState
 
 	function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
 	{
+		if(ClientPrefs.ghostTapping) return; //fuck it
+
 		if (!boyfriend.stunned)
 		{
 			health -= 0.05 * healthLoss;
@@ -4422,8 +4457,6 @@ class PlayState extends MusicBeatState
 				vocals.volume = 0;
 				doDeathCheck(true);
 			}
-
-			if(ClientPrefs.ghostTapping) return;
 
 			if (combo > 5 && gf != null && gf.animOffsets.exists('sad'))
 			{
