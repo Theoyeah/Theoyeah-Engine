@@ -1846,8 +1846,9 @@ class FunkinLua {
 		#else
 		trace("You have LUA disabled, so you can't access to LUA functions, sorry ;)");
 		#end
+		}
 	}
-	
+
 	public static function setVarInArray(instance:Dynamic, variable:String, value:Dynamic):Any
 	{
 		var shit:Array<String> = variable.split('[');
