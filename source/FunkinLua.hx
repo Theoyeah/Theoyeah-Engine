@@ -245,15 +245,24 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "addLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
 			var cervix = luaFile + ".lua";
 			var doPush = false;
-			if(FileSystem.exists(Paths.modFolders(cervix))) {
+			#if MODS_ALLOWED
+			if(FileSystem.exists(Paths.modFolders(cervix)))
+			{
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
-			} else {
+			}
+			else {
 				cervix = Paths.getPreloadPath(cervix);
 				if(FileSystem.exists(cervix)) {
 					doPush = true;
 				}
 			}
+			#else
+			cervix = Paths.getPreloadPath(cervix);
+			if(Assets.exists(cervix)) {
+				doPush = true;
+			}
+			#end
 
 			if(doPush)
 			{
@@ -271,11 +280,12 @@ class FunkinLua {
 				PlayState.instance.luaArray.push(new FunkinLua(cervix)); 
 				return;
 			}
-			luaTrace('Script "' + cervix + '" doesn' + "'t exist!");
+			luaTrace('Script "$luaFile" ' + "doesn't exist!");
 		});
 		Lua_helper.add_callback(lua, "removeLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
 			var cervix = luaFile + ".lua";
 			var doPush = false;
+			#if MODS_ALLOWED
 			if(FileSystem.exists(Paths.modFolders(cervix))) {
 				cervix = Paths.modFolders(cervix);
 				doPush = true;
@@ -285,6 +295,12 @@ class FunkinLua {
 					doPush = true;
 				}
 			}
+			#else
+			cervix = Paths.getPreloadPath(cervix);
+			if(Assets.exists(cervix)) {
+				doPush = true;
+			}
+			#end
 
 			if(doPush)
 			{
@@ -295,14 +311,15 @@ class FunkinLua {
 						if(luaInstance.scriptName == cervix)
 						{
 							//luaTrace('The script "' + cervix + '" is already running!');
-							PlayState.instance.luaArray.remove(luaInstance); 
+							
+								PlayState.instance.luaArray.remove(luaInstance); 
 							return;
 						}
 					}
 				}
 				return;
 			}
-			luaTrace('Script "' + cervix + '" doesn' + "t exist!");
+			luaTrace('Script "$luaFile" doesn' + "'t exist!");
 		});
 		
 		Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
