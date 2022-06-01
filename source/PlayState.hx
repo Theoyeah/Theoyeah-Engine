@@ -1032,7 +1032,7 @@ class PlayState extends MusicBeatState
 			timeTxt.y += 3;
 		}
 
-		var splash:NoteSplash = new NoteSplash(100, 100, 0);
+		var splash:NoteSplash = if(StringTools.startsWith(NoteSplash.noteS(), 'og')) new NoteSplash(180, 190) else new NoteSplash(100, 100, 0);
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.0;
 

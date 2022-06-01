@@ -4,6 +4,8 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 
+using StringTools;
+
 class NoteSplash extends FlxSprite
 {
 	public var colorSwap:ColorSwap = null;
@@ -20,12 +22,18 @@ class NoteSplash extends FlxSprite
 			case 'pink': hola = 'pink';
 			case 'idk': hola = 'idk';
 			case 'original': hola = 'og';
+			case 'green original': hola = 'og green';
+			case 'blue original': hola = 'og blue';
+			case 'pink original': hola = 'og pink';
+			case 'purple original': hola = 'og purple';
+			case 'idk original': hola = 'og idk';
 			default: hola = 'noteSplashes';
 		}
+		var holaQue:String = StringTools.replace(" ", hola, '_');
 		if(hola != 'noteSplashes') {
-			return hola.toLowerCase() + '_noteSplashes';
+			return holaQue.toLowerCase() + '_noteSplashes';
 		} else {
-			return hola;
+			return holaQue;
 		}
 	}
 
@@ -65,8 +73,8 @@ class NoteSplash extends FlxSprite
 		colorSwap.hue = hueColor;
 		colorSwap.saturation = satColor;
 		colorSwap.brightness = brtColor;
-		if(texture == 'og_noteSplashes') {
-			offset.set(Std.int(0.3 * width), Std.int(0.3 * height));
+		if(StringTools.startsWith(texture, 'og')) {
+			offset.set(80, 90);
 		} else {
 			offset.set(10, 10);
 		}

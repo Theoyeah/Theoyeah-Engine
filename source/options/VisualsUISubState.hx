@@ -47,7 +47,23 @@ class VisualsUISubState extends BaseOptionsMenu
 			'noteSplashes',
 			'string',
 			'Normal',
-			['Normal', 'None', 'Original', 'Inverted', 'Red', 'Pink', 'Cyan', 'Green', 'IDK']);
+			[
+				'Normal',
+				'None',
+				'Inverted',
+				'Red',
+				'Pink',
+				'Cyan',
+				'Green',
+				'IDK',
+				'Original',
+				'Inverted Original',
+				'Red Original',
+				'Purple Original',
+				'Pink Original',
+				'Cyan Original',
+				'Green Original'
+			]);
 		addOption(option);
 
 		var option:Option = new Option('Kade Engine Score Text',
