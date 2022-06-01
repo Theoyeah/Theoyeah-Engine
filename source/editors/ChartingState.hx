@@ -2851,16 +2851,27 @@ class ChartingState extends MusicBeatState
 		updateGrid();
 		updateNoteUI();
 	}
+	var und:Dynamic = [];
 	// will figure this out l8r
-	function redo(){
-		//_song = redos[curRedoIndex];
+	function redo() {
+		if(und[0] != null) {
+			_song.notes.push(und[und.length]);
+			//_song.notes = undos.push(und[und.length]);
+			//_song = redos[curRedoIndex];
+			while (und[0] != null) { //i dont know other method to do this
+				und.pop();
+			}
+			updateGrid();
+		}
 	}
-	function undo(){
+	function undo() {
+		
 		//redos.push(_song);
+		und.push(undos[undos.length]);
 		undos.pop();
 		//_song.notes = undos[undos.length - 1];
 		///trace(_song.notes);
-		//updateGrid();
+		updateGrid();
 	}
 	function getStrumTime(yPos:Float, doZoomCalc:Bool = true):Float
 	{
