@@ -315,13 +315,15 @@ class Note extends FlxSprite
 		var blahblah:String = arraySkin.join('/');
 		if(PlayState.isPixelStage) {
 			if(isSustainNote) {
-				if(Paths.fileExists('pixelUI/' + blahblah, IMAGE, true)) {
+				if(Paths.fileExists('pixelUI/' + blahblah + 'ENDS', IMAGE, true)) {
+					trace('pixel noteskin called "$blahblah' + 'ENDS" founded');
 					loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'));
 					width = width / 4;
 					height = height / 2;
 					originalHeightForCalcs = height;
 					loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'), true, Math.floor(width), Math.floor(height));
 				} else {
+					trace('pixel noteskin called "$blahblah' + 'ENDS" not founded');
 					loadGraphic(Paths.image('pixelUI/NOTE_assetsENDS'));
 					width = width / 4;
 					height = height / 2;
@@ -330,11 +332,13 @@ class Note extends FlxSprite
 				}
 			} else {
 				if(Paths.fileExists('pixelUI/' + blahblah, IMAGE, true)) {
+					trace('pixel noteskin called "$blahblah" founded');
 					loadGraphic(Paths.image('pixelUI/' + blahblah));
 					width = width / 4;
 					height = height / 5;
 					loadGraphic(Paths.image('pixelUI/' + blahblah), true, Math.floor(width), Math.floor(height));
 				} else {
+					trace('pixel noteskin called "$blahblah" not founded');
 					loadGraphic(Paths.image('pixelUI/NOTE_assets'));
 					width = width / 4;
 					height = height / 5;
