@@ -59,31 +59,10 @@ class Achievements {
 			if(FlxG.save.data.achievementsMap != null) {
 				achievementsMap = FlxG.save.data.achievementsMap;
 			}
-			if(FlxG.save.data.achievementsUnlocked != null) {
-				FlxG.log.add("Trying to load stuff");
-				var savedStuff:Array<String> = FlxG.save.data.achievementsUnlocked;
-				for (i in 0...savedStuff.length) {
-					achievementsMap.set(savedStuff[i], true);
-				}
-			}
 			if(henchmenDeath == 0 && FlxG.save.data.henchmenDeath != null) {
 				henchmenDeath = FlxG.save.data.henchmenDeath;
 			}
 		}
-
-		// You might be asking "Why didn't you just fucking load it directly dumbass??"
-		// Well, Mr. Smartass, consider that this class was made for Mind Games Mod's demo,
-		// i'm obviously going to change the "Psyche" achievement's objective so that you have to complete the entire week
-		// with no misses instead of just Psychic once the full release is out. So, for not having the rest of your achievements lost on
-		// the full release, we only save the achievements' tag names instead. This also makes me able to rename
-		// achievements later as long as the tag names aren't changed of course.
-
-		// Edit: Oh yeah, just thought that this also makes me able to change the achievements orders easier later if i want to.
-		// So yeah, if you didn't thought about that i'm smarter than you, i think
-
-		// buffoon
-
-		// EDIT 2: Uhh this is weird, this message was written for MInd Games, so it doesn't apply logically for Psych Engine LOL
 	}
 }
 
@@ -105,16 +84,15 @@ class AttachedAchievement extends FlxSprite {
 	public function reloadAchievementImage() {
 		if(Achievements.isAchievementUnlocked(tag)) {
 			var tag_:String = tag.replace("_", " ");
-			if(Paths.fileExists('achievements/$tag.png', IMAGE)) {
+			if(Paths.fileExists('achievements/$tag.png', IMAGE))
 				loadGraphic(Paths.image('achievements/$tag'));
-			} else if(Paths.fileExists('achievements/$tag_.png', IMAGE)) {
+			else if(Paths.fileExists('achievements/$tag_.png', IMAGE))
 				loadGraphic(Paths.image('achievements/$tag_'));
-			} else {
+			else
 				loadGraphic(Paths.image('achievements/blank'));
-			}
-		} else {
+		} else
 			loadGraphic(Paths.image('lockedachievement'));
-		}
+
 		scale.set(0.7, 0.7);
 		updateHitbox();
 	}
