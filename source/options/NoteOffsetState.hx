@@ -231,7 +231,12 @@ class NoteOffsetState extends MusicBeatState
 				FlxG.keys.justPressed.A,
 				FlxG.keys.justPressed.D,
 				FlxG.keys.justPressed.W,
-				FlxG.keys.justPressed.S
+				FlxG.keys.justPressed.S,
+				
+				FlxG.keys.justPressed.J,
+				FlxG.keys.justPressed.L,
+				FlxG.keys.justPressed.I,
+				FlxG.keys.justPressed.K
 			];
 
 			if(controlArray.contains(true))
@@ -290,26 +295,26 @@ class NoteOffsetState extends MusicBeatState
 					holdingObjectType = 2; //this was true
 					startComboOffset.x = ClientPrefs.comboOffset[2]; //x
 					startComboOffset.y = ClientPrefs.comboOffset[3]; //y
-					trace("you're holding the combo nums");
+					trace("you're holding comboNums: $holdingObjectType");
 				}
 				else if (omg(rating))
 				{
 					holdingObjectType = 0; //this was false
 					startComboOffset.x = ClientPrefs.comboOffset[0]; //x
 					startComboOffset.y = ClientPrefs.comboOffset[1]; //y
-					trace("you're holding the rating thing");
+					trace("you're holding rating: $holdingObjectType");
 				}
 				else if (omg(combosprshit))
 				{
 					holdingObjectType = 4;
 					startComboOffset.x = ClientPrefs.comboOffset[4]; //x
 					startComboOffset.y = ClientPrefs.comboOffset[5]; //y
-					trace("you're holding the combo thing");
+					trace("you're holding combo: $holdingObjectType");
 				}
 			}
 			if(FlxG.mouse.justReleased) {
 				holdingObjectType = null;
-				trace("you're holding anything");
+				trace("you're holding anything: $holdingObjectType");
 			}
 
 			if(holdingObjectType != null)
@@ -322,7 +327,7 @@ class NoteOffsetState extends MusicBeatState
 					//now:*/
 
 					if(holdingObjectType >= 0) {
-						ClientPrefs.comboOffset[holdingObjectType] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
+						ClientPrefs.comboOffset[holdingObjectType + 0] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
 						ClientPrefs.comboOffset[holdingObjectType + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
 						repositionCombo();
 					}
@@ -455,6 +460,7 @@ class NoteOffsetState extends MusicBeatState
 		comboNums.screenCenter();
 		comboNums.x = coolText.x - 90 + ClientPrefs.comboOffset[2];
 		comboNums.y += 80 - ClientPrefs.comboOffset[3];
+		trace('Combo repositioned');
 		reloadTexts();
 	}
 
@@ -474,6 +480,7 @@ class NoteOffsetState extends MusicBeatState
 				text.y += 24;
 			}
 		}
+		trace('Texts created');
 	}
 
 	/**
