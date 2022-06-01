@@ -21,7 +21,7 @@ class CoolUtil
 		'Easy',
 		'Normal',
 		'Hard',
-		//'Erect',  Waiting for fnf week 8 to release.....
+		//'Erect'  Waiting for fnf week 8 to release.....
 		'FUCKED'
 
 	];

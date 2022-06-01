@@ -34,7 +34,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		title = 'Gameplay Settings';
 		rpcTitle = 'Gameplay Settings Menu'; //for Discord Rich Presence
 
-		var option:Option = new Option("Multiplicative Value", //taked from the wither engine
+		/*var option:Option = new Option("Multiplicative Value", //taked from the wither engine
 			"When you press SHIFT it multiplies the value by\nthe value you set it\nif it's 0, it will count the default value",
 			"multiplicativeValue",
 			"float",
@@ -43,7 +43,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.minValue = 0;
 		option.maxValue = 100;
 		option.changeValue = 0.1;
-		addOption(option);
+		addOption(option);*/
 
 		var option:Option = new Option('Controller Mode',
 			'Check this if you want to play with\na controller instead of using your Keyboard.',
@@ -147,15 +147,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 5;
 		option.minValue = 2;
 		option.maxValue = 10;
-		if(FlxG.keys.pressed.SHIFT) {
-			if(ClientPrefs.multiplicativeValue > 0) {
-				option.changeValue = ClientPrefs.multiplicativeValue;
-			} else {
-				option.changeValue = 1;
-			}
-		} else {
-			option.changeValue = 0.1;
-		} 
+		option.changeValue = 0.1;
 		addOption(option);
 
 
