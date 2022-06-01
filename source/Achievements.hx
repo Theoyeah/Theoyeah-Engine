@@ -1,3 +1,4 @@
+import flixel.graphics.FlxGraphic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
@@ -6,6 +7,13 @@ import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
+#if MODS_ALLOWED
+import sys.FileSystem;
+import sys.io.File;
+#end
+import haxe.Json;
+import lime.utils.Assets;
+import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
 
@@ -27,7 +35,7 @@ class Achievements {
 		["Just the Two of Us",		 "Finish a Song pressing only two keys.",				'two_keys',			false],
 		["Toaster Gamer",			  "Have you tried to run the game on a toaster?",		'toastie',			false],
 		["Debugger",					"Beat the \"Test\" Stage from the Chart Editor.",	'debugger',			true],
-		["Not Freaky on a Friday Night",	"Play on a Saturday... Night ? \n Bro itz Saturday ",		'saturday_night_play',	 	true]
+		["Not Freaky on a Friday Night",	"Play on a Saturday... Night ?",		'saturday_night_play',	 	true]
 	];
 	public static var achievementsMap:Map<String, Bool> = new Map<String, Bool>();
 
@@ -59,31 +67,10 @@ class Achievements {
 			if(FlxG.save.data.achievementsMap != null) {
 				achievementsMap = FlxG.save.data.achievementsMap;
 			}
-			if(FlxG.save.data.achievementsUnlocked != null) {
-				FlxG.log.add("Trying to load stuff");
-				var savedStuff:Array<String> = FlxG.save.data.achievementsUnlocked;
-				for (i in 0...savedStuff.length) {
-					achievementsMap.set(savedStuff[i], true);
-				}
-			}
 			if(henchmenDeath == 0 && FlxG.save.data.henchmenDeath != null) {
 				henchmenDeath = FlxG.save.data.henchmenDeath;
 			}
 		}
-
-		// You might be asking "Why didn't you just fucking load it directly dumbass??"
-		// Well, Mr. Smartass, consider that this class was made for Mind Games Mod's demo,
-		// i'm obviously going to change the "Psyche" achievement's objective so that you have to complete the entire week
-		// with no misses instead of just Psychic once the full release is out. So, for not having the rest of your achievements lost on
-		// the full release, we only save the achievements' tag names instead. This also makes me able to rename
-		// achievements later as long as the tag names aren't changed of course.
-
-		// Edit: Oh yeah, just thought that this also makes me able to change the achievements orders easier later if i want to.
-		// So yeah, if you didn't thought about that i'm smarter than you, i think
-
-		// buffoon
-
-		// EDIT 2: Uhh this is weird, this message was written for MInd Games, so it doesn't apply logically for Psych Engine LOL
 	}
 }
 
@@ -104,17 +91,11 @@ class AttachedAchievement extends FlxSprite {
 
 	public function reloadAchievementImage() {
 		if(Achievements.isAchievementUnlocked(tag)) {
-			var tag_:String = tag.replace("_", " ");
-			if(Paths.fileExists('achievements/$tag.png', IMAGE)) {
-				loadGraphic(Paths.image('achievements/$tag'));
-			} else if(Paths.fileExists('achievements/$tag_.png', IMAGE)) {
-				loadGraphic(Paths.image('achievements/$tag_'));
-			} else {
-				loadGraphic(Paths.image('achievements/blank'));
-			}
+			loadGraphic(Paths.image('achievements/' + tag));
 		} else {
-			loadGraphic(Paths.image('lockedachievement'));
+			loadGraphic(Paths.image('achievements/lockedachievement'));
 		}
+
 		scale.set(0.7, 0.7);
 		updateHitbox();
 	}
