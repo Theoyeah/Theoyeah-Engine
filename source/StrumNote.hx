@@ -49,16 +49,19 @@ class StrumNote extends FlxSprite
 		if(PlayState.isPixelStage)
 		{
 			if(Paths.fileExists('pixelUI/' + texture, IMAGE, true)) {
+				trace('pixel noteskin called "$texture" founded');
 				loadGraphic(Paths.image('pixelUI/' + texture));
 				width = width / 4;
 				height = height / 5;
 				loadGraphic(Paths.image('pixelUI/' + texture), true, Math.floor(width), Math.floor(height));
 			} else if(Paths.fileExists('pixelUI/' + NoteSkin.noteSkinFile(false), IMAGE, true)) {
+				trace('pixel noteskin called "' + NoteSkin.noteSkinFile(false) + '" founded');
 				loadGraphic(Paths.image('pixelUI/' + NoteSkin.noteSkinFile(false)));
 				width = width / 4;
 				height = height / 5;
 				loadGraphic(Paths.image('pixelUI/' + NoteSkin.noteSkinFile(false)), true, Math.floor(width), Math.floor(height));
 			} else {
+				trace('pixel noteskin not founded');
 				loadGraphic(Paths.image('pixelUI/NOTE_assets'));
 				width = width / 4;
 				height = height / 5;
