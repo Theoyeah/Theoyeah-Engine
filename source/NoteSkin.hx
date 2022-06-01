@@ -19,6 +19,8 @@ class NoteSkin
 		}
 		return skin;
 	}
+	
+	var noteSkinB:Void->String = function() return noteSkin();
 
 	public static var noteSkinPlay:Bool = if((noteSkin().length > 0 || noteSkin() != null) && noteSkin() != PlayState.SONG.arrowSkin) true else false;
 
