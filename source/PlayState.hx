@@ -4406,6 +4406,8 @@ class PlayState extends MusicBeatState
 
 	function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
 	{
+		if(ClientPrefs.ghostTapping) return;
+
 		if (!boyfriend.stunned)
 		{
 			health -= 0.05 * healthLoss;
@@ -4415,7 +4417,6 @@ class PlayState extends MusicBeatState
 				doDeathCheck(true);
 			}
 
-			if(ClientPrefs.ghostTapping) return;
 
 			if (combo > 5 && gf != null && gf.animOffsets.exists('sad'))
 			{
@@ -4424,9 +4425,8 @@ class PlayState extends MusicBeatState
 			combo = 0;
 
 			if(!practiceMode) songScore -= 10;
-			if(!endingSong) {
+			if(!endingSong)
 				songMisses++;
-			}
 			totalPlayed++;
 			RecalculateRating();
 
@@ -4580,27 +4580,27 @@ class PlayState extends MusicBeatState
 					case 0:
 						animToPlay = 'singLEFT';
 						if(ClientPrefs.camfollow)
-					{
-						camFollow.x -= 20;
-					}
+						{
+							camFollow.x -= 20;
+						}
 					case 1:
 						animToPlay = 'singDOWN';
 						if(ClientPrefs.camfollow)
-							{
-								camFollow.y += 20;
-							}
+						{
+							camFollow.y += 20;
+						}
 					case 2:
 						animToPlay = 'singUP';
 						if(ClientPrefs.camfollow)
-							{
-								camFollow.y -= 20;
-							}
+						{
+							camFollow.y -= 20;
+						}
 					case 3:
 						animToPlay = 'singRIGHT';
 						if(ClientPrefs.camfollow)
-							{
-								camFollow.x += 20;
-							}
+						{
+							camFollow.x += 20;
+						}
 				}
 	
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
@@ -5169,10 +5169,9 @@ class PlayState extends MusicBeatState
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
-		if (ClientPrefs.crazycounter) {
+		if (ClientPrefs.crazycounter)
 			judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
-	        }
-		    }
+	}
 
 	#if ACHIEVEMENTS_ALLOWED
 	private function checkForAchievement(achievesToCheck:Array<String> = null):String
