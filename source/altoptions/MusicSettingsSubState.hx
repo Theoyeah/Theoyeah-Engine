@@ -73,15 +73,7 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 1.6;
 		option.minValue = 0.0;
 		option.maxValue = 1;
-		if(FlxG.keys.pressed.SHIFT) {
-			if(ClientPrefs.multiplicativeValue > 0) {
-				option.changeValue = ClientPrefs.multiplicativeValue;
-			} else {
-				option.changeValue = 0.5;
-			}
-		} else {
-			option.changeValue = 0.1;
-		}
+		option.changeValue = 0.1;
 		option.decimals = 1;
 		
 

@@ -64,6 +64,8 @@ class EditorPlayState extends MusicBeatState
 
 	override function create()
 	{
+		FlxG.mouse.visible = false;
+
 		instance = this;
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
