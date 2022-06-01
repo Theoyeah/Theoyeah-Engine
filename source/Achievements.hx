@@ -11,29 +11,29 @@ using StringTools;
 
 class Achievements {
 	public static var achievementsStuff:Array<Dynamic> = [ //Name, Description, Achievement save tag, Hidden achievement
-		["Freaky on a Friday Night",	"Play on a Friday... Night.",						'friday_night_play',	 true],
-		["She Calls Me Daddy Too",		"Beat Week 1 with no Misses.",				'week1_nomiss',			false],
+		["Freaky on a Friday Night",	"Play on a Friday... Night.",						'friday_night_play',		true],
+		["She Calls Me Daddy Too",		"Beat Week 1 with no Misses.",					'week1_nomiss',			false],
 		["No More Tricks",				"Beat Week 2 with no Misses.",				'week2_nomiss',			false],
-		["Call Me The Hitman",			"Beat Week 3 with no Misses.",				'week3_nomiss',			false],
+		["Call Me The Hitman",			"Beat Week 3 with no Misses.",					'week3_nomiss',			false],
 		["Lady Killer",					"Beat Week 4 with no Misses.",				'week4_nomiss',			false],
-		["Missless Christmas",			"Beat Week 5 with no Misses.",				'week5_nomiss',			false],
+		["Missless Christmas",			"Beat Week 5 with no Misses.",					'week5_nomiss',			false],
 		["Highscore!!",					"Beat Week 6 with no Misses.",				'week6_nomiss',			false],
-		["God Effing Damn It!",		"Beat Week 7 with no Misses.",				'week7_nomiss',			 false], 
-		["What a Funkin' Disaster!",	"Complete a Song with a rating lower than 20%.",	'ur_bad',				false],
-		["Perfectionist",			   	  "Complete a Song with a rating of 100%.",			'ur_good',				false],
-		["Roadkill Enthusiast",		 "Watch the Henchmen die over 100 times.",			'roadkill_enthusiast',	false],
-		["Oversinging Much...?",   "Hold down a note for 10 seconds.",					'oversinging',			false],
-		["Hyperactive",					"Finish a Song without going Idle.",				'hype',					false],
-		["Just the Two of Us",		 "Finish a Song pressing only two keys.",			'two_keys',				false],
-		["Toaster Gamer",			  "Have you tried to run the game on a toaster?",		'toastie',				false],
-		["Debugger",					"Beat the \"Test\" Stage from the Chart Editor.",	'debugger',				 true],
-		["Not Freaky on a Friday Night",	"Play on a Saturday... Night ? \n Bro itz Saturday ",						'saturday_night_play',	 true]
+		["God Effing Damn It!",		"Beat Week 7 with no Misses.",						'week7_nomiss',			false], 
+		["What a Funkin' Disaster!",	"Complete a Song with a rating lower than 20%.",			'ur_bad',			false],
+		["Perfectionist",			   	  "Complete a Song with a rating of 100%.",		'ur_good',			false],
+		["Roadkill Enthusiast",		 "Watch the Henchmen die over 100 times.",				'roadkill_enthusiast',		false],
+		["Oversinging Much...?",   "Hold down a note for 10 seconds.",						'oversinging',			false],
+		["Hyperactive",					"Finish a Song without going Idle.",			'hype',				false],
+		["Just the Two of Us",		 "Finish a Song pressing only two keys.",				'two_keys',			false],
+		["Toaster Gamer",			  "Have you tried to run the game on a toaster?",		'toastie',			false],
+		["Debugger",					"Beat the \"Test\" Stage from the Chart Editor.",	'debugger',			true],
+		["Not Freaky on a Friday Night",	"Play on a Saturday... Night ? \n Bro itz Saturday ",		'saturday_night_play',	 	true]
 	];
 	public static var achievementsMap:Map<String, Bool> = new Map<String, Bool>();
 
 	public static var henchmenDeath:Int = 0;
 	public static function unlockAchievement(name:String):Void {
-		FlxG.log.add('Completed achievement "' + name +'"');
+		FlxG.log.add('Completed achievement "$name"');
 		achievementsMap.set(name, true);
 		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 	}
@@ -47,10 +47,8 @@ class Achievements {
 
 	public static function getAchievementIndex(name:String) {
 		for (i in 0...achievementsStuff.length) {
-			if(achievementsStuff[i][2] != null) {
-				if(achievementsStuff[i][2] == name) {
-					return i;
-				}
+			if(achievementsStuff[i][2] == name) {
+				return i;
 			}
 		}
 		return -1;
@@ -106,11 +104,15 @@ class AttachedAchievement extends FlxSprite {
 
 	public function reloadAchievementImage() {
 		if(Achievements.isAchievementUnlocked(tag)) {
-				//if(Paths.fileExists('achievements/' + tag + '.png', IMAGE))
-					loadGraphic(Paths.image('achievements/' + tag));
-				//else
-					//loadGraphic(Paths.image('achievements/blank'));
+			var tag_:String = tag.replace("_", " ");
+			if(Paths.fileExists('achievements/$tag.png', IMAGE)) {
+				loadGraphic(Paths.image('achievements/$tag'));
+			} else if(Paths.fileExists('achievements/$tag_.png', IMAGE)) {
+				loadGraphic(Paths.image('achievements/$tag_'));
 			} else {
+				loadGraphic(Paths.image('achievements/blank'));
+			}
+		} else {
 			loadGraphic(Paths.image('lockedachievement'));
 		}
 		scale.set(0.7, 0.7);
