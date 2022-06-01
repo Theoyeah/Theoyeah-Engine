@@ -601,28 +601,14 @@ class ChartingState extends MusicBeatState
 		clear_notes.color = FlxColor.RED;
 		clear_notes.label.color = FlxColor.WHITE;
 
-		// here comes big things
-		var changeeValue = if(ClientPrefs.multiplicativeValue > 0) {
-			ClientPrefs.multiplicativeValue;
-		} else {
-			1;
-		}
 
-		var stepperBPM:FlxUINumericStepper = if(FlxG.keys.pressed.SHIFT) {
-			new FlxUINumericStepper(10, 70, changeeValue, 1, 1, maxBpm, 1);
-		} else {
-			new FlxUINumericStepper(10, 70, 1, 1, 1, maxBpm, 1);
-		}
+		var stepperBPM:FlxUINumericStepper = new FlxUINumericStepper(10, 70, 1, 1, 1, maxBpm, 1);
 		stepperBPM.value = Conductor.bpm;
 		stepperBPM.name = 'song_bpm';
 		blockPressWhileTypingOnStepper.push(stepperBPM);
 
 
-		var stepperSpeed:FlxUINumericStepper = if(FlxG.keys.pressed.SHIFT) {
-			new FlxUINumericStepper(10, stepperBPM.y + 35, changeeValue, 1, 0.1, maxScrollSpeed, 1);
-		} else {
-			new FlxUINumericStepper(10, stepperBPM.y + 35, 0.1, 1, 0.1, maxScrollSpeed, 1);
-		}
+		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, stepperBPM.y + 35, 0.1, 1, 0.1, maxScrollSpeed, 1);
 		stepperSpeed.value = _song.speed;
 		stepperSpeed.name = 'song_speed';
 		blockPressWhileTypingOnStepper.push(stepperSpeed);

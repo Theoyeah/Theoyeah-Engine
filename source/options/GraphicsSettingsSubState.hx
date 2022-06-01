@@ -83,6 +83,13 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			true); 
 		addOption(option);
 
+		var option:Option = new Option('Auto Pause', 
+		'If enabled, will pause when the app is unfocused.', 
+		'autoPause', 
+		'bool', 
+		true); 
+	addOption(option);
+
 		super();
 	}
 
