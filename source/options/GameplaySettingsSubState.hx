@@ -81,7 +81,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
-
+		var option:Option = new Option('Hide Opponent Notes',
+		'If unchecked, opponent notes get hidden.',
+		'opponentStrums',
+		'bool',
+		false);
+	    addOption(option);
+		
 		var option:Option = new Option('Rating Offset',
 			'Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.',
 			'ratingOffset',
@@ -149,6 +155,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 10;
 		option.changeValue = 0.1;
 		addOption(option);
+		
 
 
 

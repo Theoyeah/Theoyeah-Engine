@@ -13,6 +13,7 @@ class ClientPrefs {
 	public static var flashing:Bool = true;
 	public static var iconBounce:String = 'Default';
 	public static var globalAntialiasing:Bool = true;
+	public static var opponentStrums:Bool = false;
 	public static var noteSplashes:String = 'Normal';
 	public static var lowQuality:Bool = false;
 	public static var framerate:Int = 60;
@@ -140,6 +141,7 @@ class ClientPrefs {
 		FlxG.save.data.introbg = introbg;
 		FlxG.save.data.noReset = noReset;
 		FlxG.save.data.noscore = noscore;
+		FlxG.save.data.opponentStrums = opponentStrums;
 		FlxG.save.data.noteskin = noteskin;
 		FlxG.save.data.camfollow = camfollow;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
@@ -195,6 +197,12 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.iconBounce != null) {
 			iconBounce = FlxG.save.data.iconBounce;
+		}
+		if(FlxG.save.data.musicSelected != null) {
+			musicSelected = FlxG.save.data.musicSelected;
+		}
+		if(FlxG.save.data.opponentStrums != null) {
+			opponentStrums = FlxG.save.data.opponentStrums;
 		}
 		if(FlxG.save.data.showFPS != null) {
 			showFPS = FlxG.save.data.showFPS;

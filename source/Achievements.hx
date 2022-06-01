@@ -1,3 +1,4 @@
+import flixel.graphics.FlxGraphic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
@@ -6,6 +7,13 @@ import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
+#if MODS_ALLOWED
+import sys.FileSystem;
+import sys.io.File;
+#end
+import haxe.Json;
+import lime.utils.Assets;
+import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
 
@@ -27,7 +35,7 @@ class Achievements {
 		["Just the Two of Us",		 "Finish a Song pressing only two keys.",				'two_keys',			false],
 		["Toaster Gamer",			  "Have you tried to run the game on a toaster?",		'toastie',			false],
 		["Debugger",					"Beat the \"Test\" Stage from the Chart Editor.",	'debugger',			true],
-		["Not Freaky on a Friday Night",	"Play on a Saturday... Night ? \n Bro itz Saturday ",		'saturday_night_play',	 	true]
+		["Not Freaky on a Friday Night",	"Play on a Saturday... Night ?",		'saturday_night_play',	 	true]
 	];
 	public static var achievementsMap:Map<String, Bool> = new Map<String, Bool>();
 
@@ -83,15 +91,10 @@ class AttachedAchievement extends FlxSprite {
 
 	public function reloadAchievementImage() {
 		if(Achievements.isAchievementUnlocked(tag)) {
-			var tag_:String = tag.replace("_", " ");
-			if(Paths.fileExists('achievements/$tag.png', IMAGE))
-				loadGraphic(Paths.image('achievements/$tag'));
-			else if(Paths.fileExists('achievements/$tag_.png', IMAGE))
-				loadGraphic(Paths.image('achievements/$tag_'));
-			else
-				loadGraphic(Paths.image('achievements/blank'));
-		} else
-			loadGraphic(Paths.image('lockedachievement'));
+			loadGraphic(Paths.image('achievements/' + tag));
+		} else {
+			loadGraphic(Paths.image('achievements/lockedachievement'));
+		}
 
 		scale.set(0.7, 0.7);
 		updateHitbox();
