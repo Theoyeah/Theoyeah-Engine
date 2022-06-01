@@ -448,17 +448,26 @@ class ChartingState extends MusicBeatState
 		{
 			
 			var songName:String = Paths.formatToSongPath(_song.song);
+			var fileDifficulty:String = Paths.json('$songName/events-' + CoolUtil.difficulties[PlayState.storyDifficulty]);
 			var file:String = Paths.json(songName + '/events');
 			#if sys
-			if (#if MODS_ALLOWED FileSystem.exists(Paths.modsJson(songName + '/events')) || #end FileSystem.exists(file))
-			#else
-			if (OpenFlAssets.exists(file))
-			#end
-			{
+			if(#if MODS_ALLOWED FileSystem.exists(Paths.modsJson('$songName/events-' + CoolUtil.difficulties[PlayState.storyDifficulty])) || #end FileSystem.exists(fileDifficulty))
+			{//CoolUtil.difficulties[PlayState.storyDifficulty];
 				clearEvents();
-				var events:SwagSong = Song.loadFromJson('events', songName);
+				var events:SwagSong = Song.loadFromJson('events-' + CoolUtil.difficulties[PlayState.storyDifficulty], songName);
 				_song.events = events.events;
 				changeSection(curSection);
+			} else {
+				if (#if MODS_ALLOWED FileSystem.exists(Paths.modsJson(songName + '/events')) || #end FileSystem.exists(file))
+			#else
+				if (OpenFlAssets.exists(file))
+				#end
+				{
+					clearEvents();
+					var events:SwagSong = Song.loadFromJson('events', songName);
+					_song.events = events.events;
+					changeSection(curSection);
+				}
 			}
 		});
 
