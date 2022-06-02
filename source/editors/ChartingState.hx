@@ -521,12 +521,12 @@ class ChartingState extends MusicBeatState
 		var loadEventJson:FlxButton = if(language == 'spanish')
 			new FlxButton(loadAutosaveBtn.x, loadAutosaveBtn.y + 30, 'Cargar Eventos', function()
 			{
-        loadEvents();
+				loadEvents();
 			})
 		else
 			new FlxButton(loadAutosaveBtn.x, loadAutosaveBtn.y + 30, 'Load Events', function()
 			{
-        loadEvents();
+				loadEvents();
 			});
 
 		var saveEvents:FlxButton = if(language == 'spanish')
