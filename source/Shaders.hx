@@ -2,25 +2,16 @@ package;
 
 // STOLEN FROM HAXEFLIXEL DEMO AND FROM PSYCH ENGINE 0.5.1 WITH SHADERS LOL
 import flixel.system.FlxAssets.FlxShader;
-import flixel.util.FlxColor;
 import openfl.display.BitmapData;
 import openfl.display.Shader;
 import openfl.display.ShaderInput;
 import openfl.utils.Assets;
 import flixel.FlxG;
 import openfl.Lib;
-
 using StringTools;
-
 typedef ShaderEffect = {
   var shader:Dynamic;
 }
-
-typedef BlendModeShader =
-{
-var uBlendColor(get, set):Array<Float>;
-}
-
 
 class BuildingEffect {
 	public var shader:BuildingShader = new BuildingShader();
@@ -55,383 +46,6 @@ class BuildingShader extends FlxShader
   {
     super();
   }
-}
-
-class ColorReplacementShader extends FlxShader //stoled from github gits
-{
-    @:glFragmentSource('
-        #pragma header
-
-		uniform float uMix;
-        uniform vec4 color;
-		
-        void main()
-        {
-            vec4 sample = flixel_texture2D(bitmap, openfl_TextureCoordv);
-            gl_FragColor = mix(sample, color, uMix * sample.a);
-        }'
-    )
-
-    public function new(color:FlxColor = 0xFFFFFFFF)
-    {
-        super();
-        this.color.value = [color.redFloat, color.greenFloat, color.blueFloat, color.alphaFloat];
-    }
-}
-
-class BlendModeEffect
-{
-	public var shader(default, null):BlendModeShader;
-
-	@:isVar
-	public var color(default, set):FlxColor;
-
-	public function new(shader:BlendModeShader, color:FlxColor):Void
-	{
-		this.shader = shader;
-		this.color = color;
-	}
-
-	function set_color(color:FlxColor):FlxColor
-	{
-		shader.uBlendColor[0] = color.redFloat;
-		shader.uBlendColor[1] = color.greenFloat;
-		shader.uBlendColor[2] = color.blueFloat;
-		shader.uBlendColor[3] = color.alphaFloat;
-
-		return this.color = color;
-	}
-}
-
-class OutlineShader extends FlxShader // also this!
-{
-	@:glFragmentSource('
-        #pragma header
-
-        uniform vec2 size;
-        uniform vec4 color;
-
-        void main()
-        {
-            vec4 sample = flixel_texture2D(bitmap, openfl_TextureCoordv);
-            if (sample.a == 0.) {
-                float w = size.x / openfl_TextureSize.x;
-                float h = size.y / openfl_TextureSize.y;
-                
-                if (flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x + w, openfl_TextureCoordv.y)).a != 0.
-                || flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x - w, openfl_TextureCoordv.y)).a != 0.
-                || flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x, openfl_TextureCoordv.y + h)).a != 0.
-                || flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x, openfl_TextureCoordv.y - h)).a != 0.)
-                    sample = color;
-            }
-            gl_FragColor = sample;
-        }')
-
-	public function new(color:FlxColor = 0xFFFFFFFF, width:Float = 1, height:Float = 1)
-	{
-		super();
-		this.color.value = [color.red, color.green, color.blue, color.alpha];
-		this.size.value = [width, height];
-	}
-}
-
-class ShutterEffect
-{
-	public static inline var SHUTTER_TARGET_FLXSPRITE:Int = 0;
-	public static inline var SHUTTER_TARGET_FLXCAMERA:Int = 1;
-
-	public var shutterTargetMode(default, set):Int = 0;
-
-	/**
-	 * The instance of the actual shader class
-	 */
-	public var shader(default, null):ShutterShader;
-
-	/**
-	 * Size of the circle or "shutter"
-	 */
-	public var radius(default, set):Float;
-
-	/**
-	 * Center point of the "shutter"
-	 */
-	public var shutterCenterX(default, set):Float;
-
-	public var shutterCenterY(default, set):Float;
-
-	public var isActive(default, set):Bool;
-
-	public function new():Void
-	{
-		shader = new ShutterShader();
-		setResolution();
-		isActive = true;
-		shutterCenterX = FlxG.width * .5;
-		shutterCenterY = FlxG.height * .5;
-		shutterTargetMode = SHUTTER_TARGET_FLXSPRITE;
-		radius = 0;
-	}
-
-	function setResolution():Void
-	{
-		shader.uResolution[0] = FlxG.width;
-		shader.uResolution[1] = FlxG.height;
-	}
-
-	function set_shutterTargetMode(v:Int):Int
-	{
-		shutterTargetMode = v;
-		shader.shutterTargetMode = shutterTargetMode;
-		return v;
-	}
-
-	function set_isActive(v:Bool):Bool
-	{
-		isActive = v;
-		shader.shaderIsActive = isActive;
-		return v;
-	}
-
-	function set_radius(v:Float):Float
-	{
-		radius = (v <= 0.0 ? 0.0 : v);
-		shader.uCircleRadius = radius;
-		return v;
-	}
-
-	function set_shutterCenterX(v:Float):Float
-	{
-		shutterCenterX = v;
-		shader.centerPtX = v;
-		return v;
-	}
-
-	function set_shutterCenterY(v:Float):Float
-	{
-		shutterCenterY = v;
-		shader.centerPtY = v;
-		return v;
-	}
-}
-
-class ColorBurnShader extends Shader
-{
-	@fragment var code = '
-		uniform vec4 uBlendColor;
-		
-		float applyColorBurnToChannel(float base, float blend)
-		{
-			return ((blend == 0.0) ? blend : max((1.0 - ((1.0 - base) / blend)), 0.0));
-		}
-		
-		vec4 blendColorBurn(vec4 base, vec4 blend)
-		{
-			return vec4(
-				applyColorBurnToChannel(base.r, blend.r),
-				applyColorBurnToChannel(base.g, blend.g),
-				applyColorBurnToChannel(base.b, blend.b),
-				applyColorBurnToChannel(base.a, blend.a)
-			);
-		}
-		
-		vec4 blendColorBurn(vec4 base, vec4 blend, float opacity)
-		{
-			return (blendColorBurn(base, blend) * opacity + base * (1.0 - opacity));
-		}
-		
-		void main()
-		{
-			vec4 base = texture2D(${Shader.uSampler}, ${Shader.vTexCoord});
-			gl_FragColor = blendColorBurn(base, uBlendColor, uBlendColor[3]);
-		}';
-
-	public function new()
-	{
-		super();
-	}
-}
-
-class ShutterShader extends Shader
-{
-	@fragment var code = '
-		#ifdef GL_ES
-			precision mediump float;
-		#endif
-
-		const int SHUTTER_TARGET_FLXSPRITE = 0;
-		const int SHUTTER_TARGET_FLXCAMERA = 1;
-		const float scale = 1.0;
-
-		uniform vec2 uResolution;
-		uniform float centerPtX;
-		uniform float centerPtY;
-		uniform float uCircleRadius;
-		uniform int shutterTargetMode;
-		uniform bool shaderIsActive;
-
-		vec2 getCoordinates()
-		{
-			return vec2(
-				(${Shader.vTexCoord}.x * uResolution.x) / scale,
-				(${Shader.vTexCoord}.y * uResolution.y) / scale
-			);
-		}
-
-		float getDist(vec2 pt1, vec2 pt2)
-		{
-			float dx = pt1.x - pt2.x;
-			float dy = pt1.y - pt2.y;
-
-			return sqrt(
-				(dx*dx) + (dy*dy)
-			);
-		}
-
-		void main()
-		{
-			if (!shaderIsActive)
-			{
-				gl_FragColor = texture2D(${Shader.uSampler}, ${Shader.vTexCoord});
-				return;
-			}
-
-			vec2 centerPt = vec2(centerPtX, centerPtY);
-
-			if (uCircleRadius <= 0.0 || getDist(getCoordinates(), centerPt) > uCircleRadius)
-			{
-				gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-			}
-			else
-			{
-				/* If this shader is used on a FlxCamera, uncomment the line below to
-				draw the underlying pixels inside the shutter (as they would look normally).
-
-				If using this shader on a FlxSprite, keep the line below commented out, to
-				draw transparency inside the shutter */
-
-				if (shutterTargetMode == SHUTTER_TARGET_FLXCAMERA)
-				{
-					gl_FragColor = texture2D(${Shader.uSampler}, ${Shader.vTexCoord});
-				}
-			}
-		}';
-
-	public function new()
-	{
-		super();
-	}
-}
-
-class ColorSwapEffect
-{
-	/**
-	 * The instance of the actual shader class
-	 */
-	public var shader(default, null):ColorSwapShader;
-
-	/**
-	 * The color to replace with another
-	 */
-	public var colorToReplace(default, set):FlxColor;
-
-	/**
-	 * The desired new color
-	 */
-	public var newColor(default, set):FlxColor;
-
-	/**
-	 * Activates/Deactivates the shader
-	 */
-	public var isShaderActive(default, set):Bool;
-
-	public function new():Void
-	{
-		shader = new ColorSwapShader();
-		shader.shaderIsActive = true;
-	}
-
-	function set_isShaderActive(value:Bool):Bool
-	{
-		isShaderActive = value;
-		shader.shaderIsActive = value;
-		return value;
-	}
-
-	function set_colorToReplace(color:FlxColor):FlxColor
-	{
-		colorToReplace = color;
-
-		shader.colorOld[0] = color.red;
-		shader.colorOld[1] = color.green;
-		shader.colorOld[2] = color.blue;
-
-		return color;
-	}
-
-	function set_newColor(color:FlxColor):FlxColor
-	{
-		newColor = color;
-
-		shader.colorNew[0] = color.red;
-		shader.colorNew[1] = color.green;
-		shader.colorNew[2] = color.blue;
-
-		return color;
-	}
-}
-
-class ColorSwapShader extends Shader
-{
-	@fragment var code = '
-		uniform vec3 colorOld;
-		uniform vec3 colorNew;
-		uniform bool shaderIsActive;
-
-		/**
-		 * Helper method that normalizes an RGB value (in the 0-255 range) to a value between 0-1.
-		 */
-		vec3 normalizeColor(vec3 color)
-		{
-			return vec3(
-				color[0] / 255.0,
-				color[1] / 255.0,
-				color[2] / 255.0
-			);
-		}
-
-		void main()
-		{
-			vec4 pixel = texture2D(${Shader.uSampler}, ${Shader.vTexCoord});
-
-			if (!shaderIsActive)
-			{
-				gl_FragColor = pixel;
-				return;
-			}
-
-			/**
-			 * Used to create some leeway when comparing the colors.
-			 * Smaller values = smaller leeway.
-			 */
-			vec3 eps = vec3(0.009, 0.009, 0.009);
-
-			vec3 colorOldNormalized = normalizeColor(colorOld);
-			vec3 colorNewNormalized = normalizeColor(colorNew);
-
-			if (all(greaterThanEqual(pixel, vec4(colorOldNormalized - eps, 1.0)) ) &&
-				all(lessThanEqual(pixel, vec4(colorOldNormalized + eps, 1.0)) )
-			)
-			{
-				pixel = vec4(colorNewNormalized, 1.0);
-			}
-
-			gl_FragColor = pixel;
-		}';
-
-	public function new()
-	{
-		super();
-	}
 }
 
 class ChromaticAberrationShader extends FlxShader
@@ -1007,7 +621,7 @@ class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ld
 
 
 
-class ThreeDEffect extends Effect {
+class ThreeDEffect extends Effect{
 	
 	public var shader:ThreeDShader = new ThreeDShader();
 	public function new(xrotation:Float = 0, yrotation:Float = 0, zrotation:Float = 0, depth:Float = 0){
@@ -1522,8 +1136,8 @@ class PulseEffect extends Effect
 
 class InvertColorsEffect extends Effect
 {
-    public var shader:InvertShader = new InvertShader();
-	public function new(lockAlpha) {
+  public var shader:InvertShader = new InvertShader();
+  public function new(lockAlpha) {
 	//	shader.lockAlpha.value = [lockAlpha];
 	}
 
@@ -1709,7 +1323,7 @@ class PulseShader extends FlxShader
 
     public function new()
     {
-       super();
+	    super();
     }
 }
 
