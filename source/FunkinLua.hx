@@ -1888,7 +1888,6 @@ class FunkinLua {
 		#end
 		}
 	}
-}
 
 	public static function setVarInArray(instance:Dynamic, variable:String, value:Dynamic):Any
 	{
