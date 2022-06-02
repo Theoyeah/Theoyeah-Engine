@@ -4583,20 +4583,23 @@ class PlayState extends MusicBeatState
  						PlayState.instance.practiceMode = true;
 						endSong();
 						//English
-						lime.app.Application.current.window.alert( 'Oops ! You pressed a crash note !!!');
-						//Francais
-						lime.app.Application.current.window.alert( 'Oups ! Tu a cliqué une note Crash !!!');
+						if(ClientPrefs.language == 'Francais')
+							lime.app.Application.current.window.alert( 'Oups ! Tu a cliqué une note Crash !!!');
+						else if(ClientPrefs.language == 'Spanish')
+							lime.app.Application.current.window.alert( '¡Oops! ¡¡¡Has pulsado una Nota Crash!!!');
+						else
+							lime.app.Application.current.window.alert( 'Oops ! You pressed a crash note !!!');
 					 	{
  							System.exit(0);
  						}; //tes
 
-
-					case 'Window Note' | 'Nota Window': 
-					 	FlxG.sound.play(Paths.sound('windowsError'), 1);
+					case 'Window Note' | 'Nota Window':
+						FlxG.sound.play(Paths.sound('windowsError'), 1);
 						//English
-						lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');	
-						//Francais
-						lime.app.Application.current.window.alert( 'Truc Embêtant:\nTu as cliqué une note Window !');	
+						if(ClientPrefs.language == 'Francais')
+							lime.app.Application.current.window.alert( 'Truc Embêtant:\nTu as cliqué une note Window !');
+						else
+							lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');	
 						
 					case 'Poisoned Note' | 'Nota Envenenada':
 						new FlxTimer().start(1.3, function(tmr:FlxTimer) //i dont know how this works
@@ -5226,19 +5229,23 @@ class PlayState extends MusicBeatState
 			if (goods > 0) ratingFC = "GFC";
 			if (bads > 0 || shits > 0) ratingFC = "FC";
 			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
-			else if (songMisses >= 10) ratingFC = "Clear";
+			else if (songMisses >= 10) if(ClientPrefs.language == 'Spanish') 
+				ratingFC = 'Limpio'
+			else
+				ratingFC = "Clear";
 		}
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
 
 		if (ClientPrefs.crazycounter) {
-			if(ClientPrefs.language.toLowerCase() == "english") {
-				judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
-			} else if(ClientPrefs.language.toLowerCase() == "francais") {
+			if(ClientPrefs.language == 'Spanish')
+				judgementCounter.text = 'Maravillosos: ${marvelous}\nGeniales: ${sicks}\nBien: ${goods}\nMal: ${bads}\nMierdas: ${shits}\n';
+			else if(ClientPrefs.language.toLowerCase() == "francais")
 				judgementCounter.text = 'Merveilleux: ${marvelous}\nGénials: ${sicks}\nCools: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}\n';
-			}
-    }
+			else
+				judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
+		}
 	}
 
 	#if ACHIEVEMENTS_ALLOWED
