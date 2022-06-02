@@ -135,7 +135,11 @@ class Paths
 			var levelPath:String = '';
 			if(currentLevel != 'shared') {
 				levelPath = getLibraryPathForce(file, currentLevel);
+				/*#if sys
+				if(FileSystem.exists(levelPath, type))
+				#else*/
 				if (OpenFlAssets.exists(levelPath, type))
+				//#end
 					return levelPath;
 			}
 
@@ -414,15 +418,15 @@ class Paths
 	
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '') {
-		return 'mods/' + key;
+		return 'mods/$key';
 	}
 
 	inline static public function currentModImages(key:String) {
 		var img:String = if(StringTools.contains(key, '.png')) key else key + '.png';
 		if(currentModDirectory == '') {
-			return 'mods/images/' + img;
+			return 'mods/images/$img';
 		}
-		return "mods/" + currentModDirectory + "/images/" + img;
+		return 'mods/$currentModDirectory/images/$img';
 	}
 	#if LUA_ALLOWED
 	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false) {
@@ -440,43 +444,43 @@ class Paths
 	}
 	#end
 	inline static public function modsFont(key:String) {
-		return modFolders('fonts/' + key);
+		return modFolders('fonts/$key');
 	}
 
 	inline static public function modsJson(key:String) {
-		return modFolders('data/' + key + '.json');
+		return modFolders('data/$key.json');
 	}
 
 	inline static public function modsVideo(key:String) {
-		return modFolders('videos/' + key + '.' + VIDEO_EXT);
+		return modFolders('videos/$key.$VIDEO_EXT');
 	}
 
 	inline static public function modsSounds(path:String, key:String) {
-		return modFolders(path + '/' + key + '.' + SOUND_EXT);
+		return modFolders('$path/$key.$SOUND_EXT');
 	}
 
 	inline static public function modsImages(key:String) {
-		return modFolders('images/' + key + '.png');
+		return modFolders('images/$key.png');
 	}
 
 	inline static public function modsXml(key:String) {
-		return modFolders('images/' + key + '.xml');
+		return modFolders('images/$key.xml');
 	}
 
 	inline static public function modsTxt(key:String) {
-		return modFolders('images/' + key + '.txt');
+		return modFolders('images/$key.txt');
 	}
 
 	inline static public function modsShaderFragment(key:String, ?library:String)
 	{
-		return modFolders('shaders/' + key + '.frag');
+		return modFolders('shaders/$key.frag');
 	}
 	inline static public function modsShaderVertex(key:String, ?library:String)
 	{
-		return modFolders('shaders/' + key + '.vert');
+		return modFolders('shaders/$key.vert');
 	}
 	inline static public function modsAchievements(key:String) {
-		return modFolders('achievements/' + key + '.json');
+		return modFolders('achievements/$key.json');
 	}
 
 	static public function modFolders(key:String) {
@@ -486,7 +490,7 @@ class Paths
 				return fileToCheck;
 			}
 		}
-		return 'mods/' + key;
+		return 'mods/$key';
 	}
 	static public function getModDirectories():Array<String> {
 		var list:Array<String> = [];

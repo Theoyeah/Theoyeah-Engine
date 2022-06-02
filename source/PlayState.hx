@@ -160,6 +160,7 @@ class PlayState extends MusicBeatState
 
 	public var gfSpeed:Int = 1;
 	public var health:Float = 1;
+	public var maxHealth:Float = 2;
 	public var combo:Int = 0;
 
 	private var healthBarBG:AttachedSprite;
@@ -321,26 +322,26 @@ class PlayState extends MusicBeatState
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_right'))
 		];
 
-//Ratings
-ratingsData.push(new Rating('sick')); //default rating
+		//Ratings
+		ratingsData.push(new Rating('sick')); //default rating
 
-var rating:Rating = new Rating('good');
-rating.ratingMod = 0.7;
-rating.score = 200;
-rating.noteSplash = false;
-ratingsData.push(rating);
+		var rating:Rating = new Rating('good');
+			rating.ratingMod = 0.7;
+			rating.score = 200;
+			rating.noteSplash = false;
+			ratingsData.push(rating);
 
-var rating:Rating = new Rating('bad');
-rating.ratingMod = 0.4;
-rating.score = 100;
-rating.noteSplash = false;
-ratingsData.push(rating);
+		var rating:Rating = new Rating('bad');
+			rating.ratingMod = 0.4;
+			rating.score = 100;
+			rating.noteSplash = false;
+			ratingsData.push(rating);
 
-var rating:Rating = new Rating('shit');
-rating.ratingMod = 0;
-rating.score = 50;
-rating.noteSplash = false;
-ratingsData.push(rating);
+		var rating:Rating = new Rating('shit');
+			rating.ratingMod = 0;
+			rating.score = 50;
+			rating.noteSplash = false;
+			ratingsData.push(rating);
 
 		// For the "Just the Two of Us" achievement
 		for (i in 0...keysArray.length)
@@ -3043,6 +3044,9 @@ ratingsData.push(rating);
 			healthDrain -= 0.0001;
 		}
 
+		if(health > maxHealth)
+			health = maxHealth;
+
 		if (iconP1.animation.frames == 3)
 		{
 			if (healthBar.percent < 20)
@@ -4598,27 +4602,19 @@ ratingsData.push(rating);
 					case 0:
 						animToPlay = 'singLEFT';
 						if(ClientPrefs.camfollow)
-						{
 							camFollow.x -= 20;
-						}
 					case 1:
 						animToPlay = 'singDOWN';
 						if(ClientPrefs.camfollow)
-						{
 							camFollow.y += 20;
-						}
 					case 2:
 						animToPlay = 'singUP';
 						if(ClientPrefs.camfollow)
-						{
 							camFollow.y -= 20;
-						}
 					case 3:
 						animToPlay = 'singRIGHT';
 						if(ClientPrefs.camfollow)
-						{
 							camFollow.x += 20;
-						}
 				}
 	
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
