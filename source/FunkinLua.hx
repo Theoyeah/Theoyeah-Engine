@@ -1845,6 +1845,21 @@ class FunkinLua {
 			PlayState.instance.addShaderToCamera(camera, new DistortBGEffect(waveSpeed, waveFrq, waveAmp));
 			
 		});
+		Lua_helper.add_callback(lua, "glitchEffect", function(camera:String,waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
+
+			PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));
+			
+		});
+		Lua_helper.add_callback(lua, "pulseEffect", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
+			
+			PlayState.instance.addShaderToCamera(camera, new PulseEffect(waveSpeed, waveFrq, waveAmp));
+			
+		});
+		Lua_helper.add_callback(lua, "distortBGEffect", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
+			
+			PlayState.instance.addShaderToCamera(camera, new DistortBGEffect(waveSpeed, waveFrq, waveAmp));
+			
+		});
 		Lua_helper.add_callback(lua, "invertColors", function(camera:String, lockAlpha:Bool=false) {
 			
 			PlayState.instance.addShaderToCamera(camera, new InvertColorsEffect(lockAlpha));
