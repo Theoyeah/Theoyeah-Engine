@@ -448,20 +448,7 @@ class ChartingState extends MusicBeatState
 
 		var loadEventJson:FlxButton = new FlxButton(loadAutosaveBtn.x, loadAutosaveBtn.y + 30, 'Load Events', function()
 		{
-			
-			var songName:String = Paths.formatToSongPath(_song.song);
-			var file:String = Paths.json(songName + '/events');
-			#if sys
-			if (#if MODS_ALLOWED FileSystem.exists(Paths.modsJson(songName + '/events')) || #end FileSystem.exists(file))
-			#else
-			if (OpenFlAssets.exists(file))
-			#end
-			{
-				clearEvents();
-				var events:SwagSong = Song.loadFromJson('events', songName);
-				_song.events = events.events;
-				changeSection(curSection);
-			}
+			loadEvents();
 		});
 
 		var saveEvents:FlxButton = new FlxButton(110, reloadSongJson.y, 'Save Events', function ()
@@ -1293,6 +1280,23 @@ class ChartingState extends MusicBeatState
 		tab_group_chart.add(playSoundBf);
 		tab_group_chart.add(playSoundDad);
 		UI_box.addGroup(tab_group_chart);
+	}
+
+	function loadEvents():Void
+	{
+		var songName:String = Paths.formatToSongPath(_song.song);
+		var file:String = Paths.json(songName + '/events');
+		#if sys
+		if (#if MODS_ALLOWED FileSystem.exists(Paths.modsJson(songName + '/events')) || #end FileSystem.exists(file))
+		#else
+		if (OpenFlAssets.exists(file))
+		#end
+		{
+			clearEvents();
+			var events:SwagSong = Song.loadFromJson('events', songName);
+			_song.events = events.events;
+			changeSection(curSection);
+		}
 	}
 
 	function loadSong():Void
