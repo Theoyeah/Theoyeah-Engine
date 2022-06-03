@@ -31,6 +31,8 @@ using StringTools;
 
 class GraphicsSettingsSubState extends BaseOptionsMenu
 {
+	var framerate:Null<Option> = null;
+
 	public function new()
 	{
 		title = 'Graphics';
@@ -54,17 +56,29 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		#if !html5 //Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
-		var option:Option = new Option('Framerate',
-			"Pretty self explanatory, isn't it?",
-			'framerate',
-			'int',
-			60);
-		addOption(option);
-
+		framerate = if(ClientPrefs.newFramerate)
+			new Option('Framerate',
+				   "Pretty self explanatory, isn't it?",
+				   'framerate',
+				   'int',
+			60) else
+				new Option('New Framerate',
+					   "Pretty self explanatory, isn't it?",
+					   'newFramerate',
+					   'int',
+				60);
+		addOption(framerate);
 		option.minValue = 60;
 		option.maxValue = 240;
 		option.displayFormat = '%v FPS';
 		option.onChange = onChangeFramerate;
+
+		var option:Option = new Option('New Framerate',
+			'If checked, the new framerate system will be added',
+			'newFramerate',
+			'bool',
+			true);
+		addOption(option);
 		#end
 
 		/*
@@ -93,6 +107,20 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		super();
 	}
 
+	function reloadFpsOption() {
+		framerate = if(ClientPrefs.newFramerate)
+			new Option('Framerate',
+				   "Pretty self explanatory, isn't it?",
+				   'framerate',
+				   'int',
+			60) else
+				new Option('New Framerate',
+					   "Pretty self explanatory, isn't it?",
+					   'newFramerate',
+					   'int',
+				60);
+	}
+
 	function onChangeAntiAliasing()
 	{
 		for (sprite in members)
@@ -107,15 +135,26 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 
 	function onChangeFramerate()
 	{
-		if(ClientPrefs.framerate > FlxG.drawFramerate)
-		{
-			FlxG.updateFramerate = ClientPrefs.framerate;
-			FlxG.drawFramerate = ClientPrefs.framerate;
+		if(!ClientPrefs.newFramerate) {
+			if(ClientPrefs.framerate > FlxG.drawFramerate)
+			{
+				FlxG.updateFramerate = ClientPrefs.framerate;
+				FlxG.drawFramerate = ClientPrefs.framerate;
+			}
+			else
+			{
+				FlxG.drawFramerate = ClientPrefs.framerate;
+				FlxG.updateFramerate = ClientPrefs.framerate;
+			}
+		} else {
+			var fps:Int = ClientPrefs.framerate;
+			var frame:Int = fps;
+			if(ClientPrefs.framerate > 100 && ClientPrefs.framerate < 120)
+				fps = frame / 2 - 20;
+			else if(ClientPrefs.framerate > 60 && ClientPrefs.framerate < 100)
+				fps = frame / 2;
+			ClientPrefs.newFramerate = fps;
 		}
-		else
-		{
-			FlxG.drawFramerate = ClientPrefs.framerate;
-			FlxG.updateFramerate = ClientPrefs.framerate;
-		}
+		reloadFpsOption();
 	}
 }
