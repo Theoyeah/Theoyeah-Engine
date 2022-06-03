@@ -1270,21 +1270,10 @@ class PlayState extends MusicBeatState
 		#end
 
 
-		if (healthDrain > 0 && health > 0.1)
+		if ((healthDrain > 0 && health > 0.1) || health > maxHealth)
 		{
-			if (health < 0.1)
-			{
-				health = 0.1;
-			}
-			health -= 0.001;
-			healthDrain -= 0.0001;
-			health = 0.1;
-			
-			health -= 0.001;
-			healthDrain -= 0.0001;
+			reloadHealth();
 		}
-		if(health > 1) // prevents having more health than default
-			health = 1;
 		
 		var daSong:String = Paths.formatToSongPath(curSong);
 		if (isStoryMode && !seenCutscene)
@@ -1406,6 +1395,27 @@ class PlayState extends MusicBeatState
 		CustomFadeTransition.nextCamera = camOther;
 	}
 
+	function reloadHealth()
+	{
+		if (healthDrain > 0 && health > 0.1)
+		{
+			if (health < 0.1)
+			{
+				health = 0.1;
+			}
+			health -= 0.001;
+			healthDrain -= 0.0001;
+			health = 0.1;
+			
+			health -= 0.001;
+			setOnLuas('healthDrain', healthDrain);
+		}
+
+		if(health > maxHealth) {
+			health = maxHealth;
+			setOnLuas('maxHealth', maxHealth);
+		}
+	}
 	function set_songSpeed(value:Float):Float
 	{
 		if(generatedMusic)
