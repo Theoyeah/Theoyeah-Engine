@@ -179,7 +179,7 @@ class Paths
 	}
 
 	inline public static function assets(key:String) {
-		return assets(key);
+		return 'assets/$key';
 	}
 	inline public static function getPreloadPath(file:String = '')
 	{
