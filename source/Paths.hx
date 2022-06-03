@@ -358,7 +358,7 @@ class Paths
 		#end
 
 		if(OpenFlAssets.exists(getPath(key, type))) {
-			here.push(getPath(key, type)));
+			here.push(getPath(key, type));
 			if(here.length > 0)
 				moreThanOne = true;
 		}
