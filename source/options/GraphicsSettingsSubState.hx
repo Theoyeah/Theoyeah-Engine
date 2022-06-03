@@ -75,7 +75,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 
 		var option:Option = new Option('New Framerate',
 			'If checked, the new framerate system will be added',
-			'newFramerate',
+			'newFramerateThing',
 			'bool',
 			true);
 		addOption(option);
@@ -135,7 +135,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 
 	function onChangeFramerate()
 	{
-		if(!ClientPrefs.newFramerate) {
+		if(!ClientPrefs.newFramerateThing) {
 			if(ClientPrefs.framerate > FlxG.drawFramerate)
 			{
 				FlxG.updateFramerate = ClientPrefs.framerate;
