@@ -17,6 +17,8 @@ class ClientPrefs {
 	public static var noteSplashes:String = 'Normal';
 	public static var lowQuality:Bool = false;
 	public static var framerate:Int = 60;
+	public static var newFramerate:Int = 120;
+	public static var newFramerateThing:Bool = false;
 	public static var cursing:Bool = true;
 	public static var violence:Bool = true;
 	public static var camZooms:Bool = true;
@@ -123,6 +125,8 @@ class ClientPrefs {
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.shaders = shaders;
 		FlxG.save.data.framerate = framerate;
+		FlxG.save.data.newFramerate = newFramerate;
+		FlxG.save.data.newFramerateThing = newFramerateThing;
 		FlxG.save.data.longhealthbar = longhealthbar;
 		FlxG.save.data.crazycounter = crazycounter;
 		//FlxG.save.data.cursing = cursing;
@@ -233,13 +237,13 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.framerate != null) {
 			framerate = FlxG.save.data.framerate;
-			if(framerate > FlxG.drawFramerate) {
-				FlxG.updateFramerate = framerate;
-				FlxG.drawFramerate = framerate;
-			} else {
-				FlxG.drawFramerate = framerate;
-				FlxG.updateFramerate = framerate;
-			}
+			GraphicsSettingsSubState.onChangeFramerate()
+		}
+		if(FlxG.save.data.newFramerate != null) {
+			newFramerate = FlxG.save.data.newFramerate;
+		}
+		if(FlxG.save.data.newFramerateThing != null) {
+			newFramerateThing = FlxG.save.data.newFramerateThing;
 		}
 		/*if(FlxG.save.data.multiplicativeValue != null) {
 			multiplicativeValue = FlxG.save.data.multiplicativeValue;
