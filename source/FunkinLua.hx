@@ -155,7 +155,7 @@ class FunkinLua {
 		set('rating', 0);
 		set('ratingName', '');
 		set('ratingFC', '');
-		set('maxHealth', PlayState.maxHealth);
+		set('maxHealth', 2);
 		set('version', MainMenuState.psychEngineVersion.trim());
 		
 		set('inGameOver', false);
