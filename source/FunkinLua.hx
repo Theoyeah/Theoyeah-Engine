@@ -461,7 +461,7 @@ class FunkinLua {
 			{
 				return getInstance().members.indexOf(leObj);
 			}
-			luaTrace("Object $obj doesn't exist!");
+			luaTrace('Object $obj doesnt exist!');
 			return -1;
 		});
 		Lua_helper.add_callback(lua, "setObjectOrder", function(obj:String, position:Int) {
@@ -1886,8 +1886,6 @@ class FunkinLua {
 		#else
 		trace("You have LUA disabled, so you can't access to LUA functions, sorry ;)");
 		#end
-		}
-	}
 
 	public static function setVarInArray(instance:Dynamic, variable:String, value:Dynamic):Any
 	{
