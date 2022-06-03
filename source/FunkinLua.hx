@@ -146,7 +146,9 @@ class FunkinLua {
 
 		// PlayState cringe ass nae nae bullcrap
 		set('curBeat', 0);
+		set('curbeat', 0);
 		set('curStep', 0);
+		set('curstep', 0);
 
 		set('score', 0);
 		set('misses', 0);
@@ -190,6 +192,7 @@ class FunkinLua {
 		set('bfName', PlayState.SONG.player1);
 		set('dadName', PlayState.SONG.player2);
 		set('gfName', PlayState.SONG.gfVersion);
+		set('gfVersion', PlayState.SONG.gfVersion);
 
 //______________ Some settings, no jokes _______________\\
 //______________ Scroll things _________________________\\
@@ -224,6 +227,7 @@ class FunkinLua {
 		set('noScore', ClientPrefs.noscore);
 		set('kadeTxt', ClientPrefs.kadetxt);
 		set('iconBounce', ClientPrefs.iconBounce);
+		set('noteSplashes', ClientPrefs.noteSplashes);
 		
 		// other things
 		set('mouseVisible', FlxG.mouse.visible);
