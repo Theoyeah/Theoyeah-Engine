@@ -75,6 +75,7 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		option.maxValue = 1;
 		option.changeValue = 0.1;
 		option.decimals = 1;
+		option.onChange = onChangeHitsoundVolume;
 		
 
 		var option:Option = new Option('Pause Screen Song:',
@@ -90,6 +91,11 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		super();
 	}
 
+	function onChangeHitsoundVolume()
+		{
+			FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
+		}
+		
 	var changedMusic:Bool = false;
 	function onChangePauseMusic()
 	{

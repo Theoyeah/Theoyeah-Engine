@@ -138,7 +138,11 @@ class Paths
 			var levelPath:String = '';
 			if(currentLevel != 'shared') {
 				levelPath = getLibraryPathForce(file, currentLevel);
+				/*#if sys
+				if(FileSystem.exists(levelPath, type))
+				#else*/
 				if (OpenFlAssets.exists(levelPath, type))
+				//#end
 					return levelPath;
 			}
 
@@ -472,7 +476,6 @@ class Paths
 
 	inline static public function modsJson(key:String, ?where:String = 'data') {
 		return modFolders('$where/$key.json');
-	}
 
 	inline static public function modsVideo(key:String) {
 		return modFolders('videos/$key.$VIDEO_EXT');
@@ -509,7 +512,7 @@ class Paths
 		return modFolders('shaders/$key.vert');
 	}
 	inline static public function modsAchievements(key:String) {
-		return modFolders('achievements/' + key + '.json');
+		return modFolders('achievements/$key.json');
 	}
 
 	static public function modFolders(key:String) {

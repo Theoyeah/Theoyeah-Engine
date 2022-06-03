@@ -131,6 +131,7 @@ class FunkinLua {
 		set('week', WeekData.weeksList[PlayState.storyWeek]);
 		set('seenCutscene', PlayState.seenCutscene);
 		set('deaths', PlayState.deathCounter);
+		set('blueBalled', PlayState.deathCounter);
 		
 		// Block require and os, Should probably have a proper function but this should be good enough for now until someone smarter comes along and recreates a safe version of the OS library
 
@@ -154,6 +155,7 @@ class FunkinLua {
 		set('rating', 0);
 		set('ratingName', '');
 		set('ratingFC', '');
+		set('maxHealth', 2);
 		set('version', MainMenuState.psychEngineVersion.trim());
 		
 		set('inGameOver', false);
@@ -253,15 +255,13 @@ class FunkinLua {
 			}
 			else {
 				cervix = Paths.getPreloadPath(cervix);
-				if(FileSystem.exists(cervix)) {
+				if(FileSystem.exists(cervix))
 					doPush = true;
-				}
 			}
 			#else
 			cervix = Paths.getPreloadPath(cervix);
-			if(Assets.exists(cervix)) {
+			if(Assets.exists(cervix))
 				doPush = true;
-			}
 			#end
 
 			if(doPush)
@@ -291,15 +291,13 @@ class FunkinLua {
 				doPush = true;
 			} else {
 				cervix = Paths.getPreloadPath(cervix);
-				if(FileSystem.exists(cervix)) {
+				if(FileSystem.exists(cervix))
 					doPush = true;
-				}
 			}
 			#else
 			cervix = Paths.getPreloadPath(cervix);
-			if(Assets.exists(cervix)) {
+			if(Assets.exists(cervix))
 				doPush = true;
-			}
 			#end
 
 			if(doPush)
@@ -311,8 +309,7 @@ class FunkinLua {
 						if(luaInstance.scriptName == cervix)
 						{
 							//luaTrace('The script "' + cervix + '" is already running!');
-							
-								PlayState.instance.luaArray.remove(luaInstance); 
+							PlayState.instance.luaArray.remove(luaInstance); 
 							return;
 						}
 					}
@@ -351,14 +348,11 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "loadGraphic", function(variable:String, image:String) {
 			var killMe:Array<String> = variable.split('.');
 			var spr:FlxSprite = getObjectDirectly(killMe[0]);
-			if(killMe.length > 1) {
+			if(killMe.length > 1)
 				spr = getVarInArray(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
-			}
 
 			if(spr != null && image != null && image.length > 0)
-			{
 				spr.loadGraphic(Paths.image(image));
-			}
 		});
 		Lua_helper.add_callback(lua, "loadFrames", function(variable:String, image:String, spriteType:String = "sparrow") {
 			var killMe:Array<String> = variable.split('.');
@@ -467,7 +461,7 @@ class FunkinLua {
 			{
 				return getInstance().members.indexOf(leObj);
 			}
-			luaTrace("Object $obj doesn't exist!");
+			luaTrace('Object $obj doesnt exist!');
 			return -1;
 		});
 		Lua_helper.add_callback(lua, "setObjectOrder", function(obj:String, position:Int) {
@@ -482,7 +476,7 @@ class FunkinLua {
 				getInstance().insert(position, leObj);
 				return;
 			}
-			luaTrace("Object $obj doesn't exist!");
+			luaTrace('Object $obj doesnt exist!');
 		});
 
 		// gay ass tweens
@@ -769,7 +763,15 @@ class FunkinLua {
 			PlayState.instance.songHits = value;
 			PlayState.instance.RecalculateRating();
 		});
-
+		Lua_helper.add_callback(lua, "getScore", function() {
+			return PlayState.instance.songScore;
+		});
+		Lua_helper.add_callback(lua, "getMisses", function() {
+			return PlayState.instance.songMisses;
+		});
+		Lua_helper.add_callback(lua, "getHits", function() {
+			return PlayState.instance.songHits;
+		});
 		Lua_helper.add_callback(lua, "setHealth", function(value:Float = 0) {
 			PlayState.instance.health = value;
 		});
@@ -779,11 +781,21 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "getHealth", function() {
 			return PlayState.instance.health;
 		});
+		Lua_helper.add_callback(lua, "setMaxHealth", function(value:Float = 0) {
+			PlayState.instance.maxHealth = value;
+		});
+		Lua_helper.add_callback(lua, "addMaxHealth", function(value:Float = 0) {
+			PlayState.instance.maxHealth += value;
+		});
+		Lua_helper.add_callback(lua, "getMaxHealth", function() {
+			return PlayState.instance.maxHealth;
+		});
 		
 		Lua_helper.add_callback(lua, "getColorFromHex", function(color:String) {
 			if(!color.startsWith('0x')) color = '0xff' + color;
 			return Std.parseInt(color);
 		});
+
 		Lua_helper.add_callback(lua, "keyJustPressed", function(name:String) {
 			return controlsStuff(name, '_P', true);
 		});
@@ -793,6 +805,7 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "keyReleased", function(name:String) {
 			return controlsStuff(name, '_R');
 		});
+
 		Lua_helper.add_callback(lua, "addCharacterToList", function(name:String, type:String) {
 			var charType:Int = 0;
 			switch(type.toLowerCase()) {
@@ -996,13 +1009,17 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "makeLuaSprite", function(tag:String, image:String, x:Float, y:Float) {
+			/*
+			if(FileSystem.exists(Paths.image(image))) {
+				luaTrace('The image $image doesnt exists');
+				return null;
+			}*/
 			tag = tag.replace('.', '');
 			resetSpriteTag(tag);
 			var leSprite:ModchartSprite = new ModchartSprite(x, y);
 			if(image != null && image.length > 0)
-			{
 				leSprite.loadGraphic(Paths.image(image));
-			}
+
 			leSprite.antialiasing = ClientPrefs.globalAntialiasing;
 			PlayState.instance.modchartSprites.set(tag, leSprite);
 			leSprite.active = true;
@@ -1092,32 +1109,27 @@ class FunkinLua {
 			}
 
 			var object:FlxObject = Reflect.getProperty(getInstance(), obj);
-			if(object != null) {
+			if(object != null)
 				object.scrollFactor.set(scrollX, scrollY);
-			}
 		});
 		Lua_helper.add_callback(lua, "addLuaSprite", function(tag:String, front:Bool = false) {
 			if(PlayState.instance.modchartSprites.exists(tag)) {
 				var shit:ModchartSprite = PlayState.instance.modchartSprites.get(tag);
 				if(!shit.wasAdded) {
 					if(front)
-					{
 						getInstance().add(shit);
-					}
 					else
 					{
 						if(PlayState.instance.isDead)
-						{
 							GameOverSubstate.instance.insert(GameOverSubstate.instance.members.indexOf(GameOverSubstate.instance.boyfriend), shit);
-						}
 						else
 						{
 							var position:Int = PlayState.instance.members.indexOf(PlayState.instance.gfGroup);
-							if(PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup) < position) {
+							if(PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup) < position)
 								position = PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup);
-							} else if(PlayState.instance.members.indexOf(PlayState.instance.dadGroup) < position) {
+							else if(PlayState.instance.members.indexOf(PlayState.instance.dadGroup) < position)
 								position = PlayState.instance.members.indexOf(PlayState.instance.dadGroup);
-							}
+
 							PlayState.instance.insert(position, shit);
 						}
 					}
@@ -1249,7 +1261,7 @@ class FunkinLua {
 				spr.blend = blendModeFromString(blend);
 				return true;
 			}
-			luaTrace("Object $obj doesn't exist!");
+			luaTrace('Object $obj doesnt exist!');
 			return false;
 		});
 		Lua_helper.add_callback(lua, "screenCenter", function(obj:String, pos:String = 'xy') {
@@ -1281,7 +1293,7 @@ class FunkinLua {
 						return;
 				}
 			}
-			luaTrace("Object $obj doesn't exist!");
+			luaTrace('Object $obj doesnt exist!');
 		});
 		Lua_helper.add_callback(lua, "objectsOverlap", function(obj1:String, obj2:String) {
 			var namesArray:Array<String> = [obj1, obj2];
@@ -1498,7 +1510,7 @@ class FunkinLua {
 
 		Lua_helper.add_callback(lua, "changePresence", function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float) {
 			#if desktop
-			DiscordClient.changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp);
+				DiscordClient.changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp);
 			#end
 		});
 
@@ -1789,70 +1801,92 @@ class FunkinLua {
 			FlxG.sound.music.fadeOut(duration, toValue);
 			luaTrace('musicFadeOut is deprecated! Use soundFadeOut instead.', false, true);
 		});
-		if (ClientPrefs.shaders) {
+		// Other stuff
+		Lua_helper.add_callback(lua, "stringStartsWith", function(str:String, start:String) {
+			return str.startsWith(start);
+		});
+		Lua_helper.add_callback(lua, "stringEndsWith", function(str:String, end:String) {
+			return str.endsWith(end);
+		});
+
 		Lua_helper.add_callback(lua, "chromaticEffect", function(camera:String, chromeOffset:Float = 0.005) {
-			
-			PlayState.instance.addShaderToCamera(camera, new ChromaticAberrationEffect(chromeOffset));
-			
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new ChromaticAberrationEffect(chromeOffset));
+
 		});
 		Lua_helper.add_callback(lua, "scanlineEffect", function(camera:String, lockAlpha:Bool=false) {
-			
-			PlayState.instance.addShaderToCamera(camera, new ScanlineEffect(lockAlpha));
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new ScanlineEffect(lockAlpha));
 			
 		});
 		Lua_helper.add_callback(lua, "grainEffect", function(camera:String, grainSize:Float, lumAmount:Float, lockAlpha:Bool=false) {
-			
-			PlayState.instance.addShaderToCamera(camera, new GrainEffect(grainSize, lumAmount, lockAlpha));
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new GrainEffect(grainSize, lumAmount, lockAlpha));
 			
 		});
 		Lua_helper.add_callback(lua, "tiltshiftEffect", function(camera:String, blurAmount:Float, center:Float) {
-			
-			PlayState.instance.addShaderToCamera(camera, new TiltshiftEffect(blurAmount, center));
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new TiltshiftEffect(blurAmount, center));
 			
 		});
 		Lua_helper.add_callback(lua, "vcrEffect", function(camera:String,glitchFactor:Float = 0.0, distortion:Bool=true, perspectiveOn:Bool=true, vignetteMoving:Bool=true) {
-			
-			PlayState.instance.addShaderToCamera(camera, new VCRDistortionEffect(glitchFactor, distortion, perspectiveOn, vignetteMoving));
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new VCRDistortionEffect(glitchFactor, distortion, perspectiveOn, vignetteMoving));
 			
 		});
 		Lua_helper.add_callback(lua, "fuckinDaveAndBambi1", function(camera:String,waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
-			
-			PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));
 			
 		});
 		Lua_helper.add_callback(lua, "fuckinDaveAndBambi2", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
-			
-			PlayState.instance.addShaderToCamera(camera, new PulseEffect(waveSpeed, waveFrq, waveAmp));
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new PulseEffect(waveSpeed, waveFrq, waveAmp));
 			
 		});
 		Lua_helper.add_callback(lua, "fuckinDaveAndBambi3", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new DistortBGEffect(waveSpeed, waveFrq, waveAmp));
 			
-			PlayState.instance.addShaderToCamera(camera, new DistortBGEffect(waveSpeed, waveFrq, waveAmp));
+		});
+		Lua_helper.add_callback(lua, "glitchEffect", function(camera:String,waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));
+			
+		});
+		Lua_helper.add_callback(lua, "pulseEffect", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new PulseEffect(waveSpeed, waveFrq, waveAmp));
+			
+		});
+		Lua_helper.add_callback(lua, "distortBGEffect", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new DistortBGEffect(waveSpeed, waveFrq, waveAmp));
 			
 		});
 		Lua_helper.add_callback(lua, "invertColors", function(camera:String, lockAlpha:Bool=false) {
-			
-			PlayState.instance.addShaderToCamera(camera, new InvertColorsEffect(lockAlpha));
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new InvertColorsEffect(lockAlpha));
 			
 		});
 		Lua_helper.add_callback(lua, "greyscaleEffect1", function(camera:String) { //for dem funkies
-			
-			PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
 			
 		});
 		Lua_helper.add_callback(lua, "greyscaleEffect2", function(camera:String) { //for dem funkies
-			
-			PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
 			
 		});
 		Lua_helper.add_callback(lua, "3DEffect", function(camera:String, xrotation:Float=0, yrotation:Float=0, zrotation:Float=0, depth:Float=0) { //for dem funkies
-			
-			PlayState.instance.addShaderToCamera(camera, new ThreeDEffect(xrotation, yrotation, zrotation, depth));
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new ThreeDEffect(xrotation, yrotation, zrotation, depth));
 			
 		});
 		Lua_helper.add_callback(lua, "bloomEffect", function(camera:String, intensity:Float = 0.35, blurSize:Float=1.0) {
-			
-			PlayState.instance.addShaderToCamera(camera, new BloomEffect(blurSize/512.0, intensity));
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new BloomEffect(blurSize/512.0, intensity));
 			
 		});
 		Lua_helper.add_callback(lua, "killShaders", function(camera:String) {
@@ -1863,7 +1897,6 @@ class FunkinLua {
 		#else
 		trace("You have LUA disabled, so you can't access to LUA functions, sorry ;)");
 		#end
-		}
 	}
 
 	public static function setVarInArray(instance:Dynamic, variable:String, value:Dynamic):Any
