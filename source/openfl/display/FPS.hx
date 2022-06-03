@@ -82,7 +82,10 @@ class FPS extends TextField
 
 		var currentCount = times.length;
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
-		if (currentFPS > ClientPrefs.framerate) currentFPS = ClientPrefs.framerate;
+		if(ClientPrefs.newFramerateThing && currentFPS > ClientPrefs.newFramerate)
+			currentFPS = ClientPrefs.newFramerate;
+		else if(currentFPS > ClientPrefs.framerate)
+			currentFPS = ClientPrefs.framerate;
 
 		if (currentCount != cacheCount /*&& visible*/)
 		{
@@ -91,13 +94,19 @@ class FPS extends TextField
 			#if openfl
 			memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
 			//memoryMegas = Math.round(System.totalMemory / 1024 / 1024 * 100)/100;
-			if(memoryMegas>memoryTotal)
-				memoryTotal=memoryMegas;
+			if(memoryMegas > memoryTotal)
+				memoryTotal = memoryMegas;
 			text += "\nRAM: " + memoryMegas + "mb" + " / " + memoryTotal + 'mb';
 			#end
 
+			var fps_:Int = if(ClientPrefs.newFramerateThing) (ClientPrefs.newFramerate + 20) * 2 else ClientPrefs.framerate;
+			if(ClientPrefs.framerate > 100 && ClientPrefs.framerate < 120)
+				fps_ = ClientPrefs.framerate / 2 - 20;
+			else if(ClientPrefs.framerate > 60 && ClientPrefs.framerate < 100)
+				fps_ = ClientPrefs.framerate / 2;
+
 			textColor = 0xFFFFFFFF;
-			if (memoryMegas > 3000 || currentFPS <= ClientPrefs.framerate / 2)
+			if (memoryMegas > 3000 || currentFPS <= fps_)
 			{
 				textColor = 0xFFFF0000;
 			}
