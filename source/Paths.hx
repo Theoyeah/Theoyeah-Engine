@@ -449,58 +449,72 @@ class Paths
 		return 'mods/$key';
 	}
 
-	inline static public function currentModImages(key:String) {
+	inline static public function currentModImages(key:String, where:String = 'images') {
 		var img:String = if(key.contains('.png')) key else '$key.png';
 		if(currentModDirectory == '') {
-			return 'mods/images/$img';
+			return 'mods/$where/$img';
 		}
-		return 'mods/$currentModDirectory/images/$img';
+		return 'mods/$currentModDirectory/$where/$img';
 	}
 	#if LUA_ALLOWED
-	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false) {
+	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false, ?where:String) {
+		var path:String = where;
+		if(where == null) {
+			if(notetype)
+				path = 'custom_notetypes';
+			else
+				path = 'custom_events';
+		}
 		if(!getPreload) {
 			if(notetype) {
-				return modFolders('custom_notetypes/$thing.lua');
+				return modFolders('$path/$thing.lua');
 			}
-			return modFolders('custom_events/$thing.lua');
+			return modFolders('$path/$thing.lua');
 		}
 		if(notetype) {
-			return getPreloadPath('custom_notetypes/$thing.lua');
+			return getPreloadPath('$path/$thing.lua');
 		}
-		return getPreloadPath('custom_events/$thing.lua');
+		return getPreloadPath('$path/$thing.lua');
 	}
 	#end
 	inline static public function modsFont(key:String) {
 		return modFolders('fonts/$key');
 	}
 
-	inline static public function modsJson(key:String, ?where:String = 'data') {
+	inline static public function modsJson(key:String, where:String = 'data') {
 		return modFolders('$where/$key.json');
+	}
 
+	inline static public function modsVideosBlah(key:String, where:String = 'videos') {
+		return modFolders('$where/$key.$VIDEO_EXT');
+	}
+	inline static public function modsVideos2Blah(key:String, where:String = 'videos') {
+		return modFolders('$where/$key.mkv');
+	}
 	inline static public function modsVideo(key:String) {
-		return modFolders('videos/$key.$VIDEO_EXT');
+		return modVideosBlah(key);
 	}
 	inline static public function modsVideo2(key:String) {
-		return modFolders('videos/$key.mkv');
+		return modVideos2Blah(key);
 	}
 
 	inline static public function modsSounds(path:String, key:String) {
 		return modFolders('$path/$key.$SOUND_EXT');
 	}
 
-	inline static public function modsImages(key:String) {
-		return modFolders('images/$key.png');
+	inline static public function modsImages(key:String, where:String = 'images') {
+		return modFolders('$where/$key.png');
 	}
-	inline static public function modImages2(key:String) {
-		return modFolders('images/$key.PNG');
-	}
-
-	inline static public function modsXml(key:String) {
-		return modFolders('images/$key.xml');
+	inline static public function modImages2(key:String, where:String = 'images') {
+		return modFolders('$where/$key.PNG');
 	}
 
-	inline static public function modsTxt(key:String) {
-		return modFolders('images/$key.txt');
+	inline static public function modsXml(key:String, where:String = 'images') {
+		return modFolders('$where/$key.xml');
+	}
+
+	inline static public function modsTxt(key:String, where:String = 'images') {
+		return modFolders('$where/$key.txt');
 	}
 
 	inline static public function modsShaderFragment(key:String, ?library:String)
