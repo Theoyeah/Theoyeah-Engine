@@ -3648,6 +3648,7 @@ class PlayState extends MusicBeatState
 							iconP1.changeIcon(boyfriend.healthIcon);
 						}
 						setOnLuas('boyfriendName', boyfriend.curCharacter);
+						setOnLuas('bfName', boyfriend.curCharacter);
 
 					case 1:
 						if(dad.curCharacter != value2) {
@@ -3705,9 +3706,7 @@ class PlayState extends MusicBeatState
 				var newValue:Float = SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed', 1) * val1;
 
 				if(val2 <= 0)
-				{
 					songSpeed = newValue;
-				}
 				else
 				{
 					songSpeedTween = FlxTween.tween(this, {songSpeed: newValue}, val2, {ease: FlxEase.linear, onComplete:
@@ -4548,40 +4547,40 @@ class PlayState extends MusicBeatState
 				}
 
 				if(!note.noMissAnimation)
-					{
+				{
 
-				switch(note.noteType) {
+					switch(note.noteType) {
 
-					case 'Crash Note':
-						FlxG.sound.play(Paths.sound('wiicrash'), 1);
- 						FlxTween.tween(SONG, {speed: SONG.speed = 0}, 0);
- 						PlayState.instance.practiceMode = true;
-						endSong();
-						lime.app.Application.current.window.alert( 'Oops ! You pressed a crash note !!!');
-					 	{
- 							System.exit(0);
- 						}; //tes
+						case 'Crash Note':
+							FlxG.sound.play(Paths.sound('wiicrash'), 1);
+ 							FlxTween.tween(SONG, {speed: SONG.speed = 0}, 0);
+ 							PlayState.instance.practiceMode = true;
+							endSong();
+							lime.app.Application.current.window.alert( 'Oops ! You pressed a crash note !!!');
+						 	{
+ 								System.exit(0);
+ 							}; //tes
 
 
-					case 'Window Note': 
-					 	FlxG.sound.play(Paths.sound('windowsError'), 1);
-						lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');						
-						
-					case 'Poisoned Note':
-						new FlxTimer().start(1.3, function(tmr:FlxTimer) //i dont know how this works
- 						{
- 							health -= 0.05; 
- 						});
-						healthDrain = 0.10; // what does this means?
-						
-					case 'Hurt Note': //Hurt note
-						if(boyfriend.animation.getByName('hurt') != null) {
-							boyfriend.playAnim('hurt', true);
-							boyfriend.specialAnim = true;
-						}
+						case 'Window Note': 
+					 		FlxG.sound.play(Paths.sound('windowsError'), 1);
+							lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');						
+
+						case 'Poisoned Note':
+							new FlxTimer().start(1.3, function(tmr:FlxTimer) //i dont know how this works
+ 							{
+ 								health -= 0.05; 
+ 							});
+							healthDrain = 0.10; // what does this means?
+	
+						case 'Hurt Note': //Hurt note
+							if(boyfriend.animation.getByName('hurt') != null) {
+								boyfriend.playAnim('hurt', true);
+								boyfriend.specialAnim = true;
+							}
 				
+					}
 				}
-			}
 				
 				note.wasGoodHit = true;
 				if (!note.isSustainNote)
@@ -4660,9 +4659,9 @@ class PlayState extends MusicBeatState
 
 			if(cpuControlled) {
 				var time:Float = 0.15;
-				if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end')) {
+				if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
 					time += 0.15;
-				}
+
 				StrumPlayAnim(false, Std.int(Math.abs(note.noteData)) % 4, time);
 			} else {
 				playerStrums.forEach(function(spr:StrumNote)
@@ -4693,9 +4692,8 @@ class PlayState extends MusicBeatState
 	function spawnNoteSplashOnNote(note:Note) {
 		if(ClientPrefs.noteSplashes.toLowerCase() != 'none' && note != null) {
 			var strum:StrumNote = playerStrums.members[note.noteData];
-			if(strum != null) {
+			if(strum != null)
 				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
-			}
 		}
 	}
 
