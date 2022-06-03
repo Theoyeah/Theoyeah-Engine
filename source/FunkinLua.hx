@@ -461,7 +461,7 @@ class FunkinLua {
 			{
 				return getInstance().members.indexOf(leObj);
 			}
-			luaTrace("Object $obj doesn't exist!");
+			luaTrace('Object $obj doesnt exist!');
 			return -1;
 		});
 		Lua_helper.add_callback(lua, "setObjectOrder", function(obj:String, position:Int) {
@@ -781,11 +781,21 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "getHealth", function() {
 			return PlayState.instance.health;
 		});
+		Lua_helper.add_callback(lua, "setMaxHealth", function(value:Float = 0) {
+			PlayState.instance.maxHealth = value;
+		});
+		Lua_helper.add_callback(lua, "addMaxHealth", function(value:Float = 0) {
+			PlayState.instance.maxHealth += value;
+		});
+		Lua_helper.add_callback(lua, "getMaxHealth", function() {
+			return PlayState.instance.maxHealth;
+		});
 		
 		Lua_helper.add_callback(lua, "getColorFromHex", function(color:String) {
 			if(!color.startsWith('0x')) color = '0xff' + color;
 			return Std.parseInt(color);
 		});
+
 		Lua_helper.add_callback(lua, "keyJustPressed", function(name:String) {
 			return controlsStuff(name, '_P', true);
 		});
@@ -795,6 +805,7 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "keyReleased", function(name:String) {
 			return controlsStuff(name, '_R');
 		});
+
 		Lua_helper.add_callback(lua, "addCharacterToList", function(name:String, type:String) {
 			var charType:Int = 0;
 			switch(type.toLowerCase()) {
@@ -1886,7 +1897,6 @@ class FunkinLua {
 		#else
 		trace("You have LUA disabled, so you can't access to LUA functions, sorry ;)");
 		#end
-		}
 	}
 
 	public static function setVarInArray(instance:Dynamic, variable:String, value:Dynamic):Any
