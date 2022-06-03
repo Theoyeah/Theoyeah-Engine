@@ -26,9 +26,6 @@ using StringTools;
 
 class Paths
 {
-	inline public static function returnNull(key:String) {
-		trace('oh no $key is returning null NOOOO');
-	}
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
 	inline public static var VIDEO_EXT = "mp4";
 
@@ -51,6 +48,17 @@ class Paths
 		'achievements'
 	];
 	#end
+
+	public static function getIsBlankString(s:String, space:Bool = false) {
+		if(space && (s == '' || s == ' ' || s == null))
+			return true;
+		if(s == '' || s == null)
+			return true;
+		return false;
+	}
+	inline public static function returnNull(key:String) {
+		trace('oh no $key is returning null NOOOO');
+	}
 
 	public static function excludeAsset(key:String) {
 		if (!dumpExclusions.contains(key))
@@ -128,9 +136,9 @@ class Paths
 	* @param library where to search
 	* @return i dont know
 	*/
-	public static function getPath(file:String, type:AssetType, ?library:Null<String> = null)
+	public static function getPath(file:String, type:AssetType, ?library:String)
 	{
-		if (library != null)
+		if (!getIsBlankString(library))
 			return getLibraryPath(file, library);
 
 		if (currentLevel != null)
@@ -170,9 +178,12 @@ class Paths
 		return returnPath;
 	}
 
+	inline public static function assets(key:String) {
+		return assets(key);
+	}
 	inline public static function getPreloadPath(file:String = '')
 	{
-		return 'assets/$file'; //returns 'assets/' + file
+		return assets(file); //returns 'assets/' + file
 	}
 
 	inline static public function file(file:String, type:AssetType = TEXT, ?library:String)
@@ -216,26 +227,26 @@ class Paths
 		var file:String = modsVideo(key, where);
 		var file_:String = modsVideo2(key, where);
 		#if MKV_ALLOWED
-		if(FileSystem.exists(file_) && !ignoreMods && mkvFile)
+		if(FileSystem.exists(file_) && !ignoreMods && mkvFile) {
 			return file_;
-		else #end if(FileSystem.exists(file) && !ignoreMods)
+		} else #end if(FileSystem.exists(file) && !ignoreMods) {
 			return file;
-		else if(!ignoreMods && (!FileSystem.exists(file) #if MKV_ALLOWED || !FileSystem.exists(file_) #end ))
-			returnNull(key);
-			return null;
+		}
 		#end
 		#if MKV_ALLOWED
-		if(where != '') {
-			if(mkvFile && FileSystem.exists('assets/$where/$key.mkv'))
-				return 'assets/$where/$key.mkv';
-			else #end if(FileSystem.exists('assets/$where/$key.$VIDEO_EXT'))
-				return 'assets/$where/$key.$VIDEO_EXT'; //returns 'assets/videos/' + key + '.' + VIDEO_EXT
+		if(!getIsBlankString(where, true)) {
+			if(mkvFile && FileSystem.exists('assets/$where/$key.mkv')) {
+				return assets('$where/$key.mkv');
+			} else #end if(FileSystem.exists('assets/$where/$key.$VIDEO_EXT')) {
+				return assets('$where/$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
+			}
 		} else {
 			#if MKV_ALLOWED
-			if(mkvFile && FileSystem.exists('assets/$key.mkv'))
-				return 'assets/$key.mkv';
-			else #end if(FileSystem.exists('assets/$key.$VIDEO_EXT'))
-				return 'assets/$key.$VIDEO_EXT'; //returns 'assets/videos/' + key + '.' + VIDEO_EXT
+			if(mkvFile && FileSystem.exists(assets('$key.mkv'))) {
+				return assets('$key.mkv');
+			} else #end if(FileSystem.exists(assets('$key.$VIDEO_EXT'))) {
+				return assets('$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
+			}
 		}
 		returnNull(key);
 		return null;
@@ -312,17 +323,16 @@ class Paths
 	{
 		#if MODS_ALLOWED
 		var file:String = modsFont(key, where);
-		if(FileSystem.exists(file)) {
+		if(FileSystem.exists(file))
 			return file;
-		}
 		#end
-		return 'assets/$where/$key';
+		return assets('$where/$key');
 	}
 
-	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)
+	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String):Bool
 	{
 		#if MODS_ALLOWED
-		if(FileSystem.exists(mods('$currentModDirectory/$key')) || FileSystem.exists(mods(key))) {
+		if(FileSystem.exists(currentModKey(key)) || FileSystem.exists(mods(key))) {
 			return true;
 		}
 		#end
@@ -332,17 +342,52 @@ class Paths
 		}
 		return false;
 	}
+	inline static public function whereExists(key:String, type:AssetType, traceThings:Bool = false, whatValueToReturn:Int = 0, ?ignoreMods:Bool = false, ?library:String) {
+		var here:Array<Dynamic> = [];
+		var moreThanOne:Bool = false;
+		var isNull:Array<Dynamic> = [];
+		#if MODS_ALLOWED
+		if(FileSystem.exists(currentModKey(key)) && !ignoreMods) {
+			here.push(currentModKey(key));
+		}
+		if(FileSystem.exists(mods(key)) && !ignoreMods) {
+			here.push(mods(key));
+			if(here.length > 0)
+				moreThanOne = true;
+		}
+		#end
+
+		if(OpenFlAssets.exists(getPath(key, type))) {
+			here.push(getPath(key, type)));
+			if(here.length > 0)
+				moreThanOne = true;
+		}
+		if(here.length > 1 || moreThanOne) {
+			if(traceThings) {
+				for (i in 0...here.length) {
+					trace(here[i]);
+				}
+			}
+			if(whatValueToReturn > here.length)
+				return here[here.length];
+			return here[whatValueToReturn];
+		}
+		if(here == isNull) {
+			trace('oh no $key is returning null NOOOO');
+			return null;
+		}
+		return here[0];
+	}
 
 	inline static public function getSparrowAtlas(key:String, ?library:String, where:String = 'images'):FlxAtlasFrames
 	{
 		#if MODS_ALLOWED
 		var imageLoaded:FlxGraphic = returnGraphic(key);
 		var xmlExists:Bool = false;
-		if(FileSystem.exists(modsXml(key))) {
+		if(FileSystem.exists(modsXml(key)))
 			xmlExists = true;
-		}
 
-		return FlxAtlasFrames.fromSparrow((imageLoaded != null ? imageLoaded : image(key, library)), (xmlExists ? File.getContent(modsXml(key)) : file('images/$key.xml', library)));
+		return FlxAtlasFrames.fromSparrow((imageLoaded != null ? imageLoaded : image(key, library)), (xmlExists ? File.getContent(modsXml(key)) : file('$where/$key.xml', library)));
 		#else
 		return FlxAtlasFrames.fromSparrow(image(key, library), file('$where/$key.xml', library));
 		#end
@@ -358,7 +403,7 @@ class Paths
 			txtExists = true;
 		}
 
-		return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), (txtExists ? File.getContent(modsTxt(key)) : file('images/$key.txt', library)));
+		return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), (txtExists ? File.getContent(modsTxt(key)) : file('$where/$key.txt', library)));
 		#else
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('$where/$key.txt', library));
 		#end
@@ -372,8 +417,8 @@ class Paths
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
 	public static function returnGraphic(key:String, ?library:String, where:String = 'images') {
 		#if MODS_ALLOWED
-		var modKey:String = modsImages(key);
-		var modKey_:String = modImages2(key);
+		var modKey:String = modsImages(key, where);
+		var modKey_:String = modImages2(key, where);
 		if(FileSystem.exists(modKey)) {
 			if(!currentTrackedAssets.exists(modKey)) {
 				var newBitmap:BitmapData = BitmapData.fromFile(modKey);
@@ -414,7 +459,7 @@ class Paths
 			localTrackedAssets.push(path_);
 			return currentTrackedAssets.get(path_);
 		}
-		trace('oh no $key is returning null NOOOO');
+		trace('$key in $where is returning null NOOOO');
 		return null;
 	}
 
@@ -454,13 +499,16 @@ class Paths
 	inline static public function mods(key:String = '') {
 		return 'mods/$key';
 	}
+	inline static public function currentModKey(key:String) {
+		return mods('$currentModDirectory/$key');
+	}
 
 	inline static public function currentModImages(key:String, where:String = 'images') {
 		var img:String = if(key.contains('.png')) key else '$key.png';
 		if(currentModDirectory == '') {
-			return 'mods/$where/$img';
+			return mods('$where/$img');
 		}
-		return 'mods/$currentModDirectory/$where/$img';
+		return currentModKey('$where/$img');
 	}
 	#if LUA_ALLOWED
 	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false, where:String) {
@@ -531,12 +579,11 @@ class Paths
 
 	static public function modFolders(key:String) {
 		if(currentModDirectory != null && currentModDirectory.length > 0) {
-			var fileToCheck:String = mods(currentModDirectory + '/' + key);
-			if(FileSystem.exists(fileToCheck)) {
+			var fileToCheck:String = currentModKey(key);
+			if(FileSystem.exists(fileToCheck))
 				return fileToCheck;
-			}
 		}
-		return 'mods/$key';
+		return mods(key);
 	}
 	static public function getModDirectories():Array<String> {
 		var list:Array<String> = [];
