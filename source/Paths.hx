@@ -233,8 +233,8 @@ class Paths
 			return file;
 		}
 		#end
-		#if MKV_ALLOWED
 		if(!getIsBlankString(where, true)) {
+			#if MKV_ALLOWED
 			if(mkvFile && FileSystem.exists('assets/$where/$key.mkv')) {
 				return assets('$where/$key.mkv');
 			} else #end if(FileSystem.exists('assets/$where/$key.$VIDEO_EXT')) {
