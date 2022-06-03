@@ -77,7 +77,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			'If checked, the new framerate system will be added',
 			'newFramerateThing',
 			'bool',
-			true);
+			false);
 		addOption(option);
 		#end
 
