@@ -26,7 +26,7 @@ using StringTools;
 
 class Paths
 {
-	public static function returnNull(key:String) {
+	inline public static function returnNull(key:String) {
 		trace('oh no $key is returning null NOOOO');
 	}
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
@@ -196,13 +196,13 @@ class Paths
 	}
 
 	// shaders
-	inline static public function shaderFragment(key:String, ?library:String)
+	inline static public function shaderFragment(key:String, ?library:String, where:String = 'shaders')
 	{
-		return getPath('shaders/$key.frag', TEXT, library);
+		return getPath('$where/$key.frag', TEXT, library);
 	}
-	inline static public function shaderVertex(key:String, ?library:String)
+	inline static public function shaderVertex(key:String, ?library:String, where:String = 'shaders')
 	{
-		return getPath('shaders/$key.vert', TEXT, library);
+		return getPath('$where/$key.vert', TEXT, library);
 	}
 
 	inline static public function lua(key:String, ?library:String)
@@ -210,30 +210,36 @@ class Paths
 		return getPath('$key.lua', TEXT, library);
 	}
 
-	static public function video(key:String, ?ignoreMods:Bool = false, ?mkvFile:Bool = false)
+	static public function video(key:String, ?ignoreMods:Bool = false, ?mkvFile:Bool = false, where:String = 'videos')
 	{
 		#if MODS_ALLOWED
-		var file:String = modsVideo(key);
-		var file_:String = modsVideo2(key);
+		var file:String = modsVideo(key, where);
+		var file_:String = modsVideo2(key, where);
 		#if MKV_ALLOWED
-		if(FileSystem.exists(file_) && !ignoreMods && mkvFile) {
+		if(FileSystem.exists(file_) && !ignoreMods && mkvFile)
 			return file_;
-		} else #end if(FileSystem.exists(file) && !ignoreMods) {
+		else #end if(FileSystem.exists(file) && !ignoreMods)
 			return file;
-		} else if(!ignoreMods && (!FileSystem.exists(file) || !FileSystem.exists(file_))) {
+		else if(!ignoreMods && (!FileSystem.exists(file) #if MKV_ALLOWED || !FileSystem.exists(file_) #end ))
 			returnNull(key);
 			return null;
-		}
 		#end
 		#if MKV_ALLOWED
-		if(mkvFile && FileSystem.exists('assets/videos/$key.mkv')) {
-			return 'assets/videos/$key.mkv';
-		} else #end if(FileSystem.exists('assets/videos/$key.$VIDEO_EXT')) {
-			return 'assets/videos/$key.$VIDEO_EXT'; //returns 'assets/videos/' + key + '.' + VIDEO_EXT
+		if(where != '') {
+			if(mkvFile && FileSystem.exists('assets/$where/$key.mkv'))
+				return 'assets/$where/$key.mkv';
+			else #end if(FileSystem.exists('assets/$where/$key.$VIDEO_EXT'))
+				return 'assets/$where/$key.$VIDEO_EXT'; //returns 'assets/videos/' + key + '.' + VIDEO_EXT
 		} else {
-			returnNull(key);
-			return null;
+			#if MKV_ALLOWED
+			if(mkvFile && FileSystem.exists('assets/$key.mkv'))
+				return 'assets/$key.mkv';
+			else #end if(FileSystem.exists('assets/$key.$VIDEO_EXT'))
+				return 'assets/$key.$VIDEO_EXT'; //returns 'assets/videos/' + key + '.' + VIDEO_EXT
 		}
+		returnNull(key);
+		return null;
+		
 	}
 
 	static public function sound(key:String, ?library:String):Sound
@@ -302,15 +308,15 @@ class Paths
 		return Assets.getText(getPath(key, TEXT));
 	}
 
-	inline static public function font(key:String)
+	inline static public function font(key:String, where:String = 'fonts')
 	{
 		#if MODS_ALLOWED
-		var file:String = modsFont(key);
+		var file:String = modsFont(key, where);
 		if(FileSystem.exists(file)) {
 			return file;
 		}
 		#end
-		return 'assets/fonts/$key';
+		return 'assets/$where/$key';
 	}
 
 	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)
@@ -327,7 +333,7 @@ class Paths
 		return false;
 	}
 
-	inline static public function getSparrowAtlas(key:String, ?library:String):FlxAtlasFrames
+	inline static public function getSparrowAtlas(key:String, ?library:String, where:String = 'images'):FlxAtlasFrames
 	{
 		#if MODS_ALLOWED
 		var imageLoaded:FlxGraphic = returnGraphic(key);
@@ -338,12 +344,12 @@ class Paths
 
 		return FlxAtlasFrames.fromSparrow((imageLoaded != null ? imageLoaded : image(key, library)), (xmlExists ? File.getContent(modsXml(key)) : file('images/$key.xml', library)));
 		#else
-		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));
+		return FlxAtlasFrames.fromSparrow(image(key, library), file('$where/$key.xml', library));
 		#end
 	}
 
 
-	inline static public function getPackerAtlas(key:String, ?library:String)
+	inline static public function getPackerAtlas(key:String, ?library:String, where:String = 'images')
 	{
 		#if MODS_ALLOWED
 		var imageLoaded:FlxGraphic = returnGraphic(key);
@@ -354,7 +360,7 @@ class Paths
 
 		return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), (txtExists ? File.getContent(modsTxt(key)) : file('images/$key.txt', library)));
 		#else
-		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
+		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('$where/$key.txt', library));
 		#end
 	}
 
@@ -364,7 +370,7 @@ class Paths
 
 	// completely rewritten asset loading? fuck!
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
-	public static function returnGraphic(key:String, ?library:String) {
+	public static function returnGraphic(key:String, ?library:String, where:String = 'images') {
 		#if MODS_ALLOWED
 		var modKey:String = modsImages(key);
 		var modKey_:String = modImages2(key);
@@ -389,8 +395,8 @@ class Paths
 		}
 		#end
 
-		var path = getPath('images/$key.png', IMAGE, library);
-		var path_ = getPath('images/$key.PNG', IMAGE, library);
+		var path = getPath('$where/$key.png', IMAGE, library);
+		var path_ = getPath('$where/$key.PNG', IMAGE, library);
 		if (OpenFlAssets.exists(path, IMAGE)) {
 			if(!currentTrackedAssets.exists(path)) {
 				var newGraphic:FlxGraphic = FlxG.bitmap.add(path, false, path);
@@ -457,7 +463,7 @@ class Paths
 		return 'mods/$currentModDirectory/$where/$img';
 	}
 	#if LUA_ALLOWED
-	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false, ?where:String) {
+	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false, where:String) {
 		var path:String = where;
 		if(where == null) {
 			if(notetype)
@@ -477,25 +483,19 @@ class Paths
 		return getPreloadPath('$path/$thing.lua');
 	}
 	#end
-	inline static public function modsFont(key:String) {
-		return modFolders('fonts/$key');
+	inline static public function modsFont(key:String, where:String = 'fonts') {
+		return modFolders('$where/$key');
 	}
 
 	inline static public function modsJson(key:String, where:String = 'data') {
 		return modFolders('$where/$key.json');
 	}
 
-	inline static public function modsVideosBlah(key:String, where:String = 'videos') {
+	inline static public function modsVideo(key:String, where:String = 'videos') {
 		return modFolders('$where/$key.$VIDEO_EXT');
 	}
-	inline static public function modsVideos2Blah(key:String, where:String = 'videos') {
+	inline static public function modsVideo2(key:String, where:String = 'videos') {
 		return modFolders('$where/$key.mkv');
-	}
-	inline static public function modsVideo(key:String) {
-		return modVideosBlah(key);
-	}
-	inline static public function modsVideo2(key:String) {
-		return modVideos2Blah(key);
 	}
 
 	inline static public function modsSounds(path:String, key:String) {
@@ -521,12 +521,12 @@ class Paths
 	{
 		return modFolders('shaders/$key.frag');
 	}
-	inline static public function modsShaderVertex(key:String, ?library:String)
+	inline static public function modsShaderVertex(key:String, ?library:String, where:String = 'shaders')
 	{
-		return modFolders('shaders/$key.vert');
+		return modFolders('$where/$key.vert');
 	}
-	inline static public function modsAchievements(key:String) {
-		return modFolders('achievements/$key.json');
+	inline static public function modsAchievements(key:String, where:String = 'achievements') {
+		return modFolders('$where/$key.json');
 	}
 
 	static public function modFolders(key:String) {
