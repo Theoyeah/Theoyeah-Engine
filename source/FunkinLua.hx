@@ -1737,7 +1737,7 @@ class FunkinLua {
 			return false;
 		});
 		Lua_helper.add_callback(lua, "setLuaSpriteScrollFactor", function(tag:String, scrollX:Float, scrollY:Float) {
-			luaTrace("setLuaSpriteScrollFactor", "setScrollFactor");
+			deprecated("setLuaSpriteScrollFactor", "setScrollFactor");
 			if(PlayState.instance.modchartSprites.exists(tag)) {
 				PlayState.instance.modchartSprites.get(tag).scrollFactor.set(scrollX, scrollY);
 			}
