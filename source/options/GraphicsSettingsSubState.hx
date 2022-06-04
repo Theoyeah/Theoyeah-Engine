@@ -107,7 +107,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		super();
 	}
 
-	function reloadFpsOption() {
+	static function reloadFpsOption() {
 		framerate = if(ClientPrefs.newFramerate)
 			new Option('Framerate',
 				   "Pretty self explanatory, isn't it?",
@@ -150,9 +150,9 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			var fps:Int = ClientPrefs.framerate;
 			var frame:Int = fps;
 			if(ClientPrefs.framerate > 100 && ClientPrefs.framerate < 120)
-				fps = frame / 2 - 20;
+				fps = Std.int(frame / 2 - 20);
 			else if(ClientPrefs.framerate > 60 && ClientPrefs.framerate < 100)
-				fps = frame / 2;
+				fps = Std.int(frame / 2);
 			ClientPrefs.newFramerate = fps;
 		}
 		reloadFpsOption();
