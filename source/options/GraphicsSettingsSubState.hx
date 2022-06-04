@@ -31,7 +31,7 @@ using StringTools;
 
 class GraphicsSettingsSubState extends BaseOptionsMenu
 {
-	var framerate:Null<Option> = null;
+	public static var framerate:Null<Option> = null;
 
 	public function new()
 	{
@@ -133,7 +133,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		}
 	}
 
-	function onChangeFramerate()
+	public static function onChangeFramerate()
 	{
 		if(!ClientPrefs.newFramerateThing) {
 			if(ClientPrefs.framerate > FlxG.drawFramerate)
