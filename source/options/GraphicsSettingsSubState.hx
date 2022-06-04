@@ -42,7 +42,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 				   'framerate',
 				   'int',
 			60);
-	
+	public static var thing = frama;
 	public static function fram():Void {
 		var fps:Int = ClientPrefs.framerate;
 		var frame:Int = fps;
@@ -54,9 +54,18 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			fps = Std.int(frame / 3);
 		ClientPrefs.newFramerate = fps;
 	}
+	
+	public function freakThis() {
+		if(ClientPrefs.newFramerateThing) 
+			thing = newFrama;
+		else
+			thing = frama;
+	}
 
 	public function new()
 	{
+		freakThis();
+
 		title = 'Graphics';
 		rpcTitle = 'Graphics Settings Menu'; //for Discord Rich Presence
 
@@ -78,7 +87,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		#if !html5 //Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
-		framerate = if(ClientPrefs.newFramerate) frama else newFrama;
+		framerate = thing;
 		addOption(framerate);
 		option.minValue = 60;
 		option.maxValue = 240;
