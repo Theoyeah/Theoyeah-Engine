@@ -16,10 +16,8 @@ import flixel.graphics.frames.FlxFrame;
 #if desktop
 import sys.FileSystem;
 import sys.io.File;
-#else
-#if !android
+#elseif !android
 import js.html.FileSystem;
-#end
 import js.html.File;
 #end
 
