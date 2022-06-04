@@ -76,6 +76,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			add(camFollowPos);
 		} else {
 			endBullShit();
+		}
 	}
 
 	var isFollowingAlready:Bool = false;
