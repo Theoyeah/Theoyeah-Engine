@@ -511,9 +511,9 @@ class Paths
 		return currentModKey('$where/$img');
 	}
 	#if LUA_ALLOWED
-	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false, where:String) {
+	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false, where:String = '') {
 		var path:String = where;
-		if(where == null) {
+		if(where == null || where == '') {
 			if(notetype)
 				path = 'custom_notetypes';
 			else
