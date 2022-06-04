@@ -237,10 +237,11 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.framerate != null) {
 			framerate = FlxG.save.data.framerate;
-			GraphicsSettingsSubState.onChangeFramerate()
+			GraphicsSettingsSubState.onChangeFramerate();
 		}
 		if(FlxG.save.data.newFramerate != null) {
 			newFramerate = FlxG.save.data.newFramerate;
+			GraphicsSettingsSubState.onChangeFramerate();
 		}
 		if(FlxG.save.data.newFramerateThing != null) {
 			newFramerateThing = FlxG.save.data.newFramerateThing;
