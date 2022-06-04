@@ -109,7 +109,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Health Bar',
-			"If unchecked, the health bar will be set to the original one.",
+			"What type of health bar do you want?.",
 			'healthBarImage',
 			'string',
 			'Normal',
