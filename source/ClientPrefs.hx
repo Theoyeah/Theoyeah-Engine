@@ -34,7 +34,7 @@ class ClientPrefs {
 	public static var pauseMusic:String = 'Tea Time';
 	public static var introbg:Bool = false;
 	public static var noteskin:String = 'Arrows';
-	public static var longhealthbar:Bool = true;
+	public static var healthBarImage:String = 'Normal';
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
 	public static var shaders:Bool = true;
@@ -80,7 +80,7 @@ class ClientPrefs {
 		'note_left'		=> [A, LEFT],
 		'note_down'		=> [S, DOWN],
 		'note_up'		=> [W, UP],
-		'note_right'	        => [D, RIGHT],
+		'note_right'	=> [D, RIGHT],
 		
 		'ui_left'		=> [A, LEFT],
 		'ui_down'		=> [S, DOWN],
@@ -92,17 +92,17 @@ class ClientPrefs {
 		'pause'			=> [ENTER, ESCAPE],
 		'reset'			=> [R, NONE],
 		
-		'volume_mute'	        => [ZERO, NONE],
+		'volume_mute'	=> [ZERO, NONE],
 		'volume_up'		=> [NUMPADPLUS, PLUS],
-		'volume_down'	        => [NUMPADMINUS, MINUS],
+		'volume_down'	=> [NUMPADMINUS, MINUS],
 		
 		'debug_1'		=> [SEVEN, NONE],
 		'debug_2'		=> [EIGHT, NONE],
 		
-		'zoom+'                 => [Z, NONE],
-		'zoom-'                 => [X, NONE],
-		'decrease'              => [Q, NONE],
-		'increase'              => [E, NONE]
+		'zoom+'			=> [Z, NONE],
+		'zoom-'			=> [X, NONE],
+		'decrease'		=> [Q, NONE],
+		'increase'		=> [E, NONE]
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -124,7 +124,7 @@ class ClientPrefs {
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.shaders = shaders;
 		FlxG.save.data.framerate = framerate;
-		FlxG.save.data.longhealthbar = longhealthbar;
+		FlxG.save.data.healthBarImage = healthBarImage;
 		FlxG.save.data.crazycounter = crazycounter;
 		//FlxG.save.data.cursing = cursing;
 		//FlxG.save.data.violence = violence;
@@ -282,8 +282,15 @@ class ClientPrefs {
 		if(FlxG.save.data.scoreZoom != null) {
 			scoreZoom = FlxG.save.data.scoreZoom;
 		}
-		if(FlxG.save.data.longhealthbar != null) {
-			longhealthbar = FlxG.save.data.longhealthbar;
+		if(FlxG.save.data.longhealthbar != null) { // fixes bugs
+			if(FlxG.save.data.longhealthbar)
+				FlxG.save.data.healthBarImage = 'Longer';
+			else
+				FlxG.save.data.healthBarImage = 'Normal';
+			FlxG.save.data.longhealthbar = null;
+		}
+		if(FlxG.save.data.healthBarImage != null) {
+			healthBarImage = FlxG.save.data.healthBarImage;
 		}
 		if(FlxG.save.data.noReset != null) {
 			noReset = FlxG.save.data.noReset;
@@ -297,7 +304,6 @@ class ClientPrefs {
 		if(FlxG.save.data.comboOffset != null) {
 			comboOffset = FlxG.save.data.comboOffset;
 		}
-		
 		if(FlxG.save.data.ratingOffset != null) {
 			ratingOffset = FlxG.save.data.ratingOffset;
 		}
@@ -336,7 +342,7 @@ class ClientPrefs {
 				gameplaySettings.set(name, value);
 			}
 		}
-		
+
 		// flixel automatically saves your volume!
 		if(FlxG.save.data.volume != null)
 		{

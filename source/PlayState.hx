@@ -298,7 +298,7 @@ class PlayState extends MusicBeatState
 	// Debug buttons
 	private var debugKeysChart:Array<FlxKey>;
 	private var debugKeysCharacter:Array<FlxKey>;
-	
+
 	// Less laggy controls
 	private var keysArray:Array<Dynamic>;
 
@@ -326,28 +326,28 @@ class PlayState extends MusicBeatState
 		ratingsData.push(new Rating('marvelous')); //default rating
 
 		var rating:Rating = new Rating('sick');
-		rating.ratingMod = 0.85;
-		rating.score = 300;
-		rating.noteSplash = false;
+			rating.ratingMod = 0.85;
+			rating.score = 300;
+			rating.noteSplash = false;
 		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('good');
 			rating.ratingMod = 0.7;
 			rating.score = 200;
 			rating.noteSplash = false;
-			ratingsData.push(rating);
+		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('bad');
 			rating.ratingMod = 0.4;
 			rating.score = 100;
 			rating.noteSplash = false;
-			ratingsData.push(rating);
+		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('shit');
 			rating.ratingMod = 0;
 			rating.score = 50;
 			rating.noteSplash = false;
-			ratingsData.push(rating);
+		ratingsData.push(rating);
 
 		// For the "Just the Two of Us" achievement
 		for (i in 0...keysArray.length)
@@ -966,7 +966,7 @@ class PlayState extends MusicBeatState
 		startCharacterPos(boyfriend);
 		boyfriendGroup.add(boyfriend);
 		startCharacterLua(boyfriend.curCharacter);
-		
+
 		var camPos:FlxPoint = new FlxPoint(girlfriendCameraOffset[0], girlfriendCameraOffset[1]);
 		if(gf != null)
 		{
@@ -985,15 +985,18 @@ class PlayState extends MusicBeatState
 			case 'limo':
 				resetFastCar();
 				insert(members.indexOf(gfGroup) - 1, fastCar);
-			
+
 			case 'schoolEvil':
 				var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); //nice
 				insert(members.indexOf(dadGroup) - 1, evilTrail);
 		}
 
 		var file:String = Paths.json('$songName/dialogue'); //Checks for json/Psych Engine dialogue
+		var file2:String = Paths.json('$songName/Dialogue');
 		if (OpenFlAssets.exists(file))
 			dialogueJson = DialogueBoxPsych.parseDialogue(file);
+		else if(OpenFlAssets.exists(file2))
+			dialogueJson = DialogueBoxPsych.parseDialogue(file2);
 
 
 		var file:String = Paths.txt(songName + '/' + songName + 'Dialogue'); //Checks for vanilla/Senpai dialogue
@@ -1158,11 +1161,19 @@ class PlayState extends MusicBeatState
 
 		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + PlayState.SONG.song + ' [' + CoolUtil.difficultyString() + ']';
 
-		if (ClientPrefs.longhealthbar) {
-			healthBarBG = new AttachedSprite('longhealthBar');
-		} else {
-			healthBarBG = new AttachedSprite('healthBar');
+		var imageHealthBar:String = 'healthBar';
+		switch(ClientPrefs.healthBarImage.toLowerCase()) {
+			case 'longer':
+				imageHealthBar = 'longhealthBar';
+			case 'broken':
+				imageHealthBar = 'brokenHealthBar';
+			case 'longer broken':
+				imageHealthBar = 'longbrokenHealthBar';
+			default:
+				imageHealthBar = 'healthBar';
 		}
+		healthBarBG = new AttachedSprite(imageHealthBar);
+
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();

@@ -93,7 +93,7 @@ class Rating
 	public function new(name:String)
 	{
 		this.name = name;
-		this.image = name;
+		this.image = name.toLowerCase();
 		this.counter = name + 's';
 		this.hitWindow = Reflect.field(ClientPrefs, name + 'Window');
 		if(hitWindow == null)
@@ -106,4 +106,4 @@ class Rating
 	{
 		Reflect.setField(PlayState.instance, counter, Reflect.field(PlayState.instance, counter) + blah);
 	}
-} 
+}
