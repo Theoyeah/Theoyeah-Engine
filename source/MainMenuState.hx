@@ -47,6 +47,7 @@ class MainMenuState extends MusicBeatState
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
 	var debugKeys:Array<FlxKey>;
+	var debugKeys2:Array<FlxKey>;
 
 	var logo:FlxSprite;
 	
@@ -59,6 +60,7 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 		debugKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
+		debugKeys2 = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_2'));
 
 		camGame = new FlxCamera();
 		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
@@ -260,10 +262,6 @@ class MainMenuState extends MusicBeatState
 									case 'freeplay':
 										MusicBeatState.switchState(new FreeplayState());
 										Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Freeplay";
-									#if MODS_ALLOWED
-									case 'mods':
-										MusicBeatState.switchState(new ModsMenuState());
-									#end
 									case 'awards':
 										MusicBeatState.switchState(new AchievementsMenuState());
 									case 'credits':
@@ -276,8 +274,8 @@ class MainMenuState extends MusicBeatState
 					});
 				}
 			}
-			#if desktop
-			else if (FlxG.keys.anyJustPressed(debugKeys))
+			#if (desktop && (CHEATING_ALLOWED || debug))
+			else if (FlxG.keys.anyJustPressed(debugKeys) || FlxG.keys.anyJustPressed(debugKeys2))
 			{
 				selectedSomethin = true;
 				//Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Master Editor Menu";
