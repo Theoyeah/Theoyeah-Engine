@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
+import options.GraphicsSettingsSubState as Setting;
 import Controls;
 
 class ClientPrefs {
@@ -237,11 +238,11 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.framerate != null) {
 			framerate = FlxG.save.data.framerate;
-			GraphicsSettingsSubState.onChangeFramerate();
+			Setting.onChangeFramerate();
 		}
 		if(FlxG.save.data.newFramerate != null) {
 			newFramerate = FlxG.save.data.newFramerate;
-			GraphicsSettingsSubState.onChangeFramerate();
+			Setting.onChangeFramerate();
 		}
 		if(FlxG.save.data.newFramerateThing != null) {
 			newFramerateThing = FlxG.save.data.newFramerateThing;
