@@ -72,7 +72,7 @@ class ClientPrefs {
 	public static var goodWindow:Int = 90;
 	public static var badWindow:Int = 135;
 	public static var safeFrames:Float = 10;
-	public static var dieRevive:Bool = false;
+	public static var instantRespawn:Bool = false;
 
 	//Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
@@ -160,7 +160,7 @@ class ClientPrefs {
 		FlxG.save.data.controllerMode = controllerMode;
 		FlxG.save.data.hitsoundVolume = hitsoundVolume;
 		FlxG.save.data.pauseMusic = pauseMusic;
-		FlxG.save.data.dieRevive = dieRevive;
+		FlxG.save.data.instantRespawn = instantRespawn;
 	
 		FlxG.save.flush();
 
@@ -182,8 +182,8 @@ class ClientPrefs {
 				FlxG.save.data.noteSplashesRepared = true;
 			}
 		}
-		if(FlxG.save.data.dieRevive != null)
-			dieRevive = FlxG.save.data.dieRevive;
+		if(FlxG.save.data.instantRespawn != null)
+			instantRespawn = FlxG.save.data.instantRespawn;
 
 		if(FlxG.save.data.winningIcon != null) {
 			winningIcon = FlxG.save.data.winningIcon;
