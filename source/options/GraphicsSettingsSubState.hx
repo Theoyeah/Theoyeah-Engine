@@ -32,6 +32,28 @@ using StringTools;
 class GraphicsSettingsSubState extends BaseOptionsMenu
 {
 	public static var framerate:Null<Option> = null;
+	public static var newFrama:Option = new Option('New Framerate',
+		"Pretty self explanatory, isn't it?",
+		'newFramerate',
+		'int',
+		60);
+	public static var frama:Option = new Option('Framerate',
+				   "Pretty self explanatory, isn't it?",
+				   'framerate',
+				   'int',
+			60);
+	
+	public static function fram():Void {
+		var fps:Int = ClientPrefs.framerate;
+		var frame:Int = fps;
+		if(ClientPrefs.framerate > 100 && ClientPrefs.framerate < 120)
+			fps = Std.int(frame / 2 - 20);
+		else if(ClientPrefs.framerate > 60 && ClientPrefs.framerate < 100)
+			fps = Std.int(frame / 2);
+		else if(fps > 121)
+			fps = Std.int(frame / 3);
+		ClientPrefs.newFramerate = fps;
+	}
 
 	public function new()
 	{
@@ -56,17 +78,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		#if !html5 //Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
-		framerate = if(ClientPrefs.newFramerate)
-			new Option('Framerate',
-				   "Pretty self explanatory, isn't it?",
-				   'framerate',
-				   'int',
-			60) else
-				new Option('New Framerate',
-					   "Pretty self explanatory, isn't it?",
-					   'newFramerate',
-					   'int',
-				60);
+		framerate = if(ClientPrefs.newFramerate) frama else newFrama;
 		addOption(framerate);
 		option.minValue = 60;
 		option.maxValue = 240;
@@ -147,13 +159,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 				FlxG.updateFramerate = ClientPrefs.framerate;
 			}
 		} else {
-			var fps:Int = ClientPrefs.framerate;
-			var frame:Int = fps;
-			if(ClientPrefs.framerate > 100 && ClientPrefs.framerate < 120)
-				fps = Std.int(frame / 2 - 20);
-			else if(ClientPrefs.framerate > 60 && ClientPrefs.framerate < 100)
-				fps = Std.int(frame / 2);
-			ClientPrefs.newFramerate = fps;
+			fram();
 		}
 		reloadFpsOption();
 	}
