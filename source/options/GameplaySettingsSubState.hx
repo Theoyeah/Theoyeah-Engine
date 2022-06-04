@@ -81,9 +81,9 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
-		var option:Option = new Option('Die and Revive',
-			"If checked, if you die, you will revive immediately",
-			'dieRevive',
+		var option:Option = new Option('Instant Respawn',
+			"If checked, you will instally respawn if you die.",
+			'instantRespawn',
 			'bool',
 			false);
 		addOption(option);
