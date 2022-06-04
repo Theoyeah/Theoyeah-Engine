@@ -255,17 +255,13 @@ class Paths
 		var returnAsset:FlxGraphic = returnGraphic(key, library);
 		return returnAsset;
 	}
-
+	
 	static public function getTextFromFile(key:String, ?ignoreMods:Bool = false):String
 	{
 		#if sys
 		#if MODS_ALLOWED
 		if (FileSystem.exists(modFolders(key)) && !ignoreMods)
 			return File.getContent(modFolders(key));
-		else if(File.exists(modFolders(key.toLowerCase())) && !ignoreMods)
-			return File.getContent(modFolders(key.toLowerCase()));
-		else if(File.exists(modFolders(key.toUpperCase())) && !ignoreMods)
-			return File.getContent(modFolders(key.toUpperCase()));
 		#end
 
 		if (FileSystem.exists(getPreloadPath(key)))
@@ -278,19 +274,11 @@ class Paths
 				levelPath = getLibraryPathForce(key, currentLevel);
 				if (FileSystem.exists(levelPath))
 					return File.getContent(levelPath);
-				else if (FileSystem.exists(levelPath.toLowerCase()))
-					return File.getContent(levelPath.toLowerCase());
-				if (FileSystem.exists(levelPath.toUpperCase()))
-					return File.getContent(levelPath.toUpperCase());
 			}
 
 			levelPath = getLibraryPathForce(key, 'shared');
 			if (FileSystem.exists(levelPath))
 				return File.getContent(levelPath);
-			else if (FileSystem.exists(levelPath.toLowerCase()))
-				return File.getContent(levelPath.toLowerCase());
-			else if (FileSystem.exists(levelPath.toUpperCase()))
-				return File.getContent(levelPath.toUpperCase());
 		}
 		#end
 		return Assets.getText(getPath(key, TEXT));
@@ -310,14 +298,12 @@ class Paths
 	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)
 	{
 		#if MODS_ALLOWED
-		if(FileSystem.exists(mods(currentModDirectory + '/' + key)) || FileSystem.exists(mods(key))
-		   || FileSystem.exists(mods(currentModDirectory + '/' + key.toLowerCase())) || FileSystem.exists(mods(key.toLowerCase()))
-		   || FileSystem.exists(mods(currentModDirectory + '/' + key.toUpperCase())) || FileSystem.exists(mods(key.toUpperCase()))) {
+		if(FileSystem.exists(mods(currentModDirectory + '/' + key)) || FileSystem.exists(mods(key))) {
 			return true;
 		}
 		#end
 		
-		if(OpenFlAssets.exists(getPath(key, type)) || OpenFlAssets.exists(getPath(key.toLowerCase(), type)) || OpenFlAssets.exists(getPath(key.toUpperCase(), type))) {
+		if(OpenFlAssets.exists(getPath(key, type))) {
 			return true;
 		}
 		return false;
@@ -363,8 +349,6 @@ class Paths
 	public static function returnGraphic(key:String, ?library:String) {
 		#if MODS_ALLOWED
 		var modKey:String = modsImages(key);
-		var modKey_:String = modsImages(key.toLowerCase());
-		var modKey2:String = modsImages(key.toUpperCase());
 		if(FileSystem.exists(modKey)) {
 			if(!currentTrackedAssets.exists(modKey)) {
 				var newBitmap:BitmapData = BitmapData.fromFile(modKey);
@@ -374,33 +358,11 @@ class Paths
 			}
 			localTrackedAssets.push(modKey);
 			return currentTrackedAssets.get(modKey);
-		} else if(FileSystem.exists(modKey2)) {
-			if(!currentTrackedAssets.exists(modKey2)) {
-				var newBitmap:BitmapData = BitmapData.fromFile(modKey2);
-				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, modKey2);
-				newGraphic.persist = true;
-				currentTrackedAssets.set(modKey2, newGraphic);
-			}
-			localTrackedAssets.push(modKey2);
-			return currentTrackedAssets.get(modKey2);
-		} else if(FileSystem.exists(modKey_)) {
-			if(!currentTrackedAssets.exists(modKey_)) {
-				var newBitmap:BitmapData = BitmapData.fromFile(modKey_);
-				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, modKey_);
-				newGraphic.persist = true;
-				currentTrackedAssets.set(modKey_, newGraphic);
-			}
-			localTrackedAssets.push(modKey_);
-			return currentTrackedAssets.get(modKey_);
 		}
 		#end
 
 		var path = getPath('images/$key.png', IMAGE, library);
 		var path_ = getPath('images/$key.PNG', IMAGE, library);
-		var papath = getPath('images/' + key.toLowerCase() + '.png', IMAGE, library);
-		var papapath = getPath('images/' + key.toUpperCase() + '.png', IMAGE, library);
-		var papapapath = getPath('images/' + key.toLowerCase() + '.PNG', IMAGE, library);
-		var papapapapath = getPath('images/' + key.toUpperCase() + '.PNG', IMAGE, library);
 		if (OpenFlAssets.exists(path, IMAGE)) {
 			if(!currentTrackedAssets.exists(path)) {
 				var newGraphic:FlxGraphic = FlxG.bitmap.add(path, false, path);
@@ -417,38 +379,6 @@ class Paths
 			}
 			localTrackedAssets.push(path_);
 			return currentTrackedAssets.get(path_);
-		} else if (OpenFlAssets.exists(papath, IMAGE)) {
-			if(!currentTrackedAssets.exists(papath)) {
-				var newGraphic:FlxGraphic = FlxG.bitmap.add(papath, false, papath);
-				newGraphic.persist = true;
-				currentTrackedAssets.set(papath, newGraphic);
-			}
-			localTrackedAssets.push(papath);
-			return currentTrackedAssets.get(papath);
-		} else if (OpenFlAssets.exists(papapath, IMAGE)) {
-			if(!currentTrackedAssets.exists(papapath)) {
-				var newGraphic:FlxGraphic = FlxG.bitmap.add(papapath, false, papapath);
-				newGraphic.persist = true;
-				currentTrackedAssets.set(papapath, newGraphic);
-			}
-			localTrackedAssets.push(papapath);
-			return currentTrackedAssets.get(papapath);
-		} else if (OpenFlAssets.exists(papapapath, IMAGE)) {
-			if(!currentTrackedAssets.exists(papapapath)) {
-				var newGraphic:FlxGraphic = FlxG.bitmap.add(papapapath, false, papapapath);
-				newGraphic.persist = true;
-				currentTrackedAssets.set(papapapath, newGraphic);
-			}
-			localTrackedAssets.push(papapapath);
-			return currentTrackedAssets.get(papapapath);
-		} else if (OpenFlAssets.exists(papapapapath, IMAGE)) {
-			if(!currentTrackedAssets.exists(papapapapath)) {
-				var newGraphic:FlxGraphic = FlxG.bitmap.add(papapapapath, false, papapapapath);
-				newGraphic.persist = true;
-				currentTrackedAssets.set(papapapapath, newGraphic);
-			}
-			localTrackedAssets.push(papapapapath);
-			return currentTrackedAssets.get(papapapapath);
 		}
 		trace('oh no $key is returning null NOOOO');
 		return null;
@@ -458,26 +388,12 @@ class Paths
 	public static function returnSound(path:String, key:String, ?library:String) {
 		#if MODS_ALLOWED
 		var file:String = modsSounds(path, key);
-		var file2:String = modsSounds(path, key.toLowerCase());
-		var file3:String = modsSounds(path, key.toUpperCase());
 		if(FileSystem.exists(file)) {
 			if(!currentTrackedSounds.exists(file)) {
 				currentTrackedSounds.set(file, Sound.fromFile(file));
 			}
 			localTrackedAssets.push(key);
 			return currentTrackedSounds.get(file);
-		} else if(FileSystem.exists(file2)) {
-			if(!currentTrackedSounds.exists(file2)) {
-				currentTrackedSounds.set(file2, Sound.fromFile(file2));
-			}
-			localTrackedAssets.push(key.toLowerCase());
-			return currentTrackedSounds.get(file2);
-		} else if(FileSystem.exists(file3)) {
-			if(!currentTrackedSounds.exists(file3)) {
-				currentTrackedSounds.set(file3, Sound.fromFile(file3));
-			}
-			localTrackedAssets.push(key.toUpperCase());
-			return currentTrackedSounds.get(file3);
 		}
 		#end
 		// I hate this so god damn much
@@ -518,12 +434,12 @@ class Paths
 			if(notetype) {
 				return modFolders('custom_notetypes/$thing.lua');
 			}
-			return modFolders('custom_events/$thing.lua');
+			return modFolders('custom_events/' + thing + '.lua');
 		} else {
 			if(notetype) {
-				return getPreloadPath('custom_notetypes/$thing.lua');
+				return getPreloadPath('custom_notetypes/' + thing + '.lua');
 			}
-			return getPreloadPath('custom_events/$thing.lua');
+			return getPreloadPath('custom_events/' + thing + '.lua');
 		}
 	}
 	#end
@@ -570,14 +486,8 @@ class Paths
 	static public function modFolders(key:String) {
 		if(currentModDirectory != null && currentModDirectory.length > 0) {
 			var fileToCheck:String = mods(currentModDirectory + '/' + key);
-			var file2:String = mods(currentModDirectory + '/' + key.toLowerCase());
-			var file3:String = mods(currentModDirectory + '/' + key.toUpperCase());
 			if(FileSystem.exists(fileToCheck)) {
 				return fileToCheck;
-			} else if(FileSystem.exists(file2)) {
-				return file2;
-			} else if(FileSystem.exists(file3)) {
-				return file3;
 			}
 		}
 		return 'mods/$key';
