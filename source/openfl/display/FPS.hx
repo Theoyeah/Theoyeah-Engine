@@ -101,9 +101,9 @@ class FPS extends TextField
 
 			var fps_:Int = if(ClientPrefs.newFramerateThing) (ClientPrefs.newFramerate + 20) * 2 else ClientPrefs.framerate;
 			if(ClientPrefs.framerate > 100 && ClientPrefs.framerate < 120)
-				fps_ = ClientPrefs.framerate / 2 - 20;
+				fps_ = Std.int(ClientPrefs.framerate / 2 - 20);
 			else if(ClientPrefs.framerate > 60 && ClientPrefs.framerate < 100)
-				fps_ = ClientPrefs.framerate / 2;
+				fps_ = Std.int(ClientPrefs.framerate / 2);
 
 			textColor = 0xFFFFFFFF;
 			if (memoryMegas > 3000 || currentFPS <= fps_)
