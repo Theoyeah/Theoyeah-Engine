@@ -264,7 +264,7 @@ class FunkinLua {
 		set('judgementCounter', ClientPrefs.crazycounter);
 		set('camFollow', ClientPrefs.camfollow);
 		set('introBg', ClientPrefs.introbg);
-		set('longHealthBar', ClientPrefs.longhealthbar);
+		set('healthBarImage', ClientPrefs.healthBarImage);
 		set('noScore', ClientPrefs.noscore);
 		set('kadeTxt', ClientPrefs.kadetxt);
 		set('iconBounce', ClientPrefs.iconBounce);
