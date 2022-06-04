@@ -275,7 +275,7 @@ class MainMenuState extends MusicBeatState
 				}
 			}
 			#if (desktop && (CHEATING_ALLOWED || debug))
-			else if (FlxG.keys.anyJustPressed(debugKeys) || FlxG.keysJustPressed(debugKeys2))
+			else if (FlxG.keys.anyJustPressed(debugKeys) || FlxG.keys.JustPressed(debugKeys2))
 			{
 				selectedSomethin = true;
 				//Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Master Editor Menu";
