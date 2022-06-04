@@ -432,7 +432,7 @@ class Paths
 	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false) {
 		if(!getPreload) {
 			if(notetype) {
-				return modFolders('custom_notetypes/' + thing + '.lua');
+				return modFolders('custom_notetypes/$thing.lua');
 			}
 			return modFolders('custom_events/' + thing + '.lua');
 		} else {

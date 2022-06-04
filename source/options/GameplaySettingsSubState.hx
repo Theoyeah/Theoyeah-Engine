@@ -81,12 +81,19 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Instant Respawn',
+			"If checked, you will instally respawn if you die.",
+			'instantRespawn',
+			'bool',
+			false);
+		addOption(option);
+
 		var option:Option = new Option('Hide Opponent Notes',
-		'If unchecked, opponent notes get hidden.',
-		'opponentStrums',
-		'bool',
-		false);
-	    addOption(option);
+			'If unchecked, opponent notes get hidden.',
+			'opponentStrums',
+			'bool',
+			false);
+		addOption(option);
 		
 		var option:Option = new Option('Rating Offset',
 			'Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.',
