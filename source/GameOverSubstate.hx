@@ -45,7 +45,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	public function new(x:Float, y:Float, camX:Float, camY:Float)
 	{
-		if(!ClientPrefs.dieRevive) {
+		if(!ClientPrefs.instantRespawn) {
 			super();
 
 			PlayState.instance.setOnLuas('inGameOver', true);
@@ -75,14 +75,14 @@ class GameOverSubstate extends MusicBeatSubstate
 			camFollowPos.setPosition(FlxG.camera.scroll.x + (FlxG.camera.width / 2), FlxG.camera.scroll.y + (FlxG.camera.height / 2));
 			add(camFollowPos);
 		} else {
-			endBullShit();
+			endBullshit();
 		}
 	}
 
 	var isFollowingAlready:Bool = false;
 	override function update(elapsed:Float)
 	{
-		if(!ClientPrefs.dieRevive) {
+		if(!ClientPrefs.instantRespawn) {
 			super.update(elapsed);
 
 			PlayState.instance.callOnLuas('onUpdate', [elapsed]);
@@ -140,12 +140,11 @@ class GameOverSubstate extends MusicBeatSubstate
 				}
 			}
 
-			if (FlxG.sound.music.playing)
-				Conductor.songPosition = FlxG.sound.music.time;
+			if (FlxG.sound.music.playing) Conductor.songPosition = FlxG.sound.music.time;
 
 			PlayState.instance.callOnLuas('onUpdatePost', [elapsed]);
 		} else {
-			endBullShit();
+			endBullshit();
 		}
 	}
 
