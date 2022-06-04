@@ -397,10 +397,10 @@ class Paths
 
 		var path = getPath('images/$key.png', IMAGE, library);
 		var path_ = getPath('images/$key.PNG', IMAGE, library);
-		var papath = getPath('images/' + key.toLowerCase(). + '.png', IMAGE, library);
-		var papapath = getPath('images/' + key.toUpperCase(). + '.png', IMAGE, library);
-		var papapapath = getPath('images/' + key.toLowerCase(). + '.PNG', IMAGE, library);
-		var papapapapath = getPath('images/' + key.toUpperCase(). + '.PNG', IMAGE, library);
+		var papath = getPath('images/' + key.toLowerCase() + '.png', IMAGE, library);
+		var papapath = getPath('images/' + key.toUpperCase() + '.png', IMAGE, library);
+		var papapapath = getPath('images/' + key.toLowerCase() + '.PNG', IMAGE, library);
+		var papapapapath = getPath('images/' + key.toUpperCase() + '.PNG', IMAGE, library);
 		if (OpenFlAssets.exists(path, IMAGE)) {
 			if(!currentTrackedAssets.exists(path)) {
 				var newGraphic:FlxGraphic = FlxG.bitmap.add(path, false, path);
@@ -518,12 +518,12 @@ class Paths
 			if(notetype) {
 				return modFolders('custom_notetypes/$thing.lua');
 			}
-			return modFolders('custom_events/' + thing + '.lua');
+			return modFolders('custom_events/$thing.lua');
 		} else {
 			if(notetype) {
-				return getPreloadPath('custom_notetypes/' + thing + '.lua');
+				return getPreloadPath('custom_notetypes/$thing.lua');
 			}
-			return getPreloadPath('custom_events/' + thing + '.lua');
+			return getPreloadPath('custom_events/$thing.lua');
 		}
 	}
 	#end
