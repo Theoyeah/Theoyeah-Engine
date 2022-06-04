@@ -45,81 +45,81 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	public function new(x:Float, y:Float, camX:Float, camY:Float)
 	{
-		super();
+		if(!ClientPrefs.dieRevive) {
+			super();
 
-		PlayState.instance.setOnLuas('inGameOver', true);
+			PlayState.instance.setOnLuas('inGameOver', true);
 
-		Conductor.songPosition = 0;
+			Conductor.songPosition = 0;
 
-		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - GAME OVER";
+			Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - GAME OVER";
 
-		boyfriend = new Boyfriend(x, y, characterName);
-		boyfriend.x += boyfriend.positionArray[0];
-		boyfriend.y += boyfriend.positionArray[1];
-		add(boyfriend);
+			boyfriend = new Boyfriend(x, y, characterName);
+			boyfriend.x += boyfriend.positionArray[0];
+			boyfriend.y += boyfriend.positionArray[1];
+			add(boyfriend);
 
-		camFollow = new FlxPoint(boyfriend.getGraphicMidpoint().x, boyfriend.getGraphicMidpoint().y);
+			camFollow = new FlxPoint(boyfriend.getGraphicMidpoint().x, boyfriend.getGraphicMidpoint().y);
 
-		FlxG.sound.play(Paths.sound(deathSoundName));
-		Conductor.changeBPM(100);
-		// FlxG.camera.followLerp = 1;
-		// FlxG.camera.focusOn(FlxPoint.get(FlxG.width / 2, FlxG.height / 2));
-		FlxG.camera.scroll.set();
-		FlxG.camera.target = null;
+			FlxG.sound.play(Paths.sound(deathSoundName));
+			Conductor.changeBPM(100);
+			// FlxG.camera.followLerp = 1;
+			// FlxG.camera.focusOn(FlxPoint.get(FlxG.width / 2, FlxG.height / 2));
+			FlxG.camera.scroll.set();
+			FlxG.camera.target = null;
 
-		boyfriend.playAnim('firstDeath');
-		if(ClientPrefs.flashing) {
-			FlxG.camera.flash(FlxColor.RED, 0.5);
-		}
+			boyfriend.playAnim('firstDeath');
+			if(ClientPrefs.flashing) FlxG.camera.flash(FlxColor.RED, 0.5);
 
-		camFollowPos = new FlxObject(0, 0, 1, 1);
-		camFollowPos.setPosition(FlxG.camera.scroll.x + (FlxG.camera.width / 2), FlxG.camera.scroll.y + (FlxG.camera.height / 2));
-		add(camFollowPos);
+			camFollowPos = new FlxObject(0, 0, 1, 1);
+			camFollowPos.setPosition(FlxG.camera.scroll.x + (FlxG.camera.width / 2), FlxG.camera.scroll.y + (FlxG.camera.height / 2));
+			add(camFollowPos);
+		} else {
+			endBullShit();
 	}
 
 	var isFollowingAlready:Bool = false;
 	override function update(elapsed:Float)
 	{
-		super.update(elapsed);
+		if(!ClientPrefs.dieRevive) {
+			super.update(elapsed);
 
-		PlayState.instance.callOnLuas('onUpdate', [elapsed]);
-		if(updateCamera) {
-			var lerpVal:Float = CoolUtil.boundTo(elapsed * 0.6, 0, 1);
-			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
-		}
-
-		if (controls.ACCEPT)
-		{
-			endBullshit();
-		}
-
-		if (controls.BACK)
-		{
-			FlxG.sound.music.stop();
-			PlayState.deathCounter = 0;
-			PlayState.seenCutscene = false;
-
-			if (PlayState.isStoryMode)
-				MusicBeatState.switchState(new StoryMenuState());
-			else
-				MusicBeatState.switchState(new FreeplayState());
-
-			FlxG.sound.playMusic(Paths.music('freakyMenu'));
-			PlayState.instance.callOnLuas('onGameOverConfirm', [false]);
-		}
-
-		if (boyfriend.animation.curAnim.name == 'firstDeath')
-		{
-			if(boyfriend.animation.curAnim.curFrame >= 12 && !isFollowingAlready)
-			{
-				FlxG.camera.follow(camFollowPos, LOCKON, 0.6);
-				updateCamera = true;
-				isFollowingAlready = true;
+			PlayState.instance.callOnLuas('onUpdate', [elapsed]);
+			if(updateCamera) {
+				var lerpVal:Float = CoolUtil.boundTo(elapsed * 0.6, 0, 1);
+				camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 			}
 
-			if (boyfriend.animation.curAnim.finished && !playingDeathSound)
+			if (controls.ACCEPT)
+				endBullshit();
+
+			if (controls.BACK)
 			{
-				if (PlayState.SONG.stage == 'tank')
+				FlxG.sound.music.stop();
+				PlayState.deathCounter = 0;
+				PlayState.seenCutscene = false;
+
+				if (PlayState.isStoryMode)
+					MusicBeatState.switchState(new StoryMenuState());
+				else
+					MusicBeatState.switchState(new FreeplayState());
+
+				FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				PlayState.instance.callOnLuas('onGameOverConfirm', [false]);
+			}
+
+			if (boyfriend.animation.curAnim.name == 'firstDeath')
+			{
+				if(boyfriend.animation.curAnim.curFrame >= 12 && !isFollowingAlready)
+				{
+					FlxG.camera.follow(camFollowPos, LOCKON, 0.6);
+					updateCamera = true;
+					isFollowingAlready = true;
+				}
+
+				if (boyfriend.animation.curAnim.finished && !playingDeathSound)
+				{
+					if (PlayState.SONG.stage == 'tank')
 					{
 						playingDeathSound = true;
 						coolStartDeath(0.2);
@@ -128,25 +128,24 @@ class GameOverSubstate extends MusicBeatSubstate
 						//if(!ClientPrefs.cursing) exclude = [1, 3, 8, 13, 17, 21];
 	
 						FlxG.sound.play(Paths.sound('jeffGameover/jeffGameover-' + FlxG.random.int(1, 25, exclude)), 1, false, null, true, function() {
-							if(!isEnding)
-							{
-								FlxG.sound.music.fadeIn(0.2, 1, 4);
-							}
+							if(!isEnding) FlxG.sound.music.fadeIn(0.2, 1, 4);
 						});
 					}
 					else
 					{
 						coolStartDeath();
 					}
-				boyfriend.startedDeath = true;
+					boyfriend.startedDeath = true;
+				}
 			}
-		}
 
-		if (FlxG.sound.music.playing)
-		{
-			Conductor.songPosition = FlxG.sound.music.time;
+			if (FlxG.sound.music.playing)
+				Conductor.songPosition = FlxG.sound.music.time;
+
+			PlayState.instance.callOnLuas('onUpdatePost', [elapsed]);
+		} else {
+			endBullShit();
 		}
-		PlayState.instance.callOnLuas('onUpdatePost', [elapsed]);
 	}
 
 	override function beatHit()
