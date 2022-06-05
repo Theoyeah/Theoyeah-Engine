@@ -6,6 +6,12 @@ class, also use this method to all the other classes, bye!
 package flxthings;
 
 //HaxeFlixel API Packages
+import flixel.effects.particles.FlxEmitter.FlxTypedEmitter;
+import openfl.media.SoundChannel;
+import flixel.text.FlxText;
+import flixel.util.FlxColorTransformUtil;
+import openfl.geom.ColorTransform;
+import flixel.util.FlxColor;
 import flash.*;
 import flixel.*;
 import haxe.*;
@@ -66,8 +72,12 @@ stoled from HaxeFlixel Docs!! But better!
 
 	}
 
-	class Dates extends Date
+	class Dates
 	{
+		/**
+		 * Returns a random date
+		 * @return Date
+		 */
 		public function returnRandomDate():Date {
 			var fuck:Date = new Date(flxthings.Random.int(0, 10000), flxthings.Random.int(0, 11), flxthings.Random.int(1, 31), flxthings.Random.int(0, 23), flxthings.Random.int(0, 59), flxthings.Random.int(0, 59));
 			return fuck;
@@ -77,7 +87,7 @@ stoled from HaxeFlixel Docs!! But better!
 
 	//class Colors
 	//{
-		class NewFlxColor extends FlxColor
+	class NewFlxColor
 		{
 			/**
 			 * returns the color of the string gived
@@ -123,7 +133,7 @@ stoled from HaxeFlixel Docs!! But better!
 
 		}
 
-		class NewColorTransform extends ColorTransform extends FlxColorTransformUtil
+		class NewColorTransform extends ColorTransform
 		{
 			// to use this do this:
 			// new(redMultiplier:Float = 1, greenMultiplier:Float = 1, blueMultiplier:Float = 1, alphaMultiplier:Float = 1, redOffset:Float = 0, greenOffset:Float = 0, blueOffset:Float = 0, alphaOffset:Float = 0)
@@ -148,43 +158,30 @@ stoled from HaxeFlixel Docs!! But better!
 				}
 				if(!set) {
 					if(alpha) {
-						if(!multiplier) {
+						if(!multiplier)
 							return color.alphaOffset;
-						} else {
-							return color.alphaMultiplier;
-						}
+						return color.alphaMultiplier;
 					} else if(blue) {
-						if(!multiplier) {
+						if(!multiplier)
 							return color.blueOffset;
-						} else {
-							return color.blueMultiplier;
-						}
+						return color.blueMultiplier;
 					} else if(red) {
-						if(!multiplier) {
+						if(!multiplier)
 							return color.redOffset;
-						} else {
-							return color.redMultiplier;
-						}
+						return color.redMultiplier;
 					} else if(green) {
-						if(!multiplier) {
+						if(!multiplier)
 							return color.greenOffset;
-						} else {
-							return color.greenMultiplier;
-						}
+						return color.greenMultiplier;
 					}
 				} else {
-					if(!multiplier) {
+					if(!multiplier)
 						return color.setOffsets(color, setRedValue, setGreenValue, setBlueValue, setAlphaValue);
-					} else {
-						return color.setMultipliers(color, setRedValue, setGreenValue, setBlueValue, setAlphaValue);
-					}
+					return color.setMultipliers(color, setRedValue, setGreenValue, setBlueValue, setAlphaValue);
 				}
 			}
 
 		}
-
-		//class ColorsInGeneral extends NewColorTransform extends NewFlxColor {} //for having all the functions in one single class
-	//}
 
 	class FlxMoreText extends FlxText
 	{
@@ -210,36 +207,32 @@ stoled from HaxeFlixel Docs!! But better!
 				case 'style': true;
 				default: false;
 			}
-			if(color) {
+			if(color)
 				return text.borderColor;
-			} else if(qua) {
+			else if(qua)
 				return text.borderQuality;
-			} else if(size) {
+			else if(size)
 				return text.borderSize;
-			} else if(style) {
-				return text.borderStyle;
-			}
+			return text.borderStyle;
 		}
 
 	}
 
-	class NewSoundChannel extends SoundChannel
+	class NewSoundChannel
 	{
 		public function getPosition(sound:IEventDispatcher, ?returnPositionIfIsLeft:Bool = false, ?returnPositionIfIsRight:Bool = false):Float {
-			if (returnPositionIfIsLeft) {
+			if (returnPositionIfIsLeft)
 				return sound.leftPeak;
-			} else if(returnPositionIfIsRight) {
+			else if(returnPositionIfIsRight)
 				return sound.rightPeak;
-			} else {
-				return sound.position;
-			}
+			return sound.position;
 		}
 
 	}
 
-	class NewFlxTypedEmitter extends FlxTypedEmitter
+	class NewFlxTypedEmitter extends FlxTypedEmitter<T>
 	{
-		public function setDefaultAngularThings(typedEmitter:FlxTypedEmitter, angularThing:String):Dynamic {
+		public function setDefaultAngularThings(typedEmitter:FlxTypedEmitter<T>, angularThing:String):Dynamic {
 			var acceleration:Bool = switch(angularThing.toLowerCase()) {
 				case 'acceleration' | 'angularacceleration': true;
 				default: false;
@@ -252,13 +245,11 @@ stoled from HaxeFlixel Docs!! But better!
 				case 'velocity' | 'angularvelocity': true;
 				default: false;
 			}
-			if(acceleration) {
+			if(acceleration)
 				typedEmitter.angularAcceleration;
-			} else if(drag) {
+			else if(drag)
 				typedEmitter.angularDrag;
-			} else if(velocity) {
-				typedEmitter.angularVelocity;
-			}
+			typedEmitter.angularVelocity;
 		}
 	}
 
@@ -279,13 +270,11 @@ stoled from HaxeFlixel Docs!! But better!
 					case 'total' | 'bytestotal': true;
 					default: false;
 				}
-				if(loaded) {
+				if(loaded)
 					return loader.bytesLoaded; //returns an Int
-				} else if(normal) {
+				else if(normal)
 					return loader.bytes; //returns a ByteArray
-				} else if(total) {
-					return loader.bytesTotal; //returns an Int
-				}
+				return loader.bytesTotal; //returns an Int
 			}
 		}
 	//}
