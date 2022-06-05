@@ -509,10 +509,10 @@ class Paths
 			return mods('$where/$img');
 		}
 		return currentModKey('$where/$img');
-  }
+	}
 	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false, where:String = '') {
-	#if LUA_ALLOWED
-  var path:String = where;
+		#if LUA_ALLOWED
+		var path:String = where;
 		if(where == '') {
 			if(notetype)
 				path = 'custom_notetypes';
@@ -523,7 +523,7 @@ class Paths
 			return modFolders('$path/$thing.lua');
 		}
 		return getPreloadPath('$path/$thing.lua');
-    #end
+		#end
 	}
 	inline static public function modsFont(key:String, where:String = 'fonts') {
 		return modFolders('$where/$key');
