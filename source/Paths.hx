@@ -49,6 +49,17 @@ class Paths
 	];
 	#end
 
+	public static function getIsBlankString(s:String, space:Bool = false) {
+		if(space && (s == '' || s == ' ' || s == null))
+			return true;
+		if(s == '' || s == null)
+			return true;
+		return false;
+	}
+	inline public static function returnNull(key:String) {
+		trace('oh no $key is returning null NOOOO');
+	}
+
 	public static function excludeAsset(key:String) {
 		if (!dumpExclusions.contains(key))
 			dumpExclusions.push(key);
@@ -125,9 +136,9 @@ class Paths
 	* @param library where to search
 	* @return i dont know
 	*/
-	public static function getPath(file:String, type:AssetType, ?library:Null<String> = null)
+	public static function getPath(file:String, type:AssetType, ?library:String)
 	{
-		if (library != null)
+		if (!getIsBlankString(library))
 			return getLibraryPath(file, library);
 
 		if (currentLevel != null)
@@ -167,9 +178,12 @@ class Paths
 		return returnPath;
 	}
 
+	inline public static function assets(key:String) {
+		return 'assets/$key';
+	}
 	inline public static function getPreloadPath(file:String = '')
 	{
-		return 'assets/$file'; //returns 'assets/' + file
+		return assets(file); //returns 'assets/' + file
 	}
 
 	inline static public function file(file:String, type:AssetType = TEXT, ?library:String)
@@ -177,29 +191,29 @@ class Paths
 		return getPath(file, type, library);
 	}
 
-	inline static public function txt(key:String, ?library:String)
+	inline static public function txt(key:String, ?library:String, ?where:String = 'data')
 	{
-		return getPath('data/$key.txt', TEXT, library); //returns getPath('data/' + key + '.txt', TEXT, library)
+		return getPath('$where/$key.txt', TEXT, library); //returns getPath('data/' + key + '.txt', TEXT, library)
 	}
 
-	inline static public function xml(key:String, ?library:String)
+	inline static public function xml(key:String, ?library:String, ?where:String = 'data')
 	{
-		return getPath('data/$key.xml', TEXT, library); //returns getPath('data/' + key + '.xml', TEXT, library)
+		return getPath('$where/$key.xml', TEXT, library); //returns getPath('data/' + key + '.xml', TEXT, library)
 	}
 
-	inline static public function json(key:String, ?library:String)
+	inline static public function json(key:String, ?library:String, ?where:String = 'data')
 	{
-		return getPath('data/$key.json', TEXT, library);
+		return getPath('$where/$key.json', TEXT, library);
 	}
 
 	// shaders
-	inline static public function shaderFragment(key:String, ?library:String)
+	inline static public function shaderFragment(key:String, ?library:String, where:String = 'shaders')
 	{
-		return getPath('shaders/$key.frag', TEXT, library);
+		return getPath('$where/$key.frag', TEXT, library);
 	}
-	inline static public function shaderVertex(key:String, ?library:String)
+	inline static public function shaderVertex(key:String, ?library:String, where:String = 'shaders')
 	{
-		return getPath('shaders/$key.vert', TEXT, library);
+		return getPath('$where/$key.vert', TEXT, library);
 	}
 
 	inline static public function lua(key:String, ?library:String)
@@ -207,15 +221,36 @@ class Paths
 		return getPath('$key.lua', TEXT, library);
 	}
 
-	static public function video(key:String, ?ignoreMods:Bool = false)
+	static public function video(key:String, ?ignoreMods:Bool = false, ?mkvFile:Bool = false, where:String = 'videos')
 	{
 		#if MODS_ALLOWED
-		var file:String = modsVideo(key);
-		if(FileSystem.exists(file) && !ignoreMods) {
+		var file:String = modsVideo(key, where);
+		var file_:String = modsVideo2(key, where);
+		#if MKV_ALLOWED
+		if(FileSystem.exists(file_) && !ignoreMods && mkvFile) {
+			return file_;
+		} else #end if(FileSystem.exists(file) && !ignoreMods) {
 			return file;
 		}
 		#end
-		return 'assets/videos/$key.$VIDEO_EXT'; //returns 'assets/videos/' + key + '.' + VIDEO_EXT
+		if(!getIsBlankString(where, true)) {
+			#if MKV_ALLOWED
+			if(mkvFile && FileSystem.exists('assets/$where/$key.mkv')) {
+				return assets('$where/$key.mkv');
+			} else #end if(FileSystem.exists('assets/$where/$key.$VIDEO_EXT')) {
+				return assets('$where/$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
+			}
+		} else {
+			#if MKV_ALLOWED
+			if(mkvFile && FileSystem.exists(assets('$key.mkv'))) {
+				return assets('$key.mkv');
+			} else #end if(FileSystem.exists(assets('$key.$VIDEO_EXT'))) {
+				return assets('$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
+			}
+		}
+		returnNull(key);
+		return null;
+		
 	}
 
 	static public function sound(key:String, ?library:String):Sound
@@ -284,21 +319,20 @@ class Paths
 		return Assets.getText(getPath(key, TEXT));
 	}
 
-	inline static public function font(key:String)
+	inline static public function font(key:String, where:String = 'fonts')
 	{
 		#if MODS_ALLOWED
-		var file:String = modsFont(key);
-		if(FileSystem.exists(file)) {
+		var file:String = modsFont(key, where);
+		if(FileSystem.exists(file))
 			return file;
-		}
 		#end
-		return 'assets/fonts/$key';
+		return assets('$where/$key');
 	}
 
-	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)
+	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String):Bool
 	{
 		#if MODS_ALLOWED
-		if(FileSystem.exists(mods(currentModDirectory + '/' + key)) || FileSystem.exists(mods(key))) {
+		if(FileSystem.exists(currentModKey(key)) || FileSystem.exists(mods(key))) {
 			return true;
 		}
 		#end
@@ -308,24 +342,59 @@ class Paths
 		}
 		return false;
 	}
+	inline static public function whereExists(key:String, type:AssetType, traceThings:Bool = false, whatValueToReturn:Int = 0, ?ignoreMods:Bool = false, ?library:String) {
+		var here:Array<Dynamic> = [];
+		var moreThanOne:Bool = false;
+		var isNull:Array<Dynamic> = [];
+		#if MODS_ALLOWED
+		if(FileSystem.exists(currentModKey(key)) && !ignoreMods) {
+			here.push(currentModKey(key));
+		}
+		if(FileSystem.exists(mods(key)) && !ignoreMods) {
+			here.push(mods(key));
+			if(here.length > 0)
+				moreThanOne = true;
+		}
+		#end
 
-	inline static public function getSparrowAtlas(key:String, ?library:String):FlxAtlasFrames
+		if(OpenFlAssets.exists(getPath(key, type))) {
+			here.push(getPath(key, type));
+			if(here.length > 0)
+				moreThanOne = true;
+		}
+		if(here.length > 1 || moreThanOne) {
+			if(traceThings) {
+				for (i in 0...here.length) {
+					trace(here[i]);
+				}
+			}
+			if(whatValueToReturn > here.length)
+				return here[here.length];
+			return here[whatValueToReturn];
+		}
+		if(here == isNull) {
+			trace('oh no $key is returning null NOOOO');
+			return null;
+		}
+		return here[0];
+	}
+
+	inline static public function getSparrowAtlas(key:String, ?library:String, where:String = 'images'):FlxAtlasFrames
 	{
 		#if MODS_ALLOWED
 		var imageLoaded:FlxGraphic = returnGraphic(key);
 		var xmlExists:Bool = false;
-		if(FileSystem.exists(modsXml(key))) {
+		if(FileSystem.exists(modsXml(key)))
 			xmlExists = true;
-		}
 
-		return FlxAtlasFrames.fromSparrow((imageLoaded != null ? imageLoaded : image(key, library)), (xmlExists ? File.getContent(modsXml(key)) : file('images/$key.xml', library)));
+		return FlxAtlasFrames.fromSparrow((imageLoaded != null ? imageLoaded : image(key, library)), (xmlExists ? File.getContent(modsXml(key)) : file('$where/$key.xml', library)));
 		#else
-		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));
+		return FlxAtlasFrames.fromSparrow(image(key, library), file('$where/$key.xml', library));
 		#end
 	}
 
 
-	inline static public function getPackerAtlas(key:String, ?library:String)
+	inline static public function getPackerAtlas(key:String, ?library:String, where:String = 'images')
 	{
 		#if MODS_ALLOWED
 		var imageLoaded:FlxGraphic = returnGraphic(key);
@@ -334,9 +403,9 @@ class Paths
 			txtExists = true;
 		}
 
-		return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), (txtExists ? File.getContent(modsTxt(key)) : file('images/$key.txt', library)));
+		return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), (txtExists ? File.getContent(modsTxt(key)) : file('$where/$key.txt', library)));
 		#else
-		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
+		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('$where/$key.txt', library));
 		#end
 	}
 
@@ -346,9 +415,10 @@ class Paths
 
 	// completely rewritten asset loading? fuck!
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
-	public static function returnGraphic(key:String, ?library:String) {
+	public static function returnGraphic(key:String, ?library:String, where:String = 'images') {
 		#if MODS_ALLOWED
-		var modKey:String = modsImages(key);
+		var modKey:String = modsImages(key, where);
+		var modKey_:String = modImages2(key, where);
 		if(FileSystem.exists(modKey)) {
 			if(!currentTrackedAssets.exists(modKey)) {
 				var newBitmap:BitmapData = BitmapData.fromFile(modKey);
@@ -358,11 +428,20 @@ class Paths
 			}
 			localTrackedAssets.push(modKey);
 			return currentTrackedAssets.get(modKey);
+		} else if(FileSystem.exists(modKey_)) {
+			if(!currentTrackedAssets.exists(modKey_)) {
+				var newBitmap:BitmapData = BitmapData.fromFile(modKey_);
+				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, modKey_);
+				newGraphic.persist = true;
+				currentTrackedAssets.set(modKey_, newGraphic);
+			}
+			localTrackedAssets.push(modKey_);
+			return currentTrackedAssets.get(modKey_);
 		}
 		#end
 
-		var path = getPath('images/$key.png', IMAGE, library);
-		var path_ = getPath('images/$key.PNG', IMAGE, library);
+		var path = getPath('$where/$key.png', IMAGE, library);
+		var path_ = getPath('$where/$key.PNG', IMAGE, library);
 		if (OpenFlAssets.exists(path, IMAGE)) {
 			if(!currentTrackedAssets.exists(path)) {
 				var newGraphic:FlxGraphic = FlxG.bitmap.add(path, false, path);
@@ -380,7 +459,7 @@ class Paths
 			localTrackedAssets.push(path_);
 			return currentTrackedAssets.get(path_);
 		}
-		trace('oh no $key is returning null NOOOO');
+		trace('$key in $where is returning null NOOOO');
 		return null;
 	}
 
@@ -402,7 +481,7 @@ class Paths
 		// trace(gottenPath);
 		if(!currentTrackedSounds.exists(gottenPath)) 
 		#if MODS_ALLOWED
-			currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
+			currentTrackedSounds.set(gottenPath, Sound.fromFile('./$gottenPath'));
 		#else
 		{
 			var folder:String = '';
@@ -420,77 +499,85 @@ class Paths
 	inline static public function mods(key:String = '') {
 		return 'mods/$key';
 	}
+	inline static public function currentModKey(key:String) {
+		return mods('$currentModDirectory/$key');
+	}
 
-	inline static public function currentModImages(key:String) {
-		var img:String = if(StringTools.contains(key, '.png')) key else key + '.png';
+	inline static public function currentModImages(key:String, where:String = 'images') {
+		var img:String = if(key.contains('.png')) key else '$key.png';
 		if(currentModDirectory == '') {
-			return 'mods/images/$img';
+			return mods('$where/$img');
 		}
-		return 'mods/$currentModDirectory/images/$img';
+		return currentModKey('$where/$img');
 	}
-	#if LUA_ALLOWED
-	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false) {
+	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false, where:String = '') {
+		#if LUA_ALLOWED
+		var path:String = where;
+		if(where == '') {
+			if(notetype)
+				path = 'custom_notetypes';
+			else
+				path = 'custom_events';
+		}
 		if(!getPreload) {
-			if(notetype) {
-				return modFolders('custom_notetypes/$thing.lua');
-			}
-			return modFolders('custom_events/' + thing + '.lua');
-		} else {
-			if(notetype) {
-				return getPreloadPath('custom_notetypes/' + thing + '.lua');
-			}
-			return getPreloadPath('custom_events/' + thing + '.lua');
+			return modFolders('$path/$thing.lua');
 		}
+		return getPreloadPath('$path/$thing.lua');
+		#end
 	}
-	#end
-	inline static public function modsFont(key:String) {
-		return modFolders('fonts/$key');
-	}
-
-	inline static public function modsJson(key:String) {
-		return modFolders('data/$key.json');
+	inline static public function modsFont(key:String, where:String = 'fonts') {
+		return modFolders('$where/$key');
 	}
 
-	inline static public function modsVideo(key:String) {
-		return modFolders('videos/$key.$VIDEO_EXT');
+	inline static public function modsJson(key:String, where:String = 'data') {
+		return modFolders('$where/$key.json');
+	}
+
+	inline static public function modsVideo(key:String, where:String = 'videos') {
+		return modFolders('$where/$key.$VIDEO_EXT');
+	}
+	inline static public function modsVideo2(key:String, where:String = 'videos') {
+		return modFolders('$where/$key.mkv');
 	}
 
 	inline static public function modsSounds(path:String, key:String) {
 		return modFolders('$path/$key.$SOUND_EXT');
 	}
 
-	inline static public function modsImages(key:String) {
-		return modFolders('images/$key.png');
+	inline static public function modsImages(key:String, where:String = 'images') {
+		return modFolders('$where/$key.png');
+	}
+	inline static public function modImages2(key:String, where:String = 'images') {
+		return modFolders('$where/$key.PNG');
 	}
 
-	inline static public function modsXml(key:String) {
-		return modFolders('images/$key.xml');
+	inline static public function modsXml(key:String, where:String = 'images') {
+		return modFolders('$where/$key.xml');
 	}
 
-	inline static public function modsTxt(key:String) {
-		return modFolders('images/$key.txt');
+	inline static public function modsTxt(key:String, where:String = 'images') {
+		return modFolders('$where/$key.txt');
 	}
 
 	inline static public function modsShaderFragment(key:String, ?library:String)
 	{
 		return modFolders('shaders/$key.frag');
 	}
-	inline static public function modsShaderVertex(key:String, ?library:String)
+	inline static public function modsShaderVertex(key:String, ?library:String, where:String = 'shaders')
 	{
-		return modFolders('shaders/$key.vert');
+		return modFolders('$where/$key.vert');
 	}
-	inline static public function modsAchievements(key:String) {
-		return modFolders('achievements/$key.json');
+	inline static public function modsAchievements(key:String, where:String = 'achievements') {
+		return modFolders('$where/$key.json');
 	}
 
 	static public function modFolders(key:String) {
 		if(currentModDirectory != null && currentModDirectory.length > 0) {
-			var fileToCheck:String = mods(currentModDirectory + '/' + key);
-			if(FileSystem.exists(fileToCheck)) {
+			var fileToCheck:String = currentModKey(key);
+			if(FileSystem.exists(fileToCheck))
 				return fileToCheck;
-			}
 		}
-		return 'mods/$key';
+		return mods(key);
 	}
 	static public function getModDirectories():Array<String> {
 		var list:Array<String> = [];

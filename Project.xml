@@ -53,6 +53,7 @@
 	<define name="TITLE_SCREEN_EASTER_EGG" if="officialBuild"/> <!-- DELETE THE if="officialBuild" for enabling this on an unofficial build -->
 	<define name="MP3_ALLOWED"/>
 	<define name="WAV_ALLOWED"/>
+	<define name="MKV_ALLOWED" if="VIDEOS_ALLOWED"/>
 	<define name="MUSIC_FOLDER_ALLOWED"/>
 	<define name="MORE_ZOOM"/>
 
