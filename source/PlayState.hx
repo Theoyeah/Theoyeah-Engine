@@ -3302,6 +3302,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('botPlay', cpuControlled);
 		callOnLuas('onUpdatePost', [elapsed]);
 	}
+	}
 
 	function openChartEditor()
 	{
