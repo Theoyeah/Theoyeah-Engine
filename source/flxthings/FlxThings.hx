@@ -253,30 +253,28 @@ stoled from HaxeFlixel Docs!! But better!
 		}
 	}
 
-	/*class NewLoader
-	{*/
-		class NewLoaderInfo extends flash.display.LoaderInfo
-		{
-			public function getBytes(loader:LoaderInfo, /*i dont know*/type:String):Dynamic {
-				var loaded:Bool = switch(type.loLowerCase()) {
-					case 'loaded' | 'bytesloaded': true;
-					default: false;
-				}
-				var normal:Bool = switch(type.loTowerCase()) {
-					case 'bytes' | 'normal': true;
-					default: false;
-				}
-				var total:Bool = switch(type.toLowerCase()) {
-					case 'total' | 'bytestotal': true;
-					default: false;
-				}
-				if(loaded)
-					return loader.bytesLoaded; //returns an Int
-				else if(normal)
-					return loader.bytes; //returns a ByteArray
-				return loader.bytesTotal; //returns an Int
+	class NewLoaderInfo extends flash.display.LoaderInfo
+	{
+		/*public function getBytes(loader:LoaderInfo, type:String):Dynamic {
+			var loaded:Bool = switch(type.loLowerCase()) {
+				case 'loaded' | 'bytesloaded': true;
+				default: false;
 			}
-		}
+			var normal:Bool = switch(type.loTowerCase()) {
+				case 'bytes' | 'normal': true;
+				default: false;
+			}
+			var total:Bool = switch(type.toLowerCase()) {
+				case 'total' | 'bytestotal': true;
+				default: false;
+			}
+			if(loaded)
+				return loader.bytesLoaded; //returns an Int
+			else if(normal)
+				return loader.bytes; //returns a ByteArray
+			return loader.bytesTotal; //returns an Int
+		}*/
+	}
 	//}
 	
 	
