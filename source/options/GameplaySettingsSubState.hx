@@ -81,12 +81,19 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Instant Respawn',
+			"If checked, you will instally respawn if you die.",
+			'instantRespawn',
+			'bool',
+			false);
+		addOption(option);
+
 		var option:Option = new Option('Hide Opponent Notes',
-		'If unchecked, opponent notes get hidden.',
-		'opponentStrums',
-		'bool',
-		false);
-	    addOption(option);
+			'If unchecked, opponent notes get hidden.',
+			'opponentStrums',
+			'bool',
+			false);
+		addOption(option);
 		
 		var option:Option = new Option('Rating Offset',
 			'Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.',
@@ -97,19 +104,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 20;
 		option.minValue = -30;
 		option.maxValue = 30;
-		addOption(option);
-
-
-
-		var option:Option = new Option('Marvelous Hit Window',
-			'Changes the amount of time you have\nfor hitting a "Marvelous" in milliseconds.',
-			'marvelousWindow',
-			'int',
-			25);
-		option.displayFormat = '%vms';
-		option.scrollSpeed = 15;
-		option.minValue = 10;
-		option.maxValue = 20;
 		addOption(option);
 
 		var option:Option = new Option('Sick! Hit Window',

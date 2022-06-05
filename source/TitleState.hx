@@ -407,7 +407,7 @@ class TitleState extends MusicBeatState
 		psychSpr.screenCenter(X);
 		psychSpr.antialiasing = ClientPrefs.globalAntialiasing;
 		
-		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('Theoyeah_logo'));
+		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
 		add(tySpr);
 		tySpr.visible = false;
 		tySpr.setGraphicSize(Std.int(125 * 0.74)); //i dont know how this works, edit it later theoyeah to correct the image and all that

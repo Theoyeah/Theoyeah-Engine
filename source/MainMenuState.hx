@@ -280,7 +280,7 @@ class MainMenuState extends MusicBeatState
 			else if (FlxG.keys.anyJustPressed(debugKeys))
 			{
 				selectedSomethin = true;
-				//Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Master Editor Menu";
+				Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Master Editor Menu";
 				MusicBeatState.switchState(new MasterEditorMenu());
 			}
 			#end

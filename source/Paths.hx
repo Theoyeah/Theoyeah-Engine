@@ -509,28 +509,22 @@ class Paths
 			return mods('$where/$img');
 		}
 		return currentModKey('$where/$img');
-	}
-	#if LUA_ALLOWED
+  }
 	inline static public function customLua(thing:String, notetype:Bool = true, getPreload:Bool = false, where:String = '') {
-		var path:String = where;
-		if(where == null || where == '') {
+	#if LUA_ALLOWED
+  var path:String = where;
+		if(where == '') {
 			if(notetype)
 				path = 'custom_notetypes';
 			else
 				path = 'custom_events';
 		}
 		if(!getPreload) {
-			if(notetype) {
-				return modFolders('$path/$thing.lua');
-			}
 			return modFolders('$path/$thing.lua');
 		}
-		if(notetype) {
-			return getPreloadPath('$path/$thing.lua');
-		}
 		return getPreloadPath('$path/$thing.lua');
+    #end
 	}
-	#end
 	inline static public function modsFont(key:String, where:String = 'fonts') {
 		return modFolders('$where/$key');
 	}

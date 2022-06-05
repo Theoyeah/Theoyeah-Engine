@@ -67,11 +67,11 @@ class ClientPrefs {
 
 	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public static var ratingOffset:Int = 0;
-	public static var marvelousWindow:Int = 25;
 	public static var sickWindow:Int = 45;
 	public static var goodWindow:Int = 90;
 	public static var badWindow:Int = 135;
 	public static var safeFrames:Float = 10;
+	public static var instantRespawn:Bool = false;
 
 	//Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
@@ -150,7 +150,6 @@ class ClientPrefs {
 		FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
-		FlxG.save.data.marvelousWindow = marvelousWindow;
 		FlxG.save.data.sickWindow = sickWindow;
 		FlxG.save.data.goodWindow = goodWindow;
 		FlxG.save.data.badWindow = badWindow;
@@ -159,6 +158,7 @@ class ClientPrefs {
 		FlxG.save.data.controllerMode = controllerMode;
 		FlxG.save.data.hitsoundVolume = hitsoundVolume;
 		FlxG.save.data.pauseMusic = pauseMusic;
+		FlxG.save.data.instantRespawn = instantRespawn;
 	
 		FlxG.save.flush();
 
@@ -180,6 +180,9 @@ class ClientPrefs {
 				FlxG.save.data.noteSplashesRepared = true;
 			}
 		}
+		if(FlxG.save.data.instantRespawn != null)
+			instantRespawn = FlxG.save.data.instantRespawn;
+
 		if(FlxG.save.data.winningIcon != null) {
 			winningIcon = FlxG.save.data.winningIcon;
 		}
@@ -298,9 +301,6 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.sickWindow != null) {
 			sickWindow = FlxG.save.data.sickWindow;
-		}
-		if(FlxG.save.data.marvelousWindow != null) {
-			marvelousWindow = FlxG.save.data.marvelousWindow;
 		}
 		if(FlxG.save.data.goodWindow != null) {
 			goodWindow = FlxG.save.data.goodWindow;
