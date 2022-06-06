@@ -5106,14 +5106,19 @@ class PlayState extends MusicBeatState
 	}
 
 	public var closeLuas:Array<FunkinLua> = [];
-	public function callOnLuas(event:String, args:Array<Dynamic>):Dynamic {
+	public function callOnLuas(event:String, args:Array<Dynamic>, ignoreStops=false, ?exclusions:Array<String>):Dynamic {
 		var returnVal:Dynamic = FunkinLua.Function_Continue;
+		if(exclusions==null)exclusions=[];
 		#if LUA_ALLOWED
 		for (i in 0...luaArray.length) {
+			if(exclusions.contains(luaArray[i].scriptName))
+				continue;
+
 			var ret:Dynamic = luaArray[i].call(event, args);
-			if(ret != FunkinLua.Function_Continue) {
+			if(ret == FunkinLua.Function_StopLua && !ignoreStops) break;
+			if(ret == FunkinLua.Function_StopLua && ignoreStops) ret = FunkinLua.Function_Continue;
+			if(ret != FunkinLua.Function_Continue)
 				returnVal = ret;
-			}
 		}
 
 		for (i in 0...closeLuas.length) {
@@ -5134,11 +5139,10 @@ class PlayState extends MusicBeatState
 
 	function StrumPlayAnim(isDad:Bool, id:Int, time:Float) {
 		var spr:StrumNote = null;
-		if(isDad) {
+		if(isDad)
 			spr = strumLineNotes.members[id];
-		} else {
+		else
 			spr = playerStrums.members[id];
-		}
 
 		if(spr != null) {
 			spr.playAnim('confirm', true);
