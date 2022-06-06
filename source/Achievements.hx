@@ -1,3 +1,4 @@
+import flixel.graphics.FlxGraphic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
@@ -6,34 +7,41 @@ import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
+#if MODS_ALLOWED
+import sys.FileSystem;
+import sys.io.File;
+#end
+import haxe.Json;
+import lime.utils.Assets;
+import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
 
 class Achievements {
 	public static var achievementsStuff:Array<Dynamic> = [ //Name, Description, Achievement save tag, Hidden achievement
-		["Freaky on a Friday Night",	"Play on a Friday... Night.",						'friday_night_play',	 true],
-		["She Calls Me Daddy Too",		"Beat Week 1 with no Misses.",				'week1_nomiss',			false],
+		["Freaky on a Friday Night",	"Play on a Friday... Night.",						'friday_night_play',		true],
+		["She Calls Me Daddy Too",		"Beat Week 1 with no Misses.",					'week1_nomiss',			false],
 		["No More Tricks",				"Beat Week 2 with no Misses.",				'week2_nomiss',			false],
-		["Call Me The Hitman",			"Beat Week 3 with no Misses.",				'week3_nomiss',			false],
+		["Call Me The Hitman",			"Beat Week 3 with no Misses.",					'week3_nomiss',			false],
 		["Lady Killer",					"Beat Week 4 with no Misses.",				'week4_nomiss',			false],
-		["Missless Christmas",			"Beat Week 5 with no Misses.",				'week5_nomiss',			false],
+		["Missless Christmas",			"Beat Week 5 with no Misses.",					'week5_nomiss',			false],
 		["Highscore!!",					"Beat Week 6 with no Misses.",				'week6_nomiss',			false],
-		//["You'll Pay For That...",		"Beat Week 7 with no Misses.",				'week7_nomiss',			 true], not today
-		["What a Funkin' Disaster!",	"Complete a Song with a rating lower than 20%.",	'ur_bad',				false],
-		["Perfectionist",			   	  "Complete a Song with a rating of 100%.",			'ur_good',				false],
-		["Roadkill Enthusiast",		 "Watch the Henchmen die over 100 times.",			'roadkill_enthusiast',	false],
-		["Oversinging Much...?",   "Hold down a note for 10 seconds.",					'oversinging',			false],
-		["Hyperactive",					"Finish a Song without going Idle.",				'hype',					false],
-		["Just the Two of Us",		 "Finish a Song pressing only two keys.",			'two_keys',				false],
-		["Toaster Gamer",			  "Have you tried to run the game on a toaster?",		'toastie',				false],
-		["Debugger",					"Beat the \"Test\" Stage from the Chart Editor.",	'debugger',				 true],
-		["Not Freaky on a Friday Night",	"Play on a Saturday... Night ? \n Bro itz Saturday ",						'saturday_night_play',	 true]
+		["God Effing Damn It!",		"Beat Week 7 with no Misses.",						'week7_nomiss',			false], 
+		["What a Funkin' Disaster!",	"Complete a Song with a rating lower than 20%.",			'ur_bad',			false],
+		["Perfectionist",			   	  "Complete a Song with a rating of 100%.",		'ur_good',			false],
+		["Roadkill Enthusiast",		 "Watch the Henchmen die over 100 times.",				'roadkill_enthusiast',		false],
+		["Oversinging Much...?",   "Hold down a note for 10 seconds.",						'oversinging',			false],
+		["Hyperactive",					"Finish a Song without going Idle.",			'hype',				false],
+		["Just the Two of Us",		 "Finish a Song pressing only two keys.",				'two_keys',			false],
+		["Toaster Gamer",			  "Have you tried to run the game on a toaster?",		'toastie',			false],
+		["Debugger",					"Beat the \"Test\" Stage from the Chart Editor.",	'debugger',			true],
+		["Not Freaky on a Friday Night",	"Play on a Saturday... Night ?",		'saturday_night_play',	 	true]
 	];
 	public static var achievementsMap:Map<String, Bool> = new Map<String, Bool>();
 
 	public static var henchmenDeath:Int = 0;
 	public static function unlockAchievement(name:String):Void {
-		FlxG.log.add('Completed achievement "' + name +'"');
+		FlxG.log.add('Completed achievement "$name"');
 		achievementsMap.set(name, true);
 		FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 	}
@@ -47,10 +55,8 @@ class Achievements {
 
 	public static function getAchievementIndex(name:String) {
 		for (i in 0...achievementsStuff.length) {
-			if(achievementsStuff[i][2] != null) {
-				if(achievementsStuff[i][2] == name) {
-					return i;
-				}
+			if(achievementsStuff[i][2] == name) {
+				return i;
 			}
 		}
 		return -1;
@@ -61,31 +67,10 @@ class Achievements {
 			if(FlxG.save.data.achievementsMap != null) {
 				achievementsMap = FlxG.save.data.achievementsMap;
 			}
-			if(FlxG.save.data.achievementsUnlocked != null) {
-				FlxG.log.add("Trying to load stuff");
-				var savedStuff:Array<String> = FlxG.save.data.achievementsUnlocked;
-				for (i in 0...savedStuff.length) {
-					achievementsMap.set(savedStuff[i], true);
-				}
-			}
 			if(henchmenDeath == 0 && FlxG.save.data.henchmenDeath != null) {
 				henchmenDeath = FlxG.save.data.henchmenDeath;
 			}
 		}
-
-		// You might be asking "Why didn't you just fucking load it directly dumbass??"
-		// Well, Mr. Smartass, consider that this class was made for Mind Games Mod's demo,
-		// i'm obviously going to change the "Psyche" achievement's objective so that you have to complete the entire week
-		// with no misses instead of just Psychic once the full release is out. So, for not having the rest of your achievements lost on
-		// the full release, we only save the achievements' tag names instead. This also makes me able to rename
-		// achievements later as long as the tag names aren't changed of course.
-
-		// Edit: Oh yeah, just thought that this also makes me able to change the achievements orders easier later if i want to.
-		// So yeah, if you didn't thought about that i'm smarter than you, i think
-
-		// buffoon
-
-		// EDIT 2: Uhh this is weird, this message was written for MInd Games, so it doesn't apply logically for Psych Engine LOL
 	}
 }
 
@@ -106,13 +91,11 @@ class AttachedAchievement extends FlxSprite {
 
 	public function reloadAchievementImage() {
 		if(Achievements.isAchievementUnlocked(tag)) {
-				//if(Paths.fileExists('achievements/' + tag + '.png', IMAGE))
-					loadGraphic(Paths.image('achievements/' + tag));
-				//else
-					//loadGraphic(Paths.image('achievements/blank'));
-			} else {
-			loadGraphic(Paths.image('lockedachievement'));
+			loadGraphic(Paths.image('achievements/' + tag));
+		} else {
+			loadGraphic(Paths.image('achievements/lockedachievement'));
 		}
+
 		scale.set(0.7, 0.7);
 		updateHitbox();
 	}

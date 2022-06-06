@@ -59,7 +59,7 @@ class Cache extends MusicBeatState
 		#if cpp
 		for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/shared/images/characters")))
 		{
-			if (!i.endsWith(".png"))
+			if (!i.toLowerCase().endsWith(".png"))
 				continue;
 			images.push(i);
 		}

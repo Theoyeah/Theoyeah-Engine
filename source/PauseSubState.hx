@@ -34,6 +34,9 @@ class PauseSubState extends MusicBeatSubstate
 
 	public static var songName:String = '';
 
+	
+	public static var toOptions:Bool = false;
+	
 	public function new(x:Float, y:Float)
 	{
 		super();
@@ -42,6 +45,8 @@ class PauseSubState extends MusicBeatSubstate
 			menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
 		}
 
+		toOptions = false;
+		
 		if(PlayState.chartingMode)
 		{
 			menuItemsOG.insert(2, 'Leave Charting Mode');
@@ -211,6 +216,15 @@ class PauseSubState extends MusicBeatSubstate
 					FlxG.sound.music.volume = 0;
 					PlayState.changedDifficulty = true;
 					PlayState.chartingMode = false;
+					skipTimeTracker = null;
+
+					if(skipTimeText != null)
+					{
+						skipTimeText.kill();
+						remove(skipTimeText);
+						skipTimeText.destroy();
+					}
+					skipTimeText = null;
 					return;
 				}
 
@@ -261,7 +275,8 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.botplaySine = 0;
 				case "Options":
 					Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
-					LoadingState.loadAndSwitchState(new altoptions.PauseOptionsState());
+					toOptions = true;
+					MusicBeatState.switchState(new options.OptionsState());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				case "Exit to menu":
 					PlayState.deathCounter = 0;
@@ -273,6 +288,7 @@ class PauseSubState extends MusicBeatSubstate
 						MusicBeatState.switchState(new FreeplayState());
 						Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
 					}
+					PlayState.cancelMusicFadeTween();
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					PlayState.changedDifficulty = false;
 					PlayState.chartingMode = false;
@@ -375,7 +391,7 @@ class PauseSubState extends MusicBeatSubstate
 	
 	function updateSkipTextStuff()
 	{
-		if(skipTimeText == null) return;
+		if(skipTimeText == null|| skipTimeTracker == null) return;
 
 		skipTimeText.x = skipTimeTracker.x + skipTimeTracker.width + 60;
 		skipTimeText.y = skipTimeTracker.y;
