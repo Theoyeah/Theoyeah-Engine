@@ -19,6 +19,7 @@ import sys.FileSystem;
 #end
 import flixel.graphics.FlxGraphic;
 import openfl.display.BitmapData;
+import haxe.Json;
 
 import flash.media.Sound;
 
@@ -576,8 +577,53 @@ class Paths
 			var fileToCheck:String = currentModKey(key);
 			if(FileSystem.exists(fileToCheck))
 				return fileToCheck;
+			else if(FileSystem.exists(fileToCheck.toLowerCase()))
+				return fileToCheck.toLowerCase();
+		}
+
+		for(mod in getGlobalMods()) {
+			var fileToCheck:String = mods(mod + '/' + key);
+			if(FileSystem.exists(fileToCheck))
+				return fileToCheck;
+			else if(FileSystem.exists(fileToCheck.toLowerCase()))
+				return fileToCheck.toLowerCase();
 		}
 		return mods(key);
+	}
+
+	public static var globalMods:Array<String> = [];
+
+ 	static public function getGlobalMods()
+ 		return globalMods;
+
+ 	static public function pushGlobalMods() { // prob a better way to do this but idc
+ 		globalMods = [];
+		if (FileSystem.exists("modsList.txt"))
+		{
+			var list:Array<String> = CoolUtil.listFromString(File.getContent("modsList.txt"));
+			for (i in list)
+			{
+				var dat = i.split("|");
+				if (dat[1] == "1")
+				{
+					var folder = dat[0];
+					var path = Paths.mods(folder + '/pack.json');
+					if(FileSystem.exists(path)) {
+						try{
+							var rawJson:String = File.getContent(path);
+							if(rawJson != null && rawJson.length > 0) {
+								var stuff:Dynamic = Json.parse(rawJson);
+								var global:Bool = Reflect.getProperty(stuff, "runsGlobally");
+								if(global)globalMods.push(dat[0]);
+							}
+						}catch(e:Dynamic){
+							trace(e);
+						}
+					}
+				}
+			}
+		}
+		return globalMods;
 	}
 	static public function getModDirectories():Array<String> {
 		var list:Array<String> = [];
