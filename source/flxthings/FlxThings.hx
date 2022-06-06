@@ -164,6 +164,7 @@ class SaveThings
 			 */
 			public function returnColor(color:String):FlxColor {
 				var wtf:FlxColor = FlxColor.fromCMYK(Math.random(), Math.random(), Math.random(), Math.random(), 1);
+				var c:String = color.toLowerCase().replace('-', '').replace('_', '').replace('.', '').replace(',', '');
 				var colors:Array<Array<Dynamic>> = [
 					//[name,    flxColor or other name,     flxColor in case that other name],
 					["transparent", 0x00000000],
@@ -186,16 +187,20 @@ class SaveThings
 					['wtf', 'random', wtf]
 				]; //please, fill up this with colors
 				// down is the code shit
+				var isHere:Dynamic = 0x00000000;
 				for (i in colors) {
 					if(colors[i][2] != null) { //in case that the color can be called in two different ways
-						if(colors[i][1].toLowerCase() == color.toLowerCase() || colors[i][0].toLowerCase() == color.toLowerCase()) {
-							return colors[i][2];
+						if(colors[i][1].toLowerCase() == c || colors[i][0].toLowerCase() == c) {
+							isHere = colors[i][2];
+							break;
 						}
 					}
-					if (colors[i][0].toLowerCase() == color.toLowerCase())
-						return colors[i][1];
+					if (colors[i][0].toLowerCase() == c) {
+						isHere = colors[i][1];
+						break;
+					}
 				}
-				return 0x00000000; //in case that it didn't found any color, return transparent
+				return isHere; //in case that it didn't found any color, return transparent
 			}
 
 		}
@@ -321,7 +326,6 @@ class SaveThings
 	class NewLoaderInfo extends flash.display.LoaderInfo
 	{
 		public function getBytes(loader:Dynamic, type:String):Dynamic {
-			/*
 			var loaded:Bool = switch(type.loLowerCase()) {
 				case 'loaded' | 'bytesloaded': true;
 				default: false;
@@ -339,7 +343,7 @@ class SaveThings
 			else if(normal)
 				return loader.bytes; //returns a ByteArray
 			return loader.bytesTotal; //returns an Int
-			*/
+			
 		}
 	}
 	//}
