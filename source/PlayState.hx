@@ -868,7 +868,7 @@ class PlayState extends MusicBeatState
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/scripts/'));
 		
 		for(mod in Paths.getGlobalMods())
- 			foldersToCheck.insert(0, Paths.mods(mod + '/scripts/'));
+ 			foldersToCheck.push(Paths.mods(mod + '/scripts/'));
 		#end
 
 		for (folder in foldersToCheck)
@@ -1261,10 +1261,10 @@ class PlayState extends MusicBeatState
 		#if MODS_ALLOWED
 		foldersToCheck.insert(0, Paths.mods('data/' + Paths.formatToSongPath(SONG.song) + '/'));
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
-			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/data/' + Paths.formatToSongPath(SONG.song) + '/'));
+			foldersToCheck.push(Paths.mods(Paths.currentModDirectory + '/data/' + Paths.formatToSongPath(SONG.song) + '/'));
 	
 		for(mod in Paths.getGlobalMods())
- 			foldersToCheck.insert(0, Paths.mods(mod + '/data/' + Paths.formatToSongPath(SONG.song) + '/' ));
+ 			foldersToCheck.push(Paths.mods(mod + '/data/' + Paths.formatToSongPath(SONG.song) + '/' ));
 		#end
 
 		for (folder in foldersToCheck)
