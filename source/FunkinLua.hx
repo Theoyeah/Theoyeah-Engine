@@ -71,6 +71,13 @@ class FunkinLua {
 		lol();
 		#end
 	}
+	public function couldntFindObject(vars:Dynamic) {
+		#if LUA_ALLOWED
+		var varr:String = vars.toString;
+		luaTrace('Couldnt find object: $varr');
+		#else
+		lol();
+	}
 	/**
 	 * Returns the clicked thing, it depends in what the param name is
 	 * @param name 
@@ -792,18 +799,13 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "getObjectOrder", function(obj:String) {
 			var killMe:Array<String> = obj.split('.');
 			var leObj:FlxBasic = getObjectDirectly(killMe[0]);
-			var leleObj:FlxBasic = getOnjectDirectly(killMe[0].toLowerCase());
 			if(killMe.length > 1) {
 				leObj = getVarInArray(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
-				leleObj = getVarInArray(getPropertyLoopThingWhatever(killMe.toLowerCase()), killMe[killMe.length-1].toLowerCase());
 			}
 
 			if(leObj != null)
-			{
 				return getInstance().members.indexOf(leObj);
-			} else if(leleObj != null) {
-				return getInstance().members.indexOf(leleObj);
-			}
+
 			luaTrace('Object $obj doesnt exist!');
 			return -1;
 		});
@@ -832,9 +834,8 @@ class FunkinLua {
 						PlayState.instance.modchartTweens.remove(tag);
 					}
 				}));
-			} else {
-				luaTrace('Couldnt find object: $vars');
-			}
+			} else
+				couldntFindObject(vars);
 		});
 		Lua_helper.add_callback(lua, "doTweenY", function(tag:String, vars:String, value:Dynamic, duration:Float, ease:String) {
 			var penisExam:Dynamic = tweenShit(tag, vars);
@@ -845,9 +846,8 @@ class FunkinLua {
 						PlayState.instance.modchartTweens.remove(tag);
 					}
 				}));
-			} else {
-				luaTrace('Couldnt find object: $vars');
-			}
+			} else
+				couldntFindObject(vars);
 		});
 		Lua_helper.add_callback(lua, "doTweenAngle", function(tag:String, vars:String, value:Dynamic, duration:Float, ease:String) {
 			var penisExam:Dynamic = tweenShit(tag, vars);
@@ -858,9 +858,8 @@ class FunkinLua {
 						PlayState.instance.modchartTweens.remove(tag);
 					}
 				}));
-			} else {
-				luaTrace('Couldnt find object: $vars');
-			}
+			} else
+				couldntFindObject(vars);
 		});
 		Lua_helper.add_callback(lua, "doTweenAlpha", function(tag:String, vars:String, value:Dynamic, duration:Float, ease:String) {
 			var penisExam:Dynamic = tweenShit(tag, vars);
@@ -871,9 +870,8 @@ class FunkinLua {
 						PlayState.instance.modchartTweens.remove(tag);
 					}
 				}));
-			} else {
-				luaTrace('Couldnt find object: $vars');
-			}
+			} else
+				couldntFindObject(vars);
 		});
 		Lua_helper.add_callback(lua, "doTweenZoom", function(tag:String, vars:String, value:Dynamic, duration:Float, ease:String) {
 			var penisExam:Dynamic = tweenShit(tag, vars);
@@ -884,9 +882,8 @@ class FunkinLua {
 						PlayState.instance.modchartTweens.remove(tag);
 					}
 				}));
-			} else {
-				luaTrace('Couldnt find object: $vars');
-			}
+			} else
+				couldntFindObject(vars);
 		});
 		Lua_helper.add_callback(lua, "doTweenColor", function(tag:String, vars:String, targetColor:String, duration:Float, ease:String) {
 			var penisExam:Dynamic = tweenShit(tag, vars);
@@ -902,9 +899,8 @@ class FunkinLua {
 						PlayState.instance.callOnLuas('onTweenCompleted', [tag]);
 					}
 				}));
-			} else {
-				luaTrace('Couldnt find object: $vars');
-			}
+			} else
+				couldntFindObject(vars);
 		});
 
 		//Tween shit, but for strums
