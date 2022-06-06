@@ -6,7 +6,7 @@ class, also use this method to all the other classes, bye!
 package flxthings;
 
 //HaxeFlixel API Packages
-import flash.display.LoaderInfo
+import flash.display.LoaderInfo;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
@@ -58,28 +58,53 @@ import flixel.util.FlxPath;
 import flixel.util.FlxTimer;
 import flixel.FlxState;
 import flixel.FlxSubState;
+import flash.display.BitmapData;
+import flash.display.BlendMode;
+import flash.geom.ColorTransform;
+import flash.geom.Point;
+import flash.geom.Rectangle;
+import flixel.FlxBasic.IFlxBasic;
+import flixel.animation.FlxAnimationController;
+import flixel.graphics.FlxGraphic;
+import flixel.graphics.frames.FlxFrame;
+import flixel.graphics.frames.FlxFramesCollection;
+import flixel.graphics.frames.FlxTileFrames;
+import flixel.math.FlxAngle;
+import flixel.math.FlxMath;
+import flixel.math.FlxMatrix;
+import flixel.math.FlxPoint;
+import flixel.math.FlxRect;
+import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.system.FlxAssets.FlxShader;
+import flixel.util.FlxBitmapDataUtil;
+import flixel.util.FlxColor;
+import flixel.util.FlxDestroyUtil;
+import flixel.util.FlxDirectionFlags;
 
 using StringTools;
+using flixel.util.FlxColorTransformUtil;
 
 /*
-stoled from HaxeFlixel Docs!! But better!
+stoled from HaxeFlixel api Docs!! But better!
 */
-//class FlxThings
-//{
-	//var nothing:Dynamic;
-
-	class SaveThings 
-	{
-		public function createSaveVar(varUsed:Dynamic, loadPrefsFunction:Bool):Void { // THIS ISN'T PROVED!! MAY CAUSE ERRORS!!
-			FlxG.save.data.varUsed = varUsed;
-			if(loadPrefsFunction && FlxG.save.data.varUsed != null) {
-				varUsed = FlxG.save.data.varUsed;
-			}
+class SaveThings 
+{
+	public function createSaveVar(varUsed:Dynamic, loadPrefsFunction:Bool):Void { // THIS ISN'T PROVED!! MAY CAUSE ERRORS!!
+		FlxG.save.data.varUsed = varUsed;
+		if(loadPrefsFunction && FlxG.save.data.varUsed != null) {
+			varUsed = FlxG.save.data.varUsed;
 		}
 	}
+}
 
 	class NewFlxSprite extends FlxSprite
 	{
+		public var howMany:Array<FlxSprite> = [];
+
+		override public function new(?x:Float = 0, ?y:Float = 0, ?graphic:Null<FlxGraphicAsset>):FlxSprite {
+			super(x, y, graphic);
+			howMany.push(this);
+		}
 		public function titleSprite(sprite:FlxSprite, graphicSize:Int = Std.int(sprite.width * 0.8), antialiasing:Bool = true):Void {
 			sprite.visible = false;
 			sprite.setGraphicSize(graphicSize);
@@ -89,6 +114,11 @@ stoled from HaxeFlixel Docs!! But better!
 				sprite.antialiasing = ClientPrefs.globalAntialiasing;
 			}
 		}
+		public function resetSprite(sprite:FlxSprite) {
+			sprite.origin;
+			if(sprite.flipY) sprite.flipY;
+			if(sprite.flipX) sprite.flipX;
+			sprite.centerOrigin;
 		public function setGraphic(sprite:FlxSprite, x:Float, y:Float):Void {
 			sprite.x = x;
 			sprite.y = y;
