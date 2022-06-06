@@ -2370,7 +2370,18 @@ class FunkinLua {
 			}
 			return blah;
 		}
-		Reflect.setProperty(instance, variable, value);
+		/*if(Std.isOfType(instance, Map))
+ 			instance.set(variable,value);
+ 		else*/
+ 		switch(Type.typeof(instance)){
+ 			case ValueType.TClass(haxe.ds.StringMap) | ValueType.TClass(haxe.ds.ObjectMap) | ValueType.TClass(haxe.ds.IntMap) | ValueType.TClass(haxe.ds.EnumValueMap):
+ 				instance.set(variable, value);
+ 			default:
+ 				Reflect.setProperty(instance, variable, value);
+ 		};
+
+
+
 		return true;
 	}
 	public static function getVarInArray(instance:Dynamic, variable:String):Any
@@ -2386,7 +2397,12 @@ class FunkinLua {
 			}
 			return blah;
 		}
-		return Reflect.getProperty(instance, variable);
+		switch(Type.typeof(instance)){
+ 			case ValueType.TClass(haxe.ds.StringMap) | ValueType.TClass(haxe.ds.ObjectMap) | ValueType.TClass(haxe.ds.IntMap) | ValueType.TClass(haxe.ds.EnumValueMap):
+ 				return instance.get(variable);
+ 			default:
+ 				return Reflect.getProperty(instance, variable);
+ 		};
 	}
 
 	inline static function getTextObject(name:String):FlxText
@@ -2401,9 +2417,19 @@ class FunkinLua {
 			for (i in 1...killMe.length-1) {
 				coverMeInPiss = Reflect.getProperty(coverMeInPiss, killMe[i]);
 			}
-			return Reflect.getProperty(coverMeInPiss, killMe[killMe.length-1]);
+			switch(Type.typeof(coverMeInPiss)) {
+ 				case ValueType.TClass(haxe.ds.StringMap) | ValueType.TClass(haxe.ds.ObjectMap) | ValueType.TClass(haxe.ds.IntMap) | ValueType.TClass(haxe.ds.EnumValueMap):
+ 					return coverMeInPiss.get(killMe[killMe.length-1]);
+ 				default:
+ 					return Reflect.getProperty(coverMeInPiss, killMe[killMe.length-1]);
+ 			}
 		}
-		return Reflect.getProperty(leArray, variable);
+		switch(Type.typeof(leArray)) {
+ 			case ValueType.TClass(haxe.ds.StringMap) | ValueType.TClass(haxe.ds.ObjectMap) | ValueType.TClass(haxe.ds.IntMap) | ValueType.TClass(haxe.ds.EnumValueMap):
+ 				return leArray.get(variable);
+ 			default:
+ 				return Reflect.getProperty(leArray, variable);
+ 		}
 	}
 
 	function loadFrames(spr:FlxSprite, image:String, spriteType:String)
@@ -2470,6 +2496,10 @@ class FunkinLua {
 			PlayState.instance.modchartTweens.get(tag).cancel();
 			PlayState.instance.modchartTweens.get(tag).destroy();
 			PlayState.instance.modchartTweens.remove(tag);
+		} else if(PlayState.instance.modchartTweens.exists(tag.toLowerCase())) {
+			PlayState.instance.modchartTweens.get(tag.toLowerCase()).cancel();
+			PlayState.instance.modchartTweens.get(tag.toLowerCase()).destroy();
+			PlayState.instance.modchartTweens.remove(tag.toLowerCase());
 		}
 	}
 	
@@ -2489,6 +2519,11 @@ class FunkinLua {
 			theTimer.cancel();
 			theTimer.destroy();
 			PlayState.instance.modchartTimers.remove(tag);
+		} else if(PlayState.instance.modchartTimers.exists(tag.toLowerCase())) {
+			var theTimer:FlxTimer = PlayState.instance.modchartTimers.get(tag.toLowerCase());
+			theTimer.cancel();
+			theTimer.destroy();
+			PlayState.instance.modchartTimers.remove(tag.toLowerCase());
 		}
 	}
 
@@ -2622,7 +2657,7 @@ class FunkinLua {
  			if(Lua.isfunction(lua, -1)==true){
  				for(arg in args) Convert.toLua(lua, arg);
  				var result: Dynamic = Lua.pcall(lua, args.length, 1, 0);
- 				if(result!=0){
+ 				if(result != 0) {
  					var err = getErrorMessage();
  					if(errorHandler!=null){
  						errorHandler(err);
@@ -2630,12 +2665,12 @@ class FunkinLua {
  						trace("ERROR: " + err);
  					}
  					//LuaL.error(state,err);
- 				}else{
+ 				} else {
  					var conv:Dynamic = Convert.fromLua(lua, -1);
  					Lua.pop(lua, 1);
  					return conv;
  				}
-			}else{
+			} else {
  				Lua.pop(lua, 1);
  				return null;
  			}
