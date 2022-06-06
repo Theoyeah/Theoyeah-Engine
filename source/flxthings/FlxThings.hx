@@ -6,21 +6,58 @@ class, also use this method to all the other classes, bye!
 package flxthings;
 
 //HaxeFlixel API Packages
-import flixel.effects.particles.FlxEmitter.FlxTypedEmitter;
-import openfl.media.SoundChannel;
-import flixel.text.FlxText;
-import flixel.util.FlxColorTransformUtil;
-import openfl.geom.ColorTransform;
+import flash.display.LoaderInfo
+import flixel.FlxSprite;
 import flixel.util.FlxColor;
-import flixel.effects.particles.FlxEmitter
-import flash.*;
-import flixel.*;
-import haxe.*;
-import hscript.*;
-import lime.*;
-import nape.*;
-import openfl.*;
-import spinehaxe.*;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flash.media.Camera;
+import flixel.FlxObject;
+import flixel.FlxCamera;
+import flash.media.SoundChannel;
+import flixel.input.FlxPointer;
+import flixel.util.FlxDestroyUtil;
+import openfl.geom.Rectangle;
+import flixel.math.FlxPoint;
+import flixel.math.FlxRect;
+import openfl.Assets;
+import haxe.Json;
+import flixel.input.mouse.FlxMouse;
+import flixel.addons.ui.FlxUIMouse;
+import flash.display.Sprite;
+import flash.system.System;
+import lime.app.Application;
+import flixel.text.FlxText;
+import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
+import openfl.Vector;
+import openfl.Assets;
+import openfl.AssetType;
+import openfl.AssetLibrary;
+import flixel.system.FlxAssets.FlxShader;
+import openfl.display.BitmapData;
+import openfl.display.Shader;
+import flixel.system.Shader;
+import openfl.display.ShaderInput;
+import openfl.utils.Assets;
+import flixel.FlxG;
+import openfl.Lib;
+import flixel.graphics.FlxGraphic;
+import flixel.animation.FlxAnimation;
+import flixel.FlxBasic;
+import flixel.system.FlxSound;
+import flixel.util.FlxStringUtil;
+import flixel.effects.FlxFlicker;
+import flixel.effects.particles.FlxParticle;
+import flixel.effects.particles.FlxEmmiter;
+import flixel.effects.particles.FlxTypedEmitter;
+import flixel.effects.postprocess.PostProcess;
+import flixel.system.FlxAssets;
+import flixel.util.FlxSave;
+import flixel.util.FlxPath;
+import flixel.util.FlxTimer;
+import flixel.FlxState;
+import flixel.FlxSubState;
 
 using StringTools;
 
@@ -137,7 +174,7 @@ stoled from HaxeFlixel Docs!! But better!
 		{
 			// to use this do this:
 			// new(redMultiplier:Float = 1, greenMultiplier:Float = 1, blueMultiplier:Float = 1, alphaMultiplier:Float = 1, redOffset:Float = 0, greenOffset:Float = 0, blueOffset:Float = 0, alphaOffset:Float = 0)
-			public function offsetOrMultiplier(transform:ColorTransform, multiplier:Bool, type:String, ?set:Bool = false, ?setRedValue:Float, ?setBlueValue:Float, ?setAlphaValue:Float, ?setGreenValue:Float):Dynamic {
+			public function offsetOrMultiplier(transform:ColorTransform, multiplier:Bool, type:String, ?set:Bool = false, ?setRedValue:Float = 0, ?setBlueValue:Float = 0, ?setAlphaValue:Float = 0, ?setGreenValue:Float = 0):Dynamic {
 				var color:ColorTransform = transform;
 				var type_:String = type.toLowerCase();
 				var alpha:Bool = switch(type_) {
