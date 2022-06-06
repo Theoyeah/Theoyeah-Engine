@@ -47,6 +47,7 @@ using StringTools;
 class FunkinLua {
 	public static var Function_Stop:Dynamic = 1;
 	public static var Function_Continue:Dynamic = 0;
+	public static var Function_StopLua:Dynamic = 2;
 
 	#if LUA_ALLOWED
 	public var lua:State = null;
@@ -149,6 +150,7 @@ class FunkinLua {
 		#end
 
 		// Lua shit
+		set('Function_StopLua', Function_StopLua);
 		set('Function_Stop', Function_Stop);
 		set('Function_Continue', Function_Continue);
 		set('luaDebugMode', false);
@@ -790,13 +792,17 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "getObjectOrder", function(obj:String) {
 			var killMe:Array<String> = obj.split('.');
 			var leObj:FlxBasic = getObjectDirectly(killMe[0]);
+			var leleObj:FlxBasic = getOnjectDirectly(killMe[0].toLowerCase());
 			if(killMe.length > 1) {
 				leObj = getVarInArray(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
+				leleObj = getVarInArray(getPropertyLoopThingWhatever(killMe.toLowerCase()), killMe[killMe.length-1].toLowerCase());
 			}
 
 			if(leObj != null)
 			{
 				return getInstance().members.indexOf(leObj);
+			} else if(leleObj != null) {
+				return getInstance().members.indexOf(leleObj);
 			}
 			luaTrace('Object $obj doesnt exist!');
 			return -1;
