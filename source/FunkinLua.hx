@@ -87,15 +87,16 @@ class FunkinLua {
 	 */
 	public function controlsStuff(name:String, type:String = '', other:Bool = false) {
 		var key:Bool = false;
-		switch(name.toLowerCase()) {
-			case 'left': key = PlayState.instance.getControl('NOTE_LEFT' + type);
-			case 'down': key = PlayState.instance.getControl('NOTE_DOWN' + type);
-			case 'up': key = PlayState.instance.getControl('NOTE_UP' + type);
-			case 'right': key = PlayState.instance.getControl('NOTE_RIGHT' + type);
-			case 'uileft' | 'ui_left' | 'ui-left': key = PlayState.instance.getControl('UI_LEFT' + type);
-			case 'uiright' | 'ui_right' | 'ui-right': key = PlayState.instance.getControl('UI_RIGHT' + type);
-			case 'uiup' | 'ui_up' | 'ui-up': key = PlayState.instance.getControl('UI_UP' + type);
-			case 'uidown' | 'ui_down' | 'ui-down': key = PlayState.instance.getControl('UI_DOWN' + type);
+		var this:String = name.toLowerCase().replace('-', '_').replace('_', '').replace('"', '').replace("'", '');
+		switch(this) {
+			case 'left' | 'l': key = PlayState.instance.getControl('NOTE_LEFT' + type);
+			case 'down' | 'd': key = PlayState.instance.getControl('NOTE_DOWN' + type);
+			case 'up' | 'u': key = PlayState.instance.getControl('NOTE_UP' + type);
+			case 'right' | 'r': key = PlayState.instance.getControl('NOTE_RIGHT' + type);
+			case 'uileft': key = PlayState.instance.getControl('UI_LEFT' + type);
+			case 'uiright': key = PlayState.instance.getControl('UI_RIGHT' + type);
+			case 'uiup': key = PlayState.instance.getControl('UI_UP' + type);
+			case 'uidown': key = PlayState.instance.getControl('UI_DOWN' + type);
 			case 'accept': if(other) key = PlayState.instance.getControl('ACCEPT');
 			case 'back': if(other) key = PlayState.instance.getControl('BACK');
 			case 'pause': if(other) key = PlayState.instance.getControl('PAUSE');
@@ -381,20 +382,20 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "getGlobalFromScript", function(?luaFile:String, ?global:String){ // returns the global from a script
-			if(luaFile==null){
+			if(luaFile == null) {
 				#if (linc_luajit > "0.0.6")
 				LuaL.error(lua, "bad argument #1 to 'getGlobalFromScript' (string expected, got nil)");
 				#end
 				return;
 			}
-			if(global==null){
+			if(global == null) {
 				#if (linc_luajit > "0.0.6")
 				LuaL.error(lua, "bad argument #2 to 'getGlobalFromScript' (string expected, got nil)");
 				#end
 				return;
 			}
 			var cervix = luaFile + ".lua";
-			if(luaFile.endsWith(".lua"))cervix=luaFile;
+			if(luaFile.endsWith(".lua")) cervix = luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
 			if(FileSystem.exists(Paths.modFolders(cervix)))
@@ -442,7 +443,7 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "setGlobalFromScript", function(luaFile:String, global:String, val:Dynamic){ // returns the global from a script
 			var cervix = luaFile + ".lua";
-			if(luaFile.endsWith(".lua"))cervix=luaFile;
+			if(luaFile.endsWith(".lua")) cervix = luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
 			if(FileSystem.exists(Paths.modFolders(cervix)))
@@ -475,7 +476,7 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "getGlobals", function(luaFile:String){ // returns a copy of the specified file's globals
 			var cervix = luaFile + ".lua";
-			if(luaFile.endsWith(".lua"))cervix=luaFile;
+			if(luaFile.endsWith(".lua")) cervix = luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
 			if(FileSystem.exists(Paths.modFolders(cervix)))
@@ -516,13 +517,13 @@ class FunkinLua {
 
 							// Manual conversion
 							// first we convert the key
-							if(Lua.isnumber(luaInstance.lua,-2)){
+							if(Lua.isnumber(luaInstance.lua,-2)) {
 								Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -2));
 								pop++;
-							}else if(Lua.isstring(luaInstance.lua,-2)){
+							} else if(Lua.isstring(luaInstance.lua,-2)) {
 								Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -2));
 								pop++;
-							}else if(Lua.isboolean(luaInstance.lua,-2)){
+							} else if(Lua.isboolean(luaInstance.lua,-2)) {
 								Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -2));
 								pop++;
 							}
@@ -557,7 +558,7 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "isRunning", function(luaFile:String){
 			var cervix = luaFile + ".lua";
-			if(luaFile.endsWith(".lua"))cervix=luaFile;
+			if(luaFile.endsWith(".lua")) cervix = luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
 			if(FileSystem.exists(Paths.modFolders(cervix)))
