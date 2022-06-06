@@ -124,9 +124,8 @@ stoled from HaxeFlixel Docs!! But better!
 							return colors[i][2];
 						}
 					}
-					if (colors[i][0].toLowerCase() == color.toLowerCase()) {
+					if (colors[i][0].toLowerCase() == color.toLowerCase())
 						return colors[i][1];
-					}
 				}
 				return 0x00000000; //in case that it didn't found any color, return transparent
 			}
@@ -174,11 +173,9 @@ stoled from HaxeFlixel Docs!! But better!
 							return color.greenOffset;
 						return color.greenMultiplier;
 					}
-				} else {
-					if(!multiplier)
-						return color.setOffsets(color, setRedValue, setGreenValue, setBlueValue, setAlphaValue);
-					return color.setMultipliers(color, setRedValue, setGreenValue, setBlueValue, setAlphaValue);
-				}
+				} else if(!multiplier)
+					return color.setOffsets(color, setRedValue, setGreenValue, setBlueValue, setAlphaValue);
+				return color.setMultipliers(color, setRedValue, setGreenValue, setBlueValue, setAlphaValue);
 			}
 
 		}
@@ -230,9 +227,9 @@ stoled from HaxeFlixel Docs!! But better!
 
 	}
 
-	class NewFlxTypedEmitter extends FlxTypedEmitter<T>
+	class NewFlxTypedEmitter extends FlxTypedEmitter
 	{
-		public function setDefaultAngularThings(typedEmitter:FlxTypedEmitter<T>, angularThing:String):Dynamic {
+		public function setDefaultAngularThings(typedEmitter:FlxTypedEmitter, angularThing:String):Dynamic {
 			var acceleration:Bool = switch(angularThing.toLowerCase()) {
 				case 'acceleration' | 'angularacceleration': true;
 				default: false;
@@ -255,7 +252,8 @@ stoled from HaxeFlixel Docs!! But better!
 
 	class NewLoaderInfo extends flash.display.LoaderInfo
 	{
-		/*public function getBytes(loader:LoaderInfo, type:String):Dynamic {
+		public function getBytes(loader:Dynamic, type:String):Dynamic {
+			/*
 			var loaded:Bool = switch(type.loLowerCase()) {
 				case 'loaded' | 'bytesloaded': true;
 				default: false;
@@ -273,7 +271,8 @@ stoled from HaxeFlixel Docs!! But better!
 			else if(normal)
 				return loader.bytes; //returns a ByteArray
 			return loader.bytesTotal; //returns an Int
-		}*/
+			*/
+		}
 	}
 	//}
 	
