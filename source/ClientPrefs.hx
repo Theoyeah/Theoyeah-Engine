@@ -13,6 +13,7 @@ class ClientPrefs {
 	public static var flashing:Bool = true;
 	public static var iconBounce:String = 'Default';
 	public static var globalAntialiasing:Bool = true;
+	public static var opponentStrums:Bool = false;
 	public static var noteSplashes:String = 'Normal';
 	public static var lowQuality:Bool = false;
 	public static var framerate:Int = 60;
@@ -37,11 +38,12 @@ class ClientPrefs {
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
 	public static var shaders:Bool = true;
-	public static var winningIcon = true;
+	public static var winningIcon:Bool = true;
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
-	public static var multiplicativeValue:Float = 0;
+	//public static var multiplicativeValue:Float = 0;
 	public static var musicSelected:String = 'freakyMenu';
+	public static var autoPause:Bool = false;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -65,11 +67,11 @@ class ClientPrefs {
 
 	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public static var ratingOffset:Int = 0;
-	public static var marvelousWindow:Int = 25;
 	public static var sickWindow:Int = 45;
 	public static var goodWindow:Int = 90;
 	public static var badWindow:Int = 135;
 	public static var safeFrames:Float = 10;
+	public static var instantRespawn:Bool = false;
 
 	//Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
@@ -110,7 +112,7 @@ class ClientPrefs {
 
 	public static function saveSettings() {
 		FlxG.save.data.winningIcon = winningIcon;
-		FlxG.save.data.multiplicativeValue = multiplicativeValue;
+		//FlxG.save.data.multiplicativeValue = multiplicativeValue;
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.showFPS = showFPS;
@@ -126,6 +128,7 @@ class ClientPrefs {
 		//FlxG.save.data.cursing = cursing;
 		//FlxG.save.data.violence = violence;
 		FlxG.save.data.iconBounce = iconBounce;
+		FlxG.save.data.autoPause = autoPause;
 		FlxG.save.data.camZooms = camZooms;
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
@@ -138,6 +141,7 @@ class ClientPrefs {
 		FlxG.save.data.introbg = introbg;
 		FlxG.save.data.noReset = noReset;
 		FlxG.save.data.noscore = noscore;
+		FlxG.save.data.opponentStrums = opponentStrums;
 		FlxG.save.data.noteskin = noteskin;
 		FlxG.save.data.camfollow = camfollow;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
@@ -146,7 +150,6 @@ class ClientPrefs {
 		FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
-		FlxG.save.data.marvelousWindow = marvelousWindow;
 		FlxG.save.data.sickWindow = sickWindow;
 		FlxG.save.data.goodWindow = goodWindow;
 		FlxG.save.data.badWindow = badWindow;
@@ -155,6 +158,7 @@ class ClientPrefs {
 		FlxG.save.data.controllerMode = controllerMode;
 		FlxG.save.data.hitsoundVolume = hitsoundVolume;
 		FlxG.save.data.pauseMusic = pauseMusic;
+		FlxG.save.data.instantRespawn = instantRespawn;
 	
 		FlxG.save.flush();
 
@@ -166,16 +170,26 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-		if(FlxG.save.data.multiplicativeValue != null) {
-			multiplicativeValue = FlxG.save.data.multiplicativeValue;
+		if(FlxG.save.data.noteSplashes == true || FlxG.save.data.noteSplashes == false) {
+			if(FlxG.save.data.noteSplashes == true || FlxG.save.data.noteSplashes == false) {
+				if(FlxG.save.data.noteSplashes) {
+					FlxG.save.data.noteSplashes = 'Normal';
+				} else {
+					FlxG.save.data.noteSplashes = 'None';
+				}
+				FlxG.save.data.noteSplashesRepared = true;
+			}
 		}
+		if(FlxG.save.data.instantRespawn != null)
+			instantRespawn = FlxG.save.data.instantRespawn;
+
 		if(FlxG.save.data.winningIcon != null) {
 			winningIcon = FlxG.save.data.winningIcon;
 		}
 		if(FlxG.save.data.downScroll != null) {			       
 			downScroll = FlxG.save.data.downScroll;
 		}
-		if (FlxG.save.data.shaders !=null) {
+		if (FlxG.save.data.shaders != null) {
 			shaders = FlxG.save.data.shaders;
 		}
 		if(FlxG.save.data.middleScroll != null) {
@@ -186,6 +200,12 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.iconBounce != null) {
 			iconBounce = FlxG.save.data.iconBounce;
+		}
+		if(FlxG.save.data.musicSelected != null) {
+			musicSelected = FlxG.save.data.musicSelected;
+		}
+		if(FlxG.save.data.opponentStrums != null) {
+			opponentStrums = FlxG.save.data.opponentStrums;
 		}
 		if(FlxG.save.data.showFPS != null) {
 			showFPS = FlxG.save.data.showFPS;
@@ -224,7 +244,10 @@ class ClientPrefs {
 				FlxG.updateFramerate = framerate;
 			}
 		}
-		/*if(FlxG.save.data.cursing != null) {
+		/*if(FlxG.save.data.multiplicativeValue != null) {
+			multiplicativeValue = FlxG.save.data.multiplicativeValue;
+		}
+		if(FlxG.save.data.cursing != null) {
 			cursing = FlxG.save.data.cursing;
 		}
 		if(FlxG.save.data.violence != null) {
@@ -279,14 +302,14 @@ class ClientPrefs {
 		if(FlxG.save.data.sickWindow != null) {
 			sickWindow = FlxG.save.data.sickWindow;
 		}
-		if(FlxG.save.data.marvelousWindow != null) {
-			marvelousWindow = FlxG.save.data.marvelousWindow;
-		}
 		if(FlxG.save.data.goodWindow != null) {
 			goodWindow = FlxG.save.data.goodWindow;
 		}
 		if(FlxG.save.data.badWindow != null) {
 			badWindow = FlxG.save.data.badWindow;
+		}
+		if(FlxG.save.data.autoPause != null) {
+			autoPause = FlxG.save.data.autoPause;
 		}
 		if(FlxG.save.data.safeFrames != null) {
 			safeFrames = FlxG.save.data.safeFrames;
