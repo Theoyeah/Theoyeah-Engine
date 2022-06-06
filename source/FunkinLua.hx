@@ -65,7 +65,7 @@ class FunkinLua {
 	}
 
 	public function deprecated(first:String, second:String) {
-		#if !LUA_ALLOWED
+		#if LUA_ALLOWED
 		luaTrace('$first is deprecated! Use $second instead.', false, true);
 		#else
 		lol();
@@ -77,6 +77,7 @@ class FunkinLua {
 		luaTrace('Couldnt find object: $varr');
 		#else
 		lol();
+		#end
 	}
 	/**
 	 * Returns the clicked thing, it depends in what the param name is
