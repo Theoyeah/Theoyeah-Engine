@@ -12,6 +12,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColorTransformUtil;
 import openfl.geom.ColorTransform;
 import flixel.util.FlxColor;
+import flixel.effects.particles.FlxEmitter
 import flash.*;
 import flixel.*;
 import haxe.*;
