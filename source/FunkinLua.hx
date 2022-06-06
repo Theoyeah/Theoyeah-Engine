@@ -2654,10 +2654,10 @@ class FunkinLua {
 	{
 		var coverMeInPiss:Dynamic = getObjectDirectly(killMe[0], checkForTextsToo);
 		var end = killMe.length;
-		if(getProperty)end=killMe.length-1;
+		if(getProperty) end = killMe.length-1;
 
 		for (i in 1...end) {
-			coverMeInPiss = Reflect.getProperty(coverMeInPiss, killMe[i]);
+			coverMeInPiss = getVarInArray(coverMeInPiss, killMe[i]);
 		}
 		return coverMeInPiss;
 	}
@@ -2666,7 +2666,7 @@ class FunkinLua {
 	{
 		var coverMeInPiss:Dynamic = PlayState.instance.getLuaObject(objectName, checkForTextsToo);
 		if(coverMeInPiss==null)
-			coverMeInPiss = Reflect.getProperty(getInstance(), objectName);
+			coverMeInPiss = getVarInArray(getInstance(), objectName);
 
 		return coverMeInPiss;
 	}
