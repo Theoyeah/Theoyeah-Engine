@@ -724,7 +724,7 @@ class FunkinLua {
  			var spr:FlxSprite = getObjectDirectly(killMe[0]);
  			var gX = gridX == null ? 0 : gridX;
  			var gY = gridY == null ? 0 : gridY;
- 			var animated = gX! = 0 || gY! = 0;
+ 			var animated = gX != 0 || gY != 0;
 
  			if(killMe.length > 1) {
  				spr = getVarInArray(getPropertyLoopThingWhatever(killMe), killMe[killMe.length-1]);
