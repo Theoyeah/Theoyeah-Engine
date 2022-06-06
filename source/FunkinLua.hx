@@ -87,8 +87,8 @@ class FunkinLua {
 	 */
 	public function controlsStuff(name:String, type:String = '', other:Bool = false) {
 		var key:Bool = false;
-		var this:String = name.toLowerCase().replace('-', '_').replace('_', '').replace('"', '').replace("'", '');
-		switch(this) {
+		var as:String = name.toLowerCase().replace('-', '_').replace('_', '').replace('"', '').replace("'", '');
+		switch(as) {
 			case 'left' | 'l': key = PlayState.instance.getControl('NOTE_LEFT' + type);
 			case 'down' | 'd': key = PlayState.instance.getControl('NOTE_DOWN' + type);
 			case 'up' | 'u': key = PlayState.instance.getControl('NOTE_UP' + type);
@@ -310,37 +310,37 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "callOnLuas", function(?funcName:String, ?args:Array<Dynamic>, ignoreStops=false, ignoreSelf=true, ?exclusions:Array<String>){
-			if(funcName==null){
+			if(funcName == null) {
 				#if (linc_luajit > "0.0.6")
 				LuaL.error(lua, "bad argument #1 to 'callOnLuas' (string expected, got nil)");
 				#end
 				return;
 			}
-			if(args==null)args = [];
+			if(args == null)args = [];
 
-			if(exclusions==null)exclusions=[];
+			if(exclusions == null) exclusions = [];
 
 			Lua.getglobal(lua, 'scriptName');
 			var daScriptName = Lua.tostring(lua, -1);
 			Lua.pop(lua, 1);
-			if(ignoreSelf && !exclusions.contains(daScriptName))exclusions.push(daScriptName);
+			if(ignoreSelf && !exclusions.contains(daScriptName)) exclusions.push(daScriptName);
 			PlayState.instance.callOnLuas(funcName, args, ignoreStops, exclusions);
 		});
 
 		Lua_helper.add_callback(lua, "callScript", function(?luaFile:String, ?funcName:String, ?args:Array<Dynamic>){
-			if(luaFile==null){
+			if(luaFile == null) {
 				#if (linc_luajit > "0.0.6")
 				LuaL.error(lua, "bad argument #1 to 'callScript' (string expected, got nil)");
 				#end
 				return;
 			}
-			if(funcName==null){
+			if(funcName == null) {
 				#if (linc_luajit > "0.0.6")
 				LuaL.error(lua, "bad argument #2 to 'callScript' (string expected, got nil)");
 				#end
 				return;
 			}
-			if(args==null)
+			if(args == null)
 				args = [];
 
 			var cervix = luaFile + ".lua";
@@ -593,6 +593,7 @@ class FunkinLua {
 
 		Lua_helper.add_callback(lua, "addLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
 			var cervix = luaFile + ".lua";
+			if(luaFile.endsWith('.lua')) cervix = luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
 			if(FileSystem.exists(Paths.modFolders(cervix)))
@@ -632,6 +633,7 @@ class FunkinLua {
 
 		Lua_helper.add_callback(lua, "removeLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
 			var cervix = luaFile + ".lua";
+			if(luaFile.endsWith('.lua')) cervix = luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
 			if(FileSystem.exists(Paths.modFolders(cervix))) {
@@ -1472,11 +1474,39 @@ class FunkinLua {
 					shit.wasAdded = true;
 					//trace('added a thing: ' + tag);
 				}
+			} else if(PlayState.instance.modchartSprites.exists(tag.toLowerCase())) {
+				var shit:ModchartSprite = PlayState.instance.modchartSprites.get(tag.toLowerCase());
+				if(!shit.wasAdded) {
+					if(front)
+						getInstance().add(shit);
+					else
+					{
+						if(PlayState.instance.isDead)
+							GameOverSubstate.instance.insert(GameOverSubstate.instance.members.indexOf(GameOverSubstate.instance.boyfriend), shit);
+						else
+						{
+							var position:Int = PlayState.instance.members.indexOf(PlayState.instance.gfGroup);
+							if(PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup) < position)
+								position = PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup);
+							else if(PlayState.instance.members.indexOf(PlayState.instance.dadGroup) < position)
+								position = PlayState.instance.members.indexOf(PlayState.instance.dadGroup);
+
+							PlayState.instance.insert(position, shit);
+						}
+					}
+					shit.wasAdded = true;
+					//trace('added a thing: ' + tag.toLowerCase());
+				}
 			}
 		});
 		Lua_helper.add_callback(lua, "setGraphicSize", function(obj:String, x:Int, y:Int = 0, updateHitbox:Bool = true) {
 			if(PlayState.instance.modchartSprites.exists(obj)) {
 				var shit:ModchartSprite = PlayState.instance.modchartSprites.get(obj);
+				shit.setGraphicSize(x, y);
+				if(updateHitbox) shit.updateHitbox();
+				return;
+			} else if(PlayState.instance.modchartSprites.exists(obj.toLowerCase())) {
+				var shit:ModchartSprite = PlayState.instance.modchartSprites.get(obj.toLowerCase());
 				shit.setGraphicSize(x, y);
 				if(updateHitbox) shit.updateHitbox();
 				return;
@@ -1500,6 +1530,11 @@ class FunkinLua {
 				shit.scale.set(x, y);
 				if(updateHitbox) shit.updateHitbox();
 				return;
+			} else if(PlayState.instance.modchartSprites.exists(obj.toLowerCase())) {
+				var shit:ModchartSprite = PlayState.instance.modchartSprites.get(obj.toLowerCase());
+				shit.scale.set(x, y);
+				if(updateHitbox) shit.updateHitbox();
+				return;
 			}
 
 			var killMe:Array<String> = obj.split('.');
@@ -1517,6 +1552,10 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "updateHitbox", function(obj:String) {
 			if(PlayState.instance.modchartSprites.exists(obj)) {
 				var shit:ModchartSprite = PlayState.instance.modchartSprites.get(obj);
+				shit.updateHitbox();
+				return;
+			} else if(PlayState.instance.modchartSprites.exists(obj.toLowerCase())) {
+				var shit:ModchartSprite = PlayState.instance.modchartSprites.get(obj.toLowerCase());
 				shit.updateHitbox();
 				return;
 			}
@@ -1562,6 +1601,13 @@ class FunkinLua {
 			}
 			else if(PlayState.instance.modchartTexts.exists(obj)) {
 				PlayState.instance.modchartTexts.get(obj).cameras = [cameraFromString(camera)];
+				return true;
+			} else if(PlayState.instance.modchartSprites.exists(obj.toLowerCase())) {
+				PlayState.instance.modchartSprites.get(obj.toLowerCase()).cameras = [cameraFromString(camera)];
+				return true;
+			}
+			else if(PlayState.instance.modchartTexts.exists(obj.toLowerCase())) {
+				PlayState.instance.modchartTexts.get(obj.toLowerCase()).cameras = [cameraFromString(camera)];
 				return true;
 			}
 
