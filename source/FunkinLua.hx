@@ -2635,8 +2635,13 @@ class FunkinLua {
  					Lua.pop(lua, 1);
  					return conv;
  				}
+			}else{
+ 				Lua.pop(lua, 1);
+ 				return null;
  			}
 
+ 		}catch(e:Dynamic){
+ 			trace(e);
  		}
 		#else
 		lol();
