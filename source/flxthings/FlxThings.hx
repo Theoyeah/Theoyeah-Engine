@@ -6,7 +6,7 @@ class, also use this method to all the other classes, bye!
 package flxthings;
 
 //HaxeFlixel API Packages
-import flixel.effects.particles.FlxEmitter
+import flixel.effects.particles.FlxEmitter;
 import flash.display.LoaderInfo;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
