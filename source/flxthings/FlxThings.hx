@@ -6,12 +6,13 @@ class, also use this method to all the other classes, bye!
 package flxthings;
 
 //HaxeFlixel API Packages
+import flixel.effects.particles.FlxEmitter
 import flash.display.LoaderInfo;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
-import flash.media.Camera;
+//import flash.media.Camera;
 import flixel.FlxObject;
 import flixel.FlxCamera;
 import flash.media.SoundChannel;
@@ -32,12 +33,12 @@ import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
 import openfl.Vector;
 import openfl.Assets;
-import openfl.AssetType;
-import openfl.AssetLibrary;
+import openfl.utils.AssetType;
+import openfl.utils.AssetLibrary;
 import flixel.system.FlxAssets.FlxShader;
 import openfl.display.BitmapData;
 import openfl.display.Shader;
-import flixel.system.Shader;
+//import flixel.system.Shader;
 import openfl.display.ShaderInput;
 import openfl.utils.Assets;
 import flixel.FlxG;
@@ -49,8 +50,8 @@ import flixel.system.FlxSound;
 import flixel.util.FlxStringUtil;
 import flixel.effects.FlxFlicker;
 import flixel.effects.particles.FlxParticle;
-import flixel.effects.particles.FlxEmmiter;
-import flixel.effects.particles.FlxTypedEmitter;
+//import flixel.effects.particles.FlxEmmiter;
+//import flixel.effects.particles.FlxTypedEmitter;
 import flixel.effects.postprocess.PostProcess;
 import flixel.system.FlxAssets;
 import flixel.util.FlxSave;
@@ -316,7 +317,7 @@ class SaveThings
 
 	}
 
-	class NewFlxTypedEmitter extends FlxTypedEmitter
+	class NewFlxTypedEmitter extends flixel.effects.particles.FlxTypedEmitter
 	{
 		public function setDefaultAngularThings(typedEmitter:FlxTypedEmitter, angularThing:String):Dynamic {
 			var acceleration:Bool = switch(angularThing.toLowerCase()) {
