@@ -34,6 +34,9 @@ class PauseSubState extends MusicBeatSubstate
 
 	public static var songName:String = '';
 
+	
+	public static var toOptions:Bool = false;
+	
 	public function new(x:Float, y:Float)
 	{
 		super();
@@ -42,6 +45,8 @@ class PauseSubState extends MusicBeatSubstate
 			menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
 		}
 
+		toOptions = false;
+		
 		if(PlayState.chartingMode)
 		{
 			menuItemsOG.insert(2, 'Leave Charting Mode');
@@ -270,7 +275,8 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.botplaySine = 0;
 				case "Options":
 					Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
-					LoadingState.loadAndSwitchState(new altoptions.PauseOptionsState());
+					toOptions = true;
+					MusicBeatState.switchState(new options.OptionsState());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				case "Exit to menu":
 					PlayState.deathCounter = 0;

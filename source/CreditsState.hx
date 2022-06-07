@@ -87,7 +87,6 @@ class CreditsState extends MusicBeatState
 			['Wither362',           'wither',               'Another coolder (do you get it?)',/*yeah, from coder and cool*/  'https://www.youtube.com/channel/UCsVr-qBLxT0uSWH037BmlHw',     'FF0000'/*i hate red, but i dont know to put other colors so...*/],
 			[''],
 			['Pull Requests and Code used'],
-			['Mayo76',	        '',	'Made some code for achivements',		''   /*, 'FFFFFF' */], //there isnt color because it isnt needed
 			['magnumsrtisswag ',	'',	'Creator of stage editor',		''                 ],
 			['BeastlyGhost',        '',     'Creator of v0.3 FPS Counter (Base Game)\n(Memory used), and other GOD things', ''   ],
 			[''],
