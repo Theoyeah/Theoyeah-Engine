@@ -119,6 +119,7 @@ class SaveThings
 			if(sprite.flipY) sprite.flipY;
 			if(sprite.flipX) sprite.flipX;
 			sprite.centerOrigin;
+		}
 		public function setGraphic(sprite:FlxSprite, x:Float, y:Float):Void {
 			sprite.x = x;
 			sprite.y = y;
