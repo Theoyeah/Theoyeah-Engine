@@ -5,6 +5,7 @@ import llua.State;
 import llua.Convert;
 #end
 
+import flxthings.FlxMoreText;
 import animateatlas.AtlasFrameMaker;
 import flixel.FlxG;
 import flixel.addons.effects.FlxTrail;
@@ -88,7 +89,7 @@ class FunkinLua {
 	 */
 	public function controlsStuff(name:String, type:String = '', other:Bool = false) {
 		var key:Bool = false;
-		var as:String = FlxMoreText.deleteStupidCharacters(name, 1);
+		var as:String = flxthings.FlxMoreText.deleteStupidCharacters(name, 1);
 		switch(as) {
 			case 'left' | 'l': key = PlayState.instance.getControl('NOTE_LEFT' + type);
 			case 'down' | 'd': key = PlayState.instance.getControl('NOTE_DOWN' + type);
@@ -117,7 +118,7 @@ class FunkinLua {
 	 * @return String, it returns `gf`, `dad`, or `bf`
 	 */
 	public function charactersStuff(name:String):String {
-		var aLot:String = FlxMoreText.deleteStupidCharacters(name, 1);
+		var aLot:String = flxthings.FlxMoreText.deleteStupidCharacters(name, 1);
 		var thing:String = 'bf';
 		switch(aLot) {
 			case 'gf' | 'girlfriend' | 'girl' | 'gfversion' | 'middle': thing = 'gf';
