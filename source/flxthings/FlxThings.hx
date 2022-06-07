@@ -317,7 +317,7 @@ class SaveThings
 
 	}
 
-	class NewFlxTypedEmitter extends FlxTypedEmitter<T>
+	/*class NewFlxTypedEmitter extends FlxTypedEmitter<T>
 	{
 		public function setDefaultAngularThings(typedEmitter:FlxTypedEmitter, angularThing:String):Dynamic {
 			var acceleration:Bool = switch(angularThing.toLowerCase()) {
@@ -338,7 +338,7 @@ class SaveThings
 				typedEmitter.angularDrag;
 			typedEmitter.angularVelocity;
 		}
-	}
+	}*/
 
 	class NewLoaderInfo extends flash.display.LoaderInfo
 	{
