@@ -10,14 +10,11 @@ body:
       
   - type: dropdown
     attributes:
-      label: "It is a question of LUA or source"
+      label: "What type of question is? Of LUA, or source?"
       options:
         - Lua
         - Source
-        - type: input
-          attributes:
-            placeholder: "Bro, its only a question"
-          validations:
-            required: false
+        - Other
     validations:
       required: true
+      
