@@ -256,6 +256,21 @@ class SaveThings
 
 	class FlxMoreText extends FlxText
 	{
+		public function deleteStupidCharacters(s:String, toCase:Int = 0, firstToLowerCase:Bool = true, otherCharacter:String = '') {// 1 is lower case, 2 is upper case
+			var r:String = '';
+			var string:String = s;
+			if(firstToLowerCase)
+				string = s.toLowerCase();
+			r = string.replace('"', '').replace("'", '').replace('-', '').replace('_', '').replace('.', '').replace(',', '').replace('*', '').replace('&', '').replace('#', '').replace('@', '').replace("$", '').replace('^', '').replace('£', '').replace('º', '').replace('%', '').replace('€', '').replace(otherCharacters, '');
+			switch(toCase) {
+				case 1:
+					return r.toLowerCase();
+				case 2:
+					return r.toUpperCase();
+			}
+			return r;
+		}
+
 		public function clearFormat(flxText:FlxText):Void {
 			flxText.clearFormat();
 		}
