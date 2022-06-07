@@ -53,7 +53,10 @@ body:
     attributes:
       label: "Can you show the code? Only in case that you want"
       placeholder: "Code here, come on don't be shy! This helps for anyone to see if you have errors and that"
-      render: udkdodnsisdnduenejsjsd
+      render: |
+        lua
+        hx
+        udkdodnsisdnduenejsjsd
       value: |
         lua: 
         haxe:
