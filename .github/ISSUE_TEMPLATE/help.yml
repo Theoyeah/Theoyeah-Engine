@@ -27,7 +27,8 @@ body:
       label: "What is your build target?"
       options:
         - "Windows x64"
-        - "Windows x86/x32"
+        - "Windows x32"
+        - "Windows x86"
         - "Linux"
         - "Mac"
         - "HTML5/Browser"
@@ -51,6 +52,6 @@ body:
     attributes:
       label: "Can you show the code? Only in case that you want"
       placeholder: "Code here, come on don't be shy! This helps for anyone to see if you have errors and that"
-      render: hx
+      render: udkdodnsisdnduenejsjsd
     validations:
       required: false
