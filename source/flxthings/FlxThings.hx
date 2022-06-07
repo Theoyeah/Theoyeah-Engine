@@ -317,7 +317,7 @@ class SaveThings
 
 	}
 
-	class NewFlxTypedEmitter extends flixel.effects.particles.FlxTypedEmitter
+	class NewFlxTypedEmitter extends FlxTypedEmitter<T>
 	{
 		public function setDefaultAngularThings(typedEmitter:FlxTypedEmitter, angularThing:String):Dynamic {
 			var acceleration:Bool = switch(angularThing.toLowerCase()) {
