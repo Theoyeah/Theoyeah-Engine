@@ -35,6 +35,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.app.Application;
 import openfl.Assets;
+import flxthings.FlxThings;
 
 using StringTools;
 typedef TitleData =
@@ -392,49 +393,27 @@ class TitleState extends MusicBeatState
 
 		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('newgrounds_logo'));
 		add(ngSpr);
-		ngSpr.visible = false;
-		ngSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
-		ngSpr.updateHitbox();
-		ngSpr.screenCenter(X);
-		ngSpr.antialiasing = ClientPrefs.globalAntialiasing;
-
+		NewFlxSprite.titleSprite(ngSpr);
 
 		psychSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('psych_logo'));
 		add(psychSpr);
-		psychSpr.visible = false;
-		psychSpr.setGraphicSize(Std.int(psychSpr.width * 0.8));
-		psychSpr.updateHitbox();
-		psychSpr.screenCenter(X);
-		psychSpr.antialiasing = ClientPrefs.globalAntialiasing;
-		
+		NewFlxSprite.titleSprite(psychSpr);
+
 		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
 		add(tySpr);
-		tySpr.visible = false;
-		tySpr.setGraphicSize(Std.int(125 * 0.74)); //i dont know how this works, edit it later theoyeah to correct the image and all that
-		tySpr.updateHitbox();
-		tySpr.screenCenter(X);
+		NewFlxSprite.titleSprite(tySpr, Std.int(125 * 0.74), false);
 		
 		wrSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('wither_logo'));
 		add(wrSpr);
-		wrSpr.visible = false;
-		wrSpr.setGraphicSize(800, 600);
-		wrSpr.updateHitbox();
-		wrSpr.screenCenter(X);
+		NewFlxSprite.titleSprite(wrSpr, Std.int(wrSpr.width * 0.8), false);
 		
 		dnSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('demolitiondon_logo'));
 		add(dnSpr);
-		dnSpr.visible = false;
-		dnSpr.setGraphicSize(436, 436);
-		dnSpr.updateHitbox();
-		dnSpr.screenCenter(X);
+		NewFlxSprite.titleSprite(dnSpr, Std.int(dnSpr.width * 0.8), false);
 
 		coolguys = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('demolitiondon_wither_logo'));
 		add(coolguys);
-		coolguys.visible = false;
-		coolguys.setGraphicSize(Std.int(coolguys.width * 0.8));
-		coolguys.updateHitbox();
-		coolguys.screenCenter(X);
-		coolguys.antialiasing = ClientPrefs.globalAntialiasing;
+		NewFlxSprite.titleSprite(coolguys);
 
 		
 
