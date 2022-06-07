@@ -38,6 +38,15 @@ body:
     id: buildsummary
     attributes:
       label: "Did you edit anything in this build? If so, mention or summarize your changes."
-      placeholder: "Yes, I edited ClientPrefs.hx and tried to add a new setting"
+      placeholder: "Yes, I edited `ClientPrefs.hx` and tried to add a new setting"
+    validations:
+      required: false
+      
+  - type: textarea
+    id: codeleak
+    attributes:
+      label: "Can you show the code? Only in case that you want"
+      placeholder: "Code here, come on don't be shy! This helps for anyone to see if you have errors and that"
+      render: hx
     validations:
       required: false
