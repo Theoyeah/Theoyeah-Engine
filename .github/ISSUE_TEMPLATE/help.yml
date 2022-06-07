@@ -58,8 +58,11 @@ body:
         hx
         udkdodnsisdnduenejsjsd
       value: |
-        lua: 
+        lua:
+        
         haxe:
+        
         other:
+        
     validations:
       required: false
