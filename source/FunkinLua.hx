@@ -143,7 +143,7 @@ class FunkinLua {
 		//trace("LuaJIT version: " + Lua.versionJIT());
 
 		LuaL.dostring(lua, CLENSE);
-		try{
+		try {
 			var result:Dynamic = LuaL.dofile(lua, script);
 			var resultStr:String = Lua.tostring(lua, result);
 			if(resultStr != null && result != 0) {
@@ -151,24 +151,16 @@ class FunkinLua {
 				#if windows
 				lime.app.Application.current.window.alert(resultStr, 'Error on lua script!');
 				#else
-				luaTrace('Error loading lua script: "$script"\n' + resultStr,true,false);
+				luaTrace('Error loading lua script: "$script"\n' + resultStr, true, false);
 				#end
 				lua = null;
 				return;
 			}
-		}catch(e:Dynamic){
+		} catch(e:Dynamic) {
 			trace(e);
 			return;
 		}
 
-		var result:Dynamic = LuaL.dofile(lua, script);
-		var resultStr:String = Lua.tostring(lua, result);
-		if(resultStr != null && result != 0) {
-			lime.app.Application.current.window.alert(resultStr, 'Error on .LUA script!');
-			trace('Error on .LUA script! $resultStr');
-			lua = null;
-			return;
-		}
 		scriptName = script;
 		trace('Lua file loaded succesfully: $script');
 
