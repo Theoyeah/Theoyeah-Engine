@@ -307,13 +307,13 @@ class SaveThings
 
 	class NewSoundChannel
 	{
-		public function getPosition(sound:IEventDispatcher, ?returnPositionIfIsLeft:Bool = false, ?returnPositionIfIsRight:Bool = false):Float {
+		/*public function getPosition(sound:IEventDispatcher, ?returnPositionIfIsLeft:Bool = false, ?returnPositionIfIsRight:Bool = false):Float {
 			if (returnPositionIfIsLeft)
 				return sound.leftPeak;
 			else if(returnPositionIfIsRight)
 				return sound.rightPeak;
 			return sound.position;
-		}
+		}*/
 
 	}
 
