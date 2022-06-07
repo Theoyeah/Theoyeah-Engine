@@ -16,6 +16,8 @@ body:
       options:
         - Lua
         - Source
+        - I added a new system
+      multiple: true
     validations:
       required: true
 
@@ -31,6 +33,8 @@ body:
         - "HTML5/Browser"
         - "Flash/Air-based target"
         - "Neko, HashLink, or other build system"
+        - "Im talking about a GLOBAL help"
+      multiple: true
     validations:
       required: true
 
@@ -38,7 +42,7 @@ body:
     id: buildsummary
     attributes:
       label: "Did you edit anything in this build? If so, mention or summarize your changes."
-      placeholder: "Yes, I edited `ClientPrefs.hx` and tried to add a new setting"
+      placeholder: "Yes, I edited ClientPrefs.hx and tried to add a new setting"
     validations:
       required: false
       
