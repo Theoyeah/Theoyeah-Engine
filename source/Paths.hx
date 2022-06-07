@@ -57,8 +57,11 @@ class Paths
 			return true;
 		return false;
 	}
-	inline public static function returnNull(key:String) {
-		trace('oh no $key is returning null NOOOO');
+	inline public static function returnNull(key:String, where:String = null) {
+		if(where != null)
+			trace('"$key" in "$where" is returning null NOOOO');
+		else
+			trace('oh no $key is returning null NOOOO');
 	}
 
 	public static function excludeAsset(key:String) {
@@ -249,7 +252,7 @@ class Paths
 				return assets('$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
 			}
 		}
-		returnNull(key);
+		returnNull(key, where);
 		return null;
 		
 	}
@@ -374,7 +377,7 @@ class Paths
 			return here[whatValueToReturn];
 		}
 		if(here == isNull) {
-			trace('oh no $key is returning null NOOOO');
+			returnNull(key);
 			return null;
 		}
 		return here[0];
@@ -460,7 +463,7 @@ class Paths
 			localTrackedAssets.push(path_);
 			return currentTrackedAssets.get(path_);
 		}
-		trace('$key in $where is returning null NOOOO');
+		returnNull(key, where);
 		return null;
 	}
 
