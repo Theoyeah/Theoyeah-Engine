@@ -102,11 +102,12 @@ class SaveThings
 	{
 		public var howMany:Array<FlxSprite> = [];
 
-		override public function new(?x:Float = 0, ?y:Float = 0, ?graphic:Null<FlxGraphicAsset>):FlxSprite {
+		override public function new(?x:Float = 0, ?y:Float = 0, ?graphic:Null<FlxGraphicAsset>) {
 			super(x, y, graphic);
 			howMany.push(this);
 		}
-		public function titleSprite(sprite:FlxSprite, graphicSize:Int = Std.int(sprite.width * 0.8), antialiasing:Bool = true):Void {
+		public function titleSprite(sprite:FlxSprite, ?graphicSize:Int, antialiasing:Bool = true):Void {
+			if(graphicSize == null) graphicSize = Std.int(sprite.width * 0.8);
 			sprite.visible = false;
 			sprite.setGraphicSize(graphicSize);
 			sprite.updateHitbox();
