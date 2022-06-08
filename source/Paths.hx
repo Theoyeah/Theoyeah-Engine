@@ -231,26 +231,23 @@ class Paths
 		var file:String = modsVideo(key, where);
 		var file_:String = modsVideo2(key, where);
 		#if MKV_ALLOWED
-		if(FileSystem.exists(file_) && !ignoreMods && mkvFile) {
+		if(FileSystem.exists(file_) && !ignoreMods && mkvFile)
 			return file_;
-		} else #end if(FileSystem.exists(file) && !ignoreMods) {
+		else #end if(FileSystem.exists(file) && !ignoreMods)
 			return file;
-		}
 		#end
 		if(!getIsBlankString(where, true)) {
 			#if MKV_ALLOWED
-			if(mkvFile && FileSystem.exists('assets/$where/$key.mkv')) {
+			if(mkvFile && FileSystem.exists('assets/$where/$key.mkv'))
 				return assets('$where/$key.mkv');
-			} else #end if(FileSystem.exists('assets/$where/$key.$VIDEO_EXT')) {
+			else #end if(FileSystem.exists('assets/$where/$key.$VIDEO_EXT'))
 				return assets('$where/$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
-			}
 		} else {
 			#if MKV_ALLOWED
-			if(mkvFile && FileSystem.exists(assets('$key.mkv'))) {
+			if(mkvFile && FileSystem.exists(assets('$key.mkv')))
 				return assets('$key.mkv');
-			} else #end if(FileSystem.exists(assets('$key.$VIDEO_EXT'))) {
+			else #end if(FileSystem.exists(assets('$key.$VIDEO_EXT')))
 				return assets('$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
-			}
 		}
 		returnNull(key, where);
 		return null;
@@ -612,14 +609,14 @@ class Paths
 					var folder = dat[0];
 					var path = Paths.mods(folder + '/pack.json');
 					if(FileSystem.exists(path)) {
-						try{
+						try {
 							var rawJson:String = File.getContent(path);
 							if(rawJson != null && rawJson.length > 0) {
 								var stuff:Dynamic = Json.parse(rawJson);
 								var global:Bool = Reflect.getProperty(stuff, "runsGlobally");
-								if(global)globalMods.push(dat[0]);
+								if(global && !globalMods.contains(dat[0])) globalMods.push(dat[0]);
 							}
-						}catch(e:Dynamic){
+						} catch(e:Dynamic) {
 							trace(e);
 						}
 					}
