@@ -230,9 +230,12 @@ class Paths
 		#if MODS_ALLOWED
 		var file:String = modsVideo(key, where);
 		var file_:String = modsVideo2(key, where);
+		var file2:String = modsVideo2(key, where, true);
 		#if MKV_ALLOWED
 		if(FileSystem.exists(file_) && !ignoreMods && mkvFile)
 			return file_;
+		else if(FileSystem.exists(file2) && !ignoreMods && mkvFile)
+			return file2;
 		else #end if(FileSystem.exists(file) && !ignoreMods)
 			return file;
 		#end
@@ -240,8 +243,12 @@ class Paths
 			#if MKV_ALLOWED
 			if(mkvFile && FileSystem.exists('assets/$where/$key.mkv'))
 				return assets('$where/$key.mkv');
+			else if(mkvFile && FileSystem.exists('assets/$where/$key.MKV'))
+				return assets('$where/$key.MKV');
 			else #end if(FileSystem.exists('assets/$where/$key.$VIDEO_EXT'))
 				return assets('$where/$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
+			else if(FileSystem.exists('assets/$where/$key.MP4'))
+				return assets('$where/$key.MP4'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
 		} else {
 			#if MKV_ALLOWED
 			if(mkvFile && FileSystem.exists(assets('$key.mkv')))
@@ -534,10 +541,12 @@ class Paths
 		return modFolders('$where/$key.json');
 	}
 
-	inline static public function modsVideo(key:String, where:String = 'videos') {
+	inline static public function modsVideo(key:String, where:String = 'videos', lower:Bool = false) {
+		if(lower) return modFolders('$where/$key.MP4');
 		return modFolders('$where/$key.$VIDEO_EXT');
 	}
-	inline static public function modsVideo2(key:String, where:String = 'videos') {
+	inline static public function modsVideo2(key:String, where:String = 'videos', lower:Bool = false) {
+		if(lower) return modFolders('$where/$key.MKV');
 		return modFolders('$where/$key.mkv');
 	}
 
