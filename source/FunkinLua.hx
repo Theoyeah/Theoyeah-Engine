@@ -2857,10 +2857,10 @@ class DebugLuaText extends FlxText
 {
 	private var disableTime:Float = 6;
 	public var parentGroup:FlxTypedGroup<DebugLuaText>; 
-	public function new(text:String, parentGroup:FlxTypedGroup<DebugLuaText>, color:FlxColor) {
+	public function new(text:String, parentGroup:FlxTypedGroup<DebugLuaText>, color:FlxColor = FlxColor.WHITE, borderStyle:FlxTextBorderStyle = FlxTextBorderStyle.OUTLINE, borderColor:FlxColor = FlxColor.BLACK) {
 		this.parentGroup = parentGroup;
 		super(10, 10, 0, text, 16);
-		setFormat(Paths.font("vcr.ttf"), 20, color, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		setFormat(Paths.font("vcr.ttf"), 20, color, LEFT, borderStyle, borderColor);
 		scrollFactor.set();
 		borderSize = 1;
 	}
