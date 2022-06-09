@@ -1536,6 +1536,8 @@ class PlayState extends MusicBeatState
 
 
 	public function addShaderToCamera(cam:String, effect:ShaderEffect) {//STOLE FROM ANDROMEDA AND PSYCH ENGINE 0.5.1 WITH SHADERS
+		if(!ClientPrefs.shaders) return;
+
 		switch(cam.toLowerCase()) {
 			case 'camhud' | 'hud':
 				var newCamEffects:Array<BitmapFilter>=[]; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
@@ -1614,10 +1616,10 @@ class PlayState extends MusicBeatState
 		}
 	}
 
- 	public function getLuaObject(tag:String, text:Bool=true):FlxSprite {
- 		if(modchartObjects.exists(tag))return modchartObjects.get(tag);
- 		if(modchartSprites.exists(tag))return modchartSprites.get(tag);
- 		if(text && modchartTexts.exists(tag))return modchartTexts.get(tag);
+ 	public function getLuaObject(tag:String, text:Bool = true):FlxSprite {
+ 		if(modchartObjects.exists(tag)) return modchartObjects.get(tag);
+ 		if(modchartSprites.exists(tag)) return modchartSprites.get(tag);
+ 		if(text && modchartTexts.exists(tag)) return modchartTexts.get(tag);
  		return null;
  	}
 
@@ -1659,12 +1661,11 @@ class PlayState extends MusicBeatState
 		if(!foundFile_ && !ignoreMkv) {
 			fileName = Paths.video(name, false, true);
 			#if sys
-			if(FileSystem.exists(fileName_)) {
+			if(FileSystem.exists(fileName_))
 			#else
-			if(OpenFlAssets.exists(fileName_)) {
+			if(OpenFlAssets.exists(fileName_))
 			#end
 				foundFile_ = true;
-			}
 		}
 
 		if(foundFile_ && !ignoreMkv) {
