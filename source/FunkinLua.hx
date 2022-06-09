@@ -2267,7 +2267,7 @@ class FunkinLua {
 					return Reflect.getProperty(coverMeInPiss, killMe[killMe.length-1]);
 				}
 				return Reflect.getProperty(PlayState.instance.modchartSprites.get(tag), variable);
-			}lm
+			}
 			return null;
 		});
 		Lua_helper.add_callback(lua, "setPropertyLuaSprite", function(tag:String, variable:String, value:Dynamic) {
