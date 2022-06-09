@@ -2620,13 +2620,13 @@ class FunkinLua {
 		return PlayState.instance.camGame;
 	}
 
-	public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false) {
+	public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false, color:FlxColor = FlxColor.WHITE) {
 		#if LUA_ALLOWED
 		if(ignoreCheck || getBool('luaDebugMode')) {
 			if(deprecated && !getBool('luaDeprecatedWarnings')) {
 				return;
 			}
-			PlayState.instance.addTextToDebug(text);
+			PlayState.instance.addTextToDebug(text, color);
 			trace(text);
 		}
 		#else
@@ -2690,9 +2690,13 @@ class FunkinLua {
  					if(errorHandler!=null){
  						errorHandler(err);
  					} else {
- 						trace("ERROR: " + err);
+ 						luaTrace("ERROR: " + err, false, false, FlxColor.RED);
  					}
- 					//LuaL.error(state,err);
+					//LuaL.error(state,err);
+
+					Lua.pop(lua, 1);
+ 					return Function_Continue;
+
  				} else {
  					var conv:Dynamic = Convert.fromLua(lua, -1);
  					Lua.pop(lua, 1);
@@ -2704,7 +2708,8 @@ class FunkinLua {
  				return Function_Continue;
  			}
 
- 		}catch(e:Dynamic){
+ 		}
+		catch(e:Dynamic) {
  			trace(e);
  		}
 		#else
@@ -2729,7 +2734,7 @@ class FunkinLua {
 	public static function getObjectDirectly(objectName:String, ?checkForTextsToo:Bool = true):Dynamic
 	{
 		var coverMeInPiss:Dynamic = PlayState.instance.getLuaObject(objectName, checkForTextsToo);
-		if(coverMeInPiss==null)
+		if(coverMeInPiss == null)
 			coverMeInPiss = getVarInArray(getInstance(), objectName);
 
 		return coverMeInPiss;
