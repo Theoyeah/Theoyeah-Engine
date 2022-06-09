@@ -445,7 +445,7 @@ class NoteOffsetState extends MusicBeatState
 	}
 
 	/**
-	 * Changes the position of `rating`, `combosprshit` and `comboNums`
+	 * Changes the position of rating, combosprshit and comboNums
 	 */
 	function repositionCombo()
 	{
