@@ -1136,8 +1136,8 @@ class PulseEffect extends Effect
 
 class InvertColorsEffect extends Effect
 {
-    public var shader:InvertShader = new InvertShader();
-	public function new(lockAlpha) {
+  public var shader:InvertShader = new InvertShader();
+  public function new(lockAlpha) {
 	//	shader.lockAlpha.value = [lockAlpha];
 	}
 
@@ -1323,7 +1323,7 @@ class PulseShader extends FlxShader
 
     public function new()
     {
-       super();
+	    super();
     }
 }
 

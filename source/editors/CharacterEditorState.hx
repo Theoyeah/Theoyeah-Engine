@@ -773,6 +773,8 @@ class CharacterEditorState extends MusicBeatState
 				char.jsonScale = sender.value;
 				char.setGraphicSize(Std.int(char.width * char.jsonScale));
 				char.updateHitbox();
+				ghostChar.setGraphicSize(Std.int(ghostChar.width * char.jsonScale));
+				ghostChar.updateHitbox();
 				reloadGhost();
 				updatePointerPos();
 
@@ -1037,8 +1039,6 @@ class CharacterEditorState extends MusicBeatState
 		ghostChar.color = 0xFF666688;
 		ghostChar.antialiasing = char.antialiasing;
 		
-		ghostChar.setGraphicSize(Std.int(ghostChar.width * char.jsonScale));
-		ghostChar.updateHitbox();
 	}
 
 	function reloadCharacterDropDown() {
@@ -1047,6 +1047,8 @@ class CharacterEditorState extends MusicBeatState
 		#if MODS_ALLOWED
 		characterList = [];
 		var directories:Array<String> = [Paths.mods('characters/'), Paths.mods(Paths.currentModDirectory + '/characters/'), Paths.getPreloadPath('characters/')];
+		for(mod in Paths.getGlobalMods())
+ 			directories.push(Paths.mods(mod + '/characters/'));
 		for (i in 0...directories.length) {
 			var directory:String = directories[i];
 			if(FileSystem.exists(directory)) {

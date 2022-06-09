@@ -34,7 +34,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		title = 'Gameplay Settings';
 		rpcTitle = 'Gameplay Settings Menu'; //for Discord Rich Presence
 
-		var option:Option = new Option("Multiplicative Value", //taked from the wither engine
+		/*var option:Option = new Option("Multiplicative Value", //taked from the wither engine
 			"When you press SHIFT it multiplies the value by\nthe value you set it\nif it's 0, it will count the default value",
 			"multiplicativeValue",
 			"float",
@@ -43,7 +43,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.minValue = 0;
 		option.maxValue = 100;
 		option.changeValue = 0.1;
-		addOption(option);
+		addOption(option);*/
 
 		var option:Option = new Option('Controller Mode',
 			'Check this if you want to play with\na controller instead of using your Keyboard.',
@@ -81,7 +81,20 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Instant Respawn',
+			"If checked, you will instally respawn if you die.",
+			'instantRespawn',
+			'bool',
+			false);
+		addOption(option);
 
+        var option:Option = new Option('Hide Opponent Notes',
+			'If unchecked, opponent notes get hidden.',
+			'opponentStrums',
+			'bool',
+			false);
+		addOption(option);
+	
 		var option:Option = new Option('Rating Offset',
 			'Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.',
 			'ratingOffset',
@@ -91,19 +104,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 20;
 		option.minValue = -30;
 		option.maxValue = 30;
-		addOption(option);
-
-
-
-		var option:Option = new Option('Marvelous Hit Window',
-			'Changes the amount of time you have\nfor hitting a "Marvelous" in milliseconds.',
-			'marvelousWindow',
-			'int',
-			25);
-		option.displayFormat = '%vms';
-		option.scrollSpeed = 15;
-		option.minValue = 10;
-		option.maxValue = 20;
 		addOption(option);
 
 		var option:Option = new Option('Sick! Hit Window',
@@ -147,18 +147,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 5;
 		option.minValue = 2;
 		option.maxValue = 10;
-		if(FlxG.keys.pressed.SHIFT) {
-			if(ClientPrefs.multiplicativeValue > 0) {
-				option.changeValue = ClientPrefs.multiplicativeValue;
-			} else {
-				option.changeValue = 1;
-			}
-		} else {
-			option.changeValue = 0.1;
-		} 
+		option.changeValue = 0.1;
 		addOption(option);
-
-
 
 		super();
 	}

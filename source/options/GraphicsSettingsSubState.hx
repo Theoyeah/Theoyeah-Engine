@@ -77,8 +77,15 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		*/
 		var option:Option = new Option('Shaders', 
-		'If checked, you can use shaders to customize your gameplay!', 
-		'shaders', 
+			'If checked, you can use shaders to customize your gameplay!', 
+			'shaders', 
+			'bool', 
+			true); 
+		addOption(option);
+
+		var option:Option = new Option('Auto Pause', 
+		'If enabled, will pause when the app is unfocused.', 
+		'autoPause', 
 		'bool', 
 		true); 
 	addOption(option);

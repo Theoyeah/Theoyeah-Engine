@@ -54,12 +54,12 @@ class FreeplayState extends MusicBeatState
 	override function create()
 	{
 		Paths.clearStoredMemory();
-		Paths.clearUnusedMemory();
+		//Paths.clearUnusedMemory();
 		
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);
-		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - " + "Freeplay";
+		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Freeplay";
 
 		#if desktop
 		// Updating Discord Rich Presence
@@ -195,10 +195,10 @@ class FreeplayState extends MusicBeatState
 		add(textBG);
 
 		#if PRELOAD_ALL
-		var leText:String = "Press SPACE to listen to the Song / " + #if CHEATING_ALLOWED "Press CTRL to open the Gameplay Changers Menu / " + #end "Press RESET to Reset your Score and Accuracy.";
+		var leText:String = "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
 		var size:Int = 16;
 		#else
-		var leText:String = #if CHEATING_ALLOWED "Press CTRL to open the Gameplay Changers Menu / " + #end "Press RESET to Reset your Score and Accuracy.";
+		var leText:String = "Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
 		var size:Int = 18;
 		#end
 		var text:FlxText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
