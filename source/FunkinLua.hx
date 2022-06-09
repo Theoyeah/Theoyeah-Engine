@@ -151,7 +151,7 @@ class FunkinLua {
 				#if windows
 				lime.app.Application.current.window.alert(resultStr, 'Error on lua script!');
 				#else
-				luaTrace('Error loading lua script: "$script"\n' + resultStr, true, false);
+				luaTrace('Error loading lua script: "$script"\n' + resultStr, true, false, FlxColor.RED);
 				#end
 				lua = null;
 				return;
@@ -323,7 +323,7 @@ class FunkinLua {
 
 		Lua_helper.add_callback(lua, "callOnLuas", function(?funcName:String, ?args:Array<Dynamic>, ignoreStops=false, ignoreSelf=true, ?exclusions:Array<String>){
 			if(funcName == null) {
-				#if (linc_luajit > "0.0.6")
+				#if (linc_luajit >= "0.0.6")
 				LuaL.error(lua, "bad argument #1 to 'callOnLuas' (string expected, got nil)");
 				#end
 				return;
@@ -341,13 +341,13 @@ class FunkinLua {
 
 		Lua_helper.add_callback(lua, "callScript", function(?luaFile:String, ?funcName:String, ?args:Array<Dynamic>){
 			if(luaFile == null) {
-				#if (linc_luajit > "0.0.6")
+				#if (linc_luajit >= "0.0.6")
 				LuaL.error(lua, "bad argument #1 to 'callScript' (string expected, got nil)");
 				#end
 				return;
 			}
 			if(funcName == null) {
-				#if (linc_luajit > "0.0.6")
+				#if (linc_luajit >= "0.0.6")
 				LuaL.error(lua, "bad argument #2 to 'callScript' (string expected, got nil)");
 				#end
 				return;
@@ -395,13 +395,13 @@ class FunkinLua {
 
 		Lua_helper.add_callback(lua, "getGlobalFromScript", function(?luaFile:String, ?global:String){ // returns the global from a script
 			if(luaFile == null) {
-				#if (linc_luajit > "0.0.6")
+				#if (linc_luajit >= "0.0.6")
 				LuaL.error(lua, "bad argument #1 to 'getGlobalFromScript' (string expected, got nil)");
 				#end
 				return;
 			}
 			if(global == null) {
-				#if (linc_luajit > "0.0.6")
+				#if (linc_luajit >= "0.0.6")
 				LuaL.error(lua, "bad argument #2 to 'getGlobalFromScript' (string expected, got nil)");
 				#end
 				return;
@@ -641,7 +641,7 @@ class FunkinLua {
 				PlayState.instance.luaArray.push(new FunkinLua(cervix)); 
 				return;
 			}
-			luaTrace('Script "$luaFile" ' + "doesn't exist!");
+			luaTrace('Script "$luaFile" ' + "doesn't exist!", false, false, FlxColor.RED);
 		});
 
 		Lua_helper.add_callback(lua, "removeLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
@@ -682,9 +682,19 @@ class FunkinLua {
 				}
 				return;
 			}
-			luaTrace('Script "$luaFile" doesn' + "'t exist!");
+			luaTrace('Script "$luaFile" doesn' + "'t exist!", false, false, FlxColor.RED);
 		});
-		
+
+		Lua_helper.add_callback(lua, "luaSpriteExists", function(tag:String) {
+ 			return PlayState.instance.modchartSprites.exists(tag);
+ 		});
+ 		Lua_helper.add_callback(lua, "luaTextExists", function(tag:String) {
+ 			return PlayState.instance.modchartTexts.exists(tag);
+ 		});
+ 		Lua_helper.add_callback(lua, "luaSoundExists", function(tag:String) {
+ 			return PlayState.instance.modchartSounds.exists(tag);
+ 		});
+
 		Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
 			if(name == null || name.length < 1)
 				name = PlayState.SONG.song;
@@ -774,7 +784,7 @@ class FunkinLua {
 				}
 				return getGroupStuff(leArray, variable);
 			}
-			luaTrace("Object #" + index + " from group: " + obj + " doesn't exist!");
+			luaTrace("Object #" + index + " from group: " + obj + " doesn't exist!", false, false, FlxColor.RED);
 			return null;
 		});
 		Lua_helper.add_callback(lua, "setPropertyFromGroup", function(obj:String, index:Int, variable:Dynamic, value:Dynamic) {
@@ -844,7 +854,7 @@ class FunkinLua {
 			if(leObj != null)
 				return getInstance().members.indexOf(leObj);
 
-			luaTrace('Object $obj doesnt exist!');
+			luaTrace('Object $obj doesnt exist!', false, false, FlxColor.RED);
 			return -1;
 		});
 		Lua_helper.add_callback(lua, "setObjectOrder", function(obj:String, position:Int) {
@@ -859,7 +869,7 @@ class FunkinLua {
 				getInstance().insert(position, leObj);
 				return;
 			}
-			luaTrace('Object $obj doesnt exist!');
+			luaTrace('Object $obj doesnt exist!', false, false, FlxColor.RED);
 		});
 
 		// gay ass tweens
@@ -1209,8 +1219,9 @@ class FunkinLua {
 			//trace('Triggered event: ' + name + ', ' + value1 + ', ' + value2);
 		});
 
-		Lua_helper.add_callback(lua, "startCountdown", function(variable:String) {
+		Lua_helper.add_callback(lua, "startCountdown", function() {
 			PlayState.instance.startCountdown();
+			return true;
 		});
 		Lua_helper.add_callback(lua, "endSong", function() {
 			PlayState.instance.KillNotes();
@@ -1504,14 +1515,14 @@ class FunkinLua {
 				if(pussy.animation.curAnim == null) {
 					pussy.animation.play(name, true);
 				}
-				return;
+				return true;
 			} else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) {
 				var pussy:FlxSprite = PlayState.instance.getLuaObject(obj.toLowerCase(), false);
 				pussy.animation.addByIndices(name, prefix, die, '', framerate, false);
 				if(pussy.animation.curAnim == null) {
 					pussy.animation.play(name, true);
 				}
-				return;
+				return true;
 			}
 
 			var pussy:FlxSprite = Reflect.getProperty(getInstance(), obj);
@@ -1521,29 +1532,35 @@ class FunkinLua {
 				if(pussy.animation.curAnim == null) {
 					pussy.animation.play(name, true);
 				}
+				return true;
 			} else if(yeah != null) {
 				yeah.animation.addByIndices(name, prefix, die, '', framerate, false);
 				if(yeah.animation.curAnim == null) {
 					yeah.animation.play(name, true);
 				}
+				return true;
 			}
+			return false;
 		});
 		Lua_helper.add_callback(lua, "objectPlayAnimation", function(obj:String, name:String, forced:Bool = false, ?startFrame:Int = 0) {
 			if(PlayState.instance.getLuaObject(obj, false) != null) {
 				PlayState.instance.getLuaObject(obj, false).animation.play(name, forced, startFrame);
-				return;
+				return true;
 			} else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) {
 				PlayState.instance.getLuaObject(obj.toLowerCase(), false).animation.play(name, forced, startFrame);
-				return;
+				return true;
 			}
 
 			var spr:FlxSprite = Reflect.getProperty(getInstance(), obj);
 			var spr2:FlxSprite = Reflect.getProperty(getInstance(), obj.toLowerCase());
 			if(spr != null) {
 				spr.animation.play(name, forced);
+				return true;
 			} else if(spr2 != null) {
 				spr2.animation.play(name, forced);
+				return true;
 			}
+			return false;
 		});
 		
 		Lua_helper.add_callback(lua, "setScrollFactor", function(obj:String, scrollX:Float, scrollY:Float) {
@@ -1632,7 +1649,7 @@ class FunkinLua {
 				if(updateHitbox) poop.updateHitbox();
 				return;
 			}
-			luaTrace('Couldnt find object: ' + obj);
+			luaTrace('Couldnt find object: ' + obj, false, false, FlxColor.RED);
 		});
 		Lua_helper.add_callback(lua, "scaleObject", function(obj:String, x:Float, y:Float, updateHitbox:Bool = true) {
 			var here = if(PlayState.instance.getLuaObject(obj) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase()) != null) obj.toLowerCase() else 'nope';
@@ -1654,7 +1671,7 @@ class FunkinLua {
 				if(updateHitbox) poop.updateHitbox();
 				return;
 			}
-			luaTrace('Couldnt find object: ' + obj);
+			luaTrace('Couldnt find object: ' + obj, false, false, FlxColor.RED);
 		});
 		Lua_helper.add_callback(lua, "updateHitbox", function(obj:String) {
 			var here = if(PlayState.instance.getLuaObject(obj) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase()) != null) obj.toLowerCase() else 'nope';
@@ -1669,7 +1686,7 @@ class FunkinLua {
 				poop.updateHitbox();
 				return;
 			}
-			luaTrace('Couldnt find object: ' + obj);
+			luaTrace('Couldnt find object: ' + obj, false, false, FlxColor.RED);
 		});
 		Lua_helper.add_callback(lua, "updateHitboxFromGroup", function(group:String, index:Int) {
 			if(Std.isOfType(Reflect.getProperty(getInstance(), group), FlxTypedGroup)) {
@@ -1733,7 +1750,7 @@ class FunkinLua {
 				object.cameras = [cameraFromString(camera)];
 				return true;
 			}
-			luaTrace("Object " + obj + " doesn't exist!");
+			luaTrace("Object " + obj + " doesn't exist!", false, false, FlxColor.RED);
 			return false;
 		});
 		Lua_helper.add_callback(lua, "setBlendMode", function(obj:String, blend:String = '') {
@@ -1757,7 +1774,7 @@ class FunkinLua {
 				spr.blend = blendModeFromString(blend);
 				return true;
 			}
-			luaTrace("Object " + obj + " doesn't exist!");
+			luaTrace("Object " + obj + " doesn't exist!", false, false, FlxColor.RED);
 			return false;
 		});
 
@@ -1787,7 +1804,7 @@ class FunkinLua {
 						return;
 				}
 			}
-			luaTrace("Object " + obj + " doesn't exist!");
+			luaTrace("Object " + obj + " doesn't exist!", false, false, FlxColor.RED);
 		});
 		Lua_helper.add_callback(lua, "objectsOverlap", function(obj1:String, obj2:String) {
 			var namesArray:Array<String> = [obj1, obj2];
@@ -1872,7 +1889,7 @@ class FunkinLua {
 			else
 				luaTrace('Video file not found: $videoFile');
 			#else
-			luaTrace('videos are not allowed');
+			luaTrace('videos are not allowed', false, false, FlxColor.RED);
 			if(PlayState.instance.endingSong)
 				PlayState.instance.endSong();
 			else
@@ -2205,7 +2222,7 @@ class FunkinLua {
 				PlayState.instance.modchartSprites.get(tag).cameras = [cameraFromString(camera)];
 				return true;
 			}
-			luaTrace("Lua sprite with tag: " + tag + " doesn't exist!");
+			luaTrace("Lua sprite with tag: " + tag + " doesn't exist!", false, false, FlxColor.RED);
 			return false;
 		});
 		Lua_helper.add_callback(lua, "setLuaSpriteScrollFactor", function(tag:String, scrollX:Float, scrollY:Float) {
@@ -2250,7 +2267,7 @@ class FunkinLua {
 				}
 				return Reflect.setProperty(PlayState.instance.modchartSprites.get(tag), variable, value);
 			}
-			luaTrace('Lua sprite with tag: "$tag" ' + "doesn't exist!");
+			luaTrace('Lua sprite with tag: "$tag" ' + "doesn't exist!", false, false, FlxColor.RED);
 		});
 		Lua_helper.add_callback(lua, "musicFadeIn", function(duration:Float, fromValue:Float = 0, toValue:Float = 1) {
 			FlxG.sound.music.fadeIn(duration, fromValue, toValue);
@@ -2659,25 +2676,32 @@ class FunkinLua {
  		try {
  			if(lua == null)return Function_Continue;
  			Lua.getglobal(lua, func);
- 			if(Lua.isfunction(lua, -1)==true){
+ 			#if (linc_luajit >= "0.0.6")
+ 			if(Lua.isfunction(lua, -1) == true)
+ 			#else
+ 			if(Lua.isfunction(lua, -1) == 1)
+ 			#end
+ 			{
+
  				for(arg in args) Convert.toLua(lua, arg);
  				var result: Dynamic = Lua.pcall(lua, args.length, 1, 0);
  				if(result != 0) {
  					var err = getErrorMessage();
  					if(errorHandler!=null){
  						errorHandler(err);
- 					}else{
+ 					} else {
  						trace("ERROR: " + err);
  					}
  					//LuaL.error(state,err);
  				} else {
  					var conv:Dynamic = Convert.fromLua(lua, -1);
  					Lua.pop(lua, 1);
+					if(conv == null) conv = Function_Continue;
  					return conv;
  				}
 			} else {
  				Lua.pop(lua, 1);
- 				return null;
+ 				return Function_Continue;
  			}
 
  		}catch(e:Dynamic){
