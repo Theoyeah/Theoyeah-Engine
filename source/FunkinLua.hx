@@ -1638,7 +1638,7 @@ class FunkinLua {
 				var shit:FlxSprite = PlayState.instance.getLuaObject(here);
 				shit.setGraphicSize(x, y);
 				if(updateHitbox) shit.updateHitbox();
-				return true;
+				return;
 			}
 
 			var killMe:Array<String> = obj.split('.');
@@ -1650,7 +1650,7 @@ class FunkinLua {
 			if(poop != null) {
 				poop.setGraphicSize(x, y);
 				if(updateHitbox) poop.updateHitbox();
-				return true;
+				return;
 			}
 			luaTrace('Couldnt find object: ' + obj, false, false, FlxColor.RED);
 		});
@@ -1660,7 +1660,7 @@ class FunkinLua {
 				var shit:FlxSprite = PlayState.instance.getLuaObject(here);
 				shit.scale.set(x, y);
 				if(updateHitbox) shit.updateHitbox();
-				return true;
+				return;
 			}
 
 			var killMe:Array<String> = obj.split('.');
@@ -1672,7 +1672,7 @@ class FunkinLua {
 			if(poop != null) {
 				poop.scale.set(x, y);
 				if(updateHitbox) poop.updateHitbox();
-				return true;
+				return;
 			}
 			luaTrace('Couldnt find object: ' + obj, false, false, FlxColor.RED);
 		});
@@ -1681,20 +1681,20 @@ class FunkinLua {
 			if(here != 'nope') {
 				var shit:FlxSprite = PlayState.instance.getLuaObject(here);
 				shit.updateHitbox();
-				return true;
+				return;
 			}
 
 			var poop:FlxSprite = Reflect.getProperty(getInstance(), obj);
 			if(poop != null) {
 				poop.updateHitbox();
-				return true;
+				return;
 			}
 			luaTrace('Couldnt find object: ' + obj, false, false, FlxColor.RED);
 		});
 		Lua_helper.add_callback(lua, "updateHitboxFromGroup", function(group:String, index:Int) {
 			if(Std.isOfType(Reflect.getProperty(getInstance(), group), FlxTypedGroup)) {
 				Reflect.getProperty(getInstance(), group).members[index].updateHitbox();
-				return true;
+				return;
 			}
 			Reflect.getProperty(getInstance(), group)[index].updateHitbox();
 		});
@@ -1705,7 +1705,7 @@ class FunkinLua {
 			if(parent != null && child != null)
 				return parent.tail.contains(child);
 
-			luaTrace('${parentID} or ${childID} is not a valid note ID');
+			luaTrace('${parentID} or ${childID} is not a valid note ID', false, false, FlxColor.RED);
 			return false;
 		});
 		Lua_helper.add_callback(lua, "removeLuaSprite", function(tag:String, destroy:Bool = true) {
@@ -1738,7 +1738,7 @@ class FunkinLua {
 				return true;
 			}*/
 			var real = PlayState.instance.getLuaObject(obj);
-			if(real!=null){
+			if(real != null) {
 				real.cameras = [cameraFromString(camera)];
 				return true;
 			}
@@ -2032,22 +2032,26 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "setTextString", function(tag:String, text:String) {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 				obj.text = text;
 		});
 		Lua_helper.add_callback(lua, "setTextSize", function(tag:String, size:Int) {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 				obj.size = size;
 		});
 		Lua_helper.add_callback(lua, "setTextWidth", function(tag:String, width:Float) {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 				obj.fieldWidth = width;
 		});
 		Lua_helper.add_callback(lua, "setTextBorder", function(tag:String, size:Int, color:String) {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 			{
 				var colorNum:Int = Std.parseInt(color);
@@ -2058,7 +2062,8 @@ class FunkinLua {
 			}
 		});
 		Lua_helper.add_callback(lua, "setTextColor", function(tag:String, color:String) {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 			{
 				var colorNum:Int = Std.parseInt(color);
@@ -2068,17 +2073,20 @@ class FunkinLua {
 			}
 		});
 		Lua_helper.add_callback(lua, "setTextFont", function(tag:String, newFont:String) {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 				obj.font = Paths.font(newFont);
 		});
 		Lua_helper.add_callback(lua, "setTextItalic", function(tag:String, italic:Bool) {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 				obj.italic = italic;
 		});
 		Lua_helper.add_callback(lua, "setTextAlignment", function(tag:String, alignment:String = 'left') {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 			{
 				obj.alignment = LEFT;
@@ -2093,25 +2101,29 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "getTextString", function(tag:String) {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 				return obj.text;
 			return null;
 		});
 		Lua_helper.add_callback(lua, "getTextSize", function(tag:String) {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 				return obj.size;
 			return -1;
 		});
 		Lua_helper.add_callback(lua, "getTextFont", function(tag:String) {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 				return obj.font;
 			return null;
 		});
 		Lua_helper.add_callback(lua, "getTextWidth", function(tag:String) {
-			var obj:Null<FlxText> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
+			var obj = if(lol != null) getTextObject(lol);
 			if(obj != null)
 				return obj.fieldWidth;
 			return 0;
