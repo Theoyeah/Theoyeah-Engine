@@ -2032,26 +2032,22 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "setTextString", function(tag:String, text:String) {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 				obj.text = text;
 		});
 		Lua_helper.add_callback(lua, "setTextSize", function(tag:String, size:Int) {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 				obj.size = size;
 		});
 		Lua_helper.add_callback(lua, "setTextWidth", function(tag:String, width:Float) {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 				obj.fieldWidth = width;
 		});
 		Lua_helper.add_callback(lua, "setTextBorder", function(tag:String, size:Int, color:String) {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 			{
 				var colorNum:Int = Std.parseInt(color);
@@ -2062,8 +2058,7 @@ class FunkinLua {
 			}
 		});
 		Lua_helper.add_callback(lua, "setTextColor", function(tag:String, color:String) {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 			{
 				var colorNum:Int = Std.parseInt(color);
@@ -2073,20 +2068,17 @@ class FunkinLua {
 			}
 		});
 		Lua_helper.add_callback(lua, "setTextFont", function(tag:String, newFont:String) {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 				obj.font = Paths.font(newFont);
 		});
 		Lua_helper.add_callback(lua, "setTextItalic", function(tag:String, italic:Bool) {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 				obj.italic = italic;
 		});
 		Lua_helper.add_callback(lua, "setTextAlignment", function(tag:String, alignment:String = 'left') {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 			{
 				obj.alignment = LEFT;
@@ -2101,29 +2093,25 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "getTextString", function(tag:String) {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 				return obj.text;
 			return null;
 		});
 		Lua_helper.add_callback(lua, "getTextSize", function(tag:String) {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 				return obj.size;
 			return -1;
 		});
 		Lua_helper.add_callback(lua, "getTextFont", function(tag:String) {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 				return obj.font;
 			return null;
 		});
 		Lua_helper.add_callback(lua, "getTextWidth", function(tag:String) {
-			var lol:Null<String> = if(getTextObject(tag) != null) tag else if(getTextObject(tag.toLowerCase()) != null) tag.toLowerCase() else null;
-			var obj = if(lol != null) getTextObject(lol);
+			var obj:FlxText = if(getTextObject(tag) != null) getTextObject(tag) else getTextObject(tag.toLowerCase());
 			if(obj != null)
 				return obj.fieldWidth;
 			return 0;
@@ -2165,7 +2153,7 @@ class FunkinLua {
 				var save:FlxSave = new FlxSave();
 				save.bind(name, folder);
 				PlayState.instance.modchartSaves.set(name, save);
-				return true;
+				return;
 			}
 			luaTrace('Save file already initialized: $name');
 		});
@@ -2173,7 +2161,7 @@ class FunkinLua {
 			if(PlayState.instance.modchartSaves.exists(name))
 			{
 				PlayState.instance.modchartSaves.get(name).flush();
-				return true;
+				return;
 			}
 			luaTrace('Save file not initialized: $name');
 		});
@@ -2190,7 +2178,7 @@ class FunkinLua {
 			if(PlayState.instance.modchartSaves.exists(name))
 			{
 				Reflect.setField(PlayState.instance.modchartSaves.get(name).data, field, value);
-				return true;
+				return;
 			}
 			luaTrace('Save file not initialized: $name');
 		});
