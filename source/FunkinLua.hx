@@ -67,7 +67,7 @@ class FunkinLua {
 
 	public function deprecated(first:String, second:String) {
 		#if LUA_ALLOWED
-		luaTrace('$first is deprecated! We highly recommend using $second instead because it have better things!', false, true);
+		luaTrace('$first is deprecated! We highly recommend using $second instead because it have better things!', false, true, FlxColor.YELLOW);
 		#else
 		lol();
 		#end
@@ -75,7 +75,7 @@ class FunkinLua {
 	public function couldntFindObject(vars:Dynamic) {
 		#if LUA_ALLOWED
 		var varr:String = vars.toString;
-		luaTrace('Couldnt find object: $varr');
+		traceLuaError('Couldnt find object: $varr');
 		#else
 		lol();
 		#end
@@ -128,7 +128,7 @@ class FunkinLua {
 	public function notExists(obj:Dynamic) {
 		#if LUA_ALLOWED
 		var object:String = obj.toString();
-		luaTrace('Object $object doesnt exist!');
+		traceLuaError('Object $object doesnt exist!');
 		#else
 		lol();
 		#end
@@ -641,7 +641,7 @@ class FunkinLua {
 				PlayState.instance.luaArray.push(new FunkinLua(cervix)); 
 				return;
 			}
-			luaTrace('Script "$luaFile" ' + "doesn't exist!", false, false, FlxColor.RED);
+			traceLuaError('Script "$luaFile" ' + "doesn't exist!");
 		});
 
 		Lua_helper.add_callback(lua, "removeLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
@@ -854,7 +854,7 @@ class FunkinLua {
 			if(leObj != null)
 				return getInstance().members.indexOf(leObj);
 
-			luaTrace('Object $obj doesnt exist!', false, false, FlxColor.RED);
+			traceLuaError('Object $obj doesnt exist!');
 			return -1;
 		});
 		Lua_helper.add_callback(lua, "setObjectOrder", function(obj:String, position:Int) {
@@ -1652,7 +1652,7 @@ class FunkinLua {
 				if(updateHitbox) poop.updateHitbox();
 				return;
 			}
-			luaTrace('Couldnt find object: ' + obj, false, false, FlxColor.RED);
+			traceLuaError('Couldnt find object: ' + obj);
 		});
 		Lua_helper.add_callback(lua, "scaleObject", function(obj:String, x:Float, y:Float, updateHitbox:Bool = true) {
 			var here = if(PlayState.instance.getLuaObject(obj) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase()) != null) obj.toLowerCase() else 'nope';
@@ -1674,7 +1674,7 @@ class FunkinLua {
 				if(updateHitbox) poop.updateHitbox();
 				return;
 			}
-			luaTrace('Couldnt find object: ' + obj, false, false, FlxColor.RED);
+			traceLuaError('Couldnt find object: ' + obj);
 		});
 		Lua_helper.add_callback(lua, "updateHitbox", function(obj:String) {
 			var here = if(PlayState.instance.getLuaObject(obj) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase()) != null) obj.toLowerCase() else 'nope';
@@ -1689,7 +1689,7 @@ class FunkinLua {
 				poop.updateHitbox();
 				return;
 			}
-			luaTrace('Couldnt find object: ' + obj, false, false, FlxColor.RED);
+			traceLuaError('Couldnt find object: ' + obj);
 		});
 		Lua_helper.add_callback(lua, "updateHitboxFromGroup", function(group:String, index:Int) {
 			if(Std.isOfType(Reflect.getProperty(getInstance(), group), FlxTypedGroup)) {
@@ -1705,7 +1705,7 @@ class FunkinLua {
 			if(parent != null && child != null)
 				return parent.tail.contains(child);
 
-			luaTrace('${parentID} or ${childID} is not a valid note ID', false, false, FlxColor.RED);
+			traceLuaError('${parentID} or ${childID} is not a valid note ID');
 			return false;
 		});
 		Lua_helper.add_callback(lua, "removeLuaSprite", function(tag:String, destroy:Bool = true) {
@@ -1753,7 +1753,7 @@ class FunkinLua {
 				object.cameras = [cameraFromString(camera)];
 				return true;
 			}
-			luaTrace("Object " + obj + " doesn't exist!", false, false, FlxColor.RED);
+			traceLuaError("Object " + obj + " doesn't exist!");
 			return false;
 		});
 		Lua_helper.add_callback(lua, "setBlendMode", function(obj:String, blend:String = '') {
@@ -1777,7 +1777,7 @@ class FunkinLua {
 				spr.blend = blendModeFromString(blend);
 				return true;
 			}
-			luaTrace("Object " + obj + " doesn't exist!", false, false, FlxColor.RED);
+			traceLuaError("Object " + obj + " doesn't exist!");
 			return false;
 		});
 
@@ -1807,7 +1807,7 @@ class FunkinLua {
 						return;
 				}
 			}
-			luaTrace("Object " + obj + " doesn't exist!", false, false, FlxColor.RED);
+			traceLuaError("Object " + obj + " doesn't exist!");
 		});
 		Lua_helper.add_callback(lua, "objectsOverlap", function(obj1:String, obj2:String) {
 			var namesArray:Array<String> = [obj1, obj2];
@@ -1872,11 +1872,11 @@ class FunkinLua {
 				var shit:DialogueFile = DialogueBoxPsych.parseDialogue(path);
 				if(shit.dialogue.length > 0) {
 					PlayState.instance.startDialogue(shit, music);
-					luaTrace('Successfully loaded dialogue "$dialogueFile"');
+					traceLuaError('Successfully loaded dialogue "$dialogueFile"');
 				} else
-					luaTrace('Dialogue file "$dialogueFile" is badly formatted!');
+					traceLuaError('Dialogue file "$dialogueFile" is badly formatted!');
 			} else {
-				luaTrace('Dialogue file "' + dialogueFile + '" not found');
+				traceLuaError('Dialogue file "' + dialogueFile + '" not found');
 				if(PlayState.instance.endingSong)
 					PlayState.instance.endSong();
 				else
@@ -1890,9 +1890,9 @@ class FunkinLua {
 			else if(FileSystem.exists(Paths.video(videoFile.toLowerCase())))
 				PlayState.instance.startVideo(videoFile.toLowerCase());
 			else
-				luaTrace('Video file not found: $videoFile');
+				traceLuaError('Video file not found: $videoFile');
 			#else
-			luaTrace('videos are not allowed', false, false, FlxColor.RED);
+			traceLuaError('videos are not allowed');
 			if(PlayState.instance.endingSong)
 				PlayState.instance.endSong();
 			else
@@ -1999,13 +1999,13 @@ class FunkinLua {
 			}
 		});
 
-		Lua_helper.add_callback(lua, "debugPrint", function(text1:Dynamic = '', text2:Dynamic = '', text3:Dynamic = '', text4:Dynamic = '', text5:Dynamic = '') {
+		Lua_helper.add_callback(lua, "debugPrint", function(text1:Dynamic = '', text2:Dynamic = '', text3:Dynamic = '', text4:Dynamic = '', text5:Dynamic = '', color:String = 'white') {
 			if (text1 == null) text1 = '';
 			if (text2 == null) text2 = '';
 			if (text3 == null) text3 = '';
 			if (text4 == null) text4 = '';
 			if (text5 == null) text5 = '';
-			luaTrace('' + text1 + text2 + text3 + text4 + text5, true);
+			luaTrace('' + text1 + text2 + text3 + text4 + text5, true, false, color);
 		});
 		Lua_helper.add_callback(lua, "close", function(printMessage:Bool) {
 			if(!gonnaClose) {
@@ -2234,7 +2234,7 @@ class FunkinLua {
 				PlayState.instance.modchartSprites.get(tag).cameras = [cameraFromString(camera)];
 				return true;
 			}
-			luaTrace("Lua sprite with tag: " + tag + " doesn't exist!", false, false, FlxColor.RED);
+			traceLuaError("Lua sprite with tag: " + tag + " doesn't exist!");
 			return false;
 		});
 		Lua_helper.add_callback(lua, "setLuaSpriteScrollFactor", function(tag:String, scrollX:Float, scrollY:Float) {
@@ -2283,7 +2283,7 @@ class FunkinLua {
 				}
 				return Reflect.setProperty(PlayState.instance.modchartSprites.get(tag), variable, value);
 			}
-			luaTrace('Lua sprite with tag: "$tag" ' + "doesn't exist!", false, false, FlxColor.RED);
+			traceLuaError('Lua sprite with tag: "$tag" ' + "doesn't exist!");
 		});
 		Lua_helper.add_callback(lua, "musicFadeIn", function(duration:Float, fromValue:Float = 0, toValue:Float = 1) {
 			FlxG.sound.music.fadeIn(duration, fromValue, toValue);
@@ -2629,20 +2629,38 @@ class FunkinLua {
 		return PlayState.instance.camGame;
 	}
 
-	public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false, color:FlxColor = FlxColor.WHITE) {
+	public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false, color:Dynamic) {
 		#if LUA_ALLOWED
+		var colorr:FlxColor;
+		if(Std.isOfType(color, 'colorr')) {
+			switch(color.toLowerCase().trim()) {
+				case 'red': colorr = FlxColor.RED;
+				case 'blue': colorr = FlxColor.BLUE;
+				case 'black': colorr = FlxColor.BLACK;
+				case 'brown': colorr = FlxColor.BROWN;
+				case 'cyan': colorr = FlxColor.CYAN;
+				case 'gray': colorr = FlxColor.GRAY;
+				case 'green': colorr = FlxColor.GREEN;
+				case 'lime': colorr = FlxColor.LIME;
+				default: colorr = FlxColor.WHITE;
+			}
+		} else if(Std.isOfType(color, FlxColor.WHITE)) {
+			colorr = color;
+		}
 		if(ignoreCheck || getBool('luaDebugMode')) {
 			if(deprecated && !getBool('luaDeprecatedWarnings')) {
 				return;
 			}
-			PlayState.instance.addTextToDebug(text, color);
+			PlayState.instance.addTextToDebug(text, colorr);
 			trace(text);
 		}
 		#else
 		lol();
 		#end
 	}
-	
+	public function traceLuaError(text:String) {
+		luaTrace(text, false, false, 'red');
+	}
 	/*public function call(event:String, args:Array<Dynamic>):Dynamic {
 		#if LUA_ALLOWED
 		if(lua == null) {
