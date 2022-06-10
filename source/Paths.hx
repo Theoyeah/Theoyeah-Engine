@@ -475,13 +475,24 @@ class Paths
 	public static function returnSound(path:String, key:String, ?library:String) {
 		#if MODS_ALLOWED
 		var file:String = modsSounds(path, key);
+		#if WAV_ALLOWED
+		var file_:String = modsWavSounds(path, key);
+		#end
 		if(FileSystem.exists(file)) {
 			if(!currentTrackedSounds.exists(file)) {
 				currentTrackedSounds.set(file, Sound.fromFile(file));
 			}
 			localTrackedAssets.push(key);
 			return currentTrackedSounds.get(file);
+		} #if WAV_ALLOWED
+		else if(FileSystem.exists(file_)) {
+			if(!currentTrackedSounds.exists(file_)) {
+				currentTrackedSounds.set(file_, Sound.fromFile(file_));
+			}
+			localTrackedAssets.push(key);
+			return currentTrackedSounds.get(file_);
 		}
+		#end
 		#end
 		// I hate this so god damn much
 		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);	
@@ -552,6 +563,12 @@ class Paths
 
 	inline static public function modsSounds(path:String, key:String) {
 		return modFolders('$path/$key.$SOUND_EXT');
+	}
+
+	inline static public function modsWavSounds(path:String, key:String) {
+		#if WAV_ALLOWED
+		return modFolders('$path/$key.wav');
+		#end
 	}
 
 	inline static public function modsImages(key:String, where:String = 'images') {
