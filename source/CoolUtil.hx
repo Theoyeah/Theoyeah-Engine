@@ -21,9 +21,8 @@ class CoolUtil
 		'Easy',
 		'Normal',
 		'Hard',
-		//'Erect'  Waiting for fnf week 8 to release.....
+		//'Erect'
 		'FUCKED'
-
 	];
 	public static var defaultDifficulty:String = 'Normal'; //The chart that has no suffix and starting difficulty on Freeplay/Story Mode
 
