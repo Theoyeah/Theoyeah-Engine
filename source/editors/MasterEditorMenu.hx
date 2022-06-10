@@ -1,6 +1,5 @@
 package editors;
 
-import ModsMenuState.ModMetadata;
 #if desktop
 import Discord.DiscordClient;
 #end

@@ -17,7 +17,7 @@ import flixel.util.FlxColor;
 #if desktop
 import sys.FileSystem;
 import sys.io.File;
-#elseif !android
+#else
 import js.html.FileSystem;
 import js.html.File;
 #end
