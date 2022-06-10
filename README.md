@@ -51,6 +51,7 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 - More options
 - **Instakill Note and Crash Note!!** (with a fabulous texture)
 - **Windows Note and Warning Note** (with *another* fabulous texture)
+- Added mouse wheel (mouse scroll) support
 - Look at the [`Project.xml`](Project.xml) file for more!
 # Examples :
 ![Sans titreS](https://user-images.githubusercontent.com/97792861/169879482-ba19602c-7dc7-49d7-9243-726921786b56.png)
