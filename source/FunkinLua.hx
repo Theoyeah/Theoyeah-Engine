@@ -2629,9 +2629,9 @@ class FunkinLua {
 		return PlayState.instance.camGame;
 	}
 
-	public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false, color:Dynamic) {
+	public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false, color:Dynamic = 'white') {
 		#if LUA_ALLOWED
-		var colorr:FlxColor;
+		var colorr:FlxColor = FlxColor.WHITE;
 		if(Std.isOfType(color, 'colorr')) {
 			switch(color.toLowerCase().trim()) {
 				case 'red': colorr = FlxColor.RED;
@@ -2642,7 +2642,7 @@ class FunkinLua {
 				case 'gray': colorr = FlxColor.GRAY;
 				case 'green': colorr = FlxColor.GREEN;
 				case 'lime': colorr = FlxColor.LIME;
-				default: colorr = FlxColor.WHITE;
+				case 'yellow': colorr = FlxColor.YELLOW;
 			}
 		} else if(Std.isOfType(color, FlxColor.WHITE)) {
 			colorr = color;
