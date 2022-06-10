@@ -31,6 +31,12 @@ class Note extends FlxSprite
 	public var hitByOpponent:Bool = false;
 	public var noteWasHit:Bool = false;
 	public var prevNote:Note;
+	public var nextNote:Note;
+
+	public var spawned:Bool = false;
+
+	public var tail:Array<Note> = []; // for sustains
+	public var parent:Note;
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -79,6 +85,7 @@ class Note extends FlxSprite
 	public var texture(default, set):String = null;
 
 	public var noAnimation:Bool = false;
+	public var noMissAnimation:Bool = false;
 	public var hitCausesMiss:Bool = false;
 	public var distance:Float = 2000; //plan on doing scroll directions soon -bb
 
@@ -183,6 +190,7 @@ class Note extends FlxSprite
 					hitCausesMiss = true;
 				case 'No Animation':
 					noAnimation = true;
+					noMissAnimation = true;
 				case 'GF Sing':
 					gfNote = true;
 			}
@@ -237,6 +245,9 @@ class Note extends FlxSprite
 		}
 
 		// trace(prevNote);
+
+		if(prevNote!=null)
+			prevNote.nextNote = this;
 
 		if (isSustainNote && prevNote != null)
 		{
