@@ -284,9 +284,7 @@ class NoteOffsetState extends MusicBeatState
 					if(startMousePos.x - first.x >= 0 && startMousePos.x - first.x <= first.width &&
 						startMousePos.y - first.y >= 0 && startMousePos.y - first.y <= first.height) {
 						return true;
-					} else {
-						return false;
-					}
+					return false;
 				}
 				holdingObjectType = null;
 				FlxG.mouse.getScreenPosition(camHUD, startMousePos);
@@ -314,7 +312,7 @@ class NoteOffsetState extends MusicBeatState
 			}
 			if(FlxG.mouse.justReleased) {
 				holdingObjectType = null;
-				trace("you're holding anything: $holdingObjectType");
+				trace("you aren't holding anything");
 			}
 
 			if(holdingObjectType != null)
