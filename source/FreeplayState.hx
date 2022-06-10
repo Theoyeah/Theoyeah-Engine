@@ -281,12 +281,12 @@ class FreeplayState extends MusicBeatState
 
 		if(songs.length > 1)
 		{
-			if (upP)
+			if (upP || FlxG.mouse.wheel > 0)
 			{
 				changeSelection(-shiftMult);
 				holdTime = 0;
 			}
-			if (downP)
+			if (downP || FlxG.mouse.wheel < 0)
 			{
 				changeSelection(shiftMult);
 				holdTime = 0;

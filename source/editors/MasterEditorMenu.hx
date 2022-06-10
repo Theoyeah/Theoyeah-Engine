@@ -88,11 +88,11 @@ class MasterEditorMenu extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (controls.UI_UP_P || FlxG.mouse.wheel < 0)
+		if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
 		{
 			changeSelection(-1);
 		}
-		if (controls.UI_DOWN_P || FlxG.mouse.wheel > 0)
+		if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0)
 		{
 			changeSelection(1);
 		}
@@ -130,8 +130,7 @@ class MasterEditorMenu extends MusicBeatState
 				case 'Stage Editor':
 					LoadingState.loadAndSwitchState(new StageEditorState(), false);
 				case 'Mod Manager':
-					LoadingState.loadAndSwitchState(new editors.ModsMenuState(), false);
-					   
+					LoadingState.loadAndSwitchState(new editors.ModsMenuState(), false);		   
 			}
 			FlxG.sound.music.volume = 0;
 			#if PRELOAD_ALL
