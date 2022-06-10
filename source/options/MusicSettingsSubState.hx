@@ -92,18 +92,17 @@ class MusicSettingsSubState extends BaseOptionsMenu
 	}
 
 	function onChangeHitsoundVolume()
-		{
-			FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
-		}
-		
+	{
+		FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
+	}
+
 	var changedMusic:Bool = false;
 	function onChangePauseMusic()
 	{
-		if(ClientPrefs.pauseMusic == 'None') {
+		if(ClientPrefs.pauseMusic == 'None')
 			FlxG.sound.music.volume = 0;
-		} else {
+		else
 			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.pauseMusic)));
-		}
 
 		changedMusic = true;
 	}
@@ -111,11 +110,10 @@ class MusicSettingsSubState extends BaseOptionsMenu
 	var changedMenuMusic:Bool = false;
 	function onChangeMenuMusic()
 	{
-		if(ClientPrefs.musicSelected == 'none') {
+		if(ClientPrefs.musicSelected == 'none')
 			FlxG.sound.music.volume = 0;
-		} else {
+		else
 			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.musicSelected)));
-		}
 
 		changedMenuMusic = true;
 	}

@@ -113,9 +113,8 @@ class OptionsState extends MusicBeatState
 			if (PauseSubState.toOptions) {
 				MusicBeatState.switchState(new PlayState());
 				FlxG.sound.music.stop();
-				} else {
+			} else
 				MusicBeatState.switchState(new MainMenuState());
-				}
 		}
 
 		if (controls.ACCEPT) {
