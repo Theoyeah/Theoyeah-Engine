@@ -182,14 +182,15 @@ class TitleState extends MusicBeatState
 		}
 		#end
 
-		if(!initialized && FlxG.save.data != null && FlxG.save.data.fullscreen)
+		if(!initialized)
 		{
-			FlxG.fullscreen = FlxG.save.data.fullscreen;
-			//trace('LOADED FULLSCREEN SETTING!!');
-		}
-		if(FlxG.keys.justPressed.F && FlxG.keys.justPressed.CONTROL) {
-			FlxG.save.data.fullscreen = true;
-			FlxG.fullscreen = FlxG.save.data.fullscreen;
+			if(FlxG.save.data != null && FlxG.save.data.fullscreen)
+ 			{
+ 				FlxG.fullscreen = FlxG.save.data.fullscreen;
+ 				//trace('LOADED FULLSCREEN SETTING!!');
+ 			}
+ 			persistentUpdate = true;
+ 			persistentDraw = true;
 		}
 
 		if (FlxG.save.data.weekCompleted != null)
