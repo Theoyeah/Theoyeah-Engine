@@ -43,6 +43,8 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 - funni 9 button easter egg icon
 - Shaders are real
 - Os is back !!!
+- Mkv video support
+- Optimized, a lot of code
 - Added a cool background in intro
 - Added the original MiddleScroll !
 - [Mp3](Project.xml#L54) and [Wav](Project.xml#L55) support !

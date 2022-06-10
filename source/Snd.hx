@@ -11,11 +11,11 @@ class Channel {
 	public var		isDebug = false;
 	
 	var started 	= true;
-	var paused 		= false;
+	var paused 	= false;
 	var disposed 	= false;
 	var completed 	= false;
 		
-	inline function new( ?name:String = null ){
+	inline function new( ?name:String = null ) {
 		if ( name == null )
 			this.name = C.EMPTY_STRING;
 		else 
@@ -33,7 +33,7 @@ class Channel {
 		isDebug 	= false;
 	}
 	
-	public function reset(){
+	public function reset() {
 		started 	= false;
 		paused 		= false;
 		disposed 	= false;
@@ -41,21 +41,21 @@ class Channel {
 		isDebug 	= false;
 	}
 	
-	public function stop(){
+	public function stop() {
 		started = false;
 	}
 	
-	public function pause(){
+	public function pause() {
 		paused = false;
 		started = true;
 	}
 	
-	public function resume(){
+	public function resume() {
 		paused = true;
 		started = true;
 	}
 	
-	public function dispose(){
+	public function dispose() {
 		setVolume(0);//prevent any further listen
 		disposed = true;
 		onEnd = null;
@@ -67,20 +67,20 @@ class Channel {
 		//trace("onComplete " + haxe.Timer.stamp() );
 		#end
 		//stop();
-		if( onEnd!=null ) {
+		if( onEnd != null ) {
 			var cb = onEnd;
 			onEnd = null;
 			cb();
 		}
 	}
 	
-	public function isComplete(){
+	public function isComplete() {
 		#if !prod
-		if ( completed ){
+		if ( completed ) {
 			//trace("already completed");
 		}
 		
-		if ( started ){
+		if ( started ) {
 			//trace("started ok");
 		}
 		#end
@@ -108,21 +108,21 @@ class Channel {
 		throw "override me";
 	}
 	
-	public function isPlaying(){
+	public function isPlaying() {
 		throw "override me";
 		return false;
 	}
 	
-	public function getVolume():Float{
+	public function getVolume():Float {
 		throw "override me";
 		return 0.0;
 	}
 	
-	public function setVolume(v:Float){
+	public function setVolume(v:Float) {
 		throw "override me";
 	}
 	
-	public function setNbLoops(nb:Int){
+	public function setNbLoops(nb:Int) {
 		
 	}
 }
@@ -131,7 +131,7 @@ class ChannelEventInstance extends Channel {//basically a sound instance
 	public static var EMPTY_STRING = "";
 	public var data : FmodStudioEventInstanceRef = null;
 	
-	function new(?name:String){
+	function new(?name:String) {
 		super(name);
 		started = false;
 		//instance does not start playing
@@ -143,7 +143,7 @@ class ChannelEventInstance extends Channel {//basically a sound instance
 		p;
 	}
 	
-	public static function alloc(data : FmodStudioEventInstanceRef, ?name:String=null ){
+	public static function alloc(data : FmodStudioEventInstanceRef, ?name:String = null ) {
 		var s = pool.alloc();
 		
 		s.reset();

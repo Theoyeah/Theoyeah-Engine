@@ -91,6 +91,10 @@ class TitleState extends MusicBeatState
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
+		#if LUA_ALLOWED
+		Paths.pushGlobalMods();
+		#end
+
 		// Just to load a mod on start up if ya got one. For mods that change the menu music and bg
 		WeekData.loadTheFirstEnabledMod();
 		
@@ -119,7 +123,7 @@ class TitleState extends MusicBeatState
 			http.onData = function (data:String)
 			{
 				updateVersion = data.split('\n')[0].trim();
-				var curVersion:String = MainMenuState.psychEngineVersion.trim();
+				var curVersion:String = MainMenuState.theoyeahEngineVersion.trim();
 				trace('version online: ' + updateVersion + ', your version: ' + curVersion);
 				if(updateVersion != curVersion) {
 					trace('versions arent matching!');
@@ -178,14 +182,15 @@ class TitleState extends MusicBeatState
 		}
 		#end
 
-		if(!initialized && FlxG.save.data != null && FlxG.save.data.fullscreen)
+		if(!initialized)
 		{
-			FlxG.fullscreen = FlxG.save.data.fullscreen;
-			//trace('LOADED FULLSCREEN SETTING!!');
-		}
-		if(FlxG.keys.justPressed.F && FlxG.keys.justPressed.CONTROL) {
-			FlxG.save.data.fullscreen = true;
-			FlxG.fullscreen = FlxG.save.data.fullscreen;
+			if(FlxG.save.data != null && FlxG.save.data.fullscreen)
+ 			{
+ 				FlxG.fullscreen = FlxG.save.data.fullscreen;
+ 				//trace('LOADED FULLSCREEN SETTING!!');
+ 			}
+ 			persistentUpdate = true;
+ 			persistentDraw = true;
 		}
 
 		if (FlxG.save.data.weekCompleted != null)
@@ -407,7 +412,7 @@ class TitleState extends MusicBeatState
 		psychSpr.screenCenter(X);
 		psychSpr.antialiasing = ClientPrefs.globalAntialiasing;
 		
-		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('Theoyeah_logo'));
+		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
 		add(tySpr);
 		tySpr.visible = false;
 		tySpr.setGraphicSize(Std.int(125 * 0.74)); //i dont know how this works, edit it later theoyeah to correct the image and all that
