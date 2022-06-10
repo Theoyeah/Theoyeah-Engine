@@ -27,14 +27,11 @@ class NoteSplash extends FlxSprite
 			case 'pink original': hola = 'og pink';
 			case 'purple original': hola = 'og purple';
 			case 'idk original': hola = 'og idk';
-			default: hola = 'noteSplashes';
 		}
-		var holaQue:String = StringTools.replace(" ", hola, '_');
-		if(hola != 'noteSplashes') {
+		var holaQue:String = hola.replace(" ", '_');
+		if(!hola.contains('noteSplashes'))
 			return holaQue.toLowerCase() + '_noteSplashes';
-		} else {
-			return holaQue;
-		}
+		return holaQue;
 	}
 
 	/**
