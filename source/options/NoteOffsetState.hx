@@ -282,7 +282,7 @@ class NoteOffsetState extends MusicBeatState
 			{
 				function omg(first:Dynamic):Bool { //i dont want to write all the code again and again
 					if(startMousePos.x - first.x >= 0 && startMousePos.x - first.x <= first.width &&
-						startMousePos.y - first.y >= 0 && startMousePos.y - first.y <= first.height) {
+						startMousePos.y - first.y >= 0 && startMousePos.y - first.y <= first.height)
 						return true;
 					return false;
 				}
