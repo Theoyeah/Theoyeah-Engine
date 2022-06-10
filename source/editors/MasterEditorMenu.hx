@@ -130,7 +130,7 @@ class MasterEditorMenu extends MusicBeatState
 				case 'Stage Editor':
 					LoadingState.loadAndSwitchState(new StageEditorState(), false);
 				case 'Mod Manager':
-					LoadingState.loadAndSwitchState(new ModsMenuState(), false);
+					LoadingState.loadAndSwitchState(new editors.ModsMenuState(), false);
 					   
 			}
 			FlxG.sound.music.volume = 0;
