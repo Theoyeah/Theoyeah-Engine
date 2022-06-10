@@ -128,7 +128,7 @@ class MasterEditorMenu extends MusicBeatState
 				case 'Chart Editor'://felt it would be cool maybe
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
 				case 'Stage Editor':
-			    	LoadingState.loadAndSwitchState(new StageEditorState(), false);
+					LoadingState.loadAndSwitchState(new StageEditorState(), false);
 				case 'Mod Manager':
 					LoadingState.loadAndSwitchState(new ModsMenuState(), false);
 					   
