@@ -82,6 +82,7 @@ class ChartingState extends MusicBeatState
 	var eventStuff:Array<Dynamic> =
 	[
 		['', "Nothing. Yep, that's right."],
+		['Dadbattle Spotlight', "Used in Dad Battle,\nValue 1: 0/1 = ON/OFF,\n2 = Target Dad\n3 = Target BF"],
 		['Hey!', "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
 		['Set GF Speed', "Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"],
 		['Philly Glow', "Exclusive to Week 3\nValue 1: 0/1/2 = OFF/ON/Reset Gradient\n \nNo, i won't add it to other weeks."],
@@ -2215,114 +2216,117 @@ class ChartingState extends MusicBeatState
 		[[min...], [max...]]  right
 	]
 	*/
-	function waveformData(buffer:AudioBuffer, bytes:Bytes, time:Float, endTime:Float, multiply:Float = 1,
-		?array:Array<Array<Array<Float>>>, ?steps:Float):Array<Array<Array<Float>>>
-	{
-		#if (lime_cffi && !macro)
-		if (buffer == null || buffer.data == null) return [[[0], [0]], [[0], [0]]];
-
-		var khz:Float = (buffer.sampleRate / 1000);
-		var channels:Int = buffer.channels;
-
-		var index:Int = Std.int(time * khz);
-
-		var samples:Float = ((endTime - time) * khz);
-
-		if (steps == null) steps = 1280;
-
-		var samplesPerRow:Float = samples / steps;
-		var samplesPerRowI:Int = Std.int(samplesPerRow);
-
-		var gotIndex:Int = 0;
-
-		var lmin:Float = 0;
-		var lmax:Float = 0;
-
-		var rmin:Float = 0;
-		var rmax:Float = 0;
-
-		var rows:Float = 0;
-
-		var simpleSample:Bool = true;//samples > 17200;
-		var v1:Bool = false;
-
-		if (array == null) array = [[[0], [0]], [[0], [0]]];
-
-		while (index < (bytes.length - 1)) {
-			if (index >= 0) {
-				var byte:Int = bytes.getUInt16(index * channels * 2);
-
-				if (byte > 65535 / 2) byte -= 65535;
-
-				var sample:Float = (byte / 65535);
-
-				if (sample > 0) {
-					if (sample > lmax) lmax = sample;
-				} else if (sample < 0) {
-					if (sample < lmin) lmin = sample;
-				}
-
-				if (channels >= 2) {
-					byte = bytes.getUInt16((index * channels * 2) + 2);
-
-					if (byte > 65535 / 2) byte -= 65535;
-
-					sample = (byte / 65535);
-
-					if (sample > 0) {
-						if (sample > rmax) rmax = sample;
-					} else if (sample < 0) {
-						if (sample < rmin) rmin = sample;
-					}
-				}	
-			}
-			v1 = samplesPerRowI > 0 ? (index % samplesPerRowI == 0) : false;
-			while (simpleSample ? v1 : rows >= samplesPerRow) {
-				v1 = false;
-				rows -= samplesPerRow;
-
-				gotIndex++;
-
-				var lRMin:Float = Math.abs(lmin) * multiply;
-				var lRMax:Float = lmax * multiply;
-
-				var rRMin:Float = Math.abs(rmin) * multiply;
-				var rRMax:Float = rmax * multiply;
-
-				if (gotIndex > array[0][0].length) array[0][0].push(lRMin);
-					else array[0][0][gotIndex - 1] = array[0][0][gotIndex - 1] + lRMin;
-
-				if (gotIndex > array[0][1].length) array[0][1].push(lRMax);
-					else array[0][1][gotIndex - 1] = array[0][1][gotIndex - 1] + lRMax;
-
-				if (channels >= 2) {
-					if (gotIndex > array[1][0].length) array[1][0].push(rRMin);
-						else array[1][0][gotIndex - 1] = array[1][0][gotIndex - 1] + rRMin;
-
-					if (gotIndex > array[1][1].length) array[1][1].push(rRMax);
-						else array[1][1][gotIndex - 1] = array[1][1][gotIndex - 1] + rRMax;
-				}
-				else {
-					if (gotIndex > array[1][0].length) array[1][0].push(lRMin);
-						else array[1][0][gotIndex - 1] = array[1][0][gotIndex - 1] + lRMin;
-
-					if (gotIndex > array[1][1].length) array[1][1].push(lRMax);
-						else array[1][1][gotIndex - 1] = array[1][1][gotIndex - 1] + lRMax;
-				}
-
-				lmin = 0;
-				lmax = 0;
-
-				rmin = 0;
-				rmax = 0;
-			}
-			index++;
-			rows++;
-			if(gotIndex > steps) break;
-		}
+	function waveformData(buffer:AudioBuffer, bytes:Bytes, time:Float, endTime:Float, multiply:Float = 1, ?array:Array<Array<Array<Float>>>, ?steps:Float):Array<Array<Array<Float>>>
+		{
+			#if (lime_cffi && !macro)
+			if (buffer == null || buffer.data == null) return [[[0], [0]], [[0], [0]]];
 	
-		return array;
-		#end
+			var khz:Float = (buffer.sampleRate / 1000);
+			var channels:Int = buffer.channels;
+	
+			var index:Int = Std.int(time * khz);
+	
+			var samples:Float = ((endTime - time) * khz);
+	
+			if (steps == null) steps = 1280;
+	
+			var samplesPerRow:Float = samples / steps;
+			var samplesPerRowI:Int = Std.int(samplesPerRow);
+	
+			var gotIndex:Int = 0;
+	
+			var lmin:Float = 0;
+			var lmax:Float = 0;
+	
+			var rmin:Float = 0;
+			var rmax:Float = 0;
+	
+			var rows:Float = 0;
+	
+			var simpleSample:Bool = true;//samples > 17200;
+			var v1:Bool = false;
+	
+			if (array == null) array = [[[0], [0]], [[0], [0]]];
+	
+			while (index < (bytes.length - 1)) {
+				if (index >= 0) {
+					var byte:Int = bytes.getUInt16(index * channels * 2);
+	
+					if (byte > 65535 / 2) byte -= 65535;
+	
+					var sample:Float = (byte / 65535);
+	
+					if (sample > 0) {
+						if (sample > lmax) lmax = sample;
+					} else if (sample < 0) {
+						if (sample < lmin) lmin = sample;
+					}
+	
+					if (channels >= 2) {
+						byte = bytes.getUInt16((index * channels * 2) + 2);
+	
+						if (byte > 65535 / 2) byte -= 65535;
+	
+						sample = (byte / 65535);
+	
+						if (sample > 0) {
+							if (sample > rmax) rmax = sample;
+						} else if (sample < 0) {
+							if (sample < rmin) rmin = sample;
+						}
+					}
+				}
+	
+				v1 = samplesPerRowI > 0 ? (index % samplesPerRowI == 0) : false;
+				while (simpleSample ? v1 : rows >= samplesPerRow) {
+					v1 = false;
+					rows -= samplesPerRow;
+	
+					gotIndex++;
+	
+					var lRMin:Float = Math.abs(lmin) * multiply;
+					var lRMax:Float = lmax * multiply;
+	
+					var rRMin:Float = Math.abs(rmin) * multiply;
+					var rRMax:Float = rmax * multiply;
+	
+					if (gotIndex > array[0][0].length) array[0][0].push(lRMin);
+						else array[0][0][gotIndex - 1] = array[0][0][gotIndex - 1] + lRMin;
+	
+					if (gotIndex > array[0][1].length) array[0][1].push(lRMax);
+						else array[0][1][gotIndex - 1] = array[0][1][gotIndex - 1] + lRMax;
+	
+					if (channels >= 2) {
+						if (gotIndex > array[1][0].length) array[1][0].push(rRMin);
+							else array[1][0][gotIndex - 1] = array[1][0][gotIndex - 1] + rRMin;
+	
+						if (gotIndex > array[1][1].length) array[1][1].push(rRMax);
+							else array[1][1][gotIndex - 1] = array[1][1][gotIndex - 1] + rRMax;
+					}
+					else {
+						if (gotIndex > array[1][0].length) array[1][0].push(lRMin);
+							else array[1][0][gotIndex - 1] = array[1][0][gotIndex - 1] + lRMin;
+	
+						if (gotIndex > array[1][1].length) array[1][1].push(lRMax);
+							else array[1][1][gotIndex - 1] = array[1][1][gotIndex - 1] + lRMax;
+					}
+	
+					lmin = 0;
+					lmax = 0;
+	
+					rmin = 0;
+					rmax = 0;
+				}
+	
+				index++;
+				rows++;
+				if(gotIndex > steps) break;
+			}
+	
+			return array;
+			#else
+			return [[[0], [0]], [[0], [0]]];
+			#end
 	}
 
 	function changeNoteSustain(value:Float):Void

@@ -86,7 +86,7 @@ class ClientPrefs {
 		'note_left'		=> [A, LEFT],
 		'note_down'		=> [S, DOWN],
 		'note_up'		=> [W, UP],
-		'note_right'	        => [D, RIGHT],
+		'note_right'	=> [D, RIGHT],
 		
 		'ui_left'		=> [A, LEFT],
 		'ui_down'		=> [S, DOWN],
@@ -98,17 +98,17 @@ class ClientPrefs {
 		'pause'			=> [ENTER, ESCAPE],
 		'reset'			=> [R, NONE],
 		
-		'volume_mute'	        => [ZERO, NONE],
+		'volume_mute'	=> [ZERO, NONE],
 		'volume_up'		=> [NUMPADPLUS, PLUS],
-		'volume_down'	        => [NUMPADMINUS, MINUS],
+		'volume_down'	=> [NUMPADMINUS, MINUS],
 		
 		'debug_1'		=> [SEVEN, NONE],
 		'debug_2'		=> [EIGHT, NONE],
 		
-		'zoom+'                 => [Z, NONE],
-		'zoom-'                 => [X, NONE],
-		'decrease'              => [Q, NONE],
-		'increase'              => [E, NONE]
+		'zoom+'			=> [Z, NONE],
+		'zoom-'			=> [X, NONE],
+		'decrease'		=> [Q, NONE],
+		'increase'		=> [E, NONE]
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -177,16 +177,11 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-		if(FlxG.save.data.noteSplashes == true || FlxG.save.data.noteSplashes == false) {
-			if(FlxG.save.data.noteSplashes == true || FlxG.save.data.noteSplashes == false) {
-				if(FlxG.save.data.noteSplashes) {
-					FlxG.save.data.noteSplashes = 'Normal';
-				} else {
-					FlxG.save.data.noteSplashes = 'None';
-				}
-				FlxG.save.data.noteSplashesRepared = true;
-			}
-		}
+		if(FlxG.save.data.noteSplashes) // fixes noteSplashes error
+			FlxG.save.data.noteSplashes = 'Normal';
+		else
+			FlxG.save.data.noteSplashes = 'None';
+
 		if(FlxG.save.data.instantRespawn != null)
 			instantRespawn = FlxG.save.data.instantRespawn;
 
@@ -229,7 +224,7 @@ class ClientPrefs {
 		if(FlxG.save.data.globalAntialiasing != null) {
 			globalAntialiasing = FlxG.save.data.globalAntialiasing;
 		}
-		if(FlxG.save.data.noteSplashes != null) {
+		if(FlxG.save.data.noteSplashes != null && Std.isOfType(FlxG.save.data.noteSplashes, noteSplashes)) {
 			noteSplashes = FlxG.save.data.noteSplashes;
 		}
 		if(FlxG.save.data.crazycounter != null) {

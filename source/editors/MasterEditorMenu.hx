@@ -1,6 +1,5 @@
 package editors;
 
-import ModsMenuState.ModMetadata;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -29,7 +28,9 @@ class MasterEditorMenu extends MusicBeatState
 		'Character Editor',
 		'Chart Editor',
 		'Stage Editor',
+		#if !html5
 		'Mod Manager'
+		#end
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
@@ -89,11 +90,11 @@ class MasterEditorMenu extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (controls.UI_UP_P)
+		if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
 		{
 			changeSelection(-1);
 		}
-		if (controls.UI_DOWN_P)
+		if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0)
 		{
 			changeSelection(1);
 		}
@@ -129,11 +130,12 @@ class MasterEditorMenu extends MusicBeatState
 				case 'Chart Editor'://felt it would be cool maybe
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
 				case 'Stage Editor':
-			    	LoadingState.loadAndSwitchState(new StageEditorState(), false);
+					LoadingState.loadAndSwitchState(new StageEditorState(), false);
+				#if !html5
 				case 'Mod Manager':
-					LoadingState.loadAndSwitchState(new ModsMenuState(), false);
-					   
-			}
+					LoadingState.loadAndSwitchState(new editors.ModsMenuState(), false);		   
+			    #end
+				}
 			FlxG.sound.music.volume = 0;
 			#if PRELOAD_ALL
 			FreeplayState.destroyFreeplayVocals();

@@ -2769,19 +2769,15 @@ class FunkinLua {
 		return coverMeInPiss;
 	}
 
-
+	#if LUA_ALLOWED
 	function resultIsAllowed(leLua:State, leResult:Null<Int>) { //Makes it ignore warnings
-		#if LUA_ALLOWED
 		switch(Lua.type(leLua, leResult)) {
 			case Lua.LUA_TNIL | Lua.LUA_TBOOLEAN | Lua.LUA_TNUMBER | Lua.LUA_TSTRING | Lua.LUA_TTABLE:
 				return true;
 		}
 		return false;
-		#else
-		lol();
-		return null;
-		#end
 	}
+	#end
 
 	public function set(variable:String, data:Dynamic) {
 		#if LUA_ALLOWED
