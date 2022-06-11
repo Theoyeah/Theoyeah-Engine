@@ -28,7 +28,9 @@ class MasterEditorMenu extends MusicBeatState
 		'Character Editor',
 		'Chart Editor',
 		'Stage Editor',
+		#if !html5
 		'Mod Manager'
+		#end
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
@@ -129,9 +131,11 @@ class MasterEditorMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
 				case 'Stage Editor':
 					LoadingState.loadAndSwitchState(new StageEditorState(), false);
+				#if !html5
 				case 'Mod Manager':
 					LoadingState.loadAndSwitchState(new editors.ModsMenuState(), false);		   
-			}
+			    #end
+				}
 			FlxG.sound.music.volume = 0;
 			#if PRELOAD_ALL
 			FreeplayState.destroyFreeplayVocals();
