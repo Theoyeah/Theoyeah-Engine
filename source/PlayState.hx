@@ -1,6 +1,7 @@
 package;
 
 import openfl.filters.ShaderFilter;
+import openfl.display.Shader;
 import flixel.graphics.FlxGraphic;
 #if desktop
 import Discord.DiscordClient;
