@@ -212,6 +212,14 @@ class NoteOffsetState extends MusicBeatState
 	var onComboMenu:Bool = true;
 	var holdingObjectType:Null<Int> = null;
 
+	public var beforeComboOffset:Array<Int> = [
+		ClientPrefs.comboOffset[0], //rating x, this is [0]
+		ClientPrefs.comboOffset[1], //rating y, this is [1]
+		ClientPrefs.comboOffset[2], //comboNums x, this is [2]
+		ClientPrefs.comboOffset[3], //comboNums y, this is [3]
+		ClientPrefs.comboOffset[4], //combo thing x, this is [4]
+		ClientPrefs.comboOffset[5] //combo thing y, this is [5], i learned this with swift lol
+	];
 	var startMousePos:FlxPoint = new FlxPoint();
 	var startComboOffset:FlxPoint = new FlxPoint();
 
@@ -287,7 +295,6 @@ class NoteOffsetState extends MusicBeatState
 					return false;
 				}
 				holdingObjectType = null;
-				FlxG.mouse.getScreenPosition(camHUD, startMousePos);
 				var holding:Array<Bool> = [
 					omg(rating),
 					omg(comboNums),
@@ -318,7 +325,7 @@ class NoteOffsetState extends MusicBeatState
 			{
 				var mousePos:FlxPoint = FlxG.mouse.getScreenPosition(camHUD);
 
-				ClientPrefs.comboOffset[holdingObjectType + 0] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
+				ClientPrefs.comboOffset[holdingObjectType] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
 				ClientPrefs.comboOffset[holdingObjectType + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
 				repositionCombo();
 			}
@@ -329,10 +336,21 @@ class NoteOffsetState extends MusicBeatState
 
 			if(controls.RESET)
 			{
-				for (i in 0...ClientPrefs.comboOffset.length) //should't be this like this: length-1 ?
-				{
-					ClientPrefs.comboOffset[i] = 0;
+				if(FlxG.keys.justPressed.S) {
+					ClientPrefs.comboOffset[0] = beforeComboOffset[0];
+					ClientPrefs.comboOffset[1] = beforeComboOffset[1];
 				}
+				if(FlxG.keys.justPressed.N) {
+					ClientPrefs.comboOffset[2] = beforeComboOffset[2];
+					ClientPrefs.comboOffset[3] = beforeComboOffset[3];
+				}
+				if(FlxG.keys.justPressed.C) {
+					ClientPrefs.comboOffset[4] = beforeComboOffset[4];
+					ClientPrefs.comboOffset[5] = beforeComboOffset[5];
+				}
+				if(FlxG.keys.justPressed.CONTROL)
+					for (i in 0...ClientPrefs.comboOffset.length) ClientPrefs.comboOffset[i] = 0;
+
 				repositionCombo();
 			}
 		}
@@ -343,7 +361,7 @@ class NoteOffsetState extends MusicBeatState
 				barPercent = Math.max(delayMin, Math.min(ClientPrefs.noteOffset - 1, delayMax));
 				updateNoteDelay();
 			}
-			else if(controls.UI_RIGHT_P)
+			if(controls.UI_RIGHT_P)
 			{
 				barPercent = Math.max(delayMin, Math.min(ClientPrefs.noteOffset + 1, delayMax));
 				updateNoteDelay();
