@@ -38,7 +38,6 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 - no more donate button (look at [readme.txt](art/readme.txt) if you want to donate at original creator of fnf)
 - added flash when selecting something
 - red flash when you die
-- added [Marvelous](assets/shared/images/marvelous.png)
 - Kade Score Text!
 - funni 9 button easter egg icon
 - Shaders are real
@@ -53,6 +52,7 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 - **Windows Note and Warning Note** (with *another* fabulous texture)
 - Added mouse wheel (mouse scroll) support
 - Look at the [`Project.xml`](Project.xml) file for more!
+- And sooo much freaky stuff that i can't list here (;
 # Examples :
 ![Sans titreS](https://user-images.githubusercontent.com/97792861/169879482-ba19602c-7dc7-49d7-9243-726921786b56.png)
 ![Sans titre](https://user-images.githubusercontent.com/97792861/169879499-c3fcfbac-5aa5-4605-b67b-f51926aca639.png)
