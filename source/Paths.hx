@@ -227,7 +227,7 @@ class Paths
 
 	static public function video(key:String, ?ignoreMods:Bool = false, ?mkvFile:Bool = false, where:String = 'videos')
 	{
-		#if MODS_ALLOWED
+		#if (MODS_ALLOWED && sys)
 		var file:String = modsVideo(key, where);
 		var file_:String = modsVideo2(key, where);
 		var file2:String = modsVideo2(key, where, true);
@@ -241,19 +241,19 @@ class Paths
 		#end
 		if(!getIsBlankString(where, true)) {
 			#if MKV_ALLOWED
-			if(mkvFile && FileSystem.exists('assets/$where/$key.mkv'))
+			if(mkvFile && #if sys FileSystem.exists('assets/$where/$key.mkv') #else OpenFlAssets.exists('assets/$where/$key.mkv') #end )
 				return assets('$where/$key.mkv');
-			else if(mkvFile && FileSystem.exists('assets/$where/$key.MKV'))
+			else if(mkvFile && #if sys FileSystem.exists('assets/$where/$key.MKV') #else OpenFlAssets.exists('assets/$where/$key.MKV') #end )
 				return assets('$where/$key.MKV');
-			else #end if(FileSystem.exists('assets/$where/$key.$VIDEO_EXT'))
+			else #end if( #if sys FileSystem.exists('assets/$where/$key.$VIDEO_EXT') #else OpenFlAssets.exists('assets/$where/$key.$VIDEO_EXT') #end )
 				return assets('$where/$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
-			else if(FileSystem.exists('assets/$where/$key.MP4'))
+			else if( #if sys FileSystem.exists('assets/$where/$key.MP4') #else OpenFlAssets.exists('assets/$where/$key.MP4') #end )
 				return assets('$where/$key.MP4'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
 		} else {
 			#if MKV_ALLOWED
-			if(mkvFile && FileSystem.exists(assets('$key.mkv')))
+			if(mkvFile && #if sys FileSystem.exists(assets('$key.mkv')) #else OpenFlAssets.exists(assets('$key.mkv')) #end )
 				return assets('$key.mkv');
-			else #end if(FileSystem.exists(assets('$key.$VIDEO_EXT')))
+			else #end if( #if sys FileSystem.exists(assets('$key.$VIDEO_EXT')) #else OpenFlAssets.exists(assets('$key.$VIDEO_EXT')) #end )
 				return assets('$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
 		}
 		returnNull(key, where);
