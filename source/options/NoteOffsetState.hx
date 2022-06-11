@@ -150,14 +150,14 @@ class NoteOffsetState extends MusicBeatState
 		repositionCombo();
 
 		// Note delay stuff
-		
+
 		beatText = new Alphabet(0, 0, 'Beat Hit!', true, false, 0.05, 0.6);
 		beatText.x += 260;
 		beatText.alpha = 0;
 		beatText.acceleration.y = 250;
 		beatText.visible = false;
 		add(beatText);
-		
+
 		timeTxt = new FlxText(0, 600, FlxG.width, "", 32);
 		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
@@ -167,7 +167,7 @@ class NoteOffsetState extends MusicBeatState
 
 		barPercent = ClientPrefs.noteOffset;
 		updateNoteDelay();
-		
+
 		timeBarBG = new FlxSprite(0, timeTxt.y + 8).loadGraphic(Paths.image('timeBar'));
 		timeBarBG.setGraphicSize(Std.int(timeBarBG.width * 1.2));
 		timeBarBG.updateHitbox();
@@ -210,7 +210,7 @@ class NoteOffsetState extends MusicBeatState
 
 	var holdTime:Float = 0;
 	var onComboMenu:Bool = true;
-	var holdingObjectType:Null<Dynamic> = null;
+	var holdingObjectType:Null<Int> = null;
 
 	var startMousePos:FlxPoint = new FlxPoint();
 	var startComboOffset:FlxPoint = new FlxPoint();
@@ -227,12 +227,12 @@ class NoteOffsetState extends MusicBeatState
 				FlxG.keys.justPressed.RIGHT,
 				FlxG.keys.justPressed.UP,
 				FlxG.keys.justPressed.DOWN,
-			
+
 				FlxG.keys.justPressed.A,
 				FlxG.keys.justPressed.D,
 				FlxG.keys.justPressed.W,
 				FlxG.keys.justPressed.S,
-				
+
 				FlxG.keys.justPressed.J,
 				FlxG.keys.justPressed.L,
 				FlxG.keys.justPressed.I,
@@ -288,48 +288,43 @@ class NoteOffsetState extends MusicBeatState
 				}
 				holdingObjectType = null;
 				FlxG.mouse.getScreenPosition(camHUD, startMousePos);
-				if (omg(comboNums))
-				{
-					holdingObjectType = 2; //this was true
-					startComboOffset.x = ClientPrefs.comboOffset[2]; //x
-					startComboOffset.y = ClientPrefs.comboOffset[3]; //y
-					trace("you're holding comboNums: $holdingObjectType");
+				var holding:Array<Bool> = [
+					omg(rating),
+					omg(comboNums),
+					omg(combosprshit)
+				];
+
+				if(holding.contains(true)) {
+					for (i in 0...holding.length) {
+						if(holding[i]) {
+							switch(i) {
+								case 0:
+									holdingObjectType = 0;
+									trace("you're holding rating: $holdingObjectType");
+								case 1:
+									holdingObjectType = 2;
+									trace("you're holding comboNums: $holdingObjectType");
+								case 2:
+									holdingObjectType = 4;
+									trace("you're holding combo: $holdingObjectType");
+							}
+						}
+					}
+					startComboOffset.x = ClientPrefs.comboOffset[holdingObjectType];
+					startComboOffset.y = ClientPrefs.comboOffset[holdingObjectType + 1];
 				}
-				else if (omg(rating))
-				{
-					holdingObjectType = 0; //this was false
-					startComboOffset.x = ClientPrefs.comboOffset[0]; //x
-					startComboOffset.y = ClientPrefs.comboOffset[1]; //y
-					trace("you're holding rating: $holdingObjectType");
-				}
-				else if (omg(combosprshit))
-				{
-					holdingObjectType = 4;
-					startComboOffset.x = ClientPrefs.comboOffset[4]; //x
-					startComboOffset.y = ClientPrefs.comboOffset[5]; //y
-					trace("you're holding combo: $holdingObjectType");
-				}
+			}
+			if(FlxG.mouse.justMoved && holdingObjectType != null)
+			{
+				var mousePos:FlxPoint = FlxG.mouse.getScreenPosition(camHUD);
+
+				ClientPrefs.comboOffset[holdingObjectType + 0] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
+				ClientPrefs.comboOffset[holdingObjectType + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
+				repositionCombo();
 			}
 			if(FlxG.mouse.justReleased) {
 				holdingObjectType = null;
 				trace("you aren't holding anything");
-			}
-
-			if(holdingObjectType != null)
-			{
-				if(FlxG.mouse.justMoved)
-				{
-					var mousePos:FlxPoint = FlxG.mouse.getScreenPosition(camHUD);
-					/*before:
-					//var addNum:Int = holdingObjectType? 2 : 0;
-					//now:*/
-
-					if(holdingObjectType >= 0) {
-						ClientPrefs.comboOffset[holdingObjectType + 0] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
-						ClientPrefs.comboOffset[holdingObjectType + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
-						repositionCombo();
-					}
-				}
 			}
 
 			if(controls.RESET)
@@ -416,7 +411,7 @@ class NoteOffsetState extends MusicBeatState
 			boyfriend.dance();
 			gf.dance();
 		}
-		
+
 		if(curBeat % 4 == 2)
 		{
 			FlxG.camera.zoom = 1.15;
@@ -451,13 +446,14 @@ class NoteOffsetState extends MusicBeatState
 		rating.x = coolText.x - 40 + ClientPrefs.comboOffset[0];
 		rating.y -= 60 + ClientPrefs.comboOffset[1];
 
+		comboNums.screenCenter();
+		comboNums.x = coolText.x - 90 + ClientPrefs.comboOffset[2];
+		comboNums.y += 80 - ClientPrefs.comboOffset[3];
+
 		combosprshit.screenCenter();
 		combosprshit.x = coolText.x - 40 + ClientPrefs.comboOffset[4];
 		combosprshit.y -= -30 + ClientPrefs.comboOffset[5]; 
 
-		comboNums.screenCenter();
-		comboNums.x = coolText.x - 90 + ClientPrefs.comboOffset[2];
-		comboNums.y += 80 - ClientPrefs.comboOffset[3];
 		trace('Combo repositioned');
 		reloadTexts();
 	}
@@ -502,6 +498,9 @@ class NoteOffsetState extends MusicBeatState
 		trace("texts reloaded");
 	}
 
+	/**
+	 * Updates the current offset
+	 */
 	function updateNoteDelay()
 	{
 		ClientPrefs.noteOffset = Math.round(barPercent);
