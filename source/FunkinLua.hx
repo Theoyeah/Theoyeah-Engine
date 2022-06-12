@@ -1439,7 +1439,7 @@ class FunkinLua {
 			}
 		});
 		Lua_helper.add_callback(lua, "addAnimationByPrefix", function(obj:String, name:String, prefix:String, framerate:Int = 24, loop:Bool = true) {
-			var object:Null<String> = if(PlayState.instance.getLuaObject(obj, false) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) obj.toLowerCase else null;
+			var object:Null<String> = if(PlayState.instance.getLuaObject(obj, false) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) obj.toLowerCase() else null;
 			if(object != null) {
 				var cock:FlxSprite = PlayState.instance.getLuaObject(object, false);
 				cock.animation.addByPrefix(name, prefix, framerate, loop);
@@ -1449,31 +1449,19 @@ class FunkinLua {
 				return;
 			}
 
-			var cock:FlxSprite = Reflect.getProperty(getInstance(), obj);
-			var cocker:FlxSprite = Reflect.getProperty(getInstance(), obj.toLowerCase());
+			var cock:FlxSprite = if(Reflect.getProperty(getInstance(), obj) != null) Reflect.getProperty(getInstance(), obj) else Reflect.getProperty(getInstance(), obj.toLowerCase());
 			if(cock != null) {
 				cock.animation.addByPrefix(name, prefix, framerate, loop);
 				if(cock.animation.curAnim == null) {
 					cock.animation.play(name, true);
 				}
-			} else if(cocker != null) {
-				cocker.animation.addByPrefix(name, prefix, framerate, loop);
-				if(cocker.animation.curAnim == null) {
-					cocker.animation.play(name, true);
-				}
 			}
 		});
 
 		Lua_helper.add_callback(lua, "addAnimation", function(obj:String, name:String, frames:Array<Int>, framerate:Int = 24, loop:Bool = true) {
- 			if(PlayState.instance.getLuaObject(obj, false) != null) {
+			var object:Null<String> = if(PlayState.instance.getLuaObject(obj, false) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) obj.toLowerCase() else null;
+ 			if(object != null) {
  				var cock:FlxSprite = PlayState.instance.getLuaObject(obj,false);
- 				cock.animation.add(name, frames, framerate, loop);
- 				if(cock.animation.curAnim == null) {
- 					cock.animation.play(name, true);
- 				}
- 				return;
- 			} else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) {
- 				var cock:FlxSprite = PlayState.instance.getLuaObject(obj.toLowerCase(),false);
  				cock.animation.add(name, frames, framerate, loop);
  				if(cock.animation.curAnim == null) {
  					cock.animation.play(name, true);
@@ -1481,17 +1469,11 @@ class FunkinLua {
  				return;
  			}
 
- 			var cock:FlxSprite = Reflect.getProperty(getInstance(), obj);
-			var cocker:FlxSprite = Reflect.getProperty(getInstance(), obj.toLowerCase());
+ 			var cock:FlxSprite = if(Reflect.getProperty(getInstance(), obj) != null) Reflect.getProperty(getInstance(), obj) else Reflect.getProperty(getInstance(), obj.toLowerCase());
  			if(cock != null) {
  				cock.animation.add(name, frames, framerate, loop);
  				if(cock.animation.curAnim == null) {
  					cock.animation.play(name, true);
- 				}
- 			} else if(cocker != null) {
- 				cocker.animation.add(name, frames, framerate, loop);
- 				if(cocker.animation.curAnim == null) {
- 					cocker.animation.play(name, true);
  				}
  			}
  		});
@@ -1503,83 +1485,59 @@ class FunkinLua {
 				die.push(Std.parseInt(strIndices[i]));
 			}
 
-			if(PlayState.instance.getLuaObject(obj, false) != null) {
+			var object:Null<String> = if(PlayState.instance.getLuaObject(obj, false) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) obj.toLowerCase() else null;
+			if(object != null) {
 				var pussy:FlxSprite = PlayState.instance.getLuaObject(obj,false);
 				pussy.animation.addByIndices(name, prefix, die, '', framerate, false);
 				if(pussy.animation.curAnim == null) {
 					pussy.animation.play(name, true);
 				}
 				return true;
-			} else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) {
-				var pussy:FlxSprite = PlayState.instance.getLuaObject(obj.toLowerCase(), false);
-				pussy.animation.addByIndices(name, prefix, die, '', framerate, false);
-				if(pussy.animation.curAnim == null) {
-					pussy.animation.play(name, true);
-				}
-				return true;
 			}
 
-			var pussy:FlxSprite = Reflect.getProperty(getInstance(), obj);
-			var yeah:FlxSprite = Reflect.getProperty(getInstance(), obj.toLowerCase());
+			var pussy:FlxSprite = if(Reflect.getProperty(getInstance(), obj) != null) Reflect.getProperty(getInstance(), obj) else Reflect.getProperty(getInstance(), obj.toLowerCase());
 			if(pussy != null) {
 				pussy.animation.addByIndices(name, prefix, die, '', framerate, false);
 				if(pussy.animation.curAnim == null) {
 					pussy.animation.play(name, true);
 				}
 				return true;
-			} else if(yeah != null) {
-				yeah.animation.addByIndices(name, prefix, die, '', framerate, false);
-				if(yeah.animation.curAnim == null) {
-					yeah.animation.play(name, true);
-				}
-				return true;
 			}
 			return false;
 		});
 		Lua_helper.add_callback(lua, "objectPlayAnimation", function(obj:String, name:String, forced:Bool = false, ?startFrame:Int = 0) {
-			if(PlayState.instance.getLuaObject(obj, false) != null) {
-				PlayState.instance.getLuaObject(obj, false).animation.play(name, forced, startFrame);
-				return true;
-			} else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) {
-				PlayState.instance.getLuaObject(obj.toLowerCase(), false).animation.play(name, forced, startFrame);
+			var object:Null<String> = if(PlayState.instance.getLuaObject(obj, false) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) obj.toLowerCase() else null;
+			if(object != null) {
+				PlayState.instance.getLuaObject(object, false).animation.play(name, forced, startFrame);
 				return true;
 			}
 
-			var spr:FlxSprite = Reflect.getProperty(getInstance(), obj);
-			var spr2:FlxSprite = Reflect.getProperty(getInstance(), obj.toLowerCase());
+			var spr:FlxSprite = if(Reflect.getProperty(getInstance(), obj) != null) Reflect.getProperty(getInstance(), obj) else Reflect.getProperty(getInstance(), obj.toLowerCase());
 			if(spr != null) {
 				spr.animation.play(name, forced);
-				return true;
-			} else if(spr2 != null) {
-				spr2.animation.play(name, forced);
 				return true;
 			}
 			return false;
 		});
 		
 		Lua_helper.add_callback(lua, "setScrollFactor", function(obj:String, scrollX:Float, scrollY:Float) {
-			if(PlayState.instance.getLuaObject(obj, false) != null) {
-				PlayState.instance.getLuaObject(obj, false).scrollFactor.set(scrollX, scrollY);
-				return true;
-			} else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) {
-				PlayState.instance.getLuaObject(obj.toLowerCase(), false).scrollFactor.set(scrollX, scrollY);
+			var object:Null<String> = if(PlayState.instance.getLuaObject(obj, false) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) obj.toLowerCase() else null;
+			if(object != null) {
+				PlayState.instance.getLuaObject(object, false).scrollFactor.set(scrollX, scrollY);
 				return true;
 			}
 
-			var object:FlxObject = Reflect.getProperty(getInstance(), obj);
-			var object2:FlxObject = Reflect.getProperty(getInstance(), obj.toLowerCase());
+			var object:FlxSprite = if(Reflect.getProperty(getInstance(), obj) != null) Reflect.getProperty(getInstance(), obj) else Reflect.getProperty(getInstance(), obj.toLowerCase());
 			if(object != null) {
 				object.scrollFactor.set(scrollX, scrollY);
-				return true;
-			} else if(object2 != null) {
-				object2.scrollFactor.set(scrollX, scrollY);
 				return true;
 			}
 			return false;
 		});
 		Lua_helper.add_callback(lua, "addLuaSprite", function(tag:String, front:Bool = false) {
-			if(PlayState.instance.modchartSprites.exists(tag)) {
-				var shit:ModchartSprite = PlayState.instance.modchartSprites.get(tag);
+			var tagger:Null<String> = if(PlayState.instance.modchartSprites.exists(tag)) tag else if(PlayState.instance.modchartSprites.exists(tag.toLowerCase())) tag.toLowerCase() else null;
+			if(tagger != null) {
+				var shit:ModchartSprite = PlayState.instance.modchartSprites.get(tagger);
 				if(!shit.wasAdded) {
 					if(front)
 						getInstance().add(shit);
@@ -1600,29 +1558,6 @@ class FunkinLua {
 					}
 					shit.wasAdded = true;
 					//trace('added a thing: ' + tag);
-				}
-			} else if(PlayState.instance.modchartSprites.exists(tag.toLowerCase())) {
-				var shit:ModchartSprite = PlayState.instance.modchartSprites.get(tag.toLowerCase());
-				if(!shit.wasAdded) {
-					if(front)
-						getInstance().add(shit);
-					else
-					{
-						if(PlayState.instance.isDead)
-							GameOverSubstate.instance.insert(GameOverSubstate.instance.members.indexOf(GameOverSubstate.instance.boyfriend), shit);
-						else
-						{
-							var position:Int = PlayState.instance.members.indexOf(PlayState.instance.gfGroup);
-							if(PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup) < position)
-								position = PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup);
-							else if(PlayState.instance.members.indexOf(PlayState.instance.dadGroup) < position)
-								position = PlayState.instance.members.indexOf(PlayState.instance.dadGroup);
-
-							PlayState.instance.insert(position, shit);
-						}
-					}
-					shit.wasAdded = true;
-					//trace('added a thing: ' + tag.toLowerCase());
 				}
 			}
 		});
@@ -1751,13 +1686,9 @@ class FunkinLua {
 			return false;
 		});
 		Lua_helper.add_callback(lua, "setBlendMode", function(obj:String, blend:String = '') {
-			var real = PlayState.instance.getLuaObject(obj);
-			var rereal = PlayState.instance.getLuaObject(obj.toLowerCase());
+			var real = if(PlayState.instance.getLuaObject(obj) != null) PlayState.instance.getLuaObject(obj) else if(PlayState.instance.getLuaObject(obj.toLowerCase()) != null) PlayState.instance.getLuaObject(obj.toLowerCase()) else null;
 			if(real != null) {
 				real.blend = blendModeFromString(blend);
-				return true;
-			} else if(rereal != null) {
-				rereal.blend = blendModeFromString(blend);
 				return true;
 			}
 
@@ -1911,12 +1842,10 @@ class FunkinLua {
 			FlxG.sound.play(Paths.sound(sound), volume);
 		});
 		Lua_helper.add_callback(lua, "stopSound", function(tag:String = '') {
-			if(tag != null && tag.length > 1 && PlayState.instance.modchartSounds.exists(tag)) {
-				PlayState.instance.modchartSounds.get(tag).stop();
-				PlayState.instance.modchartSounds.remove(tag);
-			} else if(tag != null && tag.length > 1 && PlayState.instance.modchartSounds.exists(tag.toLowerCase())) {
-				PlayState.instance.modchartSounds.get(tag.toLowerCase()).stop();
-				PlayState.instance.modchartSounds.remove(tag.toLowerCase());
+			var blabla = if(PlayState.instance.modchartSounds.exists(tag)) tag else if(PlayState.instance.modchartSounds.exists(tag.toLowerCase())) tag.toLowerCase() else null;
+			if(tag != null && tag.length > 1 && blabla != null) {
+				PlayState.instance.modchartSounds.get(blabla).stop();
+				PlayState.instance.modchartSounds.remove(blabla);
 			}
 		});
 		Lua_helper.add_callback(lua, "pauseSound", function(tag:String = '') {
@@ -2626,17 +2555,22 @@ class FunkinLua {
 	public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false, color:Dynamic = 'white') {
 		#if LUA_ALLOWED
 		var colorr:FlxColor = FlxColor.WHITE;
-		if(Std.isOfType(color, 'colorr')) {
-			switch(color.toLowerCase().trim()) {
-				case 'red': colorr = FlxColor.RED;
-				case 'blue': colorr = FlxColor.BLUE;
-				case 'black': colorr = FlxColor.BLACK;
-				case 'brown': colorr = FlxColor.BROWN;
-				case 'cyan': colorr = FlxColor.CYAN;
-				case 'gray': colorr = FlxColor.GRAY;
-				case 'green': colorr = FlxColor.GREEN;
-				case 'lime': colorr = FlxColor.LIME;
-				case 'yellow': colorr = FlxColor.YELLOW;
+		var colorStuff:Array<Array<Dynamic>> = [
+			['red', FlxColor.RED],
+			['blue', FlxColor.BLUE],
+			['black', FlxColor.BLACK],
+			['brown', FlxColor.BROWN],
+			['cyan', FlxColor.CYAN],
+			['gray', FlxColor.GRAY],
+			['green', FlxColor.GREEN],
+			['lime', FlxColor.LIME],
+			['yellow', FlxColor.YELLOW],
+			['transparent', FlxColor.TRANSPARENT],
+			['white', FlxColor.WHITE]
+		];
+		if(Std.isOfType(color, 'c')) {
+			for (i in 0...colorStuff.length) {
+				if(colorStuff[i][0].toLowerCase() == color.toLowerCase().trim()) colorr = colorStuff[i][1];
 			}
 		} else if(Std.isOfType(color, FlxColor.WHITE)) {
 			colorr = color;
