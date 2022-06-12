@@ -5,10 +5,10 @@ using StringTools;
 
 class NoteSkin
 {
-	inline public function noteSkin():String {
+	inline public static function noteSkin():String {
 		var skin:String = PlayState.SONG.arrowSkin;
 		if((skin == null || skin == '') && ClientPrefs.noteskin != 'Arrows') {
-			switch(ClientPrefs.noteskin.toLowerCase().trim()) {
+			switch(ClientPrefs.noteskin.toLowerCase()) {
 				case 'circles':
 					skin = '-Circles';
 				default:
@@ -20,22 +20,28 @@ class NoteSkin
 		return skin;
 	}
 	
-	var noteSkinB:Void->String = function():String return noteSkin();
+	var noteSkinB:Void->String = function() return noteSkin();
 
-	public var noteSkinPlay:Bool = if((noteSkin().length > 0 || noteSkin() != null) && noteSkin() != PlayState.SONG.arrowSkin) true else false;
+	public static var noteSkinPlay:Bool = if((noteSkin().length > 0 || noteSkin() != null) && noteSkin() != PlayState.SONG.arrowSkin) true else false;
 
-	public function noteSkinFile(folder:Bool = true) {
+	inline public static function noteSkinFile(folder:Bool = true) {
 		if(folder) {
-			if(reloadNoteSkinPlay())
+			if(reloadNoteSkinPlay()) {
 				return 'noteSkins/NOTE_assets' + noteSkin();
-			return 'noteSkins/NOTE_assets';
-		} else if(reloadNoteSkinPlay())
-			return 'NOTE_assets' + noteSkin();
-		return 'NOTE_assets';
+			} else {
+				return 'noteSkins/NOTE_assets';
+			}
+		} else {
+			if(reloadNoteSkinPlay()) {
+				return 'NOTE_assets' + noteSkin();
+			} else {
+				return 'NOTE_assets';
+			}
+		}
 	}
 
 
-	public function reloadNoteSkinPlay() {
+	inline public static function reloadNoteSkinPlay() {
 		noteSkinPlay = if((noteSkin().length > 0 || noteSkin() != null) && noteSkin() != PlayState.SONG.arrowSkin) true else false;
 		return noteSkinPlay;
 	}
