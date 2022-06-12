@@ -82,6 +82,7 @@ class ChartingState extends MusicBeatState
 	var eventStuff:Array<Dynamic> =
 	[
 		['', "Nothing. Yep, that's right."],
+		['Dadbattle Spotlight', "Used in Dad Battle,\nValue 1: 0/1 = ON/OFF,\n2 = Target Dad\n3 = Target BF"],
 		['Hey!', "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
 		['Set GF Speed', "Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"],
 		['Philly Glow', "Exclusive to Week 3\nValue 1: 0/1/2 = OFF/ON/Reset Gradient\n \nNo, i won't add it to other weeks."],
@@ -224,7 +225,6 @@ class ChartingState extends MusicBeatState
 				splashSkin: 'noteSplashes',//idk it would crash if i didn't
 				player1: 'bf',
 				player2: 'dad',
-				player3: null,
 				gfVersion: 'gf',
 				speed: 1,
 				stage: 'stage',
@@ -527,15 +527,15 @@ class ChartingState extends MusicBeatState
 		player1DropDown.selectedLabel = _song.player1;
 		blockPressWhileScrolling.push(player1DropDown);
 
-		var player3DropDown = new FlxUIDropDownMenuCustom(player1DropDown.x, player1DropDown.y + 40, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
+		var gfVersionDropDown = new FlxUIDropDownMenuCustom(player1DropDown.x, player1DropDown.y + 40, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
 		{
 			_song.gfVersion = characters[Std.parseInt(character)];
 			updateHeads();
 		});
-		player3DropDown.selectedLabel = _song.gfVersion;
-		blockPressWhileScrolling.push(player3DropDown);
+		gfVersionDropDown.selectedLabel = _song.gfVersion;
+		blockPressWhileScrolling.push(gfVersionDropDown);
 
-		var player2DropDown = new FlxUIDropDownMenuCustom(player1DropDown.x, player3DropDown.y + 40, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
+		var player2DropDown = new FlxUIDropDownMenuCustom(player1DropDown.x, gfVersionDropDown.y + 40, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
 		{
 			_song.player2 = characters[Std.parseInt(character)];
 			updateHeads();
@@ -622,13 +622,13 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(new FlxText(stepperBPM.x, stepperBPM.y - 15, 0, 'Song BPM:'));
 		tab_group_song.add(new FlxText(stepperSpeed.x, stepperSpeed.y - 15, 0, 'Song Speed:'));
 		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, 'Opponent:'));
-		tab_group_song.add(new FlxText(player3DropDown.x, player3DropDown.y - 15, 0, 'Girlfriend:'));
+		tab_group_song.add(new FlxText(gfVersionDropDown.x, gfVersionDropDown.y - 15, 0, 'Girlfriend:'));
 		tab_group_song.add(new FlxText(player1DropDown.x, player1DropDown.y - 15, 0, 'Boyfriend:'));
 		tab_group_song.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 0, 'Stage:'));
 		tab_group_song.add(new FlxText(noteSkinInputText.x, noteSkinInputText.y - 15, 0, 'Note Texture:'));
 		tab_group_song.add(new FlxText(noteSplashesInputText.x, noteSplashesInputText.y - 15, 0, 'Note Splashes Texture:'));
 		tab_group_song.add(player2DropDown);
-		tab_group_song.add(player3DropDown);
+		tab_group_song.add(gfVersionDropDown);
 		tab_group_song.add(player1DropDown);
 		tab_group_song.add(stageDropDown);
 
@@ -1767,130 +1767,128 @@ class ChartingState extends MusicBeatState
 			
 			var style = currentType;
 			
-			if (FlxG.keys.pressed.SHIFT){
+			if (FlxG.keys.pressed.SHIFT) {
 				style = 3;
 			}
 			
 			var conductorTime = Conductor.songPosition; //+ sectionStartTime();Conductor.songPosition / Conductor.stepCrochet;
 			
 			//AWW YOU MADE IT SEXY <3333 THX SHADMAR
-			if(vortex && !blockInput){
-			var controlArray:Array<Bool> = [FlxG.keys.justPressed.ONE, FlxG.keys.justPressed.TWO, FlxG.keys.justPressed.THREE, FlxG.keys.justPressed.FOUR,
+			if(vortex && !blockInput) {
+				var controlArray:Array<Bool> = [FlxG.keys.justPressed.ONE, FlxG.keys.justPressed.TWO, FlxG.keys.justPressed.THREE, FlxG.keys.justPressed.FOUR,
 										   FlxG.keys.justPressed.FIVE, FlxG.keys.justPressed.SIX, FlxG.keys.justPressed.SEVEN, FlxG.keys.justPressed.EIGHT];
 
-			if(controlArray.contains(true))
-			{
-				for (i in 0...controlArray.length)
+				if(controlArray.contains(true))
 				{
-					if(controlArray[i])
-						doANoteThing(conductorTime, i, style);
+					for (i in 0...controlArray.length)
+					{
+						if(controlArray[i])
+							doANoteThing(conductorTime, i, style);
+					}
 				}
-			}
-			
-			
+
+
 				var datimess = [];
-				
+
 				var daTime:Float = (Conductor.stepCrochet*quants[curQuant]);//WHY DID I ROUND BEFORE THIS IS A FLOAT???
 				var cuquant = Std.int(32/quants[curQuant]);
-				for (i in 0...cuquant){
+				for (i in 0...cuquant) {
 					datimess.push(sectionStartTime() + daTime * i);
 				}
-			
-			if (FlxG.keys.justPressed.LEFT)
-			{
-				--curQuant;
-				if (curQuant < 0) curQuant = 0;
-				
-				daquantspot *=  Std.int(32/quants[curQuant]);
-			}
-			if (FlxG.keys.justPressed.RIGHT)
-			{
-				curQuant ++;
-				if (curQuant > quants.length-1) curQuant = quants.length-1;
-				daquantspot *=  Std.int(32/quants[curQuant]);
-			}
-			quant.animation.play('q', true, false, curQuant);
-			var feces:Float;
-			if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN  )
-			{
-				FlxG.sound.music.pause();
 
-				
-				updateCurStep();
-				//FlxG.sound.music.time = (Math.round(curStep/quants[curQuant])*quants[curQuant]) * Conductor.stepCrochet;
-				
+				if (FlxG.keys.justPressed.LEFT)
+				{
+					--curQuant;
+					if (curQuant < 0) curQuant = 0;
+
+					daquantspot *=  Std.int(32/quants[curQuant]);
+				}
+				if (FlxG.keys.justPressed.RIGHT)
+				{
+					curQuant ++;
+					if (curQuant > quants.length-1) curQuant = quants.length-1;
+					daquantspot *=  Std.int(32/quants[curQuant]);
+				}
+				quant.animation.play('q', true, false, curQuant);
+				var feces:Float;
+				if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN)
+				{
+					FlxG.sound.music.pause();
+
+
+					updateCurStep();
+					//FlxG.sound.music.time = (Math.round(curStep/quants[curQuant])*quants[curQuant]) * Conductor.stepCrochet;
+
 					//(Math.floor((curStep+quants[curQuant]*1.5/(quants[curQuant]/2))/quants[curQuant])*quants[curQuant]) * Conductor.stepCrochet;//snap into quantization
-				if (FlxG.keys.pressed.UP)
-				{
-					
-					//var tosnapto = 0.00;
-					var foundaspot = false;
-					var i = datimess.length-1;//backwards for loop 
-					while (i > -1){
-						if (Math.ceil(FlxG.sound.music.time) >= Math.ceil(datimess[i]) && !foundaspot){
-							foundaspot = true;
-							FlxG.sound.music.time = datimess[i];
-						}
-						--i;
-					}
-					//FlxG.sound.music.time = tosnapto;
-					//FlxG.sound.music.time -= daTime;
-					 feces = FlxG.sound.music.time - daTime;
-				}
-				else{
-					
-					var foundaspot = false;
-					for (i in datimess){
-						if (Math.floor(FlxG.sound.music.time) <= Math.floor(i) && !foundaspot){
-							foundaspot = true;
-							FlxG.sound.music.time = i;
-						}
-					}
-					
-					
-					//FlxG.sound.music.time += daTime;
-					 feces = FlxG.sound.music.time+ daTime;
-				}
-				FlxTween.tween(FlxG.sound.music, {time:feces}, 0.1, {ease:FlxEase.circOut});
-				if(vocals != null) {
-					vocals.pause();
-					vocals.time = FlxG.sound.music.time;
-				}
-				
-				var dastrum = 0;
-				
-				if (curSelectedNote != null){
-					dastrum = curSelectedNote[0];
-				}
-				
-				var secStart:Float = sectionStartTime();
-				var datime = (feces - secStart) - (dastrum - secStart); //idk math find out why it doesn't work on any other section other than 0
-				if (curSelectedNote != null)
-				{
-					var controlArray:Array<Bool> = [FlxG.keys.pressed.ONE, FlxG.keys.pressed.TWO, FlxG.keys.pressed.THREE, FlxG.keys.pressed.FOUR,
-												   FlxG.keys.pressed.FIVE, FlxG.keys.pressed.SIX, FlxG.keys.pressed.SEVEN, FlxG.keys.pressed.EIGHT];
-
-					if(controlArray.contains(true))
+					if (FlxG.keys.pressed.UP)
 					{
 						
-						for (i in 0...controlArray.length)
-						{
-							if(controlArray[i])
-								if(curSelectedNote[1] == i) curSelectedNote[2] += datime - curSelectedNote[2] - Conductor.stepCrochet;
+						//var tosnapto = 0.00;
+						var foundaspot = false;
+						var i = datimess.length-1;//backwards for loop 
+						while (i > -1) {
+							if (Math.ceil(FlxG.sound.music.time) >= Math.ceil(datimess[i]) && !foundaspot){
+								foundaspot = true;
+								FlxG.sound.music.time = datimess[i];
+							}
+							--i;
 						}
-						updateGrid();
-						updateNoteUI();
+						//FlxG.sound.music.time = tosnapto;
+						//FlxG.sound.music.time -= daTime;
+						feces = FlxG.sound.music.time - daTime;
+					}
+					else {
+					
+						var foundaspot = false;
+						for (i in datimess) {
+							if (Math.floor(FlxG.sound.music.time) <= Math.floor(i) && !foundaspot){
+								foundaspot = true;
+								FlxG.sound.music.time = i;
+							}
+						}
+						
+						//FlxG.sound.music.time += daTime;
+						feces = FlxG.sound.music.time+ daTime;
+					}
+					FlxTween.tween(FlxG.sound.music, {time:feces}, 0.1, {ease:FlxEase.circOut});
+					if(vocals != null) {
+						vocals.pause();
+						vocals.time = FlxG.sound.music.time;
+					}
+					var dastrum = 0;
+				
+					if (curSelectedNote != null) {
+						dastrum = curSelectedNote[0];
+					}
+				
+					var secStart:Float = sectionStartTime();
+					var datime = (feces - secStart) - (dastrum - secStart); //idk math find out why it doesn't work on any other section other than 0
+					if (curSelectedNote != null)
+					{
+						var controlArray:Array<Bool> = [FlxG.keys.pressed.ONE, FlxG.keys.pressed.TWO, FlxG.keys.pressed.THREE, FlxG.keys.pressed.FOUR,
+												   FlxG.keys.pressed.FIVE, FlxG.keys.pressed.SIX, FlxG.keys.pressed.SEVEN, FlxG.keys.pressed.EIGHT];
+
+						if(controlArray.contains(true))
+						{
+						
+							for (i in 0...controlArray.length)
+							{
+								if(controlArray[i])
+									if(curSelectedNote[1] == i) curSelectedNote[2] += datime - curSelectedNote[2] - Conductor.stepCrochet;
+							}
+							updateGrid();
+							updateNoteUI();
+						}
 					}
 				}
-			}
 			}
 			var shiftThing:Int = 1;
 			if (FlxG.keys.pressed.SHIFT)
 				shiftThing = 4;
 
-			if (FlxG.keys.justPressed.RIGHT && !vortex|| FlxG.keys.justPressed.D)
+			if (FlxG.keys.justPressed.RIGHT && !vortex || FlxG.keys.justPressed.D)
 				changeSection(curSection + shiftThing);
-			if (FlxG.keys.justPressed.LEFT && !vortex|| FlxG.keys.justPressed.A) {
+			if (FlxG.keys.justPressed.LEFT && !vortex || FlxG.keys.justPressed.A) {
 				if(curSection <= 0) {
 					changeSection(_song.notes.length-1);
 				} else {
@@ -1921,7 +1919,7 @@ class ChartingState extends MusicBeatState
 		Conductor.songPosition = FlxG.sound.music.time;
 		strumLine.y = getYfromStrum((Conductor.songPosition - sectionStartTime()) / zoomList[curZoom] % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps));
 		camPos.y = strumLine.y;
-		for (i in 0...8){
+		for (i in 0...8) {
 			strumLineNotes.members[i].y = strumLine.y;
 			strumLineNotes.members[i].alpha = FlxG.sound.music.playing ? 1 : 0.35;
 		}
@@ -1956,7 +1954,7 @@ class ChartingState extends MusicBeatState
 						strumLineNotes.members[noteDataToCheck].playAnim('confirm', true);
 						strumLineNotes.members[noteDataToCheck].resetAnim = (note.sustainLength / 1000) + 0.15;
 					if(!playedSound[data]) {
-						if((playSoundBf.checked && note.mustPress) || (playSoundDad.checked && !note.mustPress)){
+						if((playSoundBf.checked && note.mustPress) || (playSoundDad.checked && !note.mustPress)) {
 							var soundToPlay = 'hitsound';
 							if(_song.player1 == 'gf') { //Easter egg
 								soundToPlay = 'GF_' + Std.string(data + 1);
@@ -2218,114 +2216,117 @@ class ChartingState extends MusicBeatState
 		[[min...], [max...]]  right
 	]
 	*/
-	function waveformData(buffer:AudioBuffer, bytes:Bytes, time:Float, endTime:Float, multiply:Float = 1,
-		?array:Array<Array<Array<Float>>>, ?steps:Float):Array<Array<Array<Float>>>
-	{
-		#if (lime_cffi && !macro)
-		if (buffer == null || buffer.data == null) return [[[0], [0]], [[0], [0]]];
-
-		var khz:Float = (buffer.sampleRate / 1000);
-		var channels:Int = buffer.channels;
-
-		var index:Int = Std.int(time * khz);
-
-		var samples:Float = ((endTime - time) * khz);
-
-		if (steps == null) steps = 1280;
-
-		var samplesPerRow:Float = samples / steps;
-		var samplesPerRowI:Int = Std.int(samplesPerRow);
-
-		var gotIndex:Int = 0;
-
-		var lmin:Float = 0;
-		var lmax:Float = 0;
-
-		var rmin:Float = 0;
-		var rmax:Float = 0;
-
-		var rows:Float = 0;
-
-		var simpleSample:Bool = true;//samples > 17200;
-		var v1:Bool = false;
-
-		if (array == null) array = [[[0], [0]], [[0], [0]]];
-
-		while (index < (bytes.length - 1)) {
-			if (index >= 0) {
-				var byte:Int = bytes.getUInt16(index * channels * 2);
-
-				if (byte > 65535 / 2) byte -= 65535;
-
-				var sample:Float = (byte / 65535);
-
-				if (sample > 0) {
-					if (sample > lmax) lmax = sample;
-				} else if (sample < 0) {
-					if (sample < lmin) lmin = sample;
-				}
-
-				if (channels >= 2) {
-					byte = bytes.getUInt16((index * channels * 2) + 2);
-
-					if (byte > 65535 / 2) byte -= 65535;
-
-					sample = (byte / 65535);
-
-					if (sample > 0) {
-						if (sample > rmax) rmax = sample;
-					} else if (sample < 0) {
-						if (sample < rmin) rmin = sample;
-					}
-				}	
-			}
-			v1 = samplesPerRowI > 0 ? (index % samplesPerRowI == 0) : false;
-			while (simpleSample ? v1 : rows >= samplesPerRow) {
-				v1 = false;
-				rows -= samplesPerRow;
-
-				gotIndex++;
-
-				var lRMin:Float = Math.abs(lmin) * multiply;
-				var lRMax:Float = lmax * multiply;
-
-				var rRMin:Float = Math.abs(rmin) * multiply;
-				var rRMax:Float = rmax * multiply;
-
-				if (gotIndex > array[0][0].length) array[0][0].push(lRMin);
-					else array[0][0][gotIndex - 1] = array[0][0][gotIndex - 1] + lRMin;
-
-				if (gotIndex > array[0][1].length) array[0][1].push(lRMax);
-					else array[0][1][gotIndex - 1] = array[0][1][gotIndex - 1] + lRMax;
-
-				if (channels >= 2) {
-					if (gotIndex > array[1][0].length) array[1][0].push(rRMin);
-						else array[1][0][gotIndex - 1] = array[1][0][gotIndex - 1] + rRMin;
-
-					if (gotIndex > array[1][1].length) array[1][1].push(rRMax);
-						else array[1][1][gotIndex - 1] = array[1][1][gotIndex - 1] + rRMax;
-				}
-				else {
-					if (gotIndex > array[1][0].length) array[1][0].push(lRMin);
-						else array[1][0][gotIndex - 1] = array[1][0][gotIndex - 1] + lRMin;
-
-					if (gotIndex > array[1][1].length) array[1][1].push(lRMax);
-						else array[1][1][gotIndex - 1] = array[1][1][gotIndex - 1] + lRMax;
-				}
-
-				lmin = 0;
-				lmax = 0;
-
-				rmin = 0;
-				rmax = 0;
-			}
-			index++;
-			rows++;
-			if(gotIndex > steps) break;
-		}
+	function waveformData(buffer:AudioBuffer, bytes:Bytes, time:Float, endTime:Float, multiply:Float = 1, ?array:Array<Array<Array<Float>>>, ?steps:Float):Array<Array<Array<Float>>>
+		{
+			#if (lime_cffi && !macro)
+			if (buffer == null || buffer.data == null) return [[[0], [0]], [[0], [0]]];
 	
-		return array;
-		#end
+			var khz:Float = (buffer.sampleRate / 1000);
+			var channels:Int = buffer.channels;
+	
+			var index:Int = Std.int(time * khz);
+	
+			var samples:Float = ((endTime - time) * khz);
+	
+			if (steps == null) steps = 1280;
+	
+			var samplesPerRow:Float = samples / steps;
+			var samplesPerRowI:Int = Std.int(samplesPerRow);
+	
+			var gotIndex:Int = 0;
+	
+			var lmin:Float = 0;
+			var lmax:Float = 0;
+	
+			var rmin:Float = 0;
+			var rmax:Float = 0;
+	
+			var rows:Float = 0;
+	
+			var simpleSample:Bool = true;//samples > 17200;
+			var v1:Bool = false;
+	
+			if (array == null) array = [[[0], [0]], [[0], [0]]];
+	
+			while (index < (bytes.length - 1)) {
+				if (index >= 0) {
+					var byte:Int = bytes.getUInt16(index * channels * 2);
+	
+					if (byte > 65535 / 2) byte -= 65535;
+	
+					var sample:Float = (byte / 65535);
+	
+					if (sample > 0) {
+						if (sample > lmax) lmax = sample;
+					} else if (sample < 0) {
+						if (sample < lmin) lmin = sample;
+					}
+	
+					if (channels >= 2) {
+						byte = bytes.getUInt16((index * channels * 2) + 2);
+	
+						if (byte > 65535 / 2) byte -= 65535;
+	
+						sample = (byte / 65535);
+	
+						if (sample > 0) {
+							if (sample > rmax) rmax = sample;
+						} else if (sample < 0) {
+							if (sample < rmin) rmin = sample;
+						}
+					}
+				}
+	
+				v1 = samplesPerRowI > 0 ? (index % samplesPerRowI == 0) : false;
+				while (simpleSample ? v1 : rows >= samplesPerRow) {
+					v1 = false;
+					rows -= samplesPerRow;
+	
+					gotIndex++;
+	
+					var lRMin:Float = Math.abs(lmin) * multiply;
+					var lRMax:Float = lmax * multiply;
+	
+					var rRMin:Float = Math.abs(rmin) * multiply;
+					var rRMax:Float = rmax * multiply;
+	
+					if (gotIndex > array[0][0].length) array[0][0].push(lRMin);
+						else array[0][0][gotIndex - 1] = array[0][0][gotIndex - 1] + lRMin;
+	
+					if (gotIndex > array[0][1].length) array[0][1].push(lRMax);
+						else array[0][1][gotIndex - 1] = array[0][1][gotIndex - 1] + lRMax;
+	
+					if (channels >= 2) {
+						if (gotIndex > array[1][0].length) array[1][0].push(rRMin);
+							else array[1][0][gotIndex - 1] = array[1][0][gotIndex - 1] + rRMin;
+	
+						if (gotIndex > array[1][1].length) array[1][1].push(rRMax);
+							else array[1][1][gotIndex - 1] = array[1][1][gotIndex - 1] + rRMax;
+					}
+					else {
+						if (gotIndex > array[1][0].length) array[1][0].push(lRMin);
+							else array[1][0][gotIndex - 1] = array[1][0][gotIndex - 1] + lRMin;
+	
+						if (gotIndex > array[1][1].length) array[1][1].push(lRMax);
+							else array[1][1][gotIndex - 1] = array[1][1][gotIndex - 1] + lRMax;
+					}
+	
+					lmin = 0;
+					lmax = 0;
+	
+					rmin = 0;
+					rmax = 0;
+				}
+	
+				index++;
+				rows++;
+				if(gotIndex > steps) break;
+			}
+	
+			return array;
+			#else
+			return [[[0], [0]], [[0], [0]]];
+			#end
 	}
 
 	function changeNoteSustain(value:Float):Void
@@ -2997,7 +2998,6 @@ class ChartingState extends MusicBeatState
 
 			player1: _song.player1,
 			player2: _song.player2,
-			player3: null,
 			gfVersion: _song.gfVersion,
 			stage: _song.stage,
 			validScore: false

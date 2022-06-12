@@ -1,4 +1,3 @@
-import flixel.graphics.FlxGraphic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
@@ -7,13 +6,6 @@ import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
-#if MODS_ALLOWED
-import sys.FileSystem;
-import sys.io.File;
-#end
-import haxe.Json;
-import lime.utils.Assets;
-import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
 

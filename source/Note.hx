@@ -174,7 +174,6 @@ class Note extends FlxSprite
 					reloadNote('WARNING');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
-				    hitByOpponent = false;
 					colorSwap.brightness = 0;
 					if (tooLate) {
 						missHealth = 500;
@@ -182,7 +181,6 @@ class Note extends FlxSprite
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
 					reloadNote('POISONED');
-					noteSplashTexture = 'POISONEDnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;

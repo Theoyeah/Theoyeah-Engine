@@ -238,7 +238,7 @@ class StageEditorState extends MusicBeatState
 		FlxG.mouse.visible = true;
 
 		dummyLayer = new FlxSprite();
-        dummyLayer.visible = false;
+		dummyLayer.visible = false;
 		dummyLayer.cameras = [camhidden];
 		visualLayers.push(dummyLayer);
 
@@ -525,32 +525,35 @@ class StageEditorState extends MusicBeatState
 			stepperscrollY.text = Std.string(layer.scrollY);
 			scaleStepper.value = layer.scale;
 			isflippedX.checked = layer.flipX;
-            isflippedY.checked = layer.flipY;
+			isflippedY.checked = layer.flipY;
 
 			var assetName:String = layer.directory;
 			var directoryLayer:String = "images/" + assetName + ".png";
 			                        //.cpp error moment
-			if (FileSystem.exists(Paths.modsImages(assetName))) {
-			createdLayer = new FlxSprite();
-			createdLayer.loadGraphic(Paths.image(assetName));
-			createdLayer.x = layer.xAxis;
-			createdLayer.y = layer.yAxis;
-			createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
-			add(createdLayer);
-			visualLayers.push(createdLayer);
+			#if MODS_ALLOWED
+			if (FileSystem.exists(Paths.modsImages(assetName)))
+			{
+				createdLayer = new FlxSprite();
+				createdLayer.loadGraphic(Paths.image(assetName));
+				createdLayer.x = layer.xAxis;
+				createdLayer.y = layer.yAxis;
+				createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
+				add(createdLayer);
+				visualLayers.push(createdLayer);
 			}
+			#end
 			                       //.cpp error moment
 			if (Paths.fileExists(directoryLayer, IMAGE)) {
-			createdLayer = new FlxSprite();
-			createdLayer.loadGraphic(Paths.getPath(directoryLayer, IMAGE));
-			createdLayer.x = layer.xAxis;
-			createdLayer.y = layer.yAxis;
-			createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
-			add(createdLayer);
-			visualLayers.push(createdLayer);
+				createdLayer = new FlxSprite();
+				createdLayer.loadGraphic(Paths.getPath(directoryLayer, IMAGE));
+				createdLayer.x = layer.xAxis;
+				createdLayer.y = layer.yAxis;
+				createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
+				add(createdLayer);
+				visualLayers.push(createdLayer);
 			}
-       }	
-  }
+		}
+	}
 
 	function searchForLayer()
 	{
@@ -558,6 +561,7 @@ class StageEditorState extends MusicBeatState
 		var directoryLayer:String = "images/" + assetName + ".png";
 		if (assetName != null && assetName.length > 0)
 		{
+			#if MODS_ALLOWED
 			if (FileSystem.exists(Paths.modFolders(directoryLayer)))
 			{
 				visualLayers[Std.int(layerStepper.value)].loadGraphic(Paths.image(assetName));
@@ -570,6 +574,10 @@ class StageEditorState extends MusicBeatState
 			{
 				visualLayers[Std.int(layerStepper.value)].visible = false;
 			}
+			#else
+			visualLayers[Std.int(layerStepper.value)].visible = false;
+			#end
+
 			if (Paths.fileExists(directoryLayer, IMAGE))
 			{
 				visualLayers[Std.int(layerStepper.value)].loadGraphic(Paths.getPath(directoryLayer, IMAGE));
@@ -742,17 +750,17 @@ class StageEditorState extends MusicBeatState
 			visualLayers[Std.int(layerStepper.value)].x -= 1;
 			xInputText.text = visualLayers[Std.int(layerStepper.value)].x + "";
 		}
-		else if (FlxG.keys.pressed.RIGHT)
+		if (FlxG.keys.pressed.RIGHT)
 		{
 			visualLayers[Std.int(layerStepper.value)].x += 1;
 			xInputText.text = visualLayers[Std.int(layerStepper.value)].x + "";
 		}
-		else if (FlxG.keys.pressed.UP)
+		if (FlxG.keys.pressed.UP)
 		{
 			visualLayers[Std.int(layerStepper.value)].y -= 1;
 			yInputText.text = visualLayers[Std.int(layerStepper.value)].y + "";
 		}
-		else if (FlxG.keys.pressed.DOWN)
+		if (FlxG.keys.pressed.DOWN)
 		{
 			visualLayers[Std.int(layerStepper.value)].y += 1;
 			yInputText.text = visualLayers[Std.int(layerStepper.value)].y + "";
@@ -805,7 +813,7 @@ class StageEditorState extends MusicBeatState
 		camPeople.zoom = FlxG.camera.zoom;
 		camGrid.zoom = FlxG.camera.zoom;
 
-		if (FlxG.keys.justPressed.ESCAPE)
+		if (controls.BACK)
 		{
 			MusicBeatState.switchState(new editors.MasterEditorMenu());
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));

@@ -13,7 +13,7 @@ import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 import lime.utils.Assets;
 import flixel.FlxSprite;
-#if MODS_ALLOWED
+#if sys
 import sys.io.File;
 import sys.FileSystem;
 #end
@@ -227,30 +227,34 @@ class Paths
 
 	static public function video(key:String, ?ignoreMods:Bool = false, ?mkvFile:Bool = false, where:String = 'videos')
 	{
-		#if MODS_ALLOWED
+		#if (MODS_ALLOWED && sys)
 		var file:String = modsVideo(key, where);
 		var file_:String = modsVideo2(key, where);
+		var file2:String = modsVideo2(key, where, true);
 		#if MKV_ALLOWED
-		if(FileSystem.exists(file_) && !ignoreMods && mkvFile) {
+		if(FileSystem.exists(file_) && !ignoreMods && mkvFile)
 			return file_;
-		} else #end if(FileSystem.exists(file) && !ignoreMods) {
+		else if(FileSystem.exists(file2) && !ignoreMods && mkvFile)
+			return file2;
+		else #end if(FileSystem.exists(file) && !ignoreMods)
 			return file;
-		}
 		#end
 		if(!getIsBlankString(where, true)) {
 			#if MKV_ALLOWED
-			if(mkvFile && FileSystem.exists('assets/$where/$key.mkv')) {
+			if(mkvFile && #if sys FileSystem.exists('assets/$where/$key.mkv') #else OpenFlAssets.exists('assets/$where/$key.mkv') #end )
 				return assets('$where/$key.mkv');
-			} else #end if(FileSystem.exists('assets/$where/$key.$VIDEO_EXT')) {
+			else if(mkvFile && #if sys FileSystem.exists('assets/$where/$key.MKV') #else OpenFlAssets.exists('assets/$where/$key.MKV') #end )
+				return assets('$where/$key.MKV');
+			else #end if( #if sys FileSystem.exists('assets/$where/$key.$VIDEO_EXT') #else OpenFlAssets.exists('assets/$where/$key.$VIDEO_EXT') #end )
 				return assets('$where/$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
-			}
+			else if( #if sys FileSystem.exists('assets/$where/$key.MP4') #else OpenFlAssets.exists('assets/$where/$key.MP4') #end )
+				return assets('$where/$key.MP4'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
 		} else {
 			#if MKV_ALLOWED
-			if(mkvFile && FileSystem.exists(assets('$key.mkv'))) {
+			if(mkvFile && #if sys FileSystem.exists(assets('$key.mkv')) #else OpenFlAssets.exists(assets('$key.mkv')) #end )
 				return assets('$key.mkv');
-			} else #end if(FileSystem.exists(assets('$key.$VIDEO_EXT'))) {
+			else #end if( #if sys FileSystem.exists(assets('$key.$VIDEO_EXT')) #else OpenFlAssets.exists(assets('$key.$VIDEO_EXT')) #end )
 				return assets('$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
-			}
 		}
 		returnNull(key, where);
 		return null;
@@ -471,13 +475,24 @@ class Paths
 	public static function returnSound(path:String, key:String, ?library:String) {
 		#if MODS_ALLOWED
 		var file:String = modsSounds(path, key);
+		#if WAV_ALLOWED
+		var file_:String = modsWavSounds(path, key);
+		#end
 		if(FileSystem.exists(file)) {
 			if(!currentTrackedSounds.exists(file)) {
 				currentTrackedSounds.set(file, Sound.fromFile(file));
 			}
 			localTrackedAssets.push(key);
 			return currentTrackedSounds.get(file);
+		} #if WAV_ALLOWED
+		else if(FileSystem.exists(file_)) {
+			if(!currentTrackedSounds.exists(file_)) {
+				currentTrackedSounds.set(file_, Sound.fromFile(file_));
+			}
+			localTrackedAssets.push(key);
+			return currentTrackedSounds.get(file_);
 		}
+		#end
 		#end
 		// I hate this so god damn much
 		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);	
@@ -537,15 +552,23 @@ class Paths
 		return modFolders('$where/$key.json');
 	}
 
-	inline static public function modsVideo(key:String, where:String = 'videos') {
+	inline static public function modsVideo(key:String, where:String = 'videos', lower:Bool = false) {
+		if(lower) return modFolders('$where/$key.MP4');
 		return modFolders('$where/$key.$VIDEO_EXT');
 	}
-	inline static public function modsVideo2(key:String, where:String = 'videos') {
+	inline static public function modsVideo2(key:String, where:String = 'videos', lower:Bool = false) {
+		if(lower) return modFolders('$where/$key.MKV');
 		return modFolders('$where/$key.mkv');
 	}
 
 	inline static public function modsSounds(path:String, key:String) {
 		return modFolders('$path/$key.$SOUND_EXT');
+	}
+
+	inline static public function modsWavSounds(path:String, key:String) {
+		#if WAV_ALLOWED
+		return modFolders('$path/$key.wav');
+		#end
 	}
 
 	inline static public function modsImages(key:String, where:String = 'images') {
@@ -612,14 +635,14 @@ class Paths
 					var folder = dat[0];
 					var path = Paths.mods(folder + '/pack.json');
 					if(FileSystem.exists(path)) {
-						try{
+						try {
 							var rawJson:String = File.getContent(path);
 							if(rawJson != null && rawJson.length > 0) {
 								var stuff:Dynamic = Json.parse(rawJson);
 								var global:Bool = Reflect.getProperty(stuff, "runsGlobally");
-								if(global)globalMods.push(dat[0]);
+								if(global && !globalMods.contains(dat[0])) globalMods.push(dat[0]);
 							}
-						}catch(e:Dynamic){
+						} catch(e:Dynamic) {
 							trace(e);
 						}
 					}

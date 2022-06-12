@@ -89,7 +89,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
         var option:Option = new Option('Hide Opponent Notes',
-			'If unchecked, opponent notes get hidden.',
+			'If checked, opponent notes get hidden.',
 			'opponentStrums',
 			'bool',
 			false);
