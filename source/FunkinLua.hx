@@ -295,7 +295,7 @@ class FunkinLua {
 		
 		// other things
 		set('mouseVisible', FlxG.mouse.visible);
-		
+		set("scriptName", scriptName);
 
 
 		#if windows
@@ -1439,15 +1439,9 @@ class FunkinLua {
 			}
 		});
 		Lua_helper.add_callback(lua, "addAnimationByPrefix", function(obj:String, name:String, prefix:String, framerate:Int = 24, loop:Bool = true) {
-			if(PlayState.instance.getLuaObject(obj, false) != null) {
-				var cock:FlxSprite = PlayState.instance.getLuaObject(obj, false);
-				cock.animation.addByPrefix(name, prefix, framerate, loop);
-				if(cock.animation.curAnim == null) {
-					cock.animation.play(name, true);
-				}
-				return;
-			} else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) {
-				var cock:FlxSprite = PlayState.instance.getLuaObject(obj.toLowerCase(), false);
+			var object:Null<String> = if(PlayState.instance.getLuaObject(obj, false) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) obj.toLowerCase else null;
+			if(object != null) {
+				var cock:FlxSprite = PlayState.instance.getLuaObject(object, false);
 				cock.animation.addByPrefix(name, prefix, framerate, loop);
 				if(cock.animation.curAnim == null) {
 					cock.animation.play(name, true);
