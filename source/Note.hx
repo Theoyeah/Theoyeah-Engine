@@ -244,7 +244,7 @@ class Note extends FlxSprite
 
 		// trace(prevNote);
 
-		if(prevNote!=null)
+		if(prevNote != null)
 			prevNote.nextNote = this;
 
 		if (isSustainNote && prevNote != null)
@@ -389,7 +389,7 @@ class Note extends FlxSprite
 				}*/
 			}
 		} else {
-			frames = Paths.getSparrowAtlas(blahblah);
+			frames = Paths.getSparrowAtlas('images/noteSkins/' + blahblah, null, 'shared');
 			loadNoteAnims();
 			antialiasing = ClientPrefs.globalAntialiasing;
 		}
