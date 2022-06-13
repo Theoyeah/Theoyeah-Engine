@@ -13,6 +13,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+import flixel.input.mouse.FlxMouse;
 #if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
@@ -214,7 +215,7 @@ class CreditsState extends MusicBeatState
 				}
 			}
 
-			if(controls.ACCEPT) {
+			if(controls.ACCEPT || FlxG.mouse.justPressed) {
 				var link:String = creditsStuff[curSelected][3].toLowerCase().replace(' ', '');
 				if(link == 'nolink' || link == 'no' || link == 'n') {
 					FlxG.sound.play(Paths.sound('cancelMenu'));
