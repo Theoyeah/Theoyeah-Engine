@@ -138,7 +138,7 @@ class LoadingState extends MusicBeatState
 		MusicBeatState.switchState(target);
 	}
 
-	#if html5
+	#if NO_PRELOAD_ALL
 	static function getSongPath()
 	{
 		return 'songs:assets/songs/${Paths.formatToSongPath(PlayState.SONG.song)}/Inst.${Paths.SOUND_EXT}';
