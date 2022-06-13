@@ -28,7 +28,7 @@ class MasterEditorMenu extends MusicBeatState
 		'Character Editor',
 		'Chart Editor',
 		'Stage Editor',
-		#if !html5
+		#if (!html5 && MODS_ALLOWED)
 		'Mod Manager'
 		#end
 	];
@@ -131,7 +131,7 @@ class MasterEditorMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
 				case 'Stage Editor':
 					LoadingState.loadAndSwitchState(new StageEditorState(), false);
-				#if !html5
+				#if (!html5 && MODS_ALLOWED)
 				case 'Mod Manager':
 					LoadingState.loadAndSwitchState(new editors.ModsMenuState(), false);		   
 				#end
