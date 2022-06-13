@@ -118,7 +118,7 @@ class CoolUtil
 	}
 
 	//uhhhh does this even work at all? i'm starting to doubt
-	#if html5
+	#if !PRELOAD_ALL
 	public static function precacheSound(sound:String, ?library:String = null):Void {
 		Paths.returnSound('sounds', sound, library);
 	}
