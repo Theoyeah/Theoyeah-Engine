@@ -98,7 +98,7 @@ class FunkinLua {
 	 * @param type 
 	 * @param other 
 	 */
-	public function controlsStuff(name:String, type:Null<String>) {
+	public function controlsStuff(name:String, ?type:String) {
 		if(type == null) type = '';
 		var key:Bool = false;
 		var as:String = name.toLowerCase().replace('-', '').replace('_', '').replace('"', '').replace("'", '');
@@ -1234,7 +1234,7 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "keyJustPressed", function(name:String) {
-			return controlsStuff(name, '_P', true);
+			return controlsStuff(name, '_P');
 		});
 		Lua_helper.add_callback(lua, "keyPressed", function(name:String) {
 			return controlsStuff(name);
