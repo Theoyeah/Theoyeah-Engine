@@ -1587,7 +1587,7 @@ class ChartingState extends MusicBeatState
 				dummyArrow.y = FlxG.mouse.y;
 			else
 				dummyArrow.y = Math.floor(FlxG.mouse.y / GRID_SIZE) * GRID_SIZE;
-		}else{
+		} else {
 			dummyArrow.visible = false;
 		}
 
@@ -1649,18 +1649,19 @@ class ChartingState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 
+			var keybonds = ClientPrefs.keyBinds;
 			if(curSelectedNote != null && curSelectedNote[1] > -1) {
-				if (FlxG.keys.justPressed.E)
+				if (FlxG.keys.justPressed.keybonds['increase'][0])
 				{
 					changeNoteSustain(Conductor.stepCrochet);
 				}
-				if (FlxG.keys.justPressed.Q)
+				if (FlxG.keys.justPressed.keybonds['decrease'][0])
 				{
 					changeNoteSustain(-Conductor.stepCrochet);
 				}
 			}
-			
-			
+
+
 			if (FlxG.keys.justPressed.BACKSPACE) {
 				//if(onMasterEditor) {
 					MusicBeatState.switchState(new editors.MasterEditorMenu());
@@ -1673,14 +1674,14 @@ class ChartingState extends MusicBeatState
 			if(FlxG.keys.justPressed.Z && FlxG.keys.pressed.CONTROL) {
 				undo();
 			}
-			
-			
-			
-			if(FlxG.keys.justPressed.Z && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
+
+
+
+			if(FlxG.keys.justPressed.keybonds['zoom-'][0] && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
 				--curZoom;
 				updateZoom();
 			}
-			if(FlxG.keys.justPressed.X && curZoom < zoomList.length-1) {
+			if(FlxG.keys.justPressed.keybonds['zoom+'][0] && curZoom < zoomList.length-1) {
 				curZoom++;
 				updateZoom();
 			}
@@ -1731,7 +1732,7 @@ class ChartingState extends MusicBeatState
 			if (FlxG.mouse.wheel != 0)
 			{
 				FlxG.sound.music.pause();
-				FlxG.sound.music.time -= (FlxG.mouse.wheel * Conductor.stepCrochet*0.8);
+				FlxG.sound.music.time -= (FlxG.mouse.wheel * Conductor.stepCrochet * 0.8);
 				if(vocals != null) {
 					vocals.pause();
 					vocals.time = FlxG.sound.music.time;
@@ -1739,9 +1740,9 @@ class ChartingState extends MusicBeatState
 			}
 
 			//ARROW VORTEX SHIT NO DEADASS
-			
-			
-			
+
+
+
 			if (FlxG.keys.pressed.W || FlxG.keys.pressed.S)
 			{
 				FlxG.sound.music.pause();
@@ -1764,15 +1765,15 @@ class ChartingState extends MusicBeatState
 					vocals.time = FlxG.sound.music.time;
 				}
 			}
-			
+
 			var style = currentType;
-			
+
 			if (FlxG.keys.pressed.SHIFT) {
 				style = 3;
 			}
-			
+
 			var conductorTime = Conductor.songPosition; //+ sectionStartTime();Conductor.songPosition / Conductor.stepCrochet;
-			
+
 			//AWW YOU MADE IT SEXY <3333 THX SHADMAR
 			if(vortex && !blockInput) {
 				var controlArray:Array<Bool> = [FlxG.keys.justPressed.ONE, FlxG.keys.justPressed.TWO, FlxG.keys.justPressed.THREE, FlxG.keys.justPressed.FOUR,
@@ -1822,12 +1823,12 @@ class ChartingState extends MusicBeatState
 					//(Math.floor((curStep+quants[curQuant]*1.5/(quants[curQuant]/2))/quants[curQuant])*quants[curQuant]) * Conductor.stepCrochet;//snap into quantization
 					if (FlxG.keys.pressed.UP)
 					{
-						
+
 						//var tosnapto = 0.00;
 						var foundaspot = false;
 						var i = datimess.length-1;//backwards for loop 
 						while (i > -1) {
-							if (Math.ceil(FlxG.sound.music.time) >= Math.ceil(datimess[i]) && !foundaspot){
+							if (Math.ceil(FlxG.sound.music.time) >= Math.ceil(datimess[i]) && !foundaspot) {
 								foundaspot = true;
 								FlxG.sound.music.time = datimess[i];
 							}
@@ -1838,10 +1839,10 @@ class ChartingState extends MusicBeatState
 						feces = FlxG.sound.music.time - daTime;
 					}
 					else {
-					
+
 						var foundaspot = false;
 						for (i in datimess) {
-							if (Math.floor(FlxG.sound.music.time) <= Math.floor(i) && !foundaspot){
+							if (Math.floor(FlxG.sound.music.time) <= Math.floor(i) && !foundaspot) {
 								foundaspot = true;
 								FlxG.sound.music.time = i;
 							}
