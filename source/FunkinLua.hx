@@ -80,15 +80,28 @@ class FunkinLua {
 		lol();
 		#end
 	}
+	public function getLuaObjectPlay(obj:String) {
+		var object:Null<String> = if(PlayState.instance.getLuaObject(obj, false) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) obj.toLowerCase() else null;
+		return object;
+	}
+	public function getPropertyReflect(obj:String) {
+		var pussy:FlxSprite = if(Reflect.getProperty(getInstance(), obj) != null) Reflect.getProperty(getInstance(), obj) else Reflect.getProperty(getInstance(), obj.toLowerCase());
+		return pussy;
+	}
+	public function getModchartSpriteExists(tag) {
+		var tagger:Null<String> = if(PlayState.instance.modchartSprites.exists(tag)) tag else if(PlayState.instance.modchartSprites.exists(tag.toLowerCase())) tag.toLowerCase() else null;
+		return tagger;
+	}
 	/**
 	 * Returns the clicked thing, it depends in what the param name is
 	 * @param name 
 	 * @param type 
 	 * @param other 
 	 */
-	public function controlsStuff(name:String, type:String = '', other:Bool = false) {
+	public function controlsStuff(name:String, type:Null<String>) {
+		if(type == null) type = '';
 		var key:Bool = false;
-		var as:String = name.toLowerCase().replace('-', '_').replace('_', '').replace('"', '').replace("'", '');
+		var as:String = name.toLowerCase().replace('-', '').replace('_', '').replace('"', '').replace("'", '');
 		switch(as) {
 			case 'left' | 'l': key = PlayState.instance.getControl('NOTE_LEFT' + type);
 			case 'down' | 'd': key = PlayState.instance.getControl('NOTE_DOWN' + type);
@@ -98,10 +111,10 @@ class FunkinLua {
 			case 'uiright': key = PlayState.instance.getControl('UI_RIGHT' + type);
 			case 'uiup': key = PlayState.instance.getControl('UI_UP' + type);
 			case 'uidown': key = PlayState.instance.getControl('UI_DOWN' + type);
-			case 'accept': if(other) key = PlayState.instance.getControl('ACCEPT');
-			case 'back': if(other) key = PlayState.instance.getControl('BACK');
-			case 'pause': if(other) key = PlayState.instance.getControl('PAUSE');
-			case 'reset': if(other) key = PlayState.instance.getControl('RESET');
+			case 'accept': key = PlayState.instance.getControl('ACCEPT');
+			case 'back': key = PlayState.instance.getControl('BACK');
+			case 'pause': key = PlayState.instance.getControl('PAUSE');
+			case 'reset': key = PlayState.instance.getControl('RESET');
 			case 'space':
 				switch(type) {
 					case '_R': key = FlxG.keys.justReleased.SPACE;//an extra key for convinience
@@ -133,6 +146,7 @@ class FunkinLua {
 		lol();
 		#end
 	}
+
 	public function new(script:String) {
 		#if LUA_ALLOWED
 		lua = LuaL.newstate();
