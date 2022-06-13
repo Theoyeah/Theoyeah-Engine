@@ -1009,43 +1009,79 @@ class FunkinLua {
 			}
 		});
 		Lua_helper.add_callback(lua, "mouseClicked", function(button:String) {
+			#if (FLX_MOUSE_ADVANCED && FLX_MOUSE)
 			var boobs = FlxG.mouse.justPressed;
-			switch(button){
+			switch(button.toLowerCase().trim()) {
 				case 'middle':
 					boobs = FlxG.mouse.justPressedMiddle;
 				case 'right':
 					boobs = FlxG.mouse.justPressedRight;
 			}
-			
-			
 			return boobs;
+			#end
 		});
 		Lua_helper.add_callback(lua, "mousePressed", function(button:String) {
+			#if (FLX_MOUSE_ADVANCED && FLX_MOUSE)
 			var boobs = FlxG.mouse.pressed;
-			switch(button){
+			switch(button.toLowerCase().trim()) {
 				case 'middle':
 					boobs = FlxG.mouse.pressedMiddle;
 				case 'right':
 					boobs = FlxG.mouse.pressedRight;
 			}
 			return boobs;
+			#end
 		});
 		Lua_helper.add_callback(lua, "mouseReleased", function(button:String) {
+			#if (FLX_MOUSE_ADVANCED && FLX_MOUSE)
 			var boobs = FlxG.mouse.justReleased;
-			switch(button){
+			switch(button.toLowerCase().trim()) {
 				case 'middle':
 					boobs = FlxG.mouse.justReleasedMiddle;
 				case 'right':
 					boobs = FlxG.mouse.justReleasedRight;
 			}
 			return boobs;
+			#end
+		});
+		Lua_helper.add_callback(lua, "getMouseJustPressedTimeInTicks", function(button:String) {
+			#if (FLX_MOUSE_ADVANCED && FLX_MOUSE)
+			var boobs = FlxG.mouse.justPressedTimeInTicks;
+			switch(button.toLowerCase().trim()) {
+				case 'middle':
+					boobs = FlxG.mouse.justPressedTimeInTicksMiddle;
+				case 'right':
+					boobs = FlxG.mouse.justPressedTimeInTicksRight;
+			}
+			return boobs;
+			#end
 		});
 		Lua_helper.add_callback(lua, "setMouseVisible", function(state:Bool = true) {
+			#if FLX_MOUSE
 			FlxG.mouse.visible = state;
+			#end
 		});
 		Lua_helper.add_callback(lua, "getMouseVisible", function() {
+			#if FLX_MOUSE
 			return FlxG.mouse.visible;
+			#end
 		});
+		Lua_helper.add_callback(lua, "getMouseWheel", function() {
+			#if FLX_MOUSE
+			return FlxG.mouse.wheel;
+			#end
+		});
+		Lua_helper.add_callback(lua, "getMouseEnabled", function() {
+			#if FLX_MOUSE
+			return FlxG.mouse.enabled;
+			#end
+		});
+		Lua_helper.add_callback(lua, "setMouseEnabled", function(state:Bool) {
+			#if FLX_MOUSE
+			FlxG.mouse.enabled = state;
+			#end
+		});
+
 		Lua_helper.add_callback(lua, "noteTweenAngle", function(tag:String, note:Int, value:Dynamic, duration:Float, ease:String) {
 			cancelTween(tag);
 			if(note < 0) note = 0;
@@ -1930,7 +1966,22 @@ class FunkinLua {
 			if (text5 == null) text5 = '';
 			luaTrace('' + text1 + text2 + text3 + text4 + text5, true, false, color);
 		});
+		Lua_helper.add_callback(lua, "debugPrintArray", function(text:Array<String>, color:String = 'white') { // better for arrays
+			var thisText:String = ''
+			for (i in 0...text.length) {
+				thisText += text[i];
+			}
+			luaTrace(thisText, true, false, color);
+		});
 		Lua_helper.add_callback(lua, "close", function(printMessage:Bool) {
+			if(!gonnaClose) {
+				if(printMessage)
+					luaTrace('Stopping lua script: $scriptName');
+				PlayState.instance.closeLuas.push(this);
+			}
+			gonnaClose = true;
+		});
+		Lua_helper.add_callback(lua, "stopScript", function(printMessage:Bool) {
 			if(!gonnaClose) {
 				if(printMessage)
 					luaTrace('Stopping lua script: $scriptName');
@@ -2224,7 +2275,32 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "stringEndsWith", function(str:String, end:String) {
 			return str.endsWith(end);
 		});
+		Lua_helper.add_callback(lua, "length", function(str:String) {
+			return str.length;
+		});
+		Lua_helper.add_callback(lua, "ltrim", function(str:String) {
+			return str.ltrim();
+		});
+		Lua_helper.add_callback(lua, "rtrim", function(str:String) {
+			return str.rtrim();
+		});
+		Lua_helper.add_callback(lua, "trim", function(str:String) {
+			return str.trim();
+		});
+		Lua_helper.add_callback(lua, "replace", function(str:String, sub:String = ' ', by:String = '') {
+			return str.replace(sub, by);
+		});
+		Lua_helper.add_callback(lua, "isSpace", function(str:String, pos:Int = 0) {
+			return str.isSpace(str, pos);
+		});
+		Lua_helper.add_callback(lua, "htmlEscape", function(str:String, ?quotes:Bool) {
+			return str.htmlEscape(str, quotes);
+		});
+		Lua_helper.add_callback(lua, "hex", function(number:Int, ?digits:Int) {
+			return StringTools.hex(number, digits);
+		});
 
+		// shaders
 		Lua_helper.add_callback(lua, "chromaticEffect", function(camera:String, chromeOffset:Float = 0.005) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new ChromaticAberrationEffect(chromeOffset));
@@ -2243,7 +2319,7 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "tiltshiftEffect", function(camera:String, blurAmount:Float, center:Float) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new TiltshiftEffect(blurAmount, center));
-			
+
 		});
 		Lua_helper.add_callback(lua, "vcrEffect", function(camera:String,glitchFactor:Float = 0.0, distortion:Bool=true, perspectiveOn:Bool=true, vignetteMoving:Bool=true) {
 			if (ClientPrefs.shaders)
@@ -2570,7 +2646,8 @@ class FunkinLua {
 		];
 		if(Std.isOfType(color, 'c')) {
 			for (i in 0...colorStuff.length) {
-				if(colorStuff[i][0].toLowerCase() == color.toLowerCase().trim()) colorr = colorStuff[i][1];
+				if(colorStuff[i][0].toLowerCase() == color.toLowerCase().trim())
+					colorr = colorStuff[i][1];
 			}
 		} else if(Std.isOfType(color, FlxColor.WHITE)) {
 			colorr = color;
@@ -2631,13 +2708,10 @@ class FunkinLua {
  	public function call(func:String, args:Array<Dynamic>): Dynamic{
  		#if LUA_ALLOWED
  		try {
- 			if(lua == null)return Function_Continue;
+ 			if(lua == null) return Function_Continue;
  			Lua.getglobal(lua, func);
- 			#if (linc_luajit >= "0.0.6")
- 			if(Lua.isfunction(lua, -1) == true)
- 			#else
- 			if(Lua.isfunction(lua, -1) == 1)
- 			#end
+
+ 			if(Lua.isfunction(lua, -1) == #if (linc_luajit >= "0.0.6") true #else 1 #end )
  			{
 
  				for(arg in args) Convert.toLua(lua, arg);
@@ -2796,10 +2870,10 @@ class ModchartSprite extends FlxSprite
 class ModchartText extends FlxText
 {
 	public var wasAdded:Bool = false;
-	public function new(x:Float, y:Float, text:String, width:Float)
+	public function new(x:Float, y:Float, text:String, width:Float, color:FlxColor = FlxColor.WHITE, alignment:FlxTextAlign = CENTER, borderColor:FlxColor = FlxColor.BLACK)
 	{
 		super(x, y, width, text, 16);
-		setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		setFormat(Paths.font("vcr.ttf"), 16, color, alignment, FlxTextBorderStyle.OUTLINE, borderColor);
 		cameras = [PlayState.instance.camHUD];
 		scrollFactor.set();
 		borderSize = 2;
