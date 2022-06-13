@@ -114,7 +114,7 @@ class MasterEditorMenu extends MusicBeatState
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
-		if (controls.ACCEPT)
+		if (controls.ACCEPT || FlxG.mouse.justPressed)
 		{
 			switch(options[curSelected]) {
 				case 'Character Editor':
@@ -134,8 +134,8 @@ class MasterEditorMenu extends MusicBeatState
 				#if !html5
 				case 'Mod Manager':
 					LoadingState.loadAndSwitchState(new editors.ModsMenuState(), false);		   
-			    #end
-				}
+				#end
+			}
 			FlxG.sound.music.volume = 0;
 			#if PRELOAD_ALL
 			FreeplayState.destroyFreeplayVocals();
