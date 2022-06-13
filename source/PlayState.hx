@@ -4730,7 +4730,7 @@ class PlayState extends MusicBeatState
 				popUpScore(note);
 				if(combo > 9999) combo = 9999;
 			}
-			health += note.hitHealth * healthGain;
+			if(health <= maxHealth) health += note.hitHealth * healthGain;
 
 			if(!note.noAnimation) {
 				var daAlt = '';
