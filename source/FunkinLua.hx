@@ -1967,7 +1967,7 @@ class FunkinLua {
 			luaTrace('' + text1 + text2 + text3 + text4 + text5, true, false, color);
 		});
 		Lua_helper.add_callback(lua, "debugPrintArray", function(text:Array<String>, color:String = 'white') { // better for arrays
-			var thisText:String = ''
+			var thisText:String = '';
 			for (i in 0...text.length) {
 				thisText += text[i];
 			}
@@ -2387,7 +2387,7 @@ class FunkinLua {
 
 		call('onCreate', []);
 		#else
-			lol();
+		lol();
 		#end
 	}
 
@@ -2621,7 +2621,7 @@ class FunkinLua {
 	}
 
 	function cameraFromString(cam:String):FlxCamera {
-		switch(cam.toLowerCase()) {
+		switch(cam.toLowerCase().replace('-', '').trim()) {
 			case 'camhud' | 'hud': return PlayState.instance.camHUD;
 			case 'camother' | 'other': return PlayState.instance.camOther;
 		}
@@ -2646,7 +2646,7 @@ class FunkinLua {
 		];
 		if(Std.isOfType(color, 'c')) {
 			for (i in 0...colorStuff.length) {
-				if(colorStuff[i][0].toLowerCase() == color.toLowerCase().trim())
+				if(colorStuff[i][0].toLowerCase().trim().replace('-', '') == color.toLowerCase().trim().replace('-', ''))
 					colorr = colorStuff[i][1];
 			}
 		} else if(Std.isOfType(color, FlxColor.WHITE)) {
