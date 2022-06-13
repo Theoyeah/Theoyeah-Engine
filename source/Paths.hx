@@ -106,7 +106,9 @@ class Paths
 		{
 			var obj = FlxG.bitmap._cache.get(key);
 			if (obj != null && !currentTrackedAssets.exists(key)) {
-				openfl.Assets.cache.removeBitmapData(key);
+				#if PRELOAD_ALL
+				openfl.Assets.cache.clear("songs");
+				#end
 				FlxG.bitmap._cache.remove(key);
 				obj.destroy();
 			}
@@ -123,7 +125,9 @@ class Paths
 		}	
 		// flags everything to be cleared out next unused memory clear
 		localTrackedAssets = [];
+		#if PRELOAD_ALL
 		openfl.Assets.cache.clear("songs");
+		#end
 	}
 
 	static public var currentModDirectory:String = '';
@@ -280,16 +284,28 @@ class Paths
 
 	inline static public function voices(song:String):Any
 	{
+		#if PRELOAD_ALL
 		var songKey:String = '${song.toLowerCase().replace(' ', '-')}/Voices';
 		var voices = returnSound('songs', songKey);
 		return voices;
+		#else
+		var songKey:String = '${song.toLowerCase().replace(' ', '-')}';
+		var voices = returnSound(songKey, 'Voices', 'songs');
+		return voices;
+		#end
 	}
 
 	inline static public function inst(song:String):Any
 	{
-		var songKey:String = '${formatToSongPath(song)}/Inst';
+		#if PRELOAD_ALL
+			var songKey:String = '${song.toLowerCase().replace(' ', '-')}/Inst';
 		var inst = returnSound('songs', songKey);
 		return inst;
+		#else
+		var songKey:String = '${song.toLowerCase().replace(' ', '-')}';
+		var inst = returnSound(songKey, 'Inst', 'songs');
+		return inst;
+		#end
 	}
 
 	inline static public function image(key:String, ?library:String):FlxGraphic
