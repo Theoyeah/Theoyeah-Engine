@@ -138,6 +138,17 @@ class LoadingState extends MusicBeatState
 		MusicBeatState.switchState(target);
 	}
 
+	#if NO_PRELOAD_ALL
+	static function getSongPath()
+	{
+		return 'songs:assets/songs/${Paths.formatToSongPath(PlayState.SONG.song)}/Inst.${Paths.SOUND_EXT}';
+	}
+
+	static function getVocalPath()
+	{
+		return 'songs:assets/songs/${Paths.formatToSongPath(PlayState.SONG.song)}/Voices.${Paths.SOUND_EXT}';
+	}
+	#else
 	static function getSongPath()
 	{
 		return Paths.inst(PlayState.SONG.song);
@@ -147,6 +158,7 @@ class LoadingState extends MusicBeatState
 	{
 		return Paths.voices(PlayState.SONG.song);
 	}
+	#end
 
 	inline static public function loadAndSwitchState(target:FlxState, stopMusic = false)
 	{
