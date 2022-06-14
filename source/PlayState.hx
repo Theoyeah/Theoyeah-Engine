@@ -4588,8 +4588,7 @@ class PlayState extends MusicBeatState
 			totalPlayed++;
 			RecalculateRating();
 
-			var missNumber:Float = if(ClientPrefs.missSoundVolume == 1) FlxG.random.float(0.1, 0.2) else ClientPrefs.missSoundVolume;
-
+			var missNumber:Float = if(ClientPrefs.missSoundVolume == 1) FlxG.random.float(0.1, 0.2) else ClientPrefs.missSoundVolume / 10;
 			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), missNumber);
 			// FlxG.sound.play(Paths.sound('missnote1'), 1, false);
 			// FlxG.log.add('played imss note');
@@ -4623,11 +4622,9 @@ class PlayState extends MusicBeatState
 			var altAnim:String = "";
 
 			var curSection:Int = Math.floor(curStep / 16);
-			if (SONG.notes[curSection] != null)
+			if (SONG.notes[curSection] != null && (SONG.notes[curSection].altAnim || note.noteType == 'Alt Animation'))
 			{
-				if (SONG.notes[curSection].altAnim || note.noteType == 'Alt Animation') {
-					altAnim = '-alt';
-				}
+				altAnim = '-alt';
 			}
 
 			var char:Character = dad;
@@ -4657,7 +4654,7 @@ class PlayState extends MusicBeatState
 
 		if (!note.isSustainNote)
 		{
-			if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
+			if(modchartObjects.exists('note${note.ID}')) modchartObjects.remove('note${note.ID}');
 			note.kill();
 			notes.remove(note, true);
 			note.destroy();
@@ -4818,7 +4815,7 @@ class PlayState extends MusicBeatState
 
 			if (!note.isSustainNote)
 			{
-				if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
+				if(modchartObjects.exists('note${note.ID}')) modchartObjects.remove('note${note.ID}');
 				note.kill();
 				notes.remove(note, true);
 				note.destroy();
