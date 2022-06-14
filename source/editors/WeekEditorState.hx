@@ -258,7 +258,7 @@ class WeekEditorState extends MusicBeatState
 		
 		tab_group.add(new FlxText(weekBeforeInputText.x, weekBeforeInputText.y - 28, 0, 'Week File name of the Week you have\nto finish for Unlocking:'));
 		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y - 20, 0, 'Difficulties:'));
-		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y + 20, 0, 'Default difficulties are "Easy, Normal, Hard, \nErect" without quotes.'));
+		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y + 20, 0, 'Default difficulties are "Easy, Normal, Hard, \nFucked, Erect" without quotes.'));
 		tab_group.add(weekBeforeInputText);
 		tab_group.add(difficultiesInputText);
 		tab_group.add(hiddenUntilUnlockCheckbox);
@@ -277,7 +277,7 @@ class WeekEditorState extends MusicBeatState
 		displayNameInputText.text = weekFile.storyName;
 		weekNameInputText.text = weekFile.weekName;
 		weekFileInputText.text = weekFileName;
-		
+
 		opponentInputText.text = weekFile.weekCharacters[0];
 		boyfriendInputText.text = weekFile.weekCharacters[1];
 		girlfriendInputText.text = weekFile.weekCharacters[2];
@@ -291,7 +291,7 @@ class WeekEditorState extends MusicBeatState
 
 		lockedCheckbox.checked = !weekFile.startUnlocked;
 		lock.visible = lockedCheckbox.checked;
-		
+
 		hiddenUntilUnlockCheckbox.checked = weekFile.hiddenUntilUnlocked;
 		hiddenUntilUnlockCheckbox.alpha = 0.4 + 0.6 * (lockedCheckbox.checked ? 1 : 0);
 
