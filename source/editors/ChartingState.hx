@@ -1675,20 +1675,16 @@ class ChartingState extends MusicBeatState
 					else
 						undo();
 				} else {
-					if(zoomList[curZoom-1] != null)
+					if(curZoom != 0)
 						--curZoom;
-					else {
-						if(zoomList[zoomList.length] != null) // resets the zoom
-							curZoom = zoomList.length;
-						else
-							curZoom = zoomList.length-1;
-					}
+					else // resets the zoom
+						curZoom = zoomList.length;
 					updateZoom();
 				}
 			}
 
 			if(FlxG.keys.justPressed.X) {
-				if(zoomList[curZoom + 1] != null)
+				if(curZoom != zoomList.length)
 					curZoom++;
 				else
 					curZoom = 0; // resets the zoom
@@ -2014,10 +2010,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	function updateZoom() {
-		if(zoomList[curZoom] != null)
-			zoomTxt.text = 'Zoom: ' + zoomList[curZoom] + 'x';
-		else
-			zoomTxt.text = 'Zoom:';
+		zoomTxt.text = 'Zoom: ' + zoomList[curZoom] + 'x';
 		reloadGridLayer();
 	}
 /*
