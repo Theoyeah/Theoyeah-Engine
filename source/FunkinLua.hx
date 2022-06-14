@@ -227,6 +227,10 @@ class FunkinLua {
 		set('curbeat', 0);
 		set('curStep', 0);
 		set('curstep', 0);
+		set('curDecBeat', 0);
+ 		set('curDecStep', 0);
+		set('curdecbeat', 0);
+ 		set('curdecstep', 0);
 
 		set('score', 0);
 		set('misses', 0);
