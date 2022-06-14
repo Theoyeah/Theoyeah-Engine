@@ -523,7 +523,7 @@ class PlayState extends MusicBeatState
 					add(stageCurtains);
 				}
 
-				
+
 			case 'spooky': //Week 2
 				if(!ClientPrefs.lowQuality) {
 					halloweenBG = new BGSprite('halloween_bg', -200, -100, ['halloweem bg0', 'halloweem bg lightning strike']);
@@ -546,7 +546,7 @@ class PlayState extends MusicBeatState
 					var bg:BGSprite = new BGSprite('philly/sky', -100, 0, 0.1, 0.1);
 					add(bg);
 				}
-				
+
 				var city:BGSprite = new BGSprite('philly/city', -10, 0, 0.3, 0.3);
 				city.setGraphicSize(Std.int(city.width * 0.85));
 				city.updateHitbox();
@@ -1444,7 +1444,7 @@ class PlayState extends MusicBeatState
 			var ratio:Float = value / songSpeed; //funny word huh
 			for (note in notes) note.resizeByRatio(ratio);
 			for (note in unspawnNotes) note.resizeByRatio(ratio);
-			}
+		}
 		songSpeed = value;
 		noteKillOffset = 350 / songSpeed;
 		return value;
@@ -1604,8 +1604,8 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public function clearShaderFromCamera(cam:String) {
-		switch(cam.toLowerCase()) {
+	public function clearShaderFromCamera(cam:String = 'b') {
+		switch(cam.toLowerCase().trim().replace('-', '').replace('_', '')) {
 			case 'camhud' | 'hud': 
 				camHUDShaders = [];
 				var newCamEffects:Array<BitmapFilter>=[];
@@ -1623,8 +1623,14 @@ class PlayState extends MusicBeatState
 
  	public function getLuaObject(tag:String, text:Bool = true):FlxSprite {
  		if(modchartObjects.exists(tag)) return modchartObjects.get(tag);
+		if(modchartObjects.exists(tag.toLowerCase())) return modchartObjects.get(tag.toLowerCase());
+		if(modchartObjects.exists(tag.toUpperCase())) return modchartObjects.get(tag.toUpperCase());
  		if(modchartSprites.exists(tag)) return modchartSprites.get(tag);
+		if(modchartSprites.exists(tag.toLowerCase())) return modchartSprites.get(tag.toLowerCase());
+		if(modchartSprites.exists(tag.toUpperCase())) return modchartSprites.get(tag.toUpperCase());
  		if(text && modchartTexts.exists(tag)) return modchartTexts.get(tag);
+		if(text && modchartTexts.exists(tag.toLowerCase())) return modchartTexts.get(tag.toLowerCase());
+		if(text && modchartTexts.exists(tag.toUpperCase())) return modchartTexts.get(tag.toUpperCase());
  		return null;
  	}
 
@@ -4582,7 +4588,9 @@ class PlayState extends MusicBeatState
 			totalPlayed++;
 			RecalculateRating();
 
-			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
+			var missNumber:Float = if(ClientPrefs.missSoundVolume == 1) FlxG.random.float(0.1, 0.2) else ClientPrefs.missSoundVolume;
+
+			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), missNumber);
 			// FlxG.sound.play(Paths.sound('missnote1'), 1, false);
 			// FlxG.log.add('played imss note');
 
