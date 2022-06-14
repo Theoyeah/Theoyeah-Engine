@@ -7,6 +7,7 @@ import flixel.graphics.FlxGraphic;
 import Controls;
 
 class ClientPrefs {
+	public static var missSoundVolume:Dynamic = 'Normal';
 	public static var downScroll:Bool = false;
 	public static var middleScroll:Bool = false;
 	public static var showFPS:Bool = true;
@@ -111,6 +112,7 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
+		FlxG.save.data.missSoundVolume = missSoundVolume;
 		FlxG.save.data.winningIcon = winningIcon;
 		//FlxG.save.data.multiplicativeValue = multiplicativeValue;
 		FlxG.save.data.downScroll = downScroll;
@@ -170,6 +172,9 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
+		if(FlxG.save.data.missSoundVolume != null) {
+			missSoundVolume = FlxG.save.data.missSoundVolume;
+		}
 		if(FlxG.save.data.noteSplashes) // fixes noteSplashes error
 			FlxG.save.data.noteSplashes = 'Normal';
 		else
