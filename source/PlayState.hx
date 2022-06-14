@@ -3018,6 +3018,11 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		setOnLuas('curDecStep', curDecStep);
+ 		setOnLuas('curDecBeat', curDecBeat);
+		setOnLuas('curdecstep', curDecStep);
+ 		setOnLuas('curdecbeat', curDecBeat);
+
 		if (ClientPrefs.kadetxt)
 		{
 			if(ratingName == '?')
