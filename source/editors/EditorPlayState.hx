@@ -611,7 +611,7 @@ class EditorPlayState extends MusicBeatState
 			}
 		}
 	}
-		
+
 	private function onKeyRelease(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
