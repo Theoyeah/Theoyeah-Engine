@@ -21,6 +21,7 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 # What it adds 
 
 - New Logo
+- Noteskins !
 - New Icon
 - Added some custom easter eggs
 - Stage Editor (made by @magnumsrtisswag)
