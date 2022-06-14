@@ -63,7 +63,21 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeMenuMusic;
 		*/
-		
+
+		var option:Option = new Option('Miss Sound Volume',
+			'How much volume should have the miss sounds\n1 is random',
+			'missSoundVolume',
+			'float',
+			1);
+		addOption(option);
+		option.scrollSpeed = 1.6;
+		option.minValue = 0.0;
+		option.maxValue = 10;
+		option.changeValue = 0.1;
+		option.decimals = 1;
+		option.displayFormat = '%vx';
+		option.onChange = onChangeMissSoundVolume;
+
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them."',
 			'hitsoundVolume',
@@ -76,7 +90,6 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		option.decimals = 1;
 		option.onChange = onChangeHitsoundVolume;
-		
 
 		var option:Option = new Option('Pause Screen Song:',
 			"What song do you prefer for the Pause Screen?",
@@ -94,6 +107,12 @@ class MusicSettingsSubState extends BaseOptionsMenu
 	function onChangeHitsoundVolume()
 	{
 		FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
+	}
+
+	function onChangeMissSoundVolume()
+	{
+		var missNumber:Float = if(ClientPrefs.missSoundVolume == 1) FlxG.random.float(0.1, 0.2) else ClientPrefs.missSoundVolume / 10;
+ 		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), missNumber);
 	}
 
 	var changedMusic:Bool = false;
