@@ -64,6 +64,8 @@
 		<assets path="assets/secrets" rename="assets" exclude="*.mp3"  unless="web"/>
 	</section>
 
+	<assets path="credits.md" rename="assets/credits.md"/>
+
 	<!-- DONT ENABLE THIS -->
 	<define name="CHECK_FOR_UPDATES"/>
 
