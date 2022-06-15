@@ -1881,16 +1881,24 @@ class ChartingState extends MusicBeatState
 					var datime = (feces - secStart) - (dastrum - secStart); //idk math find out why it doesn't work on any other section other than 0
 					if (curSelectedNote != null)
 					{
-						var controlArray:Array<Bool> = [FlxG.keys.pressed.ONE, FlxG.keys.pressed.TWO, FlxG.keys.pressed.THREE, FlxG.keys.pressed.FOUR,
-													   FlxG.keys.pressed.FIVE, FlxG.keys.pressed.SIX, FlxG.keys.pressed.SEVEN, FlxG.keys.pressed.EIGHT];
+						var controlArray:Array<Bool> = [
+							FlxG.keys.pressed.ONE,
+							FlxG.keys.pressed.TWO,
+							FlxG.keys.pressed.THREE,
+							FlxG.keys.pressed.FOUR,
+							FlxG.keys.pressed.FIVE,
+							FlxG.keys.pressed.SIX,
+							FlxG.keys.pressed.SEVEN,
+							FlxG.keys.pressed.EIGHT
+						];
 
 						if(controlArray.contains(true))
 						{
 
 							for (i in 0...controlArray.length)
 							{
-								if(controlArray[i])
-									if(curSelectedNote[1] == i) curSelectedNote[2] += datime - curSelectedNote[2] - Conductor.stepCrochet;
+								if(controlArray[i] && curSelectedNote[i] == i)
+									curSelectedNote[2] += datime - curSelectedNote[2] - Conductor.stepCrochet;
 							}
 							updateGrid();
 							updateNoteUI();
@@ -2729,9 +2737,9 @@ class ChartingState extends MusicBeatState
 			{
 				if (note.overlapsPoint(new FlxPoint(strumLineNotes.members[d].x + 1,strumLine.y + 1)) && note.noteData == d % 4)
 				{
-						//trace('tryin to delete note...');
-						if(!delnote) deleteNote(note);
-						delnote = true;
+					//trace('tryin to delete note...');
+					if(!delnote) deleteNote(note);
+					delnote = true;
 				}
 			});
 		}
