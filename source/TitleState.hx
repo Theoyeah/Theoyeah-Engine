@@ -285,11 +285,14 @@ class TitleState extends MusicBeatState
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
 		logoBl.frames =
 			#if ACHIEVEMENTS_ALLOWED
-			if(leDate.getDay() == 6 && leDate.getHours() >= 18)
+			if(leDate.getDay() == 6 && leDate.getHours() >= 18) {
 				Paths.getSparrowAtlas('saturdayLogoBumpin');
-			else #else
+			} else {
 				Paths.getSparrowAtlas('logoBumpin');
-			#end
+			}
+			#else
+				Paths.getSparrowAtlas('logoBumpin');
+			#end 
 			
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
