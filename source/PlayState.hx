@@ -3555,88 +3555,88 @@ class PlayState extends MusicBeatState
 				if(Math.isNaN(value) || value < 1) value = 1;
 				gfSpeed = value;
 
-				case 'Philly Glow':
-					var lightId:Int = Std.parseInt(value1);
-					if(Math.isNaN(lightId)) lightId = 0;
+			case 'Philly Glow':
+				var lightId:Int = Std.parseInt(value1);
+				if(Math.isNaN(lightId)) lightId = 0;
 
-					var chars:Array<Character> = [boyfriend, gf, dad];
-					switch(lightId)
-					{
-						case 0:
-							if(phillyGlowGradient.visible)
-							{
-								if(ClientPrefs.flashing) FlxG.camera.flash(FlxColor.WHITE, 0.15, null, true);
-								FlxG.camera.zoom += 0.5;
-								if(ClientPrefs.camZooms) camHUD.zoom += 0.1;
+				var chars:Array<Character> = [boyfriend, gf, dad];
+				switch(lightId)
+				{
+					case 0:
+						if(phillyGlowGradient.visible)
+						{
+							if(ClientPrefs.flashing) FlxG.camera.flash(FlxColor.WHITE, 0.15, null, true);
+							FlxG.camera.zoom += 0.5;
+							if(ClientPrefs.camZooms) camHUD.zoom += 0.1;
 
-								blammedLightsBlack.visible = false;
-								phillyWindowEvent.visible = false;
-								phillyGlowGradient.visible = false;
-								phillyGlowParticles.visible = false;
-								curLightEvent = -1;
-
-								for (who in chars)
-								{
-									who.color = FlxColor.WHITE;
-								}
-								phillyStreet.color = FlxColor.WHITE;
-							}
-
-						case 1: //turn on
-							curLightEvent = FlxG.random.int(0, phillyLightsColors.length-1, [curLightEvent]);
-							var color:FlxColor = phillyLightsColors[curLightEvent];
-
-							if(!phillyGlowGradient.visible)
-							{
-								if(ClientPrefs.flashing) FlxG.camera.flash(FlxColor.WHITE, 0.15, null, true);
-								FlxG.camera.zoom += 0.5;
-								if(ClientPrefs.camZooms) camHUD.zoom += 0.1;
-
-								blammedLightsBlack.visible = true;
-								blammedLightsBlack.alpha = 1;
-								phillyWindowEvent.visible = true;
-								phillyGlowGradient.visible = true;
-								phillyGlowParticles.visible = true;
-							}
-							else if(ClientPrefs.flashing)
-							{
-								var colorButLower:FlxColor = color;
-								colorButLower.alphaFloat = 0.3;
-								FlxG.camera.flash(colorButLower, 0.5, null, true);
-							}
+							blammedLightsBlack.visible = false;
+							phillyWindowEvent.visible = false;
+							phillyGlowGradient.visible = false;
+							phillyGlowParticles.visible = false;
+							curLightEvent = -1;
 
 							for (who in chars)
 							{
-								who.color = color;
+								who.color = FlxColor.WHITE;
 							}
-							phillyGlowParticles.forEachAlive(function(particle:PhillyGlow.PhillyGlowParticle)
-							{
-								particle.color = color;
-							});
-							phillyGlowGradient.color = color;
-							phillyWindowEvent.color = color;
+							phillyStreet.color = FlxColor.WHITE;
+						}
 
-							var colorDark:FlxColor = color;
-							colorDark.brightness *= 0.5;
-							phillyStreet.color = colorDark;
+					case 1: //turn on
+						curLightEvent = FlxG.random.int(0, phillyLightsColors.length-1, [curLightEvent]);
+						var color:FlxColor = phillyLightsColors[curLightEvent];
 
-						case 2: // spawn particles
-							if(!ClientPrefs.lowQuality)
+						if(!phillyGlowGradient.visible)
+						{
+							if(ClientPrefs.flashing) FlxG.camera.flash(FlxColor.WHITE, 0.15, null, true);
+							FlxG.camera.zoom += 0.5;
+							if(ClientPrefs.camZooms) camHUD.zoom += 0.1;
+
+							blammedLightsBlack.visible = true;
+							blammedLightsBlack.alpha = 1;
+							phillyWindowEvent.visible = true;
+							phillyGlowGradient.visible = true;
+							phillyGlowParticles.visible = true;
+						}
+						else if(ClientPrefs.flashing)
+						{
+							var colorButLower:FlxColor = color;
+							colorButLower.alphaFloat = 0.3;
+							FlxG.camera.flash(colorButLower, 0.5, null, true);
+						}
+
+						for (who in chars)
+						{
+							who.color = color;
+						}
+						phillyGlowParticles.forEachAlive(function(particle:PhillyGlow.PhillyGlowParticle)
+						{
+							particle.color = color;
+						});
+						phillyGlowGradient.color = color;
+						phillyWindowEvent.color = color;
+
+						var colorDark:FlxColor = color;
+						colorDark.brightness *= 0.5;
+						phillyStreet.color = colorDark;
+
+					case 2: // spawn particles
+						if(!ClientPrefs.lowQuality)
+						{
+							var particlesNum:Int = FlxG.random.int(8, 12);
+							var width:Float = (2000 / particlesNum);
+							var color:FlxColor = phillyLightsColors[curLightEvent];
+							for (j in 0...3)
 							{
-								var particlesNum:Int = FlxG.random.int(8, 12);
-								var width:Float = (2000 / particlesNum);
-								var color:FlxColor = phillyLightsColors[curLightEvent];
-								for (j in 0...3)
+								for (i in 0...particlesNum)
 								{
-									for (i in 0...particlesNum)
-									{
-										var particle:PhillyGlow.PhillyGlowParticle = new PhillyGlow.PhillyGlowParticle(-400 + width * i + FlxG.random.float(-width / 5, width / 5), phillyGlowGradient.originalY + 200 + (FlxG.random.float(0, 125) + j * 40), color);
-										phillyGlowParticles.add(particle);
-									}
+									var particle:PhillyGlow.PhillyGlowParticle = new PhillyGlow.PhillyGlowParticle(-400 + width * i + FlxG.random.float(-width / 5, width / 5), phillyGlowGradient.originalY + 200 + (FlxG.random.float(0, 125) + j * 40), color);
+									phillyGlowParticles.add(particle);
 								}
 							}
-							phillyGlowGradient.bop();
-					}
+						}
+						phillyGlowGradient.bop();
+				}
 
 
 			case 'Kill Henchmen':
@@ -3698,7 +3698,7 @@ class PlayState extends MusicBeatState
 
 			case 'Alt Idle Animation':
 				var char:Character = dad;
-				switch(value1.toLowerCase()) {
+				switch(value1.toLowerCase().trim()) {
 					case 'gf' | 'girlfriend':
 						char = gf;
 					case 'boyfriend' | 'bf':
@@ -3739,7 +3739,7 @@ class PlayState extends MusicBeatState
 
 			case 'Change Character':
 				var charType:Int = 0;
-				switch(value1.toLowerCase()) {
+				switch(value1.toLowerCase().trim()) {
 					case 'gf' | 'girlfriend' | 'middle' | 'girl':
 						charType = 2;
 					case 'dad' | 'opponent' | 'daddy' | 'dady' | 'left':
@@ -3775,7 +3775,7 @@ class PlayState extends MusicBeatState
 							var lastAlpha:Float = dad.alpha;
 							dad.alpha = 0.00001;
 							dad = dadMap.get(value2);
-							if(!dad.curCharacter.startsWith('gf'))
+							if(!dad.curCharacter.startsWith('gf')) {
 								if(wasGf && gf != null) gf.visible = true;
 							} else if(gf != null) {
 								gf.visible = false;
@@ -3801,6 +3801,7 @@ class PlayState extends MusicBeatState
 								gf.alpha = lastAlpha;
 							}
 							setOnLuas('gfName', gf.curCharacter);
+							setOnLuas('gfVersion', gf.curCharacter);
 						}
 				}
 				reloadHealthBarColors();
@@ -3838,11 +3839,11 @@ class PlayState extends MusicBeatState
 					Reflect.setProperty(this, value1, value2);
 
 			case 'Change Icon': // only to see if i can create events that actually work
-				switch(value1.toLowerCase()) {
+				switch(value1.toLowerCase().trim()) {
 					case 'dad' | 'opponent' | 'daddy' | 'dady' | 'left':
-						iconP2.changeIcon(value2.toLowerCase());
+						iconP2.changeIcon(value2);
 					default:
-						iconP1.changeIcon(value2.toLowerCase());
+						iconP1.changeIcon(value2);
 				}
 				reloadHealthBarColors();
 		}
