@@ -329,7 +329,10 @@ class Note extends FlxSprite
 		if(texture.length < 1) {
 			skin = PlayState.SONG.arrowSkin;
 			if(skin == null || skin.length < 1) {
-				skin = 'noteSkins/NOTE_assets' + ClientPrefs.noteskin;
+				if(ClientPrefs.noteskin != 'Arrows')
+					skin = 'noteSkins/NOTE_assets-' + ClientPrefs.noteskin;
+				else
+					skin = 'noteSkins/NOTE_assets';
 			}
 		}
 
@@ -344,32 +347,18 @@ class Note extends FlxSprite
 		var lastScaleY:Float = scale.y;
 		var blahblah:String = arraySkin.join('/');
 		if(PlayState.isPixelStage) {
+			var noteSkin = if(Paths.fileExists('shared/pixelUI/$blahblah', IMAGE)) 'pixelUI/$blabla' else 'pixelUI/NOTE_assets';
 			if(isSustainNote) {
-				if(Paths.fileExists('shared/pixelUI/' + blahblah + 'ENDS', IMAGE)) {
-					loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'));
-					width = width / 4;
-					height = height / 2;
-					originalHeightForCalcs = height;
-					loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'), true, Math.floor(width), Math.floor(height));
-				} else {
-					loadGraphic(Paths.image('pixelUI/NOTE_assetsENDS'));
-					width = width / 4;
-					height = height / 2;
-					originalHeightForCalcs = height;
-					loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'), true, Math.floor(width), Math.floor(height));
-				}
+				loadGraphic(Paths.image(noteSkin + 'ENDS'));
+				width = width / 4;
+				height = height / 2;
+				originalHeightForCalcs = height;
+				loadGraphic(Paths.image(noteSkin + 'ENDS'), true, Math.floor(width), Math.floor(height));
 			} else {
-				if(Paths.fileExists('shared/pixelUI/' + blahblah, IMAGE)) {
-					loadGraphic(Paths.image('pixelUI/' + blahblah));
-					width = width / 4;
-					height = height / 5;
-					loadGraphic(Paths.image('pixelUI/' + blahblah), true, Math.floor(width), Math.floor(height));
-				} else {
-					loadGraphic(Paths.image('pixelUI/NOTE_assets'));
-					width = width / 4;
-					height = height / 5;
-					loadGraphic(Paths.image('pixelUI/NOTE_assets'), true, Math.floor(width), Math.floor(height));
-				}
+				loadGraphic(Paths.image(noteSkin));
+				width = width / 4;
+				height = height / 5;
+				loadGraphic(Paths.image(noteSkin), true, Math.floor(width), Math.floor(height));
 			}
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 			loadPixelNoteAnims();
