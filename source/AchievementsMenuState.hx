@@ -43,16 +43,23 @@ class AchievementsMenuState extends MusicBeatState
 		add(grpOptions);
 
 		Achievements.loadAchievements();
-		for (i in 0...Achievements.achievementsStuff.length) {
-			if(!Achievements.achievementsStuff[i][3] || Achievements.achievementsMap.exists(Achievements.achievementsStuff[i][2])) {
+		for (i in 0...Achievements.achievementsStuff.length)
+		{
+			if ((!Achievements.achievementsStuff[i][3] || Achievements.achievementsStuff[i][3] == null)
+				|| Achievements.achievementsMap.exists(Achievements.achievementsStuff[i][2])
+				&& options.contains(Achievements.achievementsStuff[i] // fixes DUPLICATION BUG, now i have to find a way to implement the custom achievements... -Wither
+			)) {
 				options.push(Achievements.achievementsStuff[i]);
 				achievementIndex.push(i);
 			}
 		}
 
-		for (i in 0...options.length) {
+		for (i in 0...options.length)
+		{
 			var achieveName:String = Achievements.achievementsStuff[achievementIndex[i]][2];
-			var optionText:Alphabet = new Alphabet(0, (100 * i) + 210, Achievements.isAchievementUnlocked(achieveName) ? Achievements.achievementsStuff[achievementIndex[i]][0] : '?', false, false);
+			var optionText:Alphabet = new Alphabet(0, (100 * i) + 210,
+				Achievements.isAchievementUnlocked(achieveName) ? Achievements.achievementsStuff[achievementIndex[i]][0] == "" ? "No name" : Achievements.achievementsStuff[achievementIndex[i]][0] : '?',
+				false, false);
 			optionText.isMenuItem = true;
 			optionText.x += 280;
 			optionText.xAdd = 200;
@@ -111,12 +118,21 @@ class AchievementsMenuState extends MusicBeatState
 		}
 
 		for (i in 0...achievementArray.length) {
-			achievementArray[i].alpha = 0.6;
+			if(Achievements.achievementsStuff[i][4] != null)
+				achievementArray[i].alpha = Achievements.achievementsStuff[i][4][0];
+			else
+				achievementArray[i].alpha = 0.6;
+
 			if(i == curSelected) {
-				achievementArray[i].alpha = 1;
+				if(Achievements.achievementsStuff[i][5] != null)
+					achievementArray[i].alpha = Achievements.achievementsStuff[i][4][1];
+				else
+					achievementArray[i].alpha = 1;
 			}
 		}
-		descText.text = Achievements.achievementsStuff[achievementIndex[curSelected]][1];
+		descText.text = Achievements.achievementsStuff[achievementIndex[curSelected]][1] != null ?
+			Achievements.achievementsStuff[achievementIndex[curSelected]][1] :
+			"No description";
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 	}
 	#end
