@@ -61,7 +61,7 @@ class Option
 
 		if(defaultValue == 'null variable value')
 		{
-			switch(type)
+			switch(type.toLowerCase())
 			{
 				case 'bool':
 					defaultValue = false;
@@ -81,7 +81,7 @@ class Option
 			setValue(defaultValue);
 		}
 
-		switch(type)
+		switch(type.toLowerCase())
 		{
 			case 'string':
 				var num:Int = options.indexOf(getValue());

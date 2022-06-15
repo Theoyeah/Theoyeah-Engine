@@ -268,7 +268,7 @@ class TitleState extends MusicBeatState
 
 		var bg:FlxSprite = new FlxSprite();
 		
-		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none"){
+		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none") {
 			bg.loadGraphic(Paths.image(titleJSON.backgroundSprite));
 		} else {
 			bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
@@ -285,14 +285,11 @@ class TitleState extends MusicBeatState
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
 		logoBl.frames =
 			#if ACHIEVEMENTS_ALLOWED
-			if(leDate.getDay() == 6 && leDate.getHours() >= 18) {
+			if(leDate.getDay() == 6 && leDate.getHours() >= 18)
 				Paths.getSparrowAtlas('saturdayLogoBumpin');
-			} else {
+			else #else
 				Paths.getSparrowAtlas('logoBumpin');
-			}
-			#else
-				Paths.getSparrowAtlas('logoBumpin');
-			#end 
+			#end
 			
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
@@ -351,7 +348,7 @@ class TitleState extends MusicBeatState
 			path = Paths.currentModImages("titleEnter");
 		}
 		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)){
+		if (!FileSystem.exists(path)) {
 			path = "assets/images/titleEnter.png";
 		}
 		//trace(path, FileSystem.exists(path));
@@ -441,7 +438,7 @@ class TitleState extends MusicBeatState
 		coolguys.screenCenter(X);
 		coolguys.antialiasing = ClientPrefs.globalAntialiasing;
 
-		
+
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
@@ -477,7 +474,7 @@ class TitleState extends MusicBeatState
 			Conductor.songPosition = FlxG.sound.music.time;
 		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
-		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
+		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed;
 
 		#if mobile
 		for (touch in FlxG.touches.list)
@@ -630,7 +627,7 @@ class TitleState extends MusicBeatState
 	{
 		super.beatHit();
 
-		if(logoBl != null) 
+		if(logoBl != null)
 			logoBl.animation.play('bump', true);
 
 		if(gfDance != null) {
@@ -749,7 +746,7 @@ class TitleState extends MusicBeatState
 						FlxG.sound.play(Paths.sound('JingleShadow'));
 					case 'BBPANZU':
 						sound = FlxG.sound.play(Paths.sound('JingleBB'));
-					
+
 					default: //Go back to normal ugly ass boring GF
 						removeThings();
 						if(ClientPrefs.flashing) {
@@ -757,7 +754,7 @@ class TitleState extends MusicBeatState
 						}
 						skippedIntro = true;
 						playJingle = false;
-						
+
 						FlxG.sound.playMusic(Paths.music(ClientPrefs.musicSelected), 0);
 						FlxG.sound.music.fadeIn(4, 0, 0.7);
 						return;
