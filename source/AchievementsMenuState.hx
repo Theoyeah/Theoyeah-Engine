@@ -45,7 +45,7 @@ class AchievementsMenuState extends MusicBeatState
 		Achievements.loadAchievements();
 		for (i in 0...Achievements.achievementsStuff.length)
 		{
-			if ((!Achievements.achievementsStuff[i][3] || Achievements.achievementsStuff[i][3] == null)
+			if ((!Achievements.achievementsStuff[i][4] || Achievements.achievementsStuff[i][3] == null)
 				|| Achievements.achievementsMap.exists(Achievements.achievementsStuff[i][2])
 				&& options.contains(Achievements.achievementsStuff[i] // fixes DUPLICATION BUG, now i have to find a way to implement the custom achievements... -Wither
 			)) {
@@ -118,14 +118,14 @@ class AchievementsMenuState extends MusicBeatState
 		}
 
 		for (i in 0...achievementArray.length) {
-			if(Achievements.achievementsStuff[i][4] != null)
-				achievementArray[i].alpha = Achievements.achievementsStuff[i][4][0];
+			if(Achievements.achievementsStuff[i][5] != null)
+				achievementArray[i].alpha = Achievements.achievementsStuff[i][5][0];
 			else
 				achievementArray[i].alpha = 0.6;
 
 			if(i == curSelected) {
 				if(Achievements.achievementsStuff[i][5] != null)
-					achievementArray[i].alpha = Achievements.achievementsStuff[i][4][1];
+					achievementArray[i].alpha = Achievements.achievementsStuff[i][5][1];
 				else
 					achievementArray[i].alpha = 1;
 			}

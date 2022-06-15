@@ -1,0 +1,7 @@
+{
+    "unlocksAfter": "week2",
+	"icon": "lol",
+	"name": "test",
+	"description": "testing",
+	"hidden": false
+}
