@@ -347,7 +347,7 @@ class Note extends FlxSprite
 		var lastScaleY:Float = scale.y;
 		var blahblah:String = arraySkin.join('/');
 		if(PlayState.isPixelStage) {
-			var noteSkin = if(Paths.fileExists('shared/pixelUI/$blahblah', IMAGE)) 'pixelUI/$blabla' else 'pixelUI/NOTE_assets';
+			var noteSkin = if(Paths.fileExists('shared/pixelUI/$blahblah', IMAGE)) 'pixelUI/$blahblah' else 'pixelUI/NOTE_assets';
 			if(isSustainNote) {
 				loadGraphic(Paths.image(noteSkin + 'ENDS'));
 				width = width / 4;
