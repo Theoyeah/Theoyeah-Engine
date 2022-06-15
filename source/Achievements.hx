@@ -23,6 +23,7 @@ typedef AchievementFile =
 	var name:String;
 	var description:String;
 	var hidden:Bool;
+	var customGoal:Bool;
 }
 
 class Achievements {

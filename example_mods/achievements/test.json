@@ -3,5 +3,6 @@
 	"icon": "lol",
 	"name": "test",
 	"description": "testing",
-	"hidden": false
+	"hidden": false,
+	"customGoal": false
 }
