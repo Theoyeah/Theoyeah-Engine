@@ -34,8 +34,16 @@ class StrumNote extends FlxSprite
 		this.noteData = leData;
 		super(x, y);
 
-		var skin:String = 'NOTE_assets';
-		if(PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1) skin = PlayState.SONG.arrowSkin;
+		var skin:String = 'noteSkins/NOTE_assets';
+		if(PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1)
+			skin = PlayState.SONG.arrowSkin;
+		else {
+			if(ClientPrefs.noteskin != 'Arrows')
+				skin = 'noteSkins/NOTE_assets-' + ClientPrefs.noteskin;
+			else
+				skin = 'noteSkins/NOTE_assets';
+		}
+		
 		texture = skin; //Load texture and anims
 
 		scrollFactor.set();
@@ -48,10 +56,11 @@ class StrumNote extends FlxSprite
 
 		if(PlayState.isPixelStage)
 		{
-			loadGraphic(Paths.image('pixelUI/' + texture));
+			var noteSkin = if(Paths.fileExists('shared/pixelUI/$texture', IMAGE)) 'pixelUI/$texture' else 'pixelUI/NOTE_assets';
+			loadGraphic(Paths.image(noteSkin));
 			width = width / 4;
 			height = height / 5;
-			loadGraphic(Paths.image('pixelUI/' + texture), true, Math.floor(width), Math.floor(height));
+			loadGraphic(Paths.image(noteSkin), true, Math.floor(width), Math.floor(height));
 
 			antialiasing = false;
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom));
