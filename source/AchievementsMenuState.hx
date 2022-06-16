@@ -47,7 +47,7 @@ class AchievementsMenuState extends MusicBeatState
 		{
 			if ((!Achievements.achievementsStuff[i][4] || Achievements.achievementsStuff[i][4] == null)
 				|| Achievements.achievementsMap.exists(Achievements.achievementsStuff[i][2])
-				&& options.contains(Achievements.achievementsStuff[i] // fixes DUPLICATION BUG, now i have to find a way to implement the custom achievements... -Wither
+				&& !options.contains(Achievements.achievementsStuff[i] // fixes DUPLICATION BUG, now i have to find a way to implement the custom achievements... -Wither
 			)) {
 				options.push(Achievements.achievementsStuff[i]);
 				achievementIndex.push(i);

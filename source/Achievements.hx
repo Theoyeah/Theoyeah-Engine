@@ -171,7 +171,14 @@ class Achievements {
 
 		for (json in loadedAchievements) {
 			//trace(json);
-			achievementsStuff.push([json.name, json.description, json.icon, json.unlocksAfter, json.hidden]);
+			var pushIt:Bool = true; // fixes duplication bug
+			for (i in achievementsStuff) {
+				if(achievementsStuff[i][0] == json.name) {
+					pushIt = false;
+					break;
+				}
+			}
+			if(pushIt) achievementsStuff.push([json.name, json.description, json.icon, json.unlocksAfter, json.hidden]);
 		}
 		#end
 	}
