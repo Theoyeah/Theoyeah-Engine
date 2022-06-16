@@ -30,16 +30,17 @@ class Achievements {
 
 	/**
 	 * Write `null` in the `Unlocks After` to hardcode the achievement!
+	 * The code should be in `PlayState.hx`!
 	 */
 	public static var achievementShits:Array<Dynamic> = [//Name, Description, Achievement save tag, Unlocks after, Hidden achievement, alpha (array)
 		["Freaky on a Friday Night",	"Play on a Friday... Night.",						'friday_night_play',	 null, 			true],
-		["She Calls Me Daddy Too",		"Beat Week 1 on Hard with no Misses.",				'week1_nomiss',			'week1', 		false],
-		["No More Tricks",				"Beat Week 2 on Hard with no Misses.",				'week2_nomiss',         'week2', 		false],
-		["Call Me The Hitman",			"Beat Week 3 on Hard with no Misses.",				'week3_nomiss',			'week3', 		false],
-		["Lady Killer",					"Beat Week 4 on Hard with no Misses.",				'week4_nomiss',			'week4', 		false],
-		["Missless Christmas",			"Beat Week 5 on Hard with no Misses.",				'week5_nomiss',			'week5',		false],
-		["Highscore!!",					"Beat Week 6 on Hard with no Misses.",				'week6_nomiss',			'week6',		false],
-		["God Effing Damn It!",			"Beat Week 7 with no Misses.",						'week7_nomiss',			'week7'	,		false], 
+		["She Calls Me Daddy Too",		"Beat Week 1 on Hard with no Misses.",				'week1_nomiss',			null, 		false],
+		["No More Tricks",				"Beat Week 2 on Hard with no Misses.",				'week2_nomiss',         null, 		false],
+		["Call Me The Hitman",			"Beat Week 3 on Hard with no Misses.",				'week3_nomiss',			null, 		false],
+		["Lady Killer",					"Beat Week 4 on Hard with no Misses.",				'week4_nomiss',			null, 		false],
+		["Missless Christmas",			"Beat Week 5 on Hard with no Misses.",				'week5_nomiss',			null,		false],
+		["Highscore!!",					"Beat Week 6 on Hard with no Misses.",				'week6_nomiss',			null,		false],
+		["God Effing Damn It!",			"Beat Week 7 with no Misses.",						'week7_nomiss',			null,		false], 
 		["What a Funkin' Disaster!",	"Complete a Song with a rating lower than 20%.",	'ur_bad',				null, 			false],
 		["Perfectionist",				"Complete a Song with a rating of 100%.",			'ur_good',				null,			false],
 		["Roadkill Enthusiast",			"Watch the Henchmen die over 100 times.",			'roadkill_enthusiast',	null, 			false],
@@ -112,9 +113,7 @@ class Achievements {
 			{
 				var splitName:Array<String> = stuff[i].trim().split('|');
 				if(splitName[1] == '0') // Disable mod
-				{
 					disabledMods.push(splitName[0]);
-				}
 				else // Sort mod loading order based on modsList.txt file
 				{
 					var path = haxe.io.Path.join([Paths.mods(), splitName[0]]);
@@ -212,7 +211,7 @@ class AttachedAchievement extends FlxSprite {
 	}
 
 	public function reloadAchievementImage() {
-		var imagePath = Paths.image('achievements/tag');
+		var imagePath = Paths.image('achievements/$tag');
 
 		if(Achievements.isAchievementUnlocked(tag)) {
 			var isModIcon:Bool = false;
