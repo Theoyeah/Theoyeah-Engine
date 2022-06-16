@@ -373,37 +373,29 @@ class WeekEditorState extends MusicBeatState
 	
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>) {
 		if(id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText)) {
-			switch (sender) {
-				case weekFileInputText:
-					weekFileName = weekFileInputText.text.trim();
-					reloadWeekThing();
-				case opponentInputText | boyfriendInputText | girlfriendInputText:
+			if(sender == opponentInputText || sender == boyfriendInputText || sender == girlfriendInputText || sender == displayNameInputText || sender == songsInputText) {
+				if(sender == opponentInputText)
 					weekFile.weekCharacters[0] = opponentInputText.text.trim();
+				if(sender == boyfriendInputText)
 					weekFile.weekCharacters[1] = boyfriendInputText.text.trim();
+				if(sender == girlfriendInputText)
 					weekFile.weekCharacters[2] = girlfriendInputText.text.trim();
-					updateText();
-				case backgroundInputText:
-					weekFile.weekBackground = backgroundInputText.text.trim();
-					reloadBG();
-				case displayNameInputText:
+				if(sender == displayNameInputText)
 					weekFile.storyName = displayNameInputText.text.trim();
-					updateText();
-				case weekNameInputText:
-					weekFile.weekName = weekNameInputText.text.trim();
-				case songsInputText:
+				if (sender == songsInputText) {
 					var splittedText:Array<String> = songsInputText.text.trim().split(',');
 					for (i in 0...splittedText.length) {
 						splittedText[i] = splittedText[i].trim();
 					}
 
-					while(splittedText.length < weekFile.songs.length) {
+					while (splittedText.length < weekFile.songs.length) {
 						weekFile.songs.pop();
 					}
 
 					for (i in 0...splittedText.length) {
-						if(i >= weekFile.songs.length) { //Add new song
+						if(i >= weekFile.songs.length) //Add new song
 							weekFile.songs.push([splittedText[i], 'dad', [146, 113, 253]]);
-						} else { //Edit song
+						else { //Edit song
 							weekFile.songs[i][0] = splittedText[i];
 							if(weekFile.songs[i][1] == null || weekFile.songs[i][1]) {
 								weekFile.songs[i][1] = 'dad';
@@ -411,15 +403,28 @@ class WeekEditorState extends MusicBeatState
 							}
 						}
 					}
-					updateText();
-				case weekBeforeInputText:
-					weekFile.weekBefore = weekBeforeInputText.text.trim();
-				case difficultiesInputText:
-					weekFile.difficulties = difficultiesInputText.text.trim();
+				}
+
+				updateText();
 			}
+				
+			if(sender == weekFileInputText) {
+				weekFileName = weekFileInputText.text.trim();
+				reloadWeekThing();
+			}
+			if(sender == backgroundInputText) {
+				weekFile.weekBackground = backgroundInputText.text.trim();
+				reloadBG();
+			}
+			if(sender == weekNameInputText)
+				weekFile.weekName = weekNameInputText.text.trim();
+			if(sender == weekBeforeInputText)
+				weekFile.weekBefore = weekBeforeInputText.text.trim();
+			if (sender == difficultiesInputText)
+				weekFile.difficulties = difficultiesInputText.text.trim();
 		}
 	}
-	
+
 	override function update(elapsed:Float)
 	{
 		if(loadedWeek != null) {
@@ -472,7 +477,7 @@ class WeekEditorState extends MusicBeatState
 		_file.addEventListener(IOErrorEvent.IO_ERROR, onLoadError);
 		_file.browse([jsonFilter]);
 	}
-	
+
 	public static var loadedWeek:WeekFile = null;
 	public static var loadError:Bool = false;
 	private static function onLoadComplete(_):Void
@@ -545,7 +550,7 @@ class WeekEditorState extends MusicBeatState
 			_file.save(data, weekFileName + ".json");
 		}
 	}
-	
+
 	private static function onSaveComplete(_):Void
 	{
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
