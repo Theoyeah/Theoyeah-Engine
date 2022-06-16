@@ -5316,6 +5316,9 @@ class PlayState extends MusicBeatState
 
 	public static var othersCodeName:String = 'otherAchievements';
 	#if ACHIEVEMENTS_ALLOWED
+	/**
+	 * Here's where you hardcode your achievements!
+	 */
 	private function checkForAchievement(achievesToCheck:Array<String> = null):String
 	{
 		if(chartingMode) return null;
@@ -5370,22 +5373,23 @@ class PlayState extends MusicBeatState
 			}
 
 			if(!Achievements.isAchievementUnlocked(achievementName) && !cpuControlled && !unlock) {
+				var weekName:String = WeekData.getWeekFileName();
 				switch(achievementName)
 				{
-					case 'week1':
-						if(achievementName == 'week1_nomiss') unlock = true;
-					case 'week2':
-						if(achievementName == 'week2_nomiss') unlock = true;
-					case 'week3':
-						if(achievementName == 'week3_nomiss') unlock = true;
-					case 'week4':
-						if(achievementName == 'week4_nomiss') unlock = true;
-					case 'week5':
-						if(achievementName == 'week5_nomiss') unlock = true;
-					case 'week6':
-						if(achievementName == 'week6_nomiss') unlock = true;
-					case 'week7':
-						if(achievementName == 'week7_nomiss') unlock = true;
+					case 'week1_nomiss':
+						if(weekName == 'week1') unlock = true;
+					case 'week2_nomiss':
+						if(weekName == 'week2') unlock = true;
+					case 'week3_nomiss':
+						if(weekName == 'week3') unlock = true;
+					case 'week4_nomiss':
+						if(weekName == 'week4') unlock = true;
+					case 'week5_nomiss':
+						if(weekName == 'week5') unlock = true;
+					case 'week6_nomiss':
+						if(weekName == 'week6') unlock = true;
+					case 'week7_nomiss':
+						if(weekName == 'week7') unlock = true;
 					case 'ur_bad':
 						if(ratingPercent < 0.2 && !practiceMode) {
 							unlock = true;
