@@ -4,6 +4,7 @@ import flixel.system.macros.FlxMacroUtil;
 
 /**
  * Maps enum values and strings to integer keycodes.
+ * SEARCH `keycode` FOR MORE KEY SUPPORT PLEASE!!!
  */
 @:enum
 abstract FlxKey(Int) from Int to Int
@@ -27,6 +28,11 @@ abstract FlxKey(Int) from Int to Int
 	var L = 76;
 	var M = 77;
 	var N = 78;
+	//var Ñ = 192;
+	/**
+	 * NE refers to Ñ
+	 */
+	var NE = 192
 	var O = 79;
 	var P = 80;
 	var Q = 81;
