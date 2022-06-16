@@ -84,12 +84,14 @@ class AchievementsMenuState extends MusicBeatState
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
+		var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
 		if (controls.UI_UP_P  || FlxG.mouse.wheel > 0) {
-			changeSelection(-1);
+			changeSelection(-shiftMult);
 		}
 		if (controls.UI_DOWN_P  || FlxG.mouse.wheel < 0) {
-			changeSelection(1);
+			changeSelection(shiftMult);
 		}
 
 		if (controls.BACK) {
