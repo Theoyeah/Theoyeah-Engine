@@ -120,13 +120,13 @@ class AchievementsMenuState extends MusicBeatState
 		}
 
 		for (i in 0...achievementArray.length) {
-			if(Achievements.achievementsStuff[i][4] != null)
+			if(Achievements.achievementsStuff[i][4] is Array)
 				achievementArray[i].alpha = Achievements.achievementsStuff[i][4][0];
 			else
 				achievementArray[i].alpha = 0.6;
 
 			if(i == curSelected) {
-				if(Achievements.achievementsStuff[i][5] != null)
+				if(Achievements.achievementsStuff[i][4] is Array)
 					achievementArray[i].alpha = Achievements.achievementsStuff[i][4][1];
 				else
 					achievementArray[i].alpha = 1;
