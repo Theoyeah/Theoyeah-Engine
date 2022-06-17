@@ -78,7 +78,7 @@ class FlxKeyList extends FlxBaseKeyList
 	inline function get_N()
 		return check(FlxKey.N);
 
-    public var NE(get, never):Bool;
+	public var NE(get, never):Bool;
 
 	inline function get_NE()
 	{
@@ -86,7 +86,14 @@ class FlxKeyList extends FlxBaseKeyList
 			&& ((check(FlxKey.ONE) && (check(FlxKey.SIX) && check(FlxKey.FIVE)))
 				|| (check(FlxKey.ZERO) && check(FlxKey.TWO) check(FlxKey.NINE) 0 209)))) // OMG it taked me a while
 			return true;
-        return true;
+		return false;
+	}
+
+	public var Ñ(get, never):Bool;
+
+	inline function get_Ñ()
+	{
+		return get_NE();
 	}
 
 	public var O(get, never):Bool;
