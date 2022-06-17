@@ -19,11 +19,12 @@ using StringTools;
 typedef AchievementFile =
 {
 	var unlocksAfter:String;
-	var icon:String;
+	var icon:String; // this is also used for the "Achievement save tag", so use "_" instead of SPACES
 	var name:String;
 	var description:String;
 	var hidden:Bool;
 	var customGoal:Bool;
+	// var alpha:Array<Float>; // default is [0.6, 1]
 }
 
 class Achievements {
@@ -118,7 +119,7 @@ class Achievements {
 				{
 					var path = haxe.io.Path.join([Paths.mods(), splitName[0]]);
 					//trace('trying to push: ' + splitName[0]);
-					if (sys.FileSystem.isDirectory(path) && !Paths.ignoreModFolders.contains(splitName[0]) && !disabledMods.contains(splitName[0]) && !directories.contains(path + '/'))
+					if (FileSystem.isDirectory(path) && !Paths.ignoreModFolders.contains(splitName[0]) && !disabledMods.contains(splitName[0]) && !directories.contains(path + '/'))
 					{
 						directories.push(path + '/');
 						//trace('pushed Directory: ' + splitName[0]);
@@ -173,12 +174,12 @@ class Achievements {
 			//trace(json);
 			var pushIt:Bool = true; // fixes duplication bug
 			for (i in achievementsStuff) {
-				if(achievementsStuff[i][0] == json.name) {
+				if(achievementsStuff[i][0] == json.name || achievementsStuff[i][2] == json.icon) {
 					pushIt = false;
 					break;
 				}
 			}
-			if(pushIt) achievementsStuff.push([json.name, json.description, json.icon, json.unlocksAfter, json.hidden]);
+			if(pushIt) achievementsStuff.push([json.name, json.description, json.icon, json.unlocksAfter, json.hidden/*, json.alpha*/]);
 		}
 		#end
 	}
