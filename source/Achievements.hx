@@ -25,6 +25,7 @@ typedef AchievementFile =
 	var hidden:Bool;
 	var customGoal:Bool;
 	// var alpha:Array<Float>; // default is [0.6, 1]
+	// var color:Dynamic; // i will add them -Wither
 }
 
 class Achievements {
@@ -34,27 +35,29 @@ class Achievements {
 	 * The code should be in `PlayState.hx`!
 	 */
 	public static var achievementShits:Array<Dynamic> = [//Name, Description, Achievement save tag, Unlocks after, Hidden achievement, alpha (array)
-		["Freaky on a Friday Night",	"Play on a Friday... Night.",						'friday_night_play',	 null, 			true],
-		["She Calls Me Daddy Too",		"Beat Week 1 on Hard with no Misses.",				'week1_nomiss',			null, 		false],
-		["No More Tricks",				"Beat Week 2 on Hard with no Misses.",				'week2_nomiss',         null, 		false],
-		["Call Me The Hitman",			"Beat Week 3 on Hard with no Misses.",				'week3_nomiss',			null, 		false],
-		["Lady Killer",					"Beat Week 4 on Hard with no Misses.",				'week4_nomiss',			null, 		false],
-		["Missless Christmas",			"Beat Week 5 on Hard with no Misses.",				'week5_nomiss',			null,		false],
-		["Highscore!!",					"Beat Week 6 on Hard with no Misses.",				'week6_nomiss',			null,		false],
-		["God Effing Damn It!",			"Beat Week 7 with no Misses.",						'week7_nomiss',			null,		false], 
-		["What a Funkin' Disaster!",	"Complete a Song with a rating lower than 20%.",	'ur_bad',				null, 			false],
+		["Freaky on a Friday Night",			"Play on a Friday... Night.",					'friday_night_play',	 		null, 			true],
+		["She Calls Me Daddy Too",			"Beat Week 1 on Hard with no Misses.",				'week1_nomiss',				null, 			false],
+		["No More Tricks",				"Beat Week 2 on Hard with no Misses.",				'week2_nomiss',        			null, 			false],
+		["Call Me The Hitman",				"Beat Week 3 on Hard with no Misses.",				'week3_nomiss',				null, 			false],
+		["Lady Killer",					"Beat Week 4 on Hard with no Misses.",				'week4_nomiss',				null, 			false],
+		["Missless Christmas",				"Beat Week 5 on Hard with no Misses.",				'week5_nomiss',				null,			false],
+		["Highscore!!",					"Beat Week 6 on Hard with no Misses.",				'week6_nomiss',				null,			false],
+		["God Effing Damn It!",				"Beat Week 7 with no Misses.",					'week7_nomiss',				null,			false], 
+		["What a Funkin' Disaster!",			"Complete a Song with a rating lower than 20%.",		'ur_bad',				null, 			false],
 		["Perfectionist",				"Complete a Song with a rating of 100%.",			'ur_good',				null,			false],
-		["Roadkill Enthusiast",			"Watch the Henchmen die over 100 times.",			'roadkill_enthusiast',	null, 			false],
-		["Oversinging Much...?",		"Hold down a note for 10 seconds.",					'oversinging',			null,			false],
+		["Roadkill Enthusiast",				"Watch the Henchmen die over 100 times.",			'roadkill_enthusiast',			null, 			false],
+		["Oversinging Much...?",			"Hold down a note for 10 seconds.",				'oversinging',				null,			false],
 		["Hyperactive",					"Finish a Song without going Idle.",				'hype',					null, 			false],
-		["Just the Two of Us",			"Finish a Song pressing only two keys.",			'two_keys',				null,			false],
-		["Toaster Gamer",				"Have you tried to run the game on a toaster?",		'toastie',				null,			false],
-		["Debugger",					"Beat the \"Test\" Stage from the Chart Editor.",	'debugger',				null,			true],
-		["Not Freaky on a Friday Night","Play on a Saturday... Night ?",					'saturday_night_play',	null,			true]
+		["Just the Two of Us",				"Finish a Song pressing only two keys.",			'two_keys',				null,			false],
+		["Toaster Gamer",				"Have you tried to run the game on a toaster?",			'toastie',				null,			false],
+		["Debugger",					"Beat the \"Test\" Stage from the Chart Editor.",		'debugger',				null,			true],
+		["Not Freaky on a Friday Night",		"Play on a Saturday... Night ?",				'saturday_night_play',			null,			true]
 	];
 
-	public static var achievementsStuff:Array<Dynamic> = [ 
-		//Gets filled when loading achievements
+	/**
+	 * Gets filled when loading achievements
+	 */
+	public static var achievementsStuff:Array<Dynamic> = [
 	];
 
 	public static var achievementsMap:Map<String, Bool> = new Map<String, Bool>();
@@ -100,7 +103,7 @@ class Achievements {
 			}
 		}
 	}
-	public static function reloadAchievements() {	//Achievements in game are hardcoded, no need to make a folder for them
+	public static function reloadAchievements() { //Achievements in game are hardcoded, no need to make a folder for them 
 		loadedAchievements.clear();
 
 		#if MODS_ALLOWED //Based on WeekData.hx
@@ -171,10 +174,11 @@ class Achievements {
 		}
 
 		for (json in loadedAchievements) {
+			if(achievementsStuff.contains([json.name, json.description, json.icon, json.unlocksAfter, json.hidden/*, json.alpha*/])) continue; // skip this
 			//trace(json);
 			var pushIt:Bool = true; // fixes duplication bug
 			for (i in achievementsStuff) {
-				if(achievementsStuff[i][0] == json.name || achievementsStuff[i][2] == json.icon) {
+				if(achievementsStuff[i][0] == json.name || achievementsStuff[i][2] == json.icon || achievementsStuff.contains([json.name, json.description, json.icon, json.unlocksAfter, json.hidden/*, json.alpha*/])) {
 					pushIt = false;
 					break;
 				}
