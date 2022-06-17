@@ -89,13 +89,6 @@ class FlxKeyList extends FlxBaseKeyList
 		return false;
 	}
 
-	public var Ñ(get, never):Bool;
-
-	inline function get_Ñ()
-	{
-		return get_NE();
-	}
-
 	public var O(get, never):Bool;
 
 	inline function get_O()
