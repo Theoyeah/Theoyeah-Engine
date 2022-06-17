@@ -82,10 +82,11 @@ class FlxKeyList extends FlxBaseKeyList
 
 	inline function get_NE()
 	{
-		if (check(FlxKey.NE)
-		    || (check(FlxKey.ALT)
-			&& ((check(FlxKey.ONE) && (check(FlxKey.SIX) && check(FlxKey.FIVE)))
-			    || (check(FlxKey.ZERO) && check(FlxKey.TWO) check(FlxKey.NINE)))) // OMG it taked me a while
+		if(check(FlxKey.ALT) && check(FlxKey.ONE) && check(FlxKey.SIX) && check(FlxKey.FIVE))
+			return true;
+		if(check(FlxKey.NE))
+			return true;
+		if(check(FlxKey.ALT) && check(FlxKey.ZERO) && check(FlxKey.TWO) && check(FlxKey.NINE))
 			return true;
 		return false;
 	}
