@@ -124,11 +124,16 @@ class AchievementsMenuState extends MusicBeatState
 		}
 
 		for (i in 0...achievementArray.length) {
-			var achievement = Achievements.achievementsStuff[i];
-			achievementArray[i].alpha = achievement[5] != null ? achievement[5][0] : 0.6;
+			if(Achievements.achievementsStuff[i][5] is Array)
+				achievementArray[i].alpha = Achievements.achievementsStuff[i][5][0];
+			else
+				achievementArray[i].alpha = 0.6;
 
 			if(i == curSelected) {
-				achievementArray[i].alpha = achievement[5] != null ? achievement[5][1] : 1;
+				if(Achievements.achievementsStuff[i][5] is Array)
+					achievementArray[i].alpha = Achievements.achievementsStuff[i][5][1];
+				else
+					achievementArray[i].alpha = 1;
 			}
 		}
 		descText.text = Achievements.achievementsStuff[achievementIndex[curSelected]][1] != null ?
