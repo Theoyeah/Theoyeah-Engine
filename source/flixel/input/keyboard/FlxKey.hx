@@ -32,7 +32,8 @@ abstract FlxKey(Int) from Int to Int
 	/**
 	 * NE refers to Ñ
 	 */
-	var NE = 192
+	var Ñ = 192;
+	var NE = 192;
 	var O = 79;
 	var P = 80;
 	var Q = 81;
