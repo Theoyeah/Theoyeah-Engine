@@ -56,6 +56,10 @@ class AchievementsMenuState extends MusicBeatState
 
 		for (i in 0...options.length)
 		{
+			if(options[i] == options[i+1] || options[i] == options[i-1]) {
+				options.remove(options[i]); // i know this is stupid, but is better to dlete all the copies
+				continue;
+			}
 			var achieveName:String = Achievements.achievementsStuff[achievementIndex[i]][2];
 			var optionText:Alphabet = new Alphabet(0, (100 * i) + 210,
 				Achievements.isAchievementUnlocked(achieveName) ? Achievements.achievementsStuff[achievementIndex[i]][0] == "" ? "No name" : Achievements.achievementsStuff[achievementIndex[i]][0] : '?',
