@@ -264,7 +264,7 @@ class PlayState extends MusicBeatState
 
 
 	public var songScore:Int = 0;
-	public var songHits:Int = 0;
+	public var songHits:Int = 0; // lol what is this?
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
 	var judgementCounter:FlxText;
@@ -311,7 +311,7 @@ class PlayState extends MusicBeatState
 	// Debug buttons
 	private var debugKeysChart:Array<FlxKey>;
 	private var debugKeysCharacter:Array<FlxKey>;
-	
+
 	// Less laggy controls
 	private var keysArray:Array<Dynamic>;
 
@@ -342,19 +342,19 @@ class PlayState extends MusicBeatState
 			rating.ratingMod = 0.7;
 			rating.score = 200;
 			rating.noteSplash = false;
-			ratingsData.push(rating);
+		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('bad');
 			rating.ratingMod = 0.4;
 			rating.score = 100;
 			rating.noteSplash = false;
-			ratingsData.push(rating);
+		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('shit');
 			rating.ratingMod = 0;
 			rating.score = 50;
 			rating.noteSplash = false;
-			ratingsData.push(rating);
+		ratingsData.push(rating);
 
 		// For the "Just the Two of Us" achievement
 		for (i in 0...keysArray.length)
@@ -458,13 +458,13 @@ class PlayState extends MusicBeatState
 				directory: "",
 				defaultZoom: 0.9,
 				isPixelStage: false,
-			
+
 				boyfriend: [770, 100],
 				girlfriend: [400, 130],
 				opponent: [100, 100],
 				layerArray: [],
 				hide_girlfriend: false,
-			
+
 				camera_boyfriend: [0, 0],
 				camera_opponent: [0, 0],
 				camera_girlfriend: [0, 0],
@@ -491,7 +491,7 @@ class PlayState extends MusicBeatState
 		opponentCameraOffset = stageData.camera_opponent;
 		if(opponentCameraOffset == null)
 			opponentCameraOffset = [0, 0];
-		
+
 		girlfriendCameraOffset = stageData.camera_girlfriend;
 		if(girlfriendCameraOffset == null)
 			girlfriendCameraOffset = [0, 0];
@@ -500,7 +500,7 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 
-		switch (curStage)
+		switch (curStage.toLowerCase())
 		{
 			case 'stage': //Week 1
 				var bg:BGSprite = new BGSprite('stageback', -600, -200, 0.9, 0.9);
@@ -528,7 +528,7 @@ class PlayState extends MusicBeatState
 					add(stageCurtains);
 				}
 
-				
+
 			case 'spooky': //Week 2
 				if(!ClientPrefs.lowQuality) {
 					halloweenBG = new BGSprite('halloween_bg', -200, -100, ['halloweem bg0', 'halloweem bg lightning strike']);
@@ -551,7 +551,7 @@ class PlayState extends MusicBeatState
 					var bg:BGSprite = new BGSprite('philly/sky', -100, 0, 0.1, 0.1);
 					add(bg);
 				}
-				
+
 				var city:BGSprite = new BGSprite('philly/city', -10, 0, 0.3, 0.3);
 				city.setGraphicSize(Std.int(city.width * 0.85));
 				city.updateHitbox();
@@ -830,7 +830,7 @@ class PlayState extends MusicBeatState
 
 			default: //custom stages
 				isPixelStage = stageData.isPixelStage;
-				for (layer in stageData.layerArray){
+				for (layer in stageData.layerArray) {
 					var loadedLayer:BGSprite = new BGSprite(layer.directory, layer.xAxis, layer.yAxis, layer.scrollX, layer.scrollY);
 					loadedLayer.setGraphicSize(Std.int(loadedLayer.width * layer.scale));
 					loadedLayer.flipX = layer.flipX;
@@ -856,7 +856,7 @@ class PlayState extends MusicBeatState
 
 		add(dadGroup);
 		add(boyfriendGroup);
-		
+
 		switch(curStage)
 		{
 			case 'spooky':
@@ -869,7 +869,7 @@ class PlayState extends MusicBeatState
 		luaDebugGroup = new FlxTypedGroup<DebugLuaText>();
 		luaDebugGroup.cameras = [camOther];
 		add(luaDebugGroup);
-	
+
 		// "GLOBAL" SCRIPTS
 		var filesPushed:Array<String> = [];
 		var foldersToCheck:Array<String> = [Paths.getPreloadPath('scripts/')];
@@ -878,7 +878,7 @@ class PlayState extends MusicBeatState
 		foldersToCheck.insert(0, Paths.mods('scripts/'));
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/scripts/'));
-		
+
 		for(mod in Paths.getGlobalMods())
  			foldersToCheck.insert(0, Paths.mods(mod + '/scripts/'));
 		#end
@@ -897,7 +897,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
-		
+
 
 		// STAGE SCRIPTS
 		#if MODS_ALLOWED
@@ -921,7 +921,7 @@ class PlayState extends MusicBeatState
 		var gfVersion:String = SONG.gfVersion;
 		if(gfVersion == null || gfVersion.length < 1)
 		{
-			switch (curStage)
+			switch (curStage.toLowerCase())
 			{
 				case 'limo':
 					gfVersion = 'gf-car';
@@ -988,13 +988,13 @@ class PlayState extends MusicBeatState
 			camPos.y += gf.getGraphicMidpoint().y + gf.cameraPosition[1];
 		}
 
-		if(dad.curCharacter.startsWith('gf')) {
+		if(dad.curCharacter.toLowerCase().startsWith('gf')) {
 			dad.setPosition(GF_X, GF_Y);
 			if(gf != null)
 				gf.visible = false;
 		}
 
-		switch(curStage)
+		switch(curStage.toLowerCase())
 		{
 			case 'limo':
 				resetFastCar();
@@ -1040,6 +1040,8 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.timeBarType == 'Song Name')
 		{
 			timeTxt.text = SONG.song;
+			timeTxt.size = 24;
+			timeTxt.y += 3;
 		}
 
 		updateTime = showTime;
@@ -1069,12 +1071,6 @@ class PlayState extends MusicBeatState
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
 		add(grpNoteSplashes);
-
-		if(ClientPrefs.timeBarType == 'Song Name')
-		{
-			timeTxt.size = 24;
-			timeTxt.y += 3;
-		}
 
 		var splash:NoteSplash = new NoteSplash(100, 100, 0);
 		grpNoteSplashes.add(splash);
@@ -1216,6 +1212,7 @@ class PlayState extends MusicBeatState
 		add(scoreTxt);
 
 		if(ClientPrefs.crazycounter) {
+			var totals:Int = sicks + goods + bads + shits;
 			judgementCounter = new FlxText(20, 0, 0, "", 20);
 			judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);			
 			judgementCounter.borderSize = 2;
@@ -1223,14 +1220,11 @@ class PlayState extends MusicBeatState
 			judgementCounter.scrollFactor.set();
 			judgementCounter.cameras = [camHUD];
 			judgementCounter.screenCenter(Y);
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
+			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nTotal hit: ${totals}';
 			add(judgementCounter);
 		}
-		              
-		    
 
 
-	
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "CHEATING MODE", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
@@ -1271,7 +1265,7 @@ class PlayState extends MusicBeatState
 		foldersToCheck.insert(0, Paths.mods('data/' + Paths.formatToSongPath(SONG.song) + '/'));
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/data/' + Paths.formatToSongPath(SONG.song) + '/'));
-	
+
 		for(mod in Paths.getGlobalMods())
  			foldersToCheck.insert(0, Paths.mods(mod + '/data/' + Paths.formatToSongPath(SONG.song) + '/' ));
 		#end
@@ -1406,7 +1400,7 @@ class PlayState extends MusicBeatState
 		for (key => type in precacheList)
 		{
 			//trace('Key $key is type $type');
-			switch(type)
+			switch(type.toLowerCase())
 			{
 				case 'image':
 					Paths.image(key);
@@ -5336,8 +5330,10 @@ class PlayState extends MusicBeatState
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
-		if (ClientPrefs.crazycounter)
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
+		if (ClientPrefs.crazycounter) {
+			var totals:Int = sicks + goods + bads + shits;
+			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nTotal hit: ${totals}';
+		}
 	}
 
 	#if ACHIEVEMENTS_ALLOWED
