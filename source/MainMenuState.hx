@@ -194,6 +194,7 @@ class MainMenuState extends MusicBeatState
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
+			if(FreeplayState.vocals != null) FreeplayState.vocals.volume += 0.5 * elapsed;
 		}
 
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 1.5, 0, 1);
