@@ -1212,7 +1212,7 @@ class PlayState extends MusicBeatState
 		add(scoreTxt);
 
 		if(ClientPrefs.crazycounter) {
-			var totals:Int = sicks + goods + bads + shits;
+			//var totals:Int = sicks + goods + bads + shits;
 			judgementCounter = new FlxText(20, 0, 0, "", 20);
 			judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);			
 			judgementCounter.borderSize = 2;
@@ -1220,7 +1220,7 @@ class PlayState extends MusicBeatState
 			judgementCounter.scrollFactor.set();
 			judgementCounter.cameras = [camHUD];
 			judgementCounter.screenCenter(Y);
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nTotal hit: ${totals}';
+			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';//\nTotal hit: ${totals}';
 			add(judgementCounter);
 		}
 
@@ -5332,7 +5332,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('ratingFC', ratingFC);
 		if (ClientPrefs.crazycounter) {
 			var totals:Int = sicks + goods + bads + shits;
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nTotal hit: ${totals}';
+			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';//\nTotal hit: ${totals};
 		}
 	}
 
