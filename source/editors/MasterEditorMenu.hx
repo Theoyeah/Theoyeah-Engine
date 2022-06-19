@@ -90,22 +90,25 @@ class MasterEditorMenu extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+
 		if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
 		{
-			changeSelection(-1);
+			changeSelection(-shiftMult);
 		}
 		if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0)
 		{
-			changeSelection(1);
+			changeSelection(shiftMult);
 		}
 		#if MODS_ALLOWED
 		if(controls.UI_LEFT_P)
 		{
-			changeDirectory(-1);
+			changeDirectory(-shiftMult);
 		}
 		if(controls.UI_RIGHT_P)
 		{
-			changeDirectory(1);
+			changeDirectory(shiftMult);
 		}
 		#end
 
@@ -127,7 +130,7 @@ class MasterEditorMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
 				case 'Dialogue Editor':
 					LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
-				case 'Chart Editor'://felt it would be cool maybe
+				case 'Chart Editor': //felt it would be cool maybe
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
 				case 'Stage Editor':
 					LoadingState.loadAndSwitchState(new StageEditorState(), false);
@@ -183,7 +186,7 @@ class MasterEditorMenu extends MusicBeatState
 			curDirectory = directories.length - 1;
 		if(curDirectory >= directories.length)
 			curDirectory = 0;
-	
+
 		WeekData.setDirectoryFromWeek();
 		if(directories[curDirectory] == null || directories[curDirectory].length < 1)
 			directoryTxt.text = '< No Mod Directory Loaded >';

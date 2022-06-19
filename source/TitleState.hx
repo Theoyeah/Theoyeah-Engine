@@ -267,20 +267,20 @@ class TitleState extends MusicBeatState
 		persistentUpdate = true;
 
 		var bg:FlxSprite = new FlxSprite();
-		
+
 		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none") {
 			bg.loadGraphic(Paths.image(titleJSON.backgroundSprite));
 		} else {
 			bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		}
-		
+
 		// bg.antialiasing = ClientPrefs.globalAntialiasing;
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
 		// bg.updateHitbox();
 		add(bg);
 
 		#if ACHIEVEMENTS_ALLOWED
-			var leDate = Date.now();
+		var leDate = Date.now();
 		#end
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
 		logoBl.frames =
@@ -292,8 +292,8 @@ class TitleState extends MusicBeatState
 			}
 			#else
 				Paths.getSparrowAtlas('logoBumpin');
-			#end 
-			
+			#end
+
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
@@ -337,7 +337,7 @@ class TitleState extends MusicBeatState
 				gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		}
 		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
-		
+
 		add(gfDance);
 		gfDance.shader = swagShader.shader;
 		add(logoBl);
@@ -357,7 +357,7 @@ class TitleState extends MusicBeatState
 		//trace(path, FileSystem.exists(path));
 		titleText.frames = FlxAtlasFrames.fromSparrow(BitmapData.fromFile(path),File.getContent(StringTools.replace(path,".png",".xml")));
 		#else
-		
+
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
 		#end
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
@@ -564,6 +564,10 @@ class TitleState extends MusicBeatState
 								}
 							});
 							FlxG.sound.music.fadeOut();
+							if(FreeplayState.vocals != null)
+							{
+								FreeplayState.vocals.fadeOut();
+							}
 							closedState = true;
 							transitioning = true;
 							playJingle = true;
@@ -803,6 +807,10 @@ class TitleState extends MusicBeatState
 				if(easteregg == 'SHADOW')
 				{
 					FlxG.sound.music.fadeOut();
+					if(FreeplayState.vocals != null)
+					{
+						FreeplayState.vocals.fadeOut();
+					}
 				}
 				#end
 			}

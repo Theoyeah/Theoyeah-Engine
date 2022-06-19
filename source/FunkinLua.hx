@@ -210,7 +210,7 @@ class FunkinLua {
 		set('seenCutscene', PlayState.seenCutscene);
 		set('deaths', PlayState.deathCounter);
 		set('blueBalled', PlayState.deathCounter);
-		
+
 		// Block require and os, Should probably have a proper function but this should be good enough for now until someone smarter comes along and recreates a safe version of the OS library
 
 
@@ -712,6 +712,24 @@ class FunkinLua {
  		Lua_helper.add_callback(lua, "luaSoundExists", function(tag:String) {
  			return PlayState.instance.modchartSounds.exists(tag);
  		});
+		Lua_helper.add_callback(lua, "checkFileExists", function(filename:String, ?absolute:Bool = false) {
+			#if MODS_ALLOWED
+			if(absolute)
+			{
+				return FileSystem.exists(filename);
+			}
+
+			var path:String = Paths.modFolders(filename);
+			if(FileSystem.exists(path))
+			{
+				return true;
+			}
+			return FileSystem.exists('assets/$filename');
+			#else
+			luaTrace('Platform not suppoted for checkFileExists!\nNeed mods activated for this!', true, false, FlxColor.RED);
+			return false;
+			#end
+		});
 
 		Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
 			if(name == null || name.length < 1)
