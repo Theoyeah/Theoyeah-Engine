@@ -63,7 +63,7 @@ class Prompt extends MusicBeatSubstate
 		super();
 	}
 
-	override public function create(firstColor:FlxColor = 0xff999999, secondColor:FlxColor = 0xff000000):Void
+	override public function create():Void
 	{
 		super.create();
 		if (goAnyway)
@@ -76,8 +76,8 @@ class Prompt extends MusicBeatSubstate
 		{
 			panel = new FlxSprite(0, 0);
 			panelbg = new FlxSprite(0, 0);
-			makeSelectorGraphic(panel, 300, 150, firstColor);
-			makeSelectorGraphic(panelbg, 304, 154, secondColor);
+			makeSelectorGraphic(panel, 300, 150, 0xff999999);
+			makeSelectorGraphic(panelbg, 304, 154, 0xff000000);
 			// panel.makeGraphic(300, 150, 0xff999999);
 			// panel.loadGraphic(Paths.image('ui/promptbg'));
 			/*
