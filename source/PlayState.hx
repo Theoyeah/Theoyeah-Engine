@@ -123,7 +123,7 @@ class PlayState extends MusicBeatState
 	public var songSpeed(default, set):Float = 1;
 	public var songSpeedType:String = "multiplicative";
 	public var noteKillOffset:Float = 350;
-	
+
 	public var boyfriendGroup:FlxSpriteGroup;
 	public var dadGroup:FlxSpriteGroup;
 	public var gfGroup:FlxSpriteGroup;
@@ -143,7 +143,7 @@ class PlayState extends MusicBeatState
 	public var dad:Character = null;
 	public var gf:Character = null;
 	public var boyfriend:Boyfriend = null;
-      
+
 
 	public var notes:FlxTypedGroup<Note>;
 	public var unspawnNotes:Array<Note> = [];
@@ -180,13 +180,13 @@ class PlayState extends MusicBeatState
 
 	private var timeBarBG:AttachedSprite;
 	public var timeBar:FlxBar;
-	
+
 	public var ratingsData:Array<Rating> = [];
 	public var sicks:Int = 0;
 	public var goods:Int = 0;
 	public var bads:Int = 0;
 	public var shits:Int = 0;
-	
+
 	private var generatedMusic:Bool = false;
 	public var endingSong:Bool = false;
 	public var startingSong:Bool = false;
@@ -951,7 +951,7 @@ class PlayState extends MusicBeatState
 			gf.scrollFactor.set(0.95, 0.95);
 			gfGroup.add(gf);
 			startCharacterLua(gf.curCharacter);
-		
+
 			if(gfVersion == 'pico-speaker' && !ClientPrefs.lowQuality)
 			{
 				var firstTank:TankmenBG = new TankmenBG(20, 500, true);
@@ -1214,7 +1214,7 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.crazycounter) {
 			//var totals:Int = sicks + goods + bads + shits;
 			judgementCounter = new FlxText(20, 0, 0, "", 20);
-			judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);			
+			judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			judgementCounter.borderSize = 2;
 			judgementCounter.borderQuality = 2;
 			judgementCounter.scrollFactor.set();
@@ -1378,7 +1378,7 @@ class PlayState extends MusicBeatState
 		if (PauseSubState.songName != null) {
 			precacheList.set(PauseSubState.songName, 'music');
 		} else if(ClientPrefs.pauseMusic != 'None') {
-			precacheList.set(Paths.formatToSongPath(ClientPrefs.pauseMusic), 'music');			
+			precacheList.set(Paths.formatToSongPath(ClientPrefs.pauseMusic), 'music');
 		}
 		#if desktop
 		// Updating Discord Rich Presence.
@@ -1424,7 +1424,7 @@ class PlayState extends MusicBeatState
 			health -= 0.001;
 			healthDrain -= 0.0001;
 			health = 0.1;
-			
+
 			health -= 0.001;
 			setOnLuas('healthDrain', healthDrain);
 		}
@@ -1465,7 +1465,7 @@ class PlayState extends MusicBeatState
 	public function reloadHealthBarColors() {
 		healthBar.createFilledBar(FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]),
 			FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]));
-			
+
 		healthBar.updateBar();
 	}
 
@@ -2774,7 +2774,7 @@ class PlayState extends MusicBeatState
 			var chars:Array<Character> = [boyfriend, gf, dad];
 			for (char in chars) {
 				if(char != null && char.colorTween != null)
-					char.colorTween.active = false;	
+					char.colorTween.active = false;
 			}
 
 			for (tween in modchartTweens) {
@@ -4710,7 +4710,7 @@ class PlayState extends MusicBeatState
 
 						case 'Window Note': 
 					 		FlxG.sound.play(Paths.sound('windowsError'), 1);
-							lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');						
+							lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');
 
 						case 'Poisoned Note':
 							new FlxTimer().start(1.3, function(tmr:FlxTimer) //i dont know how this works
@@ -5137,7 +5137,7 @@ class PlayState extends MusicBeatState
 			iconP1.updateHitbox();
 			iconP2.updateHitbox();
 		}
-		
+
 		if (gf != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && !gf.stunned && gf.animation.curAnim.name != null && !gf.animation.curAnim.name.startsWith("sing") && !gf.stunned)
 		{
 			gf.dance();
@@ -5167,7 +5167,7 @@ class PlayState extends MusicBeatState
 
 				iconP1.updateHitbox();
 				iconP2.updateHitbox();
-			}	
+			}
 		}
 		if (curBeat % boyfriend.danceEveryNumBeats == 0 && boyfriend.animation.curAnim != null && !boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.stunned)
 		{

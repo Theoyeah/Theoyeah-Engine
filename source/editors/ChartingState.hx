@@ -205,8 +205,22 @@ class ChartingState extends MusicBeatState
 
 	var text:String = "";
 	public static var vortex:Bool = false;
+	/**
+	 * 'zoom+'
+	 * 'zoom-'
+	 * 'increase'
+	 * 'decrease'
+	 */
+	var keyBindsforThings:Array<Array<FlxKey>>;
 	override function create()
 	{
+		keyBindsforThings = [
+			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('zoom+')),
+			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('zoom-')),
+			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('increase')),
+			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('decrease'))
+		];
+
 		if (PlayState.SONG != null)
 			_song = PlayState.SONG;
 		else
@@ -349,11 +363,11 @@ class ChartingState extends MusicBeatState
 		\nUp/Down - Change Conductor's Strum Time with Snapping
 		\nHold Shift to move 4x faster
 		\nHold Control and click on an arrow to select it
-		\n" + keyBonds["zoom+"][0] + "/" + keyBonds["zoom-"][0] + " - Zoom in/out
+		\n" + keyBonds["zoom+"][0].toString() + "/" + keyBonds["zoom-"][0].toString() + " - Zoom in/out
 		\n
 		\nEsc - Test your chart inside Chart Editor
 		\nEnter - Play your chart
-		\n" + keyBonds["decrease"][0] + "/" + keyBonds["increase"][0] + " - Decrease/Increase Note Sustain Length
+		\n" + keyBonds["decrease"][0].toString() + "/" + keyBonds["increase"][0].toString() + " - Decrease/Increase Note Sustain Length
 		\nSpace - Stop/Resume song";
 
 		var tipTextArray:Array<String> = text.split('\n');
@@ -471,7 +485,7 @@ class ChartingState extends MusicBeatState
 						_song.notes[sec].sectionNotes = [];
 					}
 					updateGrid();
-				}, null, ignoreWarnings));	
+				}, null, ignoreWarnings));
 		});
 		clear_notes.color = FlxColor.RED;
 		clear_notes.label.color = FlxColor.WHITE;
@@ -743,7 +757,7 @@ class ChartingState extends MusicBeatState
 						copiedNote = [newStrumTime, note[1], note[2], note[3], note[4]];
 					} else {
 						copiedNote = [newStrumTime, note[1], note[2], note[3]];
-					}	
+					}
 					_song.notes[curSection].sectionNotes.push(copiedNote);
 				}
 			}
@@ -857,7 +871,7 @@ class ChartingState extends MusicBeatState
 
 			for (i in duetNotes) {
 				//_song.notes[curSection].sectionNotes.push(i);
-				
+
 			}
 
 			updateGrid();
@@ -1568,7 +1582,7 @@ class ChartingState extends MusicBeatState
 					&& FlxG.mouse.y > gridBG.y
 					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * getSectionBeats() * 4) * zoomList[curZoom])
 				{
-					FlxG.log.add('added note');
+					FlxG.log.add('added note id: ');
 					addNote();
 				}
 			}
@@ -1633,11 +1647,11 @@ class ChartingState extends MusicBeatState
 			}
 
 			if(curSelectedNote != null && curSelectedNote[1] > -1) {
-				if (FlxG.keys.justPressed.E)
+				if (FlxG.keys.anyJustPressed(keyBindsforThings[2]))
 				{
 					changeNoteSustain(Conductor.stepCrochet);
 				}
-				if (FlxG.keys.justPressed.Q)
+				if (FlxG.keys.anyJustPressed(keyBindsforThings[3]))
 				{
 					changeNoteSustain(-Conductor.stepCrochet);
 				}
@@ -1646,34 +1660,34 @@ class ChartingState extends MusicBeatState
 
 			if (FlxG.keys.justPressed.BACKSPACE) {
 				//if(onMasterEditor) {
-					MusicBeatState.switchState(new editors.MasterEditorMenu());
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				MusicBeatState.switchState(new editors.MasterEditorMenu());
+				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				//}
 				FlxG.mouse.visible = false;
 				return;
 			}
 
-			if(FlxG.keys.justPressed.Z) {
-				if(FlxG.keys.pressed.CONTROL) {
-					if(FlxG.keys.pressed.SHIFT)
-						redo();
-					else
-						undo();
-				} else {
-					if(curZoom != 0)
-						--curZoom;
-					else // resets the zoom
-						curZoom = zoomList.length;
-					updateZoom();
-				}
+			if(FlxG.keys.anyJustPressed(keyBindsforThings[0])) {
+				if(curZoom != 0)
+					--curZoom;
+				else // resets the zoom
+					curZoom = zoomList.length;
+				updateZoom();
 			}
 
-			if(FlxG.keys.justPressed.X) {
+			if(FlxG.keys.anyJustPressed(keyBindsforThings[1])) {
 				if(curZoom != zoomList.length)
 					curZoom++;
 				else
 					curZoom = 0; // resets the zoom
 				updateZoom();
+			}
+
+			if(FlxG.keys.justPressed.Z && FlxG.keys.pressed.CONTROL) {
+				if(FlxG.keys.pressed.SHIFT)
+					redo();
+				else
+					undo();
 			}
 
 			if (FlxG.keys.justPressed.TAB)
@@ -1914,7 +1928,7 @@ class ChartingState extends MusicBeatState
 		_song.bpm = tempBpm;
 
 		strumLineNotes.visible = quant.visible = vortex;
-			
+
 		if(FlxG.sound.music.time < 0) {
 			FlxG.sound.music.pause();
 			FlxG.sound.music.time = 0;
@@ -1932,7 +1946,7 @@ class ChartingState extends MusicBeatState
 			strumLineNotes.members[i].alpha = FlxG.sound.music.playing ? 1 : 0.35;
 		}
 
-		bpmTxt.text = 
+		bpmTxt.text =
 		Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2)) + " / " + Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2)) +
 		"\nSection: " + curSection +
 		"\n\nBeat: " + curBeat +
@@ -1974,7 +1988,7 @@ class ChartingState extends MusicBeatState
 							FlxG.sound.play(Paths.sound(soundToPlay)).pan = note.noteData < 4? -0.3 : 0.3; //would be coolio
 							playedSound[data] = true;
 						}
-					
+
 						data = note.noteData;
 						if(note.mustPress != _song.notes[curSection].mustHitSection)
 						{
@@ -2110,7 +2124,7 @@ class ChartingState extends MusicBeatState
 					1,
 					wavData,
 					Std.int(gridBG.height)
-				);	
+				);
 			}
 		}
 
@@ -2198,14 +2212,14 @@ class ChartingState extends MusicBeatState
 				} else if (sample < 0) {
 					if (sample < lmin) lmin = sample;
 				}
-	
+
 				if (channels >= 2) {
 					byte = bytes.getUInt16((index * channels * 2) + 2);
 
 					if (byte > 65535 / 2) byte -= 65535;
-	
+
 					sample = (byte / 65535);
-	
+
 					if (sample > 0) {
 						if (sample > rmax) rmax = sample;
 					} else if (sample < 0) {
@@ -2229,7 +2243,7 @@ class ChartingState extends MusicBeatState
 
 				if (gotIndex > array[0][0].length) array[0][0].push(lRMin);
 				else array[0][0][gotIndex - 1] = array[0][0][gotIndex - 1] + lRMin;
-	
+
 				if (gotIndex > array[0][1].length) array[0][1].push(lRMax);
 				else array[0][1][gotIndex - 1] = array[0][1][gotIndex - 1] + lRMax;
 
@@ -2259,7 +2273,7 @@ class ChartingState extends MusicBeatState
 			rows++;
 			if(gotIndex > steps) break;
 		}
-	
+
 		return array;
 		#else
 		return [[[0], [0]], [[0], [0]]];
@@ -2926,11 +2940,11 @@ class ChartingState extends MusicBeatState
 	}
 
 	function getSectionBeats(?section:Null<Int> = null)
-		{
-			if (section == null) section = curSection;
-			var val:Null<Float> = _song.notes[section].sectionBeats;
-			return val != null ? val : 4;
-		}
+	{
+		if (section == null) section = curSection;
+		var val:Null<Float> = _song.notes[section].sectionBeats;
+		return val != null ? val : 4;
+	}
 }
 
 class AttachedFlxText extends FlxText
