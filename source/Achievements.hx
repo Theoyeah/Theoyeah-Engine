@@ -1,4 +1,3 @@
-import flixel.graphics.FlxGraphic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
@@ -7,18 +6,11 @@ import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
-#if MODS_ALLOWED
-import sys.FileSystem;
-import sys.io.File;
-#end
-import haxe.Json;
-import lime.utils.Assets;
-import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
 
 class Achievements {
-	public static var achievementsStuff:Array<Dynamic> = [ //Name, Description, Achievement save tag, Hidden achievement
+	public static var achievementsStuff:Array<Dynamic> = [ //Name, Description, Achievement save tag, Hidden achievement, alpha (array)
 		["Freaky on a Friday Night",	"Play on a Friday... Night.",						'friday_night_play',		true],
 		["She Calls Me Daddy Too",		"Beat Week 1 with no Misses.",					'week1_nomiss',			false],
 		["No More Tricks",				"Beat Week 2 with no Misses.",				'week2_nomiss',			false],

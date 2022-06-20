@@ -27,14 +27,14 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var psychEngineVersion:String = '3.0'; //This is also used for Discord RPC
+	public static var theoyeahEngineVersion:String = '3.0'; //This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
 
-	
+
 	var optionShit:Array<String> = [
 		'story_mode',
 		'freeplay',
@@ -49,7 +49,7 @@ class MainMenuState extends MusicBeatState
 	var debugKeys:Array<FlxKey>;
 
 	var logo:FlxSprite;
-	
+
 	override function create()
 	{
 		WeekData.loadTheFirstEnabledMod();
@@ -104,7 +104,7 @@ class MainMenuState extends MusicBeatState
 		bgScroll.velocity.set(50, 50);
 		bgScroll.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bgScroll);
-		
+
 		// magenta.scrollFactor.set();
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
@@ -194,6 +194,7 @@ class MainMenuState extends MusicBeatState
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
+			if(FreeplayState.vocals != null) FreeplayState.vocals.volume += 0.5 * elapsed;
 		}
 
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 1.5, 0, 1);
@@ -201,13 +202,13 @@ class MainMenuState extends MusicBeatState
 
 		if (!selectedSomethin)
 		{
-			if (controls.UI_UP_P)
+			if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
 			}
 
-			if (controls.UI_DOWN_P)
+			if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
@@ -242,7 +243,7 @@ class MainMenuState extends MusicBeatState
 								ease: FlxEase.quadOut,
 								onComplete: function(twn:FlxTween)
 								{
-									
+
 								}
 							});
 						}
@@ -260,10 +261,6 @@ class MainMenuState extends MusicBeatState
 									case 'freeplay':
 										MusicBeatState.switchState(new FreeplayState());
 										Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Freeplay";
-									#if MODS_ALLOWED
-									case 'mods':
-										MusicBeatState.switchState(new ModsMenuState());
-									#end
 									case 'awards':
 										MusicBeatState.switchState(new AchievementsMenuState());
 									case 'credits':

@@ -13,7 +13,7 @@ import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 import lime.utils.Assets;
 import flixel.FlxSprite;
-#if MODS_ALLOWED
+#if sys
 import sys.io.File;
 import sys.FileSystem;
 #end
@@ -106,7 +106,9 @@ class Paths
 		{
 			var obj = FlxG.bitmap._cache.get(key);
 			if (obj != null && !currentTrackedAssets.exists(key)) {
-				openfl.Assets.cache.removeBitmapData(key);
+				#if PRELOAD_ALL
+				openfl.Assets.cache.clear("songs");
+				#end
 				FlxG.bitmap._cache.remove(key);
 				obj.destroy();
 			}
@@ -123,7 +125,9 @@ class Paths
 		}	
 		// flags everything to be cleared out next unused memory clear
 		localTrackedAssets = [];
+		#if PRELOAD_ALL
 		openfl.Assets.cache.clear("songs");
+		#end
 	}
 
 	static public var currentModDirectory:String = '';
@@ -227,7 +231,7 @@ class Paths
 
 	static public function video(key:String, ?ignoreMods:Bool = false, ?mkvFile:Bool = false, where:String = 'videos')
 	{
-		#if MODS_ALLOWED
+		#if (MODS_ALLOWED && sys)
 		var file:String = modsVideo(key, where);
 		var file_:String = modsVideo2(key, where);
 		var file2:String = modsVideo2(key, where, true);
@@ -241,19 +245,19 @@ class Paths
 		#end
 		if(!getIsBlankString(where, true)) {
 			#if MKV_ALLOWED
-			if(mkvFile && FileSystem.exists('assets/$where/$key.mkv'))
+			if(mkvFile && #if sys FileSystem.exists('assets/$where/$key.mkv') #else OpenFlAssets.exists('assets/$where/$key.mkv') #end )
 				return assets('$where/$key.mkv');
-			else if(mkvFile && FileSystem.exists('assets/$where/$key.MKV'))
+			else if(mkvFile && #if sys FileSystem.exists('assets/$where/$key.MKV') #else OpenFlAssets.exists('assets/$where/$key.MKV') #end )
 				return assets('$where/$key.MKV');
-			else #end if(FileSystem.exists('assets/$where/$key.$VIDEO_EXT'))
+			else #end if( #if sys FileSystem.exists('assets/$where/$key.$VIDEO_EXT') #else OpenFlAssets.exists('assets/$where/$key.$VIDEO_EXT') #end )
 				return assets('$where/$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
-			else if(FileSystem.exists('assets/$where/$key.MP4'))
+			else if( #if sys FileSystem.exists('assets/$where/$key.MP4') #else OpenFlAssets.exists('assets/$where/$key.MP4') #end )
 				return assets('$where/$key.MP4'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
 		} else {
 			#if MKV_ALLOWED
-			if(mkvFile && FileSystem.exists(assets('$key.mkv')))
+			if(mkvFile && #if sys FileSystem.exists(assets('$key.mkv')) #else OpenFlAssets.exists(assets('$key.mkv')) #end )
 				return assets('$key.mkv');
-			else #end if(FileSystem.exists(assets('$key.$VIDEO_EXT')))
+			else #end if( #if sys FileSystem.exists(assets('$key.$VIDEO_EXT')) #else OpenFlAssets.exists(assets('$key.$VIDEO_EXT')) #end )
 				return assets('$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
 		}
 		returnNull(key, where);
@@ -266,13 +270,13 @@ class Paths
 		var sound:Sound = returnSound('sounds', key, library);
 		return sound;
 	}
-	
+
 	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
 	{
 		return sound(key + FlxG.random.int(min, max), library);
 	}
 
-	inline static public function music(key:String, ?library:String):Sound
+	inline static public function music(key:String = 'freakyMenu', ?library:String):Sound
 	{
 		var file:Sound = returnSound('music', key, library);
 		return file;
@@ -280,16 +284,28 @@ class Paths
 
 	inline static public function voices(song:String):Any
 	{
+		#if PRELOAD_ALL
 		var songKey:String = '${song.toLowerCase().replace(' ', '-')}/Voices';
 		var voices = returnSound('songs', songKey);
 		return voices;
+		#else
+		var songKey:String = '${song.toLowerCase().replace(' ', '-')}';
+		var voices = returnSound(songKey, 'Voices', 'songs');
+		return voices;
+		#end
 	}
 
 	inline static public function inst(song:String):Any
 	{
-		var songKey:String = '${formatToSongPath(song)}/Inst';
+		#if PRELOAD_ALL
+			var songKey:String = '${song.toLowerCase().replace(' ', '-')}/Inst';
 		var inst = returnSound('songs', songKey);
 		return inst;
+		#else
+		var songKey:String = '${song.toLowerCase().replace(' ', '-')}';
+		var inst = returnSound(songKey, 'Inst', 'songs');
+		return inst;
+		#end
 	}
 
 	inline static public function image(key:String, ?library:String):FlxGraphic
@@ -298,7 +314,7 @@ class Paths
 		var returnAsset:FlxGraphic = returnGraphic(key, library);
 		return returnAsset;
 	}
-	
+
 	static public function getTextFromFile(key:String, ?ignoreMods:Bool = false):String
 	{
 		#if sys
@@ -344,7 +360,7 @@ class Paths
 			return true;
 		}
 		#end
-		
+
 		if(OpenFlAssets.exists(getPath(key, type))) {
 			return true;
 		}
@@ -475,13 +491,35 @@ class Paths
 	public static function returnSound(path:String, key:String, ?library:String) {
 		#if MODS_ALLOWED
 		var file:String = modsSounds(path, key);
+		#if WAV_ALLOWED
+		var file_:String = modsWavSounds(path, key);
+		#end
+		#if MP3_ALLOWED
+		var mp3File:String = modsMP3Sounds(path, key);
+		#end
 		if(FileSystem.exists(file)) {
 			if(!currentTrackedSounds.exists(file)) {
 				currentTrackedSounds.set(file, Sound.fromFile(file));
 			}
 			localTrackedAssets.push(key);
 			return currentTrackedSounds.get(file);
+		} #if WAV_ALLOWED
+		else if(FileSystem.exists(file_)) {
+			if(!currentTrackedSounds.exists(file_)) {
+				currentTrackedSounds.set(file_, Sound.fromFile(file_));
+			}
+			localTrackedAssets.push(key);
+			return currentTrackedSounds.get(file_);
+		} #end
+		#if MP3_ALLOWED
+		else if(FileSystem.exists(mp3File)) {
+			if(!currentTrackedSounds.exists(mp3File)) {
+				currentTrackedSounds.set(mp3File, Sound.fromFile(mp3File));
+			}
+			localTrackedAssets.push(key);
+			return currentTrackedSounds.get(mp3File);
 		}
+		#end
 		#end
 		// I hate this so god damn much
 		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);	
@@ -502,7 +540,7 @@ class Paths
 		localTrackedAssets.push(gottenPath);
 		return currentTrackedSounds.get(gottenPath);
 	}
-	
+
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '') {
 		return 'mods/$key';
@@ -552,6 +590,15 @@ class Paths
 
 	inline static public function modsSounds(path:String, key:String) {
 		return modFolders('$path/$key.$SOUND_EXT');
+	}
+	inline static public function modsWavSounds(path:String, key:String) {
+		return modFolders('$path/$key.wav');
+	}
+	inline static public function modsMP3Sounds(path:String, key:String) {
+		return modFolders('$path/$key.mp3');
+	}
+	inline static public function modsSoundsAll(path:String, key:String, type:String) {
+		return modFolders('$path/$key.$type');
 	}
 
 	inline static public function modsImages(key:String, where:String = 'images') {

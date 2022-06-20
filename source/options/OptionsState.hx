@@ -30,7 +30,15 @@ using StringTools;
 
 class OptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay', 'Music'];
+	var options:Array<String> = [
+		'Note Colors',
+		'Controls',
+		'Adjust Delay and Combo',
+		'Graphics',
+		'Visuals and UI',
+		'Gameplay',
+		'Music'
+	];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
@@ -101,10 +109,10 @@ class OptionsState extends MusicBeatState
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (controls.UI_UP_P) {
+		if (controls.UI_UP_P || FlxG.mouse.wheel > 0) {
 			changeSelection(-1);
 		}
-		if (controls.UI_DOWN_P) {
+		if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
 			changeSelection(1);
 		}
 
@@ -113,12 +121,11 @@ class OptionsState extends MusicBeatState
 			if (PauseSubState.toOptions) {
 				MusicBeatState.switchState(new PlayState());
 				FlxG.sound.music.stop();
-				} else {
+			} else
 				MusicBeatState.switchState(new MainMenuState());
-				}
 		}
 
-		if (controls.ACCEPT) {
+		if (controls.ACCEPT || FlxG.mouse.justPressed) {
 			openSelectedSubstate(options[curSelected]);
 		}
 	}

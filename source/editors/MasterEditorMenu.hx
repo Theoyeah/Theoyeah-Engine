@@ -1,6 +1,5 @@
 package editors;
 
-import ModsMenuState.ModMetadata;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -29,7 +28,9 @@ class MasterEditorMenu extends MusicBeatState
 		'Character Editor',
 		'Chart Editor',
 		'Stage Editor',
+		#if (!html5 && MODS_ALLOWED)
 		'Mod Manager'
+		#end
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
@@ -89,22 +90,25 @@ class MasterEditorMenu extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (controls.UI_UP_P)
+		var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+
+		if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
 		{
-			changeSelection(-1);
+			changeSelection(-shiftMult);
 		}
-		if (controls.UI_DOWN_P)
+		if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0)
 		{
-			changeSelection(1);
+			changeSelection(shiftMult);
 		}
 		#if MODS_ALLOWED
 		if(controls.UI_LEFT_P)
 		{
-			changeDirectory(-1);
+			changeDirectory(-shiftMult);
 		}
 		if(controls.UI_RIGHT_P)
 		{
-			changeDirectory(1);
+			changeDirectory(shiftMult);
 		}
 		#end
 
@@ -113,7 +117,7 @@ class MasterEditorMenu extends MusicBeatState
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
-		if (controls.ACCEPT)
+		if (controls.ACCEPT || FlxG.mouse.justPressed)
 		{
 			switch(options[curSelected]) {
 				case 'Character Editor':
@@ -126,13 +130,14 @@ class MasterEditorMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
 				case 'Dialogue Editor':
 					LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
-				case 'Chart Editor'://felt it would be cool maybe
+				case 'Chart Editor': //felt it would be cool maybe
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
 				case 'Stage Editor':
-			    	LoadingState.loadAndSwitchState(new StageEditorState(), false);
+					LoadingState.loadAndSwitchState(new StageEditorState(), false);
+				#if (!html5 && MODS_ALLOWED)
 				case 'Mod Manager':
-					LoadingState.loadAndSwitchState(new ModsMenuState(), false);
-					   
+					LoadingState.loadAndSwitchState(new editors.ModsMenuState(), false);		   
+				#end
 			}
 			FlxG.sound.music.volume = 0;
 			#if PRELOAD_ALL
@@ -181,7 +186,7 @@ class MasterEditorMenu extends MusicBeatState
 			curDirectory = directories.length - 1;
 		if(curDirectory >= directories.length)
 			curDirectory = 0;
-	
+
 		WeekData.setDirectoryFromWeek();
 		if(directories[curDirectory] == null || directories[curDirectory].length < 1)
 			directoryTxt.text = '< No Mod Directory Loaded >';

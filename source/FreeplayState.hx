@@ -241,7 +241,7 @@ class FreeplayState extends MusicBeatState
 	}*/
 
 	var instPlaying:Int = -1;
-	private static var vocals:FlxSound = null;
+	public  static var vocals:FlxSound = null;
 	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
@@ -281,12 +281,12 @@ class FreeplayState extends MusicBeatState
 
 		if(songs.length > 1)
 		{
-			if (upP)
+			if (upP || FlxG.mouse.wheel > 0)
 			{
 				changeSelection(-shiftMult);
 				holdTime = 0;
 			}
-			if (downP)
+			if (downP || FlxG.mouse.wheel < 0)
 			{
 				changeSelection(shiftMult);
 				holdTime = 0;
@@ -353,7 +353,6 @@ class FreeplayState extends MusicBeatState
 				#end
 			}
 		}
-
 		else if (accepted)
 		{
 			persistentUpdate = false;
@@ -378,15 +377,15 @@ class FreeplayState extends MusicBeatState
 			if(colorTween != null) {
 				colorTween.cancel();
 			}
-			
-			if (FlxG.keys.pressed.SHIFT){
+
+			if (FlxG.keys.pressed.SHIFT) {
 				LoadingState.loadAndSwitchState(new ChartingState());
-			}else{
+			} else {
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 
 			FlxG.sound.music.volume = 0;
-					
+
 			destroyFreeplayVocals();
 		}
 		else if(controls.RESET)

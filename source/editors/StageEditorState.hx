@@ -76,7 +76,9 @@ class StageEditorState extends MusicBeatState
 	public static var stepperscrollY:FlxUIInputText;
 
 	var scaleStepper:FlxUINumericStepper;
+
 	public static var layerStepper:FlxUINumericStepper;
+
 	var coolstageFile:StageData;
 	var addedLayers:Array<LayerFile>;
 
@@ -238,7 +240,7 @@ class StageEditorState extends MusicBeatState
 		FlxG.mouse.visible = true;
 
 		dummyLayer = new FlxSprite();
-        dummyLayer.visible = false;
+		dummyLayer.visible = false;
 		dummyLayer.cameras = [camhidden];
 		visualLayers.push(dummyLayer);
 
@@ -249,7 +251,6 @@ class StageEditorState extends MusicBeatState
 
 	function addLayersUI()
 	{
-
 		nameInputText = new FlxUIInputText(15, 50, 200, "", 8);
 		var namelabel = new FlxText(15, nameInputText.y + 20, 64, 'Layer Name');
 		directoryInputText = new FlxUIInputText(15, nameInputText.y + 50, 200, "", 8);
@@ -274,7 +275,6 @@ class StageEditorState extends MusicBeatState
 		layerStepper = new FlxUINumericStepper(15, scaleStepper.y + 150, 1, 0, 0, 0, 1);
 
 		var layerlabel = new FlxText(15, layerStepper.y + 20, 64, 'Selected Layer');
-
 
 		isflippedX = new FlxUICheckBox(240, layerStepper.y + 20, null, null, "FlipX", 100);
 
@@ -304,7 +304,8 @@ class StageEditorState extends MusicBeatState
 			var luaFlipYstring:String = "setProperty('" + nameInputText.text + ".flipY', " + isflippedY.checked + ");";
 			var luaFlipXstring:String = "setProperty('" + nameInputText.text + ".flipX', " + isflippedX.checked + ");";
 			createdLayer = new FlxSprite();
-			if (visualLayers.contains(dummyLayer)) {
+			if (visualLayers.contains(dummyLayer))
+			{
 				visualLayers.remove(dummyLayer);
 			}
 			add(createdLayer);
@@ -368,7 +369,6 @@ class StageEditorState extends MusicBeatState
 				remove(createdLayer);
 				visualLayers.remove(createdLayer);
 				stageFile.layerArray.remove(stageSwag);
-
 			}
 		});
 
@@ -497,8 +497,8 @@ class StageEditorState extends MusicBeatState
 		UI_stagebox.scrollFactor.set();
 	}
 
-	function reloadStages() {
-
+	function reloadStages()
+	{
 		bfInputText.text = Std.string(stageFile.boyfriend[0] + ", " + stageFile.boyfriend[1]);
 		gfInputText.text = Std.string(stageFile.girlfriend[0] + ", " + stageFile.girlfriend[1]);
 		opponentinputtext.text = Std.string(stageFile.opponent[0] + ", " + stageFile.opponent[1]);
@@ -512,8 +512,8 @@ class StageEditorState extends MusicBeatState
 		boffsettext.text = stageFile.camera_boyfriend[0] + ", " + stageFile.camera_boyfriend[1];
 		speedoffsettext.text = Std.string(stageFile.camera_speed);
 
-		for (layer in stageFile.layerArray) {
-
+		for (layer in stageFile.layerArray)
+		{
 			layerStepper.value++;
 			layerStepper.max++;
 
@@ -525,39 +525,44 @@ class StageEditorState extends MusicBeatState
 			stepperscrollY.text = Std.string(layer.scrollY);
 			scaleStepper.value = layer.scale;
 			isflippedX.checked = layer.flipX;
-            isflippedY.checked = layer.flipY;
+			isflippedY.checked = layer.flipY;
 
 			var assetName:String = layer.directory;
 			var directoryLayer:String = "images/" + assetName + ".png";
-			                        //.cpp error moment
-			if (FileSystem.exists(Paths.modsImages(assetName))) {
-			createdLayer = new FlxSprite();
-			createdLayer.loadGraphic(Paths.image(assetName));
-			createdLayer.x = layer.xAxis;
-			createdLayer.y = layer.yAxis;
-			createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
-			add(createdLayer);
-			visualLayers.push(createdLayer);
+			// .cpp error moment
+			#if MODS_ALLOWED
+			if (FileSystem.exists(Paths.modsImages(assetName)))
+			{
+				createdLayer = new FlxSprite();
+				createdLayer.loadGraphic(Paths.image(assetName));
+				createdLayer.x = layer.xAxis;
+				createdLayer.y = layer.yAxis;
+				createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
+				add(createdLayer);
+				visualLayers.push(createdLayer);
 			}
-			                       //.cpp error moment
-			if (Paths.fileExists(directoryLayer, IMAGE)) {
-			createdLayer = new FlxSprite();
-			createdLayer.loadGraphic(Paths.getPath(directoryLayer, IMAGE));
-			createdLayer.x = layer.xAxis;
-			createdLayer.y = layer.yAxis;
-			createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
-			add(createdLayer);
-			visualLayers.push(createdLayer);
+			#end
+			// .cpp error moment
+			if (Paths.fileExists(directoryLayer, IMAGE))
+			{
+				createdLayer = new FlxSprite();
+				createdLayer.loadGraphic(Paths.getPath(directoryLayer, IMAGE));
+				createdLayer.x = layer.xAxis;
+				createdLayer.y = layer.yAxis;
+				createdLayer.setGraphicSize(Std.int(createdLayer.width * layer.scale));
+				add(createdLayer);
+				visualLayers.push(createdLayer);
 			}
-       }	
-  }
+		}
+	}
 
 	function searchForLayer()
 	{
 		var assetName:String = directoryInputText.text.trim();
-		var directoryLayer:String = "images/" + assetName + ".png";
+		var directoryLayer:String = 'images/$assetName.png';
 		if (assetName != null && assetName.length > 0)
 		{
+			#if MODS_ALLOWED
 			if (FileSystem.exists(Paths.modFolders(directoryLayer)))
 			{
 				visualLayers[Std.int(layerStepper.value)].loadGraphic(Paths.image(assetName));
@@ -570,6 +575,10 @@ class StageEditorState extends MusicBeatState
 			{
 				visualLayers[Std.int(layerStepper.value)].visible = false;
 			}
+			#else
+			visualLayers[Std.int(layerStepper.value)].visible = false;
+			#end
+
 			if (Paths.fileExists(directoryLayer, IMAGE))
 			{
 				visualLayers[Std.int(layerStepper.value)].loadGraphic(Paths.getPath(directoryLayer, IMAGE));
@@ -586,7 +595,7 @@ class StageEditorState extends MusicBeatState
 		else
 		{
 			visualLayers[Std.int(layerStepper.value)].visible = false;
-		} 
+		}
 	}
 
 	function deleteLayer()
@@ -619,7 +628,6 @@ class StageEditorState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-
 		var inputTexts:Array<FlxUIInputText> = [
 			nameInputText, directoryInputText, directoryInputText, directoryInputTextcool, xInputText, yInputText, gfInputText, bfInputText,
 			opponentinputtext, zoominputtext, dirinputtext
@@ -722,7 +730,6 @@ class StageEditorState extends MusicBeatState
 			var xx3 = Std.parseInt(STRINGG3[0].trim());
 			var yy3 = Std.parseInt(STRINGG3[1].trim());
 			stageFile.camera_opponent = [xx3, yy3];
-
 		}
 
 		stageFile.defaultZoom = Std.parseFloat(zoominputtext.text);
@@ -742,17 +749,17 @@ class StageEditorState extends MusicBeatState
 			visualLayers[Std.int(layerStepper.value)].x -= 1;
 			xInputText.text = visualLayers[Std.int(layerStepper.value)].x + "";
 		}
-		else if (FlxG.keys.pressed.RIGHT)
+		if (FlxG.keys.pressed.RIGHT)
 		{
 			visualLayers[Std.int(layerStepper.value)].x += 1;
 			xInputText.text = visualLayers[Std.int(layerStepper.value)].x + "";
 		}
-		else if (FlxG.keys.pressed.UP)
+		if (FlxG.keys.pressed.UP)
 		{
 			visualLayers[Std.int(layerStepper.value)].y -= 1;
 			yInputText.text = visualLayers[Std.int(layerStepper.value)].y + "";
 		}
-		else if (FlxG.keys.pressed.DOWN)
+		if (FlxG.keys.pressed.DOWN)
 		{
 			visualLayers[Std.int(layerStepper.value)].y += 1;
 			yInputText.text = visualLayers[Std.int(layerStepper.value)].y + "";
@@ -805,10 +812,10 @@ class StageEditorState extends MusicBeatState
 		camPeople.zoom = FlxG.camera.zoom;
 		camGrid.zoom = FlxG.camera.zoom;
 
-		if (FlxG.keys.justPressed.ESCAPE)
+		if (controls.BACK)
 		{
 			MusicBeatState.switchState(new editors.MasterEditorMenu());
-			FlxG.sound.playMusic(Paths.music('freakyMenu'));
+			FlxG.sound.playMusic(Paths.music());
 
 			FlxG.mouse.visible = false;
 			return;
@@ -854,7 +861,6 @@ class StageEditorState extends MusicBeatState
 			camera_opponent: stageFile.camera_opponent,
 			camera_girlfriend: stageFile.camera_girlfriend,
 			camera_speed: stageFile.camera_speed
-
 		}
 
 		var data:String = Json.stringify(stageFile, "\t");
@@ -876,8 +882,9 @@ class StageEditorState extends MusicBeatState
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save("function onCreate()\n" + luaStages.join("\n") + "\n" + luaScrollFactors.join("\n") + "\n" + luaFlipY.join("\n") + "\n" + luaFlipX.join("\n") + "\n" + luaAdded.join("\n") + "\n" + "end",
-			dirinputtext.text + ".lua");
+			_file.save("function onCreate()\n" + luaStages.join("\n") + "\n" + luaScrollFactors.join("\n") + "\n" + luaFlipY.join("\n") + "\n"
+				+ luaFlipX.join("\n") + "\n" + luaAdded.join("\n") + "\n" + "end",
+				dirinputtext.text + ".lua");
 		}
 	}
 
@@ -987,5 +994,4 @@ class StageEditorState extends MusicBeatState
 		_file = null;
 		trace("Problem loading file");
 	}
-} 
-
+}

@@ -12,7 +12,6 @@ import openfl.display._internal.stats.DrawCallContext;
 #if flash
 import openfl.Lib;
 #end
-
 #if openfl
 import openfl.system.System;
 #end
@@ -31,6 +30,7 @@ class FPS extends TextField
 		The current frame rate, expressed using frames-per-second
 	**/
 	public var currentFPS(default, null):Int;
+
 	public var memoryMegas:Float;
 	public var memoryTotal:Float;
 
@@ -82,17 +82,18 @@ class FPS extends TextField
 
 		var currentCount = times.length;
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
-		if (currentFPS > ClientPrefs.framerate) currentFPS = ClientPrefs.framerate;
+		if (currentFPS > ClientPrefs.framerate)
+			currentFPS = ClientPrefs.framerate;
 
 		if (currentCount != cacheCount /*&& visible*/)
 		{
 			text = "FPS: " + currentFPS;
-			
+
 			#if openfl
 			memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
-			//memoryMegas = Math.round(System.totalMemory / 1024 / 1024 * 100)/100;
-			if(memoryMegas>memoryTotal)
-				memoryTotal=memoryMegas;
+			// memoryMegas = Math.round(System.totalMemory / 1024 / 1024 * 100)/100;
+			if (memoryMegas > memoryTotal)
+				memoryTotal = memoryMegas;
 			text += "\nRAM: " + memoryMegas + "mb" + " / " + memoryTotal + 'mb';
 			#end
 

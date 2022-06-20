@@ -163,11 +163,11 @@ class PauseSubState extends MusicBeatSubstate
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
 
-		if (upP)
+		if (upP || FlxG.mouse.wheel > 0)
 		{
 			changeSelection(-1);
 		}
-		if (downP)
+		if (downP || FlxG.mouse.wheel < 0)
 		{
 			changeSelection(1);
 		}
@@ -281,6 +281,8 @@ class PauseSubState extends MusicBeatSubstate
 				case "Exit to menu":
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
+
+					WeekData.loadTheFirstEnabledMod();
 					if(PlayState.isStoryMode) {
 						MusicBeatState.switchState(new StoryMenuState());
 						Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
