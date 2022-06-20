@@ -211,8 +211,7 @@ class FunkinLua {
 		set('deaths', PlayState.deathCounter);
 		set('blueBalled', PlayState.deathCounter);
 
-		// Block require and os, Should probably have a proper function but this should be good enough for now until someone smarter comes along and recreates a safe version of the OS library
-
+		set('require', false);
 
 		// Camera poo
 		set('cameraX', 0);
@@ -2874,11 +2873,7 @@ class FunkinLua {
 	static inline var CLENSE:String = "
 		os.getenv = nil;
 
-		os.remove = nil;
-		os.rename = nil;
-		os.chdir = nil;
-		os.popen = nil;
-		os.close = nil;
+		os.execute = nil;
 		os.makedir = nil;
 		os.makedirs =nil;
 		require = nil;
