@@ -22,7 +22,7 @@ class NoteskinHelper
 		-BeastlyGhost
 	**/
 	public static var noteSkins:Map<String, String> = [
-		'normal' => 'NOTE_assets',
+		'arrows' => 'NOTE_assets',
 		'circle' => 'CIRCLENOTE_assets'
 	];
 
