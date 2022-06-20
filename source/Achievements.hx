@@ -222,6 +222,21 @@ class AttachedAchievement extends FlxSprite {
 		reloadAchievementImage();
 	}
 
+	public function forget() // from BeastlyGhost
+ 	{
+ 		if (Achievements.isAchievementUnlocked(tag))
+ 		{
+ 			if (FlxG.save.data.achievementsMap != null)
+ 			{
+ 				var savedStuff:Map<String, String> = FlxG.save.data.achievementsMap;
+ 				if (savedStuff.exists(tag))
+ 					savedStuff.remove(tag);
+ 				FlxG.save.data.achievementsMap = savedStuff;
+ 				loadGraphic(Paths.image('achievements/lockedachievement'));
+ 			}
+ 		}
+ 	}
+
 	public function reloadAchievementImage() {
 		var imagePath = Paths.image('achievements/$tag');
 

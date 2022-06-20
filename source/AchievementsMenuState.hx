@@ -80,6 +80,13 @@ class AchievementsMenuState extends MusicBeatState
 		descText.scrollFactor.set();
 		descText.borderSize = 2.4;
 		add(descText);
+
+		var resetText:FlxText = new FlxText(0, 680, FlxG.width, "Press R to reset achievement/nPress ALT + R to reset all", 12);
+ 		resetText.borderSize = 5;
+ 		resetText.setFormat(Paths.font("vcr.ttf"), 28, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+ 		resetText.scrollFactor.set();
+ 		add(resetText);
+
 		changeSelection();
 
 		super.create();
@@ -96,6 +103,28 @@ class AchievementsMenuState extends MusicBeatState
 		if (controls.UI_DOWN_P  || FlxG.mouse.wheel < 0) {
 			changeSelection(shiftMult);
 		}
+
+		if(controls.RESET) {
+			if(FlxG.keys.pressed.ALT) {
+				openSubState(new Prompt('This action will clear ALL the progress.\n\nProceed?', 0, function() {
+					FlxG.sound.play(Paths.sound('confirmMenu'));
+					for (i in 0...achievementArray.length) {
+						achievementArray[i].forget();
+						grpOptions.members[i].changeText('?');
+					}
+				}, function() {
+					FlxG.sound.play(Paths.sound('confirmMenu'));
+				}, false));
+			} else {
+				openSubState(new Prompt('This action will clear the progress of the selected achievement.\n\nProceed?', 0, function() {
+					FlxG.sound.play(Paths.sound('confirmMenu'));
+					achievementArray[curSelected].forget();
+					grpOptions.members[curSelected].changeText('?');
+				}, function() {
+					FlxG.sound.play(Paths.sound('cancelMenu'));
+				}, false));
+			}
+ 		}
 
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
