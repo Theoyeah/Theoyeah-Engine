@@ -49,12 +49,8 @@ class Note extends FlxSprite
 
 	public var colorSwap:ColorSwap;
 	public var inEditor:Bool = false;
-
-	public var animSuffix:String = '';
 	public var gfNote:Bool = false;
-	public var earlyHitMult:Float = 0.5;
-	public var lateHitMult:Float = 1;
-	public var lowPriority:Bool = false;
+	private var earlyHitMult:Float = 0.5;
 
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
@@ -94,11 +90,11 @@ class Note extends FlxSprite
 	public var distance:Float = 2000; //plan on doing scroll directions soon -bb
 
 	public var hitsoundDisabled:Bool = false;
-
+	
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
 		multSpeed = value;
-		//trace('fuck cock');
+		trace('fuck cock');
 		return value;
 	}
 
@@ -131,12 +127,11 @@ class Note extends FlxSprite
 				case 'Hurt Note': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
 					ignoreNote = mustPress;
 					reloadNote('HURT');
+					reloadNote('', 'noteskins/HURTNOTE_assets');
 					noteSplashTexture = 'HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					lowPriority = true;
-
 					hitByOpponent = false;
 					if(isSustainNote) {
 						missHealth = 0.1;
@@ -146,7 +141,7 @@ class Note extends FlxSprite
 					hitCausesMiss = true;
 				case 'Instakill Note':
 					ignoreNote = mustPress;
-					reloadNote('INSTAKILL');
+					reloadNote('', 'noteskins/INSTAKILLNOTE_assets');
 					noteSplashTexture = 'HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -160,7 +155,7 @@ class Note extends FlxSprite
 					hitCausesMiss = true;
 				case 'Crash Note':
 					ignoreNote = mustPress;
-					reloadNote('CRASH');
+					reloadNote('', 'noteskins/CRASHNOTE_assets');
 					noteSplashTexture = 'HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -169,7 +164,7 @@ class Note extends FlxSprite
 					hitCausesMiss = true;
 				case 'Window Note':
 					ignoreNote = mustPress;
-					reloadNote('WINDOW');
+					reloadNote('', 'noteskins/WINDOWNOTE_assets');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -177,23 +172,23 @@ class Note extends FlxSprite
 					hitCausesMiss = true;
 				case 'Warning Note':
 					ignoreNote = mustPress;
-					reloadNote('WARNING');
+					reloadNote('', 'noteskins/WARNINGNOTE_assets');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
+				    hitByOpponent = false;
 					colorSwap.brightness = 0;
 					if (tooLate) {
 						missHealth = 500;
 					}
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
-					reloadNote('POISONED');
+					reloadNote('', 'noteskins/POISONEDNOTE_assets');
+					noteSplashTexture = 'POISONEDnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
 					hitByOpponent = false;
 					hitCausesMiss = true;
-				case 'Alt Animation':
-					animSuffix = '-alt';
 				case 'No Animation':
 					noAnimation = true;
 					noMissAnimation = true;
@@ -330,16 +325,13 @@ class Note extends FlxSprite
 		if(texture == null) texture = '';
 		if(suffix == null) suffix = '';
 	
-	var coolswag:String = '';
-	if(ClientPrefs.noteskin != 'Arrows') {
-		coolswag = '-' + ClientPrefs.noteskin.toLowerCase().replace(' ', '-');
-	}
-		
 		var skin:String = texture;
-		if(texture.length < 1) {
+		if (texture.length < 1)
+		{
 			skin = PlayState.SONG.arrowSkin;
-			if(skin == null || skin.length < 1) {
-				skin = 'NOTE_assets';
+			if (skin == null || skin.length < 1)
+			{
+				skin = NoteskinHelper.getNoteSkin(ClientPrefs.noteSkin);
 			}
 		}
 
@@ -450,7 +442,7 @@ class Note extends FlxSprite
 		if (mustPress)
 		{
 			// ok river
-			if (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult)
+			if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
 				&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
 				canBeHit = true;
 			else
