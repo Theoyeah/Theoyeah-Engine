@@ -49,8 +49,11 @@ class Note extends FlxSprite
 
 	public var colorSwap:ColorSwap;
 	public var inEditor:Bool = false;
+	public var animSuffix:String = '';
 	public var gfNote:Bool = false;
-	private var earlyHitMult:Float = 0.5;
+	public var earlyHitMult:Float = 0.5;
+	public var lateHitMult:Float = 1;
+	public var lowPriority:Bool = false;
 
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
@@ -94,7 +97,7 @@ class Note extends FlxSprite
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
 		multSpeed = value;
-		trace('fuck cock');
+		//trace('fuck cock');
 		return value;
 	}
 
@@ -132,6 +135,7 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
+					lowPriority = true;
 					hitByOpponent = false;
 					if(isSustainNote) {
 						missHealth = 0.1;
@@ -175,7 +179,6 @@ class Note extends FlxSprite
 					reloadNote('', 'noteskins/WARNINGNOTE_assets');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
-				    hitByOpponent = false;
 					colorSwap.brightness = 0;
 					if (tooLate) {
 						missHealth = 500;
@@ -189,6 +192,8 @@ class Note extends FlxSprite
 					colorSwap.brightness = 0;
 					hitByOpponent = false;
 					hitCausesMiss = true;
+				case 'Alt Animation':
+					animSuffix = '-alt';
 				case 'No Animation':
 					noAnimation = true;
 					noMissAnimation = true;
@@ -442,7 +447,7 @@ class Note extends FlxSprite
 		if (mustPress)
 		{
 			// ok river
-			if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
+			if (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult)
 				&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
 				canBeHit = true;
 			else
