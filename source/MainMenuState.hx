@@ -34,7 +34,7 @@ class MainMenuState extends MusicBeatState
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
 
-	
+
 	var optionShit:Array<String> = [
 		'story_mode',
 		'freeplay',
@@ -49,7 +49,7 @@ class MainMenuState extends MusicBeatState
 	var debugKeys:Array<FlxKey>;
 
 	var logo:FlxSprite;
-	
+
 	override function create()
 	{
 		WeekData.loadTheFirstEnabledMod();
@@ -104,7 +104,7 @@ class MainMenuState extends MusicBeatState
 		bgScroll.velocity.set(50, 50);
 		bgScroll.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bgScroll);
-		
+
 		// magenta.scrollFactor.set();
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
@@ -194,6 +194,7 @@ class MainMenuState extends MusicBeatState
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
+			if(FreeplayState.vocals != null) FreeplayState.vocals.volume += 0.5 * elapsed;
 		}
 
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 1.5, 0, 1);
@@ -242,7 +243,7 @@ class MainMenuState extends MusicBeatState
 								ease: FlxEase.quadOut,
 								onComplete: function(twn:FlxTween)
 								{
-									
+
 								}
 							});
 						}

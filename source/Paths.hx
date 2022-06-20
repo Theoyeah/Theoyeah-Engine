@@ -106,7 +106,9 @@ class Paths
 		{
 			var obj = FlxG.bitmap._cache.get(key);
 			if (obj != null && !currentTrackedAssets.exists(key)) {
-				openfl.Assets.cache.removeBitmapData(key);
+				#if PRELOAD_ALL
+				openfl.Assets.cache.clear("songs");
+				#end
 				FlxG.bitmap._cache.remove(key);
 				obj.destroy();
 			}
@@ -123,7 +125,9 @@ class Paths
 		}	
 		// flags everything to be cleared out next unused memory clear
 		localTrackedAssets = [];
+		#if PRELOAD_ALL
 		openfl.Assets.cache.clear("songs");
+		#end
 	}
 
 	static public var currentModDirectory:String = '';
@@ -266,7 +270,7 @@ class Paths
 		var sound:Sound = returnSound('sounds', key, library);
 		return sound;
 	}
-	
+
 	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
 	{
 		return sound(key + FlxG.random.int(min, max), library);
@@ -280,16 +284,28 @@ class Paths
 
 	inline static public function voices(song:String):Any
 	{
+		#if PRELOAD_ALL
 		var songKey:String = '${song.toLowerCase().replace(' ', '-')}/Voices';
 		var voices = returnSound('songs', songKey);
 		return voices;
+		#else
+		var songKey:String = '${song.toLowerCase().replace(' ', '-')}';
+		var voices = returnSound(songKey, 'Voices', 'songs');
+		return voices;
+		#end
 	}
 
 	inline static public function inst(song:String):Any
 	{
-		var songKey:String = '${formatToSongPath(song)}/Inst';
+		#if PRELOAD_ALL
+			var songKey:String = '${song.toLowerCase().replace(' ', '-')}/Inst';
 		var inst = returnSound('songs', songKey);
 		return inst;
+		#else
+		var songKey:String = '${song.toLowerCase().replace(' ', '-')}';
+		var inst = returnSound(songKey, 'Inst', 'songs');
+		return inst;
+		#end
 	}
 
 	inline static public function image(key:String, ?library:String):FlxGraphic
@@ -478,6 +494,9 @@ class Paths
 		#if WAV_ALLOWED
 		var file_:String = modsWavSounds(path, key);
 		#end
+		#if MP3_ALLOWED
+		var mp3File:String = modsMP3Sounds(path, key);
+		#end
 		if(FileSystem.exists(file)) {
 			if(!currentTrackedSounds.exists(file)) {
 				currentTrackedSounds.set(file, Sound.fromFile(file));
@@ -491,6 +510,14 @@ class Paths
 			}
 			localTrackedAssets.push(key);
 			return currentTrackedSounds.get(file_);
+		} #end
+		#if MP3_ALLOWED
+		else if(FileSystem.exists(mp3File)) {
+			if(!currentTrackedSounds.exists(mp3File)) {
+				currentTrackedSounds.set(mp3File, Sound.fromFile(mp3File));
+			}
+			localTrackedAssets.push(key);
+			return currentTrackedSounds.get(mp3File);
 		}
 		#end
 		#end
@@ -564,11 +591,14 @@ class Paths
 	inline static public function modsSounds(path:String, key:String) {
 		return modFolders('$path/$key.$SOUND_EXT');
 	}
-
 	inline static public function modsWavSounds(path:String, key:String) {
-		#if WAV_ALLOWED
 		return modFolders('$path/$key.wav');
-		#end
+	}
+	inline static public function modsMP3Sounds(path:String, key:String) {
+		return modFolders('$path/$key.mp3');
+	}
+	inline static public function modsSoundsAll(path:String, key:String, type:String) {
+		return modFolders('$path/$key.$type');
 	}
 
 	inline static public function modsImages(key:String, where:String = 'images') {

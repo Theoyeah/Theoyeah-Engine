@@ -13,6 +13,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+import flixel.input.mouse.FlxMouse;
 #if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
@@ -88,7 +89,7 @@ class CreditsState extends MusicBeatState
 			[''],
 			['Pull Requests and Code used'],
 			['Magnumsrt',	'',	'Creator of stage editor', ''],
-			['BeastlyGhost',        '',     'Creator of v0.3 FPS Counter (Base Game)\n(Memory used), and other GOD things', ''   ],
+			['BeastlyGhost',        '',     'Creator of v0.3 FPS Counter (Base Game)\n(Memory used), and other GOD things', ''],
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',							'https://twitter.com/Shadow_Mario_',	'444444'],
@@ -111,15 +112,15 @@ class CreditsState extends MusicBeatState
 			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'",							'https://twitter.com/evilsk8r',			'53E52C'],
 			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",							'https://twitter.com/kawaisprite',		'6475F3']
 		];
-		
-		for(i in pisspoop){
+
+		for(i in pisspoop) {
 			creditsStuff.push(i);
 		}
-	
+
 		for (i in 0...creditsStuff.length)
 		{
 			var isSelectable:Bool = !unselectableCheck(i);
-			var optionText:Alphabet = new Alphabet(0, 70 * i, creditsStuff[i][0], !isSelectable, false);
+			var optionText:Alphabet = new Alphabet(0, 70 * i, creditsStuff[i][0] == "" ? "No name" : creditsStuff[i][0], !isSelectable, false);
 			optionText.isMenuItem = true;
 			optionText.screenCenter(X);
 			optionText.yAdd -= 70;
@@ -140,7 +141,7 @@ class CreditsState extends MusicBeatState
 				var icon:AttachedSprite = if(creditsStuff[i][1] == '') new AttachedSprite('credits/unknown') else new AttachedSprite('credits/' + creditsStuff[i][1]);
 				icon.xAdd = optionText.width + 10;
 				icon.sprTracker = optionText;
-	
+
 				// using a FlxGroup is too much fuss!
 				iconArray.push(icon);
 				add(icon);
@@ -149,7 +150,7 @@ class CreditsState extends MusicBeatState
 				if(curSelected == -1) curSelected = i;
 			}
 		}
-		
+
 		descBox = new AttachedSprite();
 		descBox.makeGraphic(1, 1, FlxColor.BLACK);
 		descBox.xAdd = -10;
@@ -187,15 +188,15 @@ class CreditsState extends MusicBeatState
 				var shiftMult:Int = 1;
 				if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
-				var upP = controls.UI_UP_P;
-				var downP = controls.UI_DOWN_P;
+				var upP = controls.UI_UP_P || FlxG.mouse.wheel > 0;
+				var downP = controls.UI_DOWN_P || FlxG.mouse.wheel < 0;
 
-				if (upP || FlxG.mouse.wheel > 0)
+				if (upP)
 				{
 					changeSelection(-1 * shiftMult);
 					holdTime = 0;
 				}
-				if (downP || FlxG.mouse.wheel < 0)
+				if (downP)
 				{
 					changeSelection(1 * shiftMult);
 					holdTime = 0;
@@ -214,7 +215,7 @@ class CreditsState extends MusicBeatState
 				}
 			}
 
-			if(controls.ACCEPT) {
+			if(controls.ACCEPT || FlxG.mouse.justPressed) {
 				var link:String = creditsStuff[curSelected][3].toLowerCase().replace(' ', '');
 				if(link == 'nolink' || link == 'no' || link == 'n') {
 					FlxG.sound.play(Paths.sound('cancelMenu'));

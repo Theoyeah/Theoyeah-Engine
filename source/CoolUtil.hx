@@ -28,6 +28,10 @@ class CoolUtil
 
 	public static var difficulties:Array<String> = [];
 
+	inline public static function quantize(f:Float, interval:Float) {
+ 		return Std.int((f + interval / 2) / interval) * interval;
+ 	}
+
 	public static function getDifficultyFilePath(num:Null<Int> = null)
 	{
 		if(num == null) num = PlayState.storyDifficulty;
@@ -118,6 +122,15 @@ class CoolUtil
 	}
 
 	//uhhhh does this even work at all? i'm starting to doubt
+	#if !PRELOAD_ALL
+	public static function precacheSound(sound:String, ?library:String = null):Void {
+		Paths.returnSound('sounds', sound, library);
+	}
+
+	public static function precacheMusic(sound:String, ?library:String = null):Void {
+		Paths.returnSound('music', sound, library);
+	}
+	#else
 	public static function precacheSound(sound:String, ?library:String = null):Void {
 		Paths.sound(sound, library);
 	}
@@ -125,6 +138,7 @@ class CoolUtil
 	public static function precacheMusic(sound:String, ?library:String = null):Void {
 		Paths.music(sound, library);
 	}
+	#end
 
 	public static function browserLoad(site:String) {
 		#if linux

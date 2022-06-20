@@ -25,7 +25,6 @@ import openfl.display.BitmapData;
 import flash.geom.Rectangle;
 import flixel.ui.FlxButton;
 import flixel.FlxBasic;
-import sys.io.File;
 /*import haxe.zip.Reader;
 import haxe.zip.Entry;
 import haxe.zip.Uncompress;
@@ -108,7 +107,7 @@ class ModsMenuState extends MusicBeatState
 
 		// FIND MOD FOLDERS
 		var boolshit = true;
-		if (FileSystem.exists("modsList.txt")){
+		if (FileSystem.exists("modsList.txt")) {
 			for (folder in Paths.getModDirectories())
 			{
 				if(!Paths.ignoreModFolders.contains(folder))
@@ -485,6 +484,11 @@ class ModsMenuState extends MusicBeatState
 				TitleState.initialized = false;
 				TitleState.closedState = false;
 				FlxG.sound.music.fadeOut(0.3);
+				if(FreeplayState.vocals != null)
+				{
+					FreeplayState.vocals.fadeOut(0.3);
+					FreeplayState.vocals = null;
+				}
 				FlxG.camera.fade(FlxColor.BLACK, 0.5, false, FlxG.resetGame, false);
 			}
 			else
@@ -493,14 +497,17 @@ class ModsMenuState extends MusicBeatState
 			}
 		}
 
+		var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+
 		if(controls.UI_UP_P || FlxG.mouse.wheel > 0)
 		{
-			changeSelection(-1);
+			changeSelection(-shiftMult);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
 		if(controls.UI_DOWN_P || FlxG.mouse.wheel < 0)
 		{
-			changeSelection(1);
+			changeSelection(shiftMult);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
 		updatePosition(elapsed);
@@ -567,7 +574,7 @@ class ModsMenuState extends MusicBeatState
 				mod.alphabet.alpha = 1;
 				selector.sprTracker = mod.alphabet;
 				descriptionTxt.text = mod.description;
-				if (mod.restart){//finna make it to where if nothing changed then it won't reset
+				if (mod.restart && !descriptionTxt.text.contains('restart')) { //finna make it to where if nothing changed then it won't reset
 					descriptionTxt.text += " (This Mod will restart the game!)";
 				}
 

@@ -87,24 +87,24 @@ class ClientPrefs {
 		'note_down'		=> [S, DOWN],
 		'note_up'		=> [W, UP],
 		'note_right'	=> [D, RIGHT],
-		
+
 		'ui_left'		=> [A, LEFT],
 		'ui_down'		=> [S, DOWN],
 		'ui_up'			=> [W, UP],
 		'ui_right'		=> [D, RIGHT],
-		
+
 		'accept'		=> [SPACE, ENTER],
 		'back'			=> [BACKSPACE, ESCAPE],
 		'pause'			=> [ENTER, ESCAPE],
 		'reset'			=> [R, NONE],
-		
+
 		'volume_mute'	=> [ZERO, NONE],
 		'volume_up'		=> [NUMPADPLUS, PLUS],
 		'volume_down'	=> [NUMPADMINUS, MINUS],
-		
+
 		'debug_1'		=> [SEVEN, NONE],
 		'debug_2'		=> [EIGHT, NONE],
-		
+
 		'zoom+'			=> [Z, NONE],
 		'zoom-'			=> [X, NONE],
 		'decrease'		=> [Q, NONE],
@@ -166,7 +166,7 @@ class ClientPrefs {
 		FlxG.save.data.hitsoundVolume = hitsoundVolume;
 		FlxG.save.data.pauseMusic = pauseMusic;
 		FlxG.save.data.instantRespawn = instantRespawn;
-	
+
 		FlxG.save.flush();
 
 		var save:FlxSave = new FlxSave();
@@ -332,7 +332,7 @@ class ClientPrefs {
 				gameplaySettings.set(name, value);
 			}
 		}
-		
+
 		// flixel automatically saves your volume!
 		if(FlxG.save.data.volume != null)
 		{
