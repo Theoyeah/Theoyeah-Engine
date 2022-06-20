@@ -91,6 +91,10 @@ class TitleState extends MusicBeatState
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
+		#if LUA_ALLOWED
+		Paths.pushGlobalMods();
+		#end
+
 		// Just to load a mod on start up if ya got one. For mods that change the menu music and bg
 		WeekData.loadTheFirstEnabledMod();
 		
@@ -114,12 +118,12 @@ class TitleState extends MusicBeatState
 		#if CHECK_FOR_UPDATES
 		if(!closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/Theoyeah/Theoyeah-Fnf-Engine/main/gitVersion.txt");
+			var http = new haxe.Http("https://raw.githubusercontent.com/Theoyeah/Theoyeah-Engine/main/gitVersion.txt");
 			
 			http.onData = function (data:String)
 			{
 				updateVersion = data.split('\n')[0].trim();
-				var curVersion:String = MainMenuState.psychEngineVersion.trim();
+				var curVersion:String = MainMenuState.theoyeahEngineVersion.trim();
 				trace('version online: ' + updateVersion + ', your version: ' + curVersion);
 				if(updateVersion != curVersion) {
 					trace('versions arent matching!');
@@ -178,14 +182,15 @@ class TitleState extends MusicBeatState
 		}
 		#end
 
-		if(!initialized && FlxG.save.data != null && FlxG.save.data.fullscreen)
+		if(!initialized)
 		{
-			FlxG.fullscreen = FlxG.save.data.fullscreen;
-			//trace('LOADED FULLSCREEN SETTING!!');
-		}
-		if(FlxG.keys.justPressed.F && FlxG.keys.justPressed.CONTROL) {
-			FlxG.save.data.fullscreen = true;
-			FlxG.fullscreen = FlxG.save.data.fullscreen;
+			if(FlxG.save.data != null && FlxG.save.data.fullscreen)
+ 			{
+ 				FlxG.fullscreen = FlxG.save.data.fullscreen;
+ 				//trace('LOADED FULLSCREEN SETTING!!');
+ 			}
+ 			persistentUpdate = true;
+ 			persistentDraw = true;
 		}
 
 		if (FlxG.save.data.weekCompleted != null)
@@ -262,20 +267,20 @@ class TitleState extends MusicBeatState
 		persistentUpdate = true;
 
 		var bg:FlxSprite = new FlxSprite();
-		
-		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none"){
+
+		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != "none") {
 			bg.loadGraphic(Paths.image(titleJSON.backgroundSprite));
 		} else {
 			bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		}
-		
+
 		// bg.antialiasing = ClientPrefs.globalAntialiasing;
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
 		// bg.updateHitbox();
 		add(bg);
 
 		#if ACHIEVEMENTS_ALLOWED
-			var leDate = Date.now();
+		var leDate = Date.now();
 		#end
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
 		logoBl.frames =
@@ -287,8 +292,8 @@ class TitleState extends MusicBeatState
 			}
 			#else
 				Paths.getSparrowAtlas('logoBumpin');
-			#end 
-			
+			#end
+
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
@@ -332,7 +337,7 @@ class TitleState extends MusicBeatState
 				gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		}
 		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
-		
+
 		add(gfDance);
 		gfDance.shader = swagShader.shader;
 		add(logoBl);
@@ -346,13 +351,13 @@ class TitleState extends MusicBeatState
 			path = Paths.currentModImages("titleEnter");
 		}
 		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)){
+		if (!FileSystem.exists(path)) {
 			path = "assets/images/titleEnter.png";
 		}
 		//trace(path, FileSystem.exists(path));
 		titleText.frames = FlxAtlasFrames.fromSparrow(BitmapData.fromFile(path),File.getContent(StringTools.replace(path,".png",".xml")));
 		#else
-		
+
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
 		#end
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
@@ -407,7 +412,7 @@ class TitleState extends MusicBeatState
 		psychSpr.screenCenter(X);
 		psychSpr.antialiasing = ClientPrefs.globalAntialiasing;
 		
-		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('Theoyeah_logo'));
+		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
 		add(tySpr);
 		tySpr.visible = false;
 		tySpr.setGraphicSize(Std.int(125 * 0.74)); //i dont know how this works, edit it later theoyeah to correct the image and all that
@@ -436,7 +441,7 @@ class TitleState extends MusicBeatState
 		coolguys.screenCenter(X);
 		coolguys.antialiasing = ClientPrefs.globalAntialiasing;
 
-		
+
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
@@ -472,7 +477,7 @@ class TitleState extends MusicBeatState
 			Conductor.songPosition = FlxG.sound.music.time;
 		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
-		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
+		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed;
 
 		#if mobile
 		for (touch in FlxG.touches.list)
@@ -559,6 +564,10 @@ class TitleState extends MusicBeatState
 								}
 							});
 							FlxG.sound.music.fadeOut();
+							if(FreeplayState.vocals != null)
+							{
+								FreeplayState.vocals.fadeOut();
+							}
 							closedState = true;
 							transitioning = true;
 							playJingle = true;
@@ -625,7 +634,7 @@ class TitleState extends MusicBeatState
 	{
 		super.beatHit();
 
-		if(logoBl != null) 
+		if(logoBl != null)
 			logoBl.animation.play('bump', true);
 
 		if(gfDance != null) {
@@ -769,7 +778,7 @@ class TitleState extends MusicBeatState
 						FlxG.sound.play(Paths.sound('JingleShadow'));
 					case 'BBPANZU':
 						sound = FlxG.sound.play(Paths.sound('JingleBB'));
-					
+
 					default: //Go back to normal ugly ass boring GF
 						removeThings();
 						if(ClientPrefs.flashing) {
@@ -777,7 +786,7 @@ class TitleState extends MusicBeatState
 						}
 						skippedIntro = true;
 						playJingle = false;
-						
+
 						FlxG.sound.playMusic(Paths.music(ClientPrefs.musicSelected), 0);
 						FlxG.sound.music.fadeIn(4, 0, 0.7);
 						return;
@@ -823,6 +832,10 @@ class TitleState extends MusicBeatState
 				if(easteregg == 'SHADOW')
 				{
 					FlxG.sound.music.fadeOut();
+					if(FreeplayState.vocals != null)
+					{
+						FreeplayState.vocals.fadeOut();
+					}
 				}
 				#end
 			}

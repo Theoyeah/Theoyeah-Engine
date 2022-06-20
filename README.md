@@ -5,7 +5,7 @@
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?style=flat-square&label=latest%20stable%20version)](https://github.com/Theoyeah/Theoyeah-Engine/releases/latest)
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/Theoyeah/Theoyeah-Engine/latest?style=)
 [![GitHub all releases downloaded](https://img.shields.io/github/downloads/Theoyeah/Theoyeah-Engine/total?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/releases) [![GitHub issues](https://img.shields.io/github/issues/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/pulls) []() []()
-[![GitHub LICENSE](https://img.shields.io/github/license/Theoyeah/Theoyeah-Engine?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/LICENSE) ![GitHub repo size](https://img.shields.io/github/repo-size/Theoyeah/Theoyeah-Engine)  ![Supported platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20macOS%2C%20linux-red)
+[![GitHub LICENSE](https://img.shields.io/github/license/Theoyeah/Theoyeah-Engine?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/LICENSE) ![GitHub repo size](https://img.shields.io/github/repo-size/Theoyeah/Theoyeah-Engine)  ![Supported platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20macOS%2C%20linux%2C%20html5-red)
 
 
 
@@ -25,11 +25,11 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 - Added some custom easter eggs
 - Stage Editor (made by @magnumsrtisswag)
 - New fps counter (by @BeastlyGhost)
-- Fixed null error in the chart editor
+- Fixed _null_ error in the chart editor
 - New option category: Music
 - Judgement counter!
-- Winning Icons (from Mic up' Engine)
-- new funkay.png
+- Winning Icons (from [Mic up' Engine](https://github.com/Verwex/Funkin-Mic-d-Up-SC))
+- old funkin.png
 - Fucked difficulty 
 - longer health bar
 - tweaked scoretxt 
@@ -38,18 +38,22 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 - no more donate button (look at [readme.txt](art/readme.txt) if you want to donate at original creator of fnf)
 - added flash when selecting something
 - red flash when you die
-- added [Marvelous](assets/shared/images/marvelous.png)
 - Kade Score Text!
 - funni 9 button easter egg icon
 - Shaders are real
 - Os is back !!!
+- Mkv video support
+- Optimized, a lot of code
 - Added a cool background in intro
 - Added the original MiddleScroll !
-- [Mp3](Project.xml#L54) and [Wav](Project.xml#L55) support !
+<!--- [Mp3](Project.xml#L54) and [Wav](Project.xml#L55) support ! //im with it, looks that it doesnt work -wither -->
 - More options
 - **Instakill Note and Crash Note!!** (with a fabulous texture)
 - **Windows Note and Warning Note** (with *another* fabulous texture)
+- Added mouse wheel support (mouse scroll) and mouse click support
+- Added new (and better) zoom system!
 - Look at the [`Project.xml`](Project.xml) file for more!
+- And sooo much freaky stuff that i can't list here ;)
 # Examples :
 ![Sans titreS](https://user-images.githubusercontent.com/97792861/169879482-ba19602c-7dc7-49d7-9243-726921786b56.png)
 ![Sans titre](https://user-images.githubusercontent.com/97792861/169879499-c3fcfbac-5aa5-4605-b67b-f51926aca639.png)

@@ -68,11 +68,11 @@ class ClientPrefs {
 
 	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public static var ratingOffset:Int = 0;
-	public static var marvelousWindow:Int = 25;
 	public static var sickWindow:Int = 45;
 	public static var goodWindow:Int = 90;
 	public static var badWindow:Int = 135;
 	public static var safeFrames:Float = 10;
+	public static var instantRespawn:Bool = false;
 
 	//Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
@@ -80,7 +80,7 @@ class ClientPrefs {
 		'note_left'		=> [A, LEFT],
 		'note_down'		=> [S, DOWN],
 		'note_up'		=> [W, UP],
-		'note_right'	        => [D, RIGHT],
+		'note_right'	=> [D, RIGHT],
 		
 		'ui_left'		=> [A, LEFT],
 		'ui_down'		=> [S, DOWN],
@@ -92,17 +92,17 @@ class ClientPrefs {
 		'pause'			=> [ENTER, ESCAPE],
 		'reset'			=> [R, NONE],
 		
-		'volume_mute'	        => [ZERO, NONE],
+		'volume_mute'	=> [ZERO, NONE],
 		'volume_up'		=> [NUMPADPLUS, PLUS],
-		'volume_down'	        => [NUMPADMINUS, MINUS],
+		'volume_down'	=> [NUMPADMINUS, MINUS],
 		
 		'debug_1'		=> [SEVEN, NONE],
 		'debug_2'		=> [EIGHT, NONE],
 		
-		'zoom+'                 => [Z, NONE],
-		'zoom-'                 => [X, NONE],
-		'decrease'              => [Q, NONE],
-		'increase'              => [E, NONE]
+		'zoom+'			=> [Z, NONE],
+		'zoom-'			=> [X, NONE],
+		'decrease'		=> [Q, NONE],
+		'increase'		=> [E, NONE]
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -152,7 +152,6 @@ class ClientPrefs {
 		FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
-		FlxG.save.data.marvelousWindow = marvelousWindow;
 		FlxG.save.data.sickWindow = sickWindow;
 		FlxG.save.data.goodWindow = goodWindow;
 		FlxG.save.data.badWindow = badWindow;
@@ -161,6 +160,7 @@ class ClientPrefs {
 		FlxG.save.data.controllerMode = controllerMode;
 		FlxG.save.data.hitsoundVolume = hitsoundVolume;
 		FlxG.save.data.pauseMusic = pauseMusic;
+		FlxG.save.data.instantRespawn = instantRespawn;
 	
 		FlxG.save.flush();
 
@@ -172,16 +172,14 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-		if(FlxG.save.data.noteSplashes == true || FlxG.save.data.noteSplashes == false) {
-			if(FlxG.save.data.noteSplashes == true || FlxG.save.data.noteSplashes == false) {
-				if(FlxG.save.data.noteSplashes) {
-					FlxG.save.data.noteSplashes = 'Normal';
-				} else {
-					FlxG.save.data.noteSplashes = 'None';
-				}
-				FlxG.save.data.noteSplashesRepared = true;
-			}
-		}
+		if(FlxG.save.data.noteSplashes) // fixes noteSplashes error
+			FlxG.save.data.noteSplashes = 'Normal';
+		else
+			FlxG.save.data.noteSplashes = 'None';
+
+		if(FlxG.save.data.instantRespawn != null)
+			instantRespawn = FlxG.save.data.instantRespawn;
+
 		if(FlxG.save.data.winningIcon != null) {
 			winningIcon = FlxG.save.data.winningIcon;
 		}
@@ -224,7 +222,7 @@ class ClientPrefs {
 		if(FlxG.save.data.language != null) {
 			language = FlxG.save.data.language;
 		}
-		if(FlxG.save.data.noteSplashes != null) {
+		if(FlxG.save.data.noteSplashes != null && Std.isOfType(FlxG.save.data.noteSplashes, noteSplashes)) {
 			noteSplashes = FlxG.save.data.noteSplashes;
 		}
 		if(FlxG.save.data.crazycounter != null) {
@@ -297,15 +295,11 @@ class ClientPrefs {
 		if(FlxG.save.data.comboOffset != null) {
 			comboOffset = FlxG.save.data.comboOffset;
 		}
-		
 		if(FlxG.save.data.ratingOffset != null) {
 			ratingOffset = FlxG.save.data.ratingOffset;
 		}
 		if(FlxG.save.data.sickWindow != null) {
 			sickWindow = FlxG.save.data.sickWindow;
-		}
-		if(FlxG.save.data.marvelousWindow != null) {
-			marvelousWindow = FlxG.save.data.marvelousWindow;
 		}
 		if(FlxG.save.data.goodWindow != null) {
 			goodWindow = FlxG.save.data.goodWindow;

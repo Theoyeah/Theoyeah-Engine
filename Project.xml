@@ -42,7 +42,7 @@
 	<set name="BUILD_DIR" value="export/32bit" if="32bits" />
 
 	<classpath name="source" />
-	
+
 	<!-- PSYCH ENGINE CUSTOMIZATION -->
 	<define name="MODS_ALLOWED" if="desktop" />
 	<define name="LUA_ALLOWED" if="desktop" />
@@ -53,6 +53,7 @@
 	<define name="TITLE_SCREEN_EASTER_EGG" if="officialBuild"/> <!-- DELETE THE if="officialBuild" for enabling this on an unofficial build -->
 	<define name="MP3_ALLOWED"/>
 	<define name="WAV_ALLOWED"/>
+	<define name="MKV_ALLOWED" if="VIDEOS_ALLOWED"/>
 	<define name="MUSIC_FOLDER_ALLOWED"/>
 	<define name="MORE_ZOOM"/>
 
@@ -67,9 +68,9 @@
 	<define name="CHECK_FOR_UPDATES"/>
 
 	<!-- <define name="PRELOAD_ALL" /> -->
-	<define name="PRELOAD_ALL" unless="web" />
+	<define name="PRELOAD_ALL" unless="web || html5" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
-	
+
 	<library name="videos"        preload="true" />
 	<section if="PRELOAD_ALL">
 		<library name="songs"         preload="true" />
@@ -81,7 +82,7 @@
 		<library name="week6"         preload="true" />
 		<library name="week7"         preload="true" />
 	</section>
-	
+
 	<section if="NO_PRELOAD_ALL">
 		<library name="songs"         preload="true" />
 		<library name="shared"        preload="false" />
@@ -92,9 +93,8 @@
 		<library name="week6"         preload="false" />
 		<library name="week7"         preload="false" />
 	</section>
-	
-	<assets path="plugins/"             rename=''               if="VIDEOS_ALLOWED windows" />
-	<assets path="dlls/"                rename=''               if="VIDEOS_ALLOWED windows" />
+
+
 	<assets path="assets/videos"        library="videos"        if="VIDEOS_ALLOWED"/>
 	<assets path="assets/songs"         library="songs"         exclude="*.ogg" if="web"/>
 	<assets path="assets/songs"         library="songs"         exclude="*.mp3" unless="web"/>
@@ -112,11 +112,13 @@
 	<assets path="assets/week6"         library="week6"         exclude="*.mp3" unless="web"/>
 	<assets path="assets/week7"         library="week7"         exclude="*.ogg" if="web"/>
 	<assets path="assets/week7"         library="week7"         exclude="*.mp3" unless="web"/>
-	
-	<assets path='example_mods' rename='mods' embed='false' if="MODS_ALLOWED"/>
+
+	<section if="MODS_ALLOWED">
+		<assets path='example_mods' rename='mods' embed='false'/>
+	</section>
 	<assets path='art/readme.txt' rename='do NOT readme.txt' />
 	<template path='mods' />
-	
+
 	<!-- assets path="CHANGELOG.md" rename='changelog.txt' -->
 
 	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 
@@ -137,6 +139,7 @@
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>
+	<haxelib name="hxCodec" if="VIDEOS_ALLOWED"/>
 	<haxelib name="faxe" if='switch'/>
 	<!--<haxelib name="polymod"/> -->
 	<haxelib name="discord_rpc" if="desktop"/>
@@ -173,6 +176,9 @@
 
 	<!--Disable the Flixel core focus lost screen-->
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
+	
+	<!-- Show debug traces for hxCodec -->
+	<haxedef name="HXC_DEBUG_TRACE" if="debug" />
 
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
@@ -183,7 +189,7 @@
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
-	
+
 	<icon path="art/icon16.png" size='16'/>
 	<icon path="art/icon32.png" size='32'/>
 	<icon path="art/icon64.png" size='64'/>

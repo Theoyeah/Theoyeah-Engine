@@ -39,6 +39,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 	function getOptions()
 	{
+		#if CHEATING_ALLOWED
 		var goption:GameplayOption = new GameplayOption('Scroll Type', 'scrolltype', 'string', 'multiplicative', ["multiplicative", "constant"]);
 		optionsArray.push(goption);
 
@@ -74,6 +75,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.changeValue = 0.1;
 		option.displayFormat = '%vX';
 		optionsArray.push(option);
+		#end
 
 		var option:GameplayOption = new GameplayOption('Health Loss Multiplier', 'healthloss', 'float', 1);
 		option.scrollSpeed = 2.5;
@@ -86,11 +88,13 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		var option:GameplayOption = new GameplayOption('Instakill on Miss', 'instakill', 'bool', false);
 		optionsArray.push(option);
 
+		#if CHEATING_ALLOWED
 		var option:GameplayOption = new GameplayOption('Practice Mode', 'practice', 'bool', false);
 		optionsArray.push(option);
 
 		var option:GameplayOption = new GameplayOption('Botplay', 'botplay', 'bool', false);
 		optionsArray.push(option);
+		#end
 	}
 
 	public function getOptionByName(name:String)
@@ -162,11 +166,11 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	var holdValue:Float = 0;
 	override function update(elapsed:Float)
 	{
-		if (controls.UI_UP_P)
+		if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
 		{
 			changeSelection(-1);
 		}
-		if (controls.UI_DOWN_P)
+		if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0)
 		{
 			changeSelection(1);
 		}

@@ -31,6 +31,12 @@ class Note extends FlxSprite
 	public var hitByOpponent:Bool = false;
 	public var noteWasHit:Bool = false;
 	public var prevNote:Note;
+	public var nextNote:Note;
+
+	public var spawned:Bool = false;
+
+	public var tail:Array<Note> = []; // for sustains
+	public var parent:Note;
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -43,8 +49,12 @@ class Note extends FlxSprite
 
 	public var colorSwap:ColorSwap;
 	public var inEditor:Bool = false;
+
+	public var animSuffix:String = '';
 	public var gfNote:Bool = false;
-	private var earlyHitMult:Float = 0.5;
+	public var earlyHitMult:Float = 0.5;
+	public var lateHitMult:Float = 1;
+	public var lowPriority:Bool = false;
 
 	public static var swagWidth:Float = 160 * 0.7;
 	public static var PURP_NOTE:Int = 0;
@@ -79,15 +89,16 @@ class Note extends FlxSprite
 	public var texture(default, set):String = null;
 
 	public var noAnimation:Bool = false;
+	public var noMissAnimation:Bool = false;
 	public var hitCausesMiss:Bool = false;
 	public var distance:Float = 2000; //plan on doing scroll directions soon -bb
 
 	public var hitsoundDisabled:Bool = false;
-	
+
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
 		multSpeed = value;
-		trace('fuck cock');
+		//trace('fuck cock');
 		return value;
 	}
 
@@ -124,6 +135,8 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
+					lowPriority = true;
+
 					hitByOpponent = false;
 					if(isSustainNote) {
 						missHealth = 0.1;
@@ -167,7 +180,6 @@ class Note extends FlxSprite
 					reloadNote('WARNING');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
-				    hitByOpponent = false;
 					colorSwap.brightness = 0;
 					if (tooLate) {
 						missHealth = 500;
@@ -175,15 +187,17 @@ class Note extends FlxSprite
 				case 'Poisoned Note' | 'Nota Envenenada':
 					ignoreNote = mustPress;
 					reloadNote('POISONED');
-					noteSplashTexture = 'POISONEDnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
 					hitByOpponent = false;
 					hitCausesMiss = true;
-				case 'No Animation' | 'No Animación':
+				case 'Alt Animation':
+					animSuffix = '-alt';
+				case 'No Animation':
 					noAnimation = true;
-				case 'GF Sing' | 'GF Canta':
+					noMissAnimation = true;
+				case 'GF Sing':
 					gfNote = true;
 			}
 			noteType = value;
@@ -237,6 +251,9 @@ class Note extends FlxSprite
 		}
 
 		// trace(prevNote);
+
+		if(prevNote!=null)
+			prevNote.nextNote = this;
 
 		if (isSustainNote && prevNote != null)
 		{
@@ -433,7 +450,7 @@ class Note extends FlxSprite
 		if (mustPress)
 		{
 			// ok river
-			if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
+			if (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult)
 				&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
 				canBeHit = true;
 			else

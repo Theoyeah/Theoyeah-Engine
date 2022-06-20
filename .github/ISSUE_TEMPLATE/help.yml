@@ -6,6 +6,7 @@ body:
     id: description
     attributes:
       label: "Describe your problem here."
+      placeholder: "I don't know how to do pancakes and I need help with creating a robot that cooks pancakes for me."
     validations:
       required: true
 
@@ -16,6 +17,8 @@ body:
       options:
         - Lua
         - Source
+        - I added a new system
+      multiple: true
     validations:
       required: true
 
@@ -25,12 +28,15 @@ body:
       label: "What is your build target?"
       options:
         - "Windows x64"
-        - "Windows x86/x32"
+        - "Windows x32"
+        - "Windows x86"
         - "Linux"
         - "Mac"
         - "HTML5/Browser"
         - "Flash/Air-based target"
         - "Neko, HashLink, or other build system"
+        - "Im talking about a GLOBAL help"
+      multiple: true
     validations:
       required: true
 
@@ -39,5 +45,24 @@ body:
     attributes:
       label: "Did you edit anything in this build? If so, mention or summarize your changes."
       placeholder: "Yes, I edited ClientPrefs.hx and tried to add a new setting"
+    validations:
+      required: false
+
+  - type: textarea
+    id: codeleak
+    attributes:
+      label: "Can you show the code? Only in case that you want"
+      placeholder: "Code here, come on don't be shy! This helps for anyone to see if you have errors and that"
+      render: |
+        lua
+        hx
+        udkdodnsisdnduenejsjsd
+      value: |
+        lua:
+
+        haxe:
+
+        other:
+
     validations:
       required: false

@@ -1,4 +1,3 @@
-import flixel.graphics.FlxGraphic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
@@ -7,13 +6,6 @@ import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
-#if MODS_ALLOWED
-import sys.FileSystem;
-import sys.io.File;
-#end
-import haxe.Json;
-import lime.utils.Assets;
-import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
 
@@ -37,7 +29,25 @@ class Achievements {
 		["Gamer Tostador",			  "¿Has intentado jugar el juego en una tostadora?",		'toastie',				false],
 		["Debugger",					"Completa la Canción \"Test\" desde el Chart Editor.",	'debugger',				 true],
 		["Not Freaky on a Friday Night",	"Juega un... ¿Sábado por la Noche?",						'saturday_night_play',	 true]
-	] else [
+	] else if (ClientPrefs.language == 'Francais') [
+		["Freaky dans un vendredi soir",	"Jouer le vendredi... soir.",						'friday_night_play',	 true],
+		["Elle m'appèlle papa aussi",		"Compléter Semaine 1 sans erreur.",				'week1_nomiss',			false],
+		["Plus de blagues",				"Compléter Semaine 2 sans erreur.",				'week2_nomiss',			false],
+		["Appèlle moi l'assasin",			"Compléter Semaine 3 sans erreur.",					'week3_nomiss',			false],
+		["Tueur de femmes",					"Compléter Semaine 4 sans erreur.",				'week4_nomiss',			false],
+		["Noël sans faute",			"Compléter Semaine 5 sans erreur.",					'week5_nomiss',			false],
+		["Score élevé!!",					"Compléter Semaine 6 sans erreur.",				'week6_nomiss',			false],
+		["Dieu Effing Merde!",		"Compléter Semaine 7 sans erreur.",						'week7_nomiss',			false], 
+		["Quel Funkin' Désastre!",	"Compléter une chanson avec une évaluation de moins de 20%.",			'ur_bad',			false],
+		["Perfectionniste",			   	  "Compléter une Chanson avec une évaluation de 100%.",		'ur_good',			false],
+		["Passionné de Roadkill",		 "Regarder les Henchmen mourir plus de 100 tfois.",				'roadkill_enthusiast',		false],
+		["Chante trop...?",   "Clique une note pour 10 secondes.",						'oversinging',			false],
+		["Hyperactive",					"Terminez une chanson sans rester inactif.",			'hype',				false],
+		["Juste que nous deux",		 "Terminez une chanson en pressant que deux clés.",				'two_keys',			false],
+		["Toaster Gamer",			  "As-tu essayé de jouer ce jeu sur un toaster?",		'toastie',			false],
+		["Débogueur",					"Compléter la chanson \"Test\" depuis l'éditeur de Chart.",	'debugger',			true],
+		["Pas Freaky en un vendredi soir",	"Jouer en un Samedi... Soir ?",		'saturday_night_play',	 	true]
+	    ] else [
 		["Freaky on a Friday Night",	"Play on a Friday... Night.",						'friday_night_play',	 true],
 		["She Calls Me Daddy Too",		"Beat Week 1 with no Misses.",				'week1_nomiss',			false],
 		["No More Tricks",				"Beat Week 2 with no Misses.",				'week2_nomiss',			false],

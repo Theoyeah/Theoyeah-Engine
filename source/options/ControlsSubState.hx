@@ -122,10 +122,10 @@ class ControlsSubState extends MusicBeatSubstate {
 	var bindingTime:Float = 0;
 	override function update(elapsed:Float) {
 		if(!rebindingKey) {
-			if (controls.UI_UP_P) {
+			if (controls.UI_UP_P || FlxG.mouse.wheel > 0) {
 				changeSelection(-1);
 			}
-			if (controls.UI_DOWN_P) {
+			if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
 				changeSelection(1);
 			}
 			if (controls.UI_LEFT_P || controls.UI_RIGHT_P) {

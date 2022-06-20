@@ -1,6 +1,5 @@
 package editors;
 
-import ModsMenuState.ModMetadata;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -21,48 +20,17 @@ using StringTools;
 
 class MasterEditorMenu extends MusicBeatState
 {
-	static var language:String = ClientPrefs.language.toLowerCase();
-	static var weekEditor:String = if(language == 'spanish')
-		'Editor de Weeks'
-	else 
-		'Week Editor';
-	static var menuCharacterEditor:String = if(language == 'spanish')
-		'Editor de Menú Personajes'
-	else
-		'Menu Character Editor';
-	static var characterEditor:String = if(language == 'spanish')
-		'Editor de Personajes'
-	else
-		'Character Editor';
-	static var dialogueEditor:String = if(language == 'spanish')
-		'Editor de Diálogo'
-	else
-		'Dialogue Editor';
-	static var dialoguePortraitEditor:String = if(language == 'spanish')
-		'Editor de Personajes de Diálogo'
-	else
-		'Dialogue Portrait Editor';
-	static var chartEditor:String = if(language == 'spanish')
-		'Editor de Chart'
-	else
-		'Chart Editor';
-	static var stageEditor:String = if(language == 'spanish')
-		'Editor de Stages'
-	else
-		'Stage Editor';
-	static var modManager:String = if(language == 'spanish')
-		'Mánager de Mods'
-	else
-		'Mod Manager';
-	var options:Array<Dynamic> = [
-		weekEditor,
-		menuCharacterEditor,
-		dialogueEditor,
-		dialoguePortraitEditor,
-		characterEditor,
-		chartEditor,
-		stageEditor,
-		modManager
+	var options:Array<String> = [
+		'Week Editor',
+		'Menu Character Editor',
+		'Dialogue Editor',
+		'Dialogue Portrait Editor',
+		'Character Editor',
+		'Chart Editor',
+		'Stage Editor',
+		#if (!html5 && MODS_ALLOWED)
+		'Mod Manager'
+		#end
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
@@ -122,22 +90,25 @@ class MasterEditorMenu extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (controls.UI_UP_P)
+		var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+
+		if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
 		{
-			changeSelection(-1);
+			changeSelection(-shiftMult);
 		}
-		if (controls.UI_DOWN_P)
+		if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0)
 		{
-			changeSelection(1);
+			changeSelection(shiftMult);
 		}
 		#if MODS_ALLOWED
 		if(controls.UI_LEFT_P)
 		{
-			changeDirectory(-1);
+			changeDirectory(-shiftMult);
 		}
 		if(controls.UI_RIGHT_P)
 		{
-			changeDirectory(1);
+			changeDirectory(shiftMult);
 		}
 		#end
 
@@ -146,7 +117,7 @@ class MasterEditorMenu extends MusicBeatState
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
-		if (controls.ACCEPT)
+		if (controls.ACCEPT || FlxG.mouse.justPressed)
 		{
 			switch(options[curSelected]) {
 				case characterEditor:
@@ -159,13 +130,14 @@ class MasterEditorMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
 				case dialogueEditor:
 					LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
-				case chartEditor://felt it would be cool maybe
+				case 'Chart Editor': //felt it would be cool maybe
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
-				case stageEditor:
+				case 'Stage Editor':
 					LoadingState.loadAndSwitchState(new StageEditorState(), false);
-				case modManager:
-					LoadingState.loadAndSwitchState(new ModsMenuState(), false);
-					   
+				#if (!html5 && MODS_ALLOWED)
+				case 'Mod Manager':
+					LoadingState.loadAndSwitchState(new editors.ModsMenuState(), false);		   
+				#end
 			}
 			FlxG.sound.music.volume = 0;
 			#if PRELOAD_ALL
@@ -214,7 +186,7 @@ class MasterEditorMenu extends MusicBeatState
 			curDirectory = directories.length - 1;
 		if(curDirectory >= directories.length)
 			curDirectory = 0;
-	
+
 		WeekData.setDirectoryFromWeek();
 		if(directories[curDirectory] == null || directories[curDirectory].length < 1)
 			directoryTxt.text = if(language == 'spanish')

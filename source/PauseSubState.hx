@@ -47,6 +47,9 @@ class PauseSubState extends MusicBeatSubstate
 
 	public static var songName:String = '';
 
+	
+	public static var toOptions:Bool = false;
+	
 	public function new(x:Float, y:Float)
 	{
 		super();
@@ -107,6 +110,8 @@ class PauseSubState extends MusicBeatSubstate
 			menuItemsOG.remove(changeL); //No need to change difficulty if there is only one!
 		}
 
+		toOptions = false;
+		
 		if(PlayState.chartingMode)
 		{
 			menuItemsOG.insert(2, leaveL);
@@ -235,11 +240,11 @@ class PauseSubState extends MusicBeatSubstate
 		var downP:Bool = controls.UI_DOWN_P;
 		var accepted:Bool = controls.ACCEPT;
 
-		if (upP)
+		if (upP || FlxG.mouse.wheel > 0)
 		{
 			changeSelection(-1);
 		}
-		if (downP)
+		if (downP || FlxG.mouse.wheel < 0)
 		{
 			changeSelection(1);
 		}
@@ -347,11 +352,14 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.botplaySine = 0;
 				case 'Opciones' | 'Options' | 'Choix' | 'Opções':
 					Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
-					LoadingState.loadAndSwitchState(new altoptions.PauseOptionsState());
+					toOptions = true;
+					MusicBeatState.switchState(new options.OptionsState());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				case 'Sair para o menu' | 'Salir al Menú' | 'Exit to menu' | 'Quitter le menu':
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
+
+					WeekData.loadTheFirstEnabledMod();
 					if(PlayState.isStoryMode) {
 						MusicBeatState.switchState(new StoryMenuState());
 						Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";

@@ -98,7 +98,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptions.add(optionText);
 
-			if(optionsArray[i].type == 'bool') {
+			if(optionsArray[i].type.toLowerCase() == 'bool') {
 				var checkbox:CheckboxThingie = new CheckboxThingie(optionText.x - 105, optionText.y, optionsArray[i].getValue() == true);
 				checkbox.sprTracker = optionText;
 				checkbox.ID = i;
@@ -135,13 +135,16 @@ class BaseOptionsMenu extends MusicBeatSubstate
 	var holdValue:Float = 0;
 	override function update(elapsed:Float)
 	{
-		if (controls.UI_UP_P)
+		var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+
+		if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
 		{
-			changeSelection(-1);
+			changeSelection(-shiftMult);
 		}
-		if (controls.UI_DOWN_P)
+		if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0)
 		{
-			changeSelection(1);
+			changeSelection(shiftMult);
 		}
 
 		if (controls.BACK) {
@@ -152,38 +155,35 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		if(nextAccept <= 0)
 		{
 			var usesCheckbox = true;
-			if(curOption.type != 'bool')
+			if(curOption.type.toLowerCase() != 'bool')
 			{
 				usesCheckbox = false;
 			}
 
-			if(usesCheckbox)
+			if(usesCheckbox && (controls.ACCEPT || FlxG.mouse.justPressed))
 			{
-				if(controls.ACCEPT)
-				{
-					FlxG.sound.play(Paths.sound('scrollMenu'));
-					curOption.setValue((curOption.getValue() == true) ? false : true);
-					curOption.change();
-					reloadCheckboxes();
-				}
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				curOption.setValue((curOption.getValue() == true) ? false : true);
+				curOption.change();
+				reloadCheckboxes();
 			} else {
 				if(controls.UI_LEFT || controls.UI_RIGHT) {
 					var pressed = (controls.UI_LEFT_P || controls.UI_RIGHT_P);
 					if(holdTime > 0.5 || pressed) {
 						if(pressed) {
 							var add:Dynamic = null;
-							if(curOption.type != 'string') {
+							if(curOption.type.toLowerCase() != 'string') {
 								add = controls.UI_LEFT ? -curOption.changeValue : curOption.changeValue;
 							}
 
-							switch(curOption.type)
+							switch(curOption.type.toLowerCase())
 							{
 								case 'int' | 'float' | 'percent':
 									holdValue = curOption.getValue() + add;
 									if(holdValue < curOption.minValue) holdValue = curOption.minValue;
 									else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
 
-									switch(curOption.type)
+									switch(curOption.type.toLowerCase())
 									{
 										case 'int':
 											holdValue = Math.round(holdValue);
@@ -212,12 +212,12 @@ class BaseOptionsMenu extends MusicBeatSubstate
 							updateTextFrom(curOption);
 							curOption.change();
 							FlxG.sound.play(Paths.sound('scrollMenu'));
-						} else if(curOption.type != 'string') {
+						} else if(curOption.type.toLowerCase() != 'string') {
 							holdValue += curOption.scrollSpeed * elapsed * (controls.UI_LEFT ? -1 : 1);
 							if(holdValue < curOption.minValue) holdValue = curOption.minValue;
 							else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
 
-							switch(curOption.type)
+							switch(curOption.type.toLowerCase())
 							{
 								case 'int':
 									curOption.setValue(Math.round(holdValue));
@@ -230,7 +230,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 						}
 					}
 
-					if(curOption.type != 'string') {
+					if(curOption.type.toLowerCase() != 'string') {
 						holdTime += elapsed;
 					}
 				} else if(controls.UI_LEFT_R || controls.UI_RIGHT_R) {
@@ -244,9 +244,9 @@ class BaseOptionsMenu extends MusicBeatSubstate
 				{
 					var leOption:Option = optionsArray[i];
 					leOption.setValue(leOption.defaultValue);
-					if(leOption.type != 'bool')
+					if(leOption.type.toLowerCase() != 'bool')
 					{
-						if(leOption.type == 'string')
+						if(leOption.type.toLowerCase() == 'string')
 						{
 							leOption.curOption = leOption.options.indexOf(leOption.getValue());
 						}
@@ -272,7 +272,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 	function updateTextFrom(option:Option) {
 		var text:String = option.displayFormat;
 		var val:Dynamic = option.getValue();
-		if(option.type == 'percent') val *= 100;
+		if(option.type.toLowerCase() == 'percent') val *= 100;
 		var def:Dynamic = option.defaultValue;
 		option.text = text.replace('%v', val).replace('%d', def);
 	}

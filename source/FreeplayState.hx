@@ -195,16 +195,10 @@ class FreeplayState extends MusicBeatState
 		add(textBG);
 
 		#if PRELOAD_ALL
-		var leText:String = if(ClientPrefs.language == 'Spanish')
-			"Pulsa ESPACIO para escuchar la Canción / Pulsa CTRL para abrir el Menú de Modificaciones / Pulsa RESET para Resetear tu Score y Valoración"
-		else 
-			"Press SPACE to listen to the Song / " + #if CHEATING_ALLOWED "Press CTRL to open the Gameplay Changers Menu / " + #end "Press RESET to Reset your Score and Accuracy.";
+		var leText:String = "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
 		var size:Int = 16;
 		#else
-		var leText:String = if(ClientPrefs.language == 'Spanish') 
-			"Pulsa CTRL para abrir el Menú de Modificaciones / Pulsa RESET para Resetear tu Score y Valoración"
-		else
-			#if CHEATING_ALLOWED "Press CTRL to open the Gameplay Changers Menu / " + #end "Press RESET to Reset your Score and Accuracy.";
+		var leText:String = "Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
 		var size:Int = 18;
 		#end
 		var text:FlxText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
@@ -247,7 +241,7 @@ class FreeplayState extends MusicBeatState
 	}*/
 
 	var instPlaying:Int = -1;
-	private static var vocals:FlxSound = null;
+	public  static var vocals:FlxSound = null;
 	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
@@ -290,12 +284,12 @@ class FreeplayState extends MusicBeatState
 
 		if(songs.length > 1)
 		{
-			if (upP)
+			if (upP || FlxG.mouse.wheel > 0)
 			{
 				changeSelection(-shiftMult);
 				holdTime = 0;
 			}
-			if (downP)
+			if (downP || FlxG.mouse.wheel < 0)
 			{
 				changeSelection(shiftMult);
 				holdTime = 0;
@@ -362,7 +356,6 @@ class FreeplayState extends MusicBeatState
 				#end
 			}
 		}
-
 		else if (accepted)
 		{
 			persistentUpdate = false;
@@ -387,15 +380,15 @@ class FreeplayState extends MusicBeatState
 			if(colorTween != null) {
 				colorTween.cancel();
 			}
-			
-			if (FlxG.keys.pressed.SHIFT){
+
+			if (FlxG.keys.pressed.SHIFT) {
 				LoadingState.loadAndSwitchState(new ChartingState());
-			}else{
+			} else {
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 
 			FlxG.sound.music.volume = 0;
-					
+
 			destroyFreeplayVocals();
 		}
 		else if(controls.RESET)
