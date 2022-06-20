@@ -270,7 +270,7 @@ class Paths
 		var sound:Sound = returnSound('sounds', key, library);
 		return sound;
 	}
-	
+
 	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
 	{
 		return sound(key + FlxG.random.int(min, max), library);
@@ -314,7 +314,7 @@ class Paths
 		var returnAsset:FlxGraphic = returnGraphic(key, library);
 		return returnAsset;
 	}
-	
+
 	static public function getTextFromFile(key:String, ?ignoreMods:Bool = false):String
 	{
 		#if sys
@@ -360,7 +360,7 @@ class Paths
 			return true;
 		}
 		#end
-		
+
 		if(OpenFlAssets.exists(getPath(key, type))) {
 			return true;
 		}
@@ -494,6 +494,9 @@ class Paths
 		#if WAV_ALLOWED
 		var file_:String = modsWavSounds(path, key);
 		#end
+		#if MP3_ALLOWED
+		var mp3File:String = modsMP3Sounds(path, key);
+		#end
 		if(FileSystem.exists(file)) {
 			if(!currentTrackedSounds.exists(file)) {
 				currentTrackedSounds.set(file, Sound.fromFile(file));
@@ -507,6 +510,14 @@ class Paths
 			}
 			localTrackedAssets.push(key);
 			return currentTrackedSounds.get(file_);
+		} #end
+		#if MP3_ALLOWED
+		else if(FileSystem.exists(mp3File)) {
+			if(!currentTrackedSounds.exists(mp3File)) {
+				currentTrackedSounds.set(mp3File, Sound.fromFile(mp3File));
+			}
+			localTrackedAssets.push(key);
+			return currentTrackedSounds.get(mp3File);
 		}
 		#end
 		#end
@@ -529,7 +540,7 @@ class Paths
 		localTrackedAssets.push(gottenPath);
 		return currentTrackedSounds.get(gottenPath);
 	}
-	
+
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '') {
 		return 'mods/$key';
@@ -580,11 +591,14 @@ class Paths
 	inline static public function modsSounds(path:String, key:String) {
 		return modFolders('$path/$key.$SOUND_EXT');
 	}
-
 	inline static public function modsWavSounds(path:String, key:String) {
-		#if WAV_ALLOWED
 		return modFolders('$path/$key.wav');
-		#end
+	}
+	inline static public function modsMP3Sounds(path:String, key:String) {
+		return modFolders('$path/$key.mp3');
+	}
+	inline static public function modsSoundsAll(path:String, key:String, type:String) {
+		return modFolders('$path/$key.$type');
 	}
 
 	inline static public function modsImages(key:String, where:String = 'images') {

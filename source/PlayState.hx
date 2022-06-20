@@ -1646,12 +1646,14 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
+		#if MKV_ALLOWED
 		var mkvFilepath:String = Paths.video(name, false, true);
+		#end
 
 		#if sys
-		if(!FileSystem.exists(filepath))
+		if(!FileSystem.exists(filepath) #if MKV_ALLOWED && !FileSystem.exists(mkvFilepath) #end )
 		#else
-		if(!OpenFlAssets.exists(filepath))
+		if(!OpenFlAssets.exists(filepath) #if MKV_ALLOWED && !OpenFlAssets.exists(mkvFilepath) #end )
 		#end
 		{
 			FlxG.log.warn('Couldnt find video file: ' + name);
