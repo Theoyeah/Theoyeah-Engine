@@ -31,6 +31,7 @@ class NoteskinHelper
 
 	public static function reloadNoteSkinFiles()
 	{
+		#if sys
 		#if MODS_ALLOWED
 		var directories:Array<String> = [
 			Paths.mods('noteskins/'),
@@ -64,6 +65,7 @@ class NoteskinHelper
 				}
 			}
 		}
+		#end
 	}
 
 	public static function getNoteSkin(skin:String = 'normal', ?pixel:Bool = false)
