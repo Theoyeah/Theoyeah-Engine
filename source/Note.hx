@@ -127,7 +127,7 @@ class Note extends FlxSprite
 
 		if(noteData > -1 && noteType != value) {
 			switch(value) {
-				case 'Hurt Note': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
+				case 'Hurt Note' | 'Nota Daño': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
 					ignoreNote = mustPress;
 					reloadNote('HURT');
 					reloadNote('', 'noteskins/HURTNOTE_assets');
@@ -143,7 +143,7 @@ class Note extends FlxSprite
 						missHealth = 0.3;
 					}
 					hitCausesMiss = true;
-				case 'Instakill Note':
+				case 'Instakill Note' | 'Nota Instakill':
 					ignoreNote = mustPress;
 					reloadNote('', 'noteskins/INSTAKILLNOTE_assets');
 					noteSplashTexture = 'HURTnoteSplashes';
@@ -157,7 +157,7 @@ class Note extends FlxSprite
 						missHealth = 500;//lol you will die
 					}
 					hitCausesMiss = true;
-				case 'Crash Note':
+				case 'Crash Note' | 'Nota Crash':
 					ignoreNote = mustPress;
 					reloadNote('', 'noteskins/CRASHNOTE_assets');
 					noteSplashTexture = 'HURTnoteSplashes';
@@ -166,7 +166,7 @@ class Note extends FlxSprite
 					colorSwap.brightness = 0;
 					hitByOpponent = false;
 					hitCausesMiss = true;
-				case 'Window Note':
+				case 'Window Note' | 'Nota Window':
 					ignoreNote = mustPress;
 					reloadNote('', 'noteskins/WINDOWNOTE_assets');
 					colorSwap.hue = 0;
@@ -174,7 +174,7 @@ class Note extends FlxSprite
 					colorSwap.brightness = 0;
 					hitByOpponent = false;
 					hitCausesMiss = true;
-				case 'Warning Note':
+				case 'Warning Note' | 'Nota Alerta':
 					ignoreNote = mustPress;
 					reloadNote('', 'noteskins/WARNINGNOTE_assets');
 					colorSwap.hue = 0;
@@ -183,7 +183,7 @@ class Note extends FlxSprite
 					if (tooLate) {
 						missHealth = 500;
 					}
-				case 'Poisoned Note':
+				case 'Poisoned Note' | 'Nota Envenenada':
 					ignoreNote = mustPress;
 					reloadNote('', 'noteskins/POISONEDNOTE_assets');
 					noteSplashTexture = 'POISONEDnoteSplashes';

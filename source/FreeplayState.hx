@@ -267,7 +267,10 @@ class FreeplayState extends MusicBeatState
 			ratingSplit[1] += '0';
 		}
 
-		scoreText.text = 'PERSONAL BEST: ' + lerpScore + ' (' + ratingSplit.join('.') + '%)';
+		scoreText.text = if(ClientPrefs.language == 'Spanish')
+			'MEJOR PERSONAL: ' + lerpScore + '(' + ratingSplit.join('.') + '%)'
+		else
+			'PERSONAL BEST: ' + lerpScore + ' (' + ratingSplit.join('.') + '%)';
 		positionHighscore();
 
 		var upP = controls.UI_UP_P;

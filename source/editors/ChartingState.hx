@@ -59,28 +59,71 @@ using StringTools;
 
 class ChartingState extends MusicBeatState
 {
-	public static var noteTypeList:Array<String> = //Used for backwards compatibility with 0.1 - 0.3.2 charts, though, you should add your hardcoded custom note types here too.
+	static var language:String = ClientPrefs.language.toLowerCase();
+	public static var noteTypeList:Array<String> = if(language == 'spanish') //Used for backwards compatibility with 0.1 - 0.3.2 charts, though, you should add your hardcoded custom note types here too.
 	[
 		'',
-		'Alt Animation',
+		'Animación Alt',
+		'¡Hey!',
+		'Nota Daño',
+		'Nota Instakill',
+		'Nota Window',
+		'Nota Alerta',
+		'Nota Envenenada',
+		'Nota Crash', //so we can actually test it EDIT: Wait, that released right ?
+		'GF Canta',
+		'No Animación',
+	] else if(language == 'Francais') [
+		'',
+		'Animation alternative',
 		'Hey!',
-		'Hurt Note',
-		'Instakill Note',
-		'Window Note',
+		'Note blessante',
+		'Note Tuant',
+		'Note de fenêtre ',
 		'Warning Note',
-		'Poisoned Note',
-		'Crash Note', //so we can actually test it -DEMOLITIONDON96 // Wait, that released right ? -Theoyeah // Wait, what do you mean? -Wither362
-		'GF Sing',
-		'No Animation',
+		'Note Empoisoné',
+		'Note Crash', //so we can actually test it EDIT: Wait, that released right ?
+		'GF Chante',
+		'Aucune Animation',
+	] else [
+	'',
+	'Alt Animation',
+	'Hey!',
+	'Hurt Note',
+	'Instakill Note',
+	'Window Note',
+	'Warning Note',
+	'Poisoned Note',
+	'Crash Note', //so we can actually test it EDIT: Wait, that released right ?
+	'GF Sing',
+	'No Animation',
 	];
+		
 	private var noteTypeIntMap:Map<Int, String> = new Map<Int, String>();
 	private var noteTypeMap:Map<String, Null<Int>> = new Map<String, Null<Int>>();
 	private var didAThing = false;
 	public var ignoreWarnings = false;
 	var undos = [];
 	var redos = [];
-	var eventStuff:Array<Dynamic> =
-	[
+	var eventStuff:Array<Dynamic> = if(language == 'spanish')
+	[ // name of the event for code - name of the text that appears - description
+		['', '', "Nada. Sip, es verdad."],
+		['Hey!', '¡Hey!', "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
+		['Set GF Speed', 'Cambiar Velocidad de GF', "Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"],
+		['Philly Glow', "Exclusive to Week 3\nValue 1: 0/1/2 = OFF/ON/Reset Gradient\n \nNo, i won't add it to other weeks."],
+		['Kill Henchmen', "For Mom's songs, don't use this please, i love them :("],
+		['Add Camera Zoom', 'Añadir Cámara Zoom', "Usado en MILF en esa parte \"difícil\" \nValor 1: Cuanto (Por defecto: 0.015)\nValor 2: UI zoom (por defecto: 0.03)\nDeja los valores en BLANCO si quieres utilizar los valores Por Defecto."],
+		['BG Freaks Expression', "Should be used only in \"school\" Stage!"],
+		['Trigger BG Ghouls', "Should be used only in \"schoolEvil\" Stage!"],
+		['Play Animation', "Plays an animation on a Character,\nonce the animation is completed,\nthe animation changes to Idle\n\nValue 1: Animation to play.\nValue 2: Character (Dad, BF, GF)"],
+		['Camera Follow Pos', "Value 1: X\nValue 2: Y\n\nThe camera won't change the follow point\nafter using this, for getting it back\nto normal, leave both values blank."],
+		['Alt Idle Animation', "Sets a specified suffix after the idle animation name.\nYou can use this to trigger 'idle-alt' if you set\nValue 2 to -alt\n\nValue 1: Character to set (Dad, BF or GF)\nValue 2: New suffix (Leave it blank to disable)"],
+		['Screen Shake', "Value 1: Camera shake\nValue 2: HUD shake\n\nEvery value works as the following example: \"1, 0.05\".\nThe first number (1) is the duration.\nThe second number (0.05) is the intensity."],
+		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
+		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
+		['Set Property', "Value 1: Variable name\nValue 2: New value"],
+		['Change Icon', "Value 1: Character to change icon (Dad, BF)\nValue 2: Icon name"]
+	] else [
 		['', "Nothing. Yep, that's right."],
 		['Dadbattle Spotlight', "Used in Dad Battle,\nValue 1: 0/1 = ON/OFF,\n2 = Target Dad\n3 = Target BF"],
 		['Hey!', "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
@@ -356,7 +399,18 @@ class ChartingState extends MusicBeatState
 		UI_box.scrollFactor.set();
 
 		var keyBonds = ClientPrefs.keyBinds;
-		text =
+		text = if(language == 'spanish')
+			"W/S o Mouse Wheel - Ir abajo o arriba
+			\nA o Izquierda/D o Derecha - Ir a la siguiente/anterior sección
+			\nMantén Shift para mover 4 veces más rápido
+			\nHold Control and click on an arrow to select it
+			\n" + keyBonds["zoom+"][0] + "/" + keyBonds["zoom-"][0] + " - Más/Menos Zoom
+			\n
+			\nEsc - Prueba tu chart dentro del Chart Editor
+			\nEnter - Juega tu chart
+			\n" + keyBonds["decrease"][0] + "/" + keyBonds["increase"][0] + " - Incrementar/Decrementar Largo de Nota
+			\nSpace - Parar/Continuar canción"
+		else
 		"W/S or Mouse Wheel - Change Conductor's strum time
 		\nA/D - Go to the previous/next section
 		\nLeft/Right - Change Snap
@@ -428,7 +482,13 @@ class ChartingState extends MusicBeatState
 		UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
 		blockPressWhileTypingOn.push(UI_songTitle);
 
-		var check_voices = new FlxUICheckBox(10, 25, null, null, "Has voice track", 100);
+		var check_voices = if(language == 'spanish')
+			new FlxUICheckBox(10, 25, null, null, "Tiene voces", 100)
+		else if(language == 'Francais')
+			new FlxUICheckBox(10, 25, null, null, "A une piste vocale", 100);
+		else
+			new FlxUICheckBox(10, 25, null, null, "Has voice track", 100);
+
 		check_voices.checked = _song.needsVoices;
 		// _song.needsVoices = check_voices.checked;
 		check_voices.callback = function()
@@ -437,38 +497,77 @@ class ChartingState extends MusicBeatState
 			//trace('CHECKED!');
 		};
 
-		var saveButton:FlxButton = new FlxButton(110, 8, "Save", function()
-		{
-			saveLevel();
-		});
+		var saveButton:FlxButton = if(language == 'spanish')
+			new FlxButton(110, 8, "Save", function()
+			{
+				saveLevel();
+			})
+		else
+			new FlxButton(110, 8, "Save", function()
+			{
+				saveLevel();
+			});
 
-		var reloadSong:FlxButton = new FlxButton(saveButton.x + 90, saveButton.y, "Reload Audio", function()
-		{
-			currentSongName = Paths.formatToSongPath(UI_songTitle.text);
-			loadSong();
-			updateWaveform();
-		});
+		var reloadSong:FlxButton = if(language == 'spanish')
+			new FlxButton(saveButton.x + 90, saveButton.y, "Actualizar Audio", function()
+			{
+				currentSongName = Paths.formatToSongPath(UI_songTitle.text);
+				loadSong();
+				updateWaveform();
+			})
+		else
+			new FlxButton(saveButton.x + 90, saveButton.y, "Reload Audio", function()
+			{
+				currentSongName = Paths.formatToSongPath(UI_songTitle.text);
+				loadSong();
+				updateWaveform();
+			});
 
-		var reloadSongJson:FlxButton = new FlxButton(reloadSong.x, saveButton.y + 30, "Reload JSON", function()
-		{
-			openSubState(new Prompt('This action will clear current progress.\n\nProceed?', 0, function(){loadJson(_song.song.toLowerCase()); }, null,ignoreWarnings));
-		});
+		var reloadSongJson:FlxButton = if(language == 'spanish')
+			new FlxButton(reloadSong.x, saveButton.y + 30, "Resetear JSON", function()
+			{
+				openSubState(new Prompt('Esta acción destruirá el progreso no guardado.\n\n¿Proceder?', 0, function(){loadJson(_song.song.toLowerCase()); }, null,ignoreWarnings));
+			})
+		else
+			new FlxButton(reloadSong.x, saveButton.y + 30, "Reload JSON", function()
+			{
+				openSubState(new Prompt('This action will clear current progress.\n\nProceed?', 0, function(){loadJson(_song.song.toLowerCase()); }, null,ignoreWarnings));
+			});
 
-		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Load Autosave', function()
-		{
-			PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
-			MusicBeatState.resetState();
-		});
+		var loadAutosaveBtn:FlxButton = if(language == 'spanish')
+			new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Cargar Autoguardado', function()
+			{
+				PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
+				MusicBeatState.resetState();
+			})
+		else
+			new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Load Autosave', function()
+			{
+				PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
+				MusicBeatState.resetState();
+			});
 
-		var loadEventJson:FlxButton = new FlxButton(loadAutosaveBtn.x, loadAutosaveBtn.y + 30, 'Load Events', function()
-		{
-			loadEvents();
-		});
+		var loadEventJson:FlxButton = if(language == 'spanish')
+			new FlxButton(loadAutosaveBtn.x, loadAutosaveBtn.y + 30, 'Cargar Eventos', function()
+			{
+				loadEvents();
+			})
+		else
+			new FlxButton(loadAutosaveBtn.x, loadAutosaveBtn.y + 30, 'Load Events', function()
+			{
+				loadEvents();
+			});
 
-		var saveEvents:FlxButton = new FlxButton(110, reloadSongJson.y, 'Save Events', function ()
-		{
-			saveEvents();
-		});
+		var saveEvents:FlxButton = if(language == 'spanish')
+			new FlxButton(110, reloadSongJson.y, 'Guardar Eventos', function ()
+			{
+				saveEvents();
+			})
+		else
+			new FlxButton(110, reloadSongJson.y, 'Save Events', function ()
+			{
+				saveEvents();
+			});
 
 		var clear_events:FlxButton = new FlxButton(320, 310, 'Clear events', function()
 		{
@@ -611,10 +710,16 @@ class ChartingState extends MusicBeatState
 		noteSplashesInputText = new FlxUIInputText(noteSkinInputText.x, noteSkinInputText.y + 35, 150, _song.splashSkin, 8);
 		blockPressWhileTypingOn.push(noteSplashesInputText);
 
-		var reloadNotesButton:FlxButton = new FlxButton(noteSplashesInputText.x + 5, noteSplashesInputText.y + 20, 'Change Notes', function() {
-			_song.arrowSkin = noteSkinInputText.text;
-			updateGrid();
-		});
+		var reloadNotesButton:FlxButton = if(language == 'spanish')
+			new FlxButton(noteSplashesInputText.x + 5, noteSplashesInputText.y + 20, 'Cambiar Notas', function() {
+				_song.arrowSkin = noteSkinInputText.text;
+				updateGrid();
+			})
+		else
+			new FlxButton(noteSplashesInputText.x + 5, noteSplashesInputText.y + 20, 'Change Notes', function() {
+				_song.arrowSkin = noteSkinInputText.text;
+				updateGrid();
+			});
 
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
@@ -1017,7 +1122,11 @@ class ChartingState extends MusicBeatState
 
 		var leEvents:Array<String> = [];
 		for (i in 0...eventStuff.length) {
-			leEvents.push(eventStuff[i][0]);
+			if(eventStuff[i][2] != null) { //checks if the event has a 
+				leEvents.push(eventStuff[i][1]);
+			} else {
+				leEvents.push(eventStuff[i][0]);
+			}
 		}
 
 		var text:FlxText = new FlxText(20, 30, 0, "Event:");
@@ -1134,12 +1243,17 @@ class ChartingState extends MusicBeatState
 			curEventSelected += change;
 			if(curEventSelected < 0) curEventSelected = Std.int(curSelectedNote[1].length) - 1;
 			else if(curEventSelected >= curSelectedNote[1].length) curEventSelected = 0;
-			selectedEventText.text = 'Selected Event: ' + (curEventSelected + 1) + ' / ' + curSelectedNote[1].length;
+			selectedEventText.text = if(language == 'spanish') 'Evento Seleccionado: ' + (curEventSelected + 1)  + ' / ' + curSelectedNote[1].length
+				else
+					'Selected Event: ' + (curEventSelected + 1) + ' / ' + curSelectedNote[1].length;
 		}
 		else
 		{
 			curEventSelected = 0;
-			selectedEventText.text = 'Selected Event: None';
+			selectedEventText.text = if(language == 'spanish') 
+				'Evento Seleccionado: Ninguno'
+				else
+					'Selected Event: None';
 		}
 		updateNoteUI();
 	}

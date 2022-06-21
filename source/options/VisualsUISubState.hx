@@ -158,6 +158,14 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeFPSCounter;
 		#end
+
+		var option:Option = new Option('Language',
+			"What language would you like ?",
+			'language',
+			'string',
+			'English', //this is the default option
+			['English', 'Francais', 'Spanish', 'Portugues']);
+		addOption(option);
 		
 
 		super();

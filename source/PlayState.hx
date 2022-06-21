@@ -80,7 +80,30 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
-	public static var ratingStuff:Array<Dynamic> = [
+	
+	public static var ratingStuff:Array<Dynamic> = if(ClientPrefs.language == 'Francais') [
+		['Pas dur tes juste mauvais', 0.2], //From 0% to 19%
+		['Problème', 0.4], //From 20% to 39%
+		['Nul', 0.5], //From 40% to 49%
+		['Ok', 0.6], //From 50% to 59%
+		['Pas mauvais', 0.69], //From 60% to 68%
+		['Yo', 0.7], //69%
+		['Cool!', 0.8], //From 70% to 79%
+		['Bien!', 0.9], //From 80% to 89%
+		['Génial!!', 1], //From 90% to 99%
+		['Parfait!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+	] else if(ClientPrefs.language == 'Spanish') [
+		['No es difícil es solo que eres lo peor', 0.2], //From 0% to 19%
+		['Problema de Habilidad', 0.4], //From 20% to 39%
+		['Mal', 0.5], //From 40% to 49%
+		['Ok', 0.6], //From 50% to 59%
+		['No está Mal', 0.69], //From 60% to 68%
+		['Genial', 0.7], //69%
+		['¡Guay!', 0.8], //From 70% to 79%
+		['¡Bien!', 0.9], //From 80% to 89%
+		['¡¡Fabuloso!!', 1], //From 90% to 99%
+		['¡¡¡Perfecto!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+	] else [
 		['Its not hard you just suck as hell', 0.2], //From 0% to 19%
 		['skill issue', 0.4], //From 20% to 39%
 		['Bad', 0.5], //From 40% to 49%
@@ -92,6 +115,7 @@ class PlayState extends MusicBeatState
 		['Sick!!', 1], //From 90% to 99%
 		['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
+		
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
 	public var modchartTimers:Map<String, FlxTimer> = new Map<String, FlxTimer>();
@@ -1006,11 +1030,28 @@ class PlayState extends MusicBeatState
 		}
 
 		var file:String = Paths.json('$songName/dialogue'); //Checks for json/Psych Engine dialogue
-		if (OpenFlAssets.exists(file))
-			dialogueJson = DialogueBoxPsych.parseDialogue(file);
+		var langSuffix:String = '';
 
+		switch (ClientPrefs.language.toLowerCase())
+		{
+			case "francais":
+				langSuffix = '-french';
+			case "espanol":
+				langSuffix = '-spanish';
+			case "portugues":
+				langSuffix = '-pt';
+				
+			//etc..
+       
+			default:
+				langSuffix = '';
+		}
 
-		var file:String = Paths.txt(songName + '/' + songName + 'Dialogue'); //Checks for vanilla/Senpai dialogue
+		if (OpenFlAssets.exists(file)) {
+			dialogueJson = DialogueBoxPsych.parseDialogue(file + langSuffix);
+		}
+
+		var file:String = Paths.txt(songName + '/' + songName + 'Dialogue' + langSuffix); //Checks for vanilla/Senpai dialogue
 		if (OpenFlAssets.exists(file))
 			dialogue = CoolUtil.coolTextFile(file);
 
@@ -1220,12 +1261,16 @@ class PlayState extends MusicBeatState
 			judgementCounter.scrollFactor.set();
 			judgementCounter.cameras = [camHUD];
 			judgementCounter.screenCenter(Y);
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';//\nTotal hit: ${totals}';
+			switch(ClientPrefs.language.toLowerCase()) {
+				// case 'spanish': judgementCounter.text = 'Geniales: ${sicks}\nBien: ${goods}\nMal: ${bads}\nM*erdas: ${shits}'; // i think this is unnecessary
+				case 'francais': judgementCounter.text = 'Génials: ${sicks}\nBiens: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}';
+				default: judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';
+			}
 			add(judgementCounter);
 		}
 
 
-		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "CHEATING MODE", 32);
+		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
@@ -4780,7 +4825,7 @@ class PlayState extends MusicBeatState
 					boyfriend.holdTimer = 0;
 				}
 
-				if(note.noteType == 'Hey!') {
+				if(note.noteType == 'Hey!' || note.noteType == '¡Hey!') {
 					if(boyfriend.animOffsets.exists('hey')) {
 						boyfriend.playAnim('hey', true);
 						boyfriend.specialAnim = true;
@@ -5327,14 +5372,21 @@ class PlayState extends MusicBeatState
 			if (goods > 0) ratingFC = "GFC";
 			if (bads > 0 || shits > 0) ratingFC = "FC";
 			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
-			else if (songMisses >= 10) ratingFC = "Clear";
+			else if (songMisses >= 10) if(ClientPrefs.language == 'Spanish') 
+				ratingFC = 'Limpio'
+			else
+				ratingFC = "Clear";
 		}
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
+
 		if (ClientPrefs.crazycounter) {
-			var totals:Int = sicks + goods + bads + shits;
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';//\nTotal hit: ${totals};
+			switch(ClientPrefs.language.toLowerCase()) {
+				//case 'spanish': judgementCounter.text = 'Geniales: ${sicks}\nBien: ${goods}\nMal: ${bads}\nM*erdas: ${shits}'; // i think this is unnecessary
+				case 'francais': judgementCounter.text = 'Génials: ${sicks}\nCools: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}';
+				default: judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';
+			}
 		}
 	}
 
