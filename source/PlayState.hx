@@ -1261,10 +1261,10 @@ class PlayState extends MusicBeatState
 			judgementCounter.scrollFactor.set();
 			judgementCounter.cameras = [camHUD];
 			judgementCounter.screenCenter(Y);
-			if(ClientPrefs.language.toLowerCase() == "english") {
-				judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
-			} else if(ClientPrefs.language.toLowerCase() == "francais") {
-				judgementCounter.text = 'Merveilleux: ${marvelous}\nGénials: ${sicks}\nBiens: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}\n';
+			switch(ClientPrefs.language.toLowerCase()) {
+				// case 'spanish': judgementCounter.text = 'Geniales: ${sicks}\nBien: ${goods}\nMal: ${bads}\nM*erdas: ${shits}'; // i think this is unnecessary
+				case 'francais': judgementCounter.text = 'Génials: ${sicks}\nBiens: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}';
+				default: judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';
 			}
 			add(judgementCounter);
 		}
@@ -5380,12 +5380,10 @@ class PlayState extends MusicBeatState
 		setOnLuas('ratingFC', ratingFC);
 
 		if (ClientPrefs.crazycounter) {
-			if(ClientPrefs.language == 'Spanish')
-				judgementCounter.text = 'Maravillosos: ${marvelous}\nGeniales: ${sicks}\nBien: ${goods}\nMal: ${bads}\nMierdas: ${shits}\n';
-			else if(ClientPrefs.language.toLowerCase() == "francais")
-				judgementCounter.text = 'Merveilleux: ${marvelous}\nGénials: ${sicks}\nCools: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}\n';
-			else
-				judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';
+			switch(ClientPrefs.language.toLowerCase()) {
+				//case 'spanish': judgementCounter.text = 'Geniales: ${sicks}\nBien: ${goods}\nMal: ${bads}\nM*erdas: ${shits}'; // i think this is unnecessary
+				case 'francais': judgementCounter.text = 'Génials: ${sicks}\nCools: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}';
+				default: judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';
 		}
 	}
 
