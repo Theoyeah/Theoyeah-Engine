@@ -20,16 +20,16 @@ using StringTools;
 
 class MasterEditorMenu extends MusicBeatState
 {
-	var options:Array<String> = [
-		'Week Editor',
-		'Menu Character Editor',
-		'Dialogue Editor',
-		'Dialogue Portrait Editor',
-		'Character Editor',
-		'Chart Editor',
-		'Stage Editor',
+	var options:Array<Array<String>> = [
+		['Week Editor'],
+		['Menu Character Editor'],
+		['Dialogue Editor'],
+		['Dialogue Portrait Editor'],
+		['Character Editor'],
+		['Chart Editor'],
+		['Stage Editor']
 		#if (!html5 && MODS_ALLOWED)
-		'Mod Manager'
+		,['Mod Manager']
 		#end
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
@@ -41,6 +41,52 @@ class MasterEditorMenu extends MusicBeatState
 
 	override function create()
 	{
+		var language:String = ClientPrefs.language.toLowerCase();
+		var weekEditor:String = if(language == 'spanish')
+			'Editor de Weeks'
+		else 
+			'Week Editor';
+		var menuCharacterEditor:String = if(language == 'spanish')
+			'Editor de Menú Personajes'
+		else
+			'Menu Character Editor';
+		var characterEditor:String = if(language == 'spanish')
+			'Editor de Personajes'
+		else
+			'Character Editor';
+		var dialogueEditor:String = if(language == 'spanish')
+			'Editor de Diálogo'
+		else
+			'Dialogue Editor';
+		var dialoguePortraitEditor:String = if(language == 'spanish')
+			'Editor de Personajes de Diálogo'
+		else
+			'Dialogue Portrait Editor';
+		var chartEditor:String = if(language == 'spanish')
+			'Editor de Chart'
+		else
+			'Chart Editor';
+		var stageEditor:String = if(language == 'spanish')
+			'Editor de Stages'
+		else
+			'Stage Editor';
+		var modManager:String = if(language == 'spanish')
+			'Mánager de Mods'
+		else
+			'Mod Manager';
+
+		options = [
+			[weekEditor, 'Week Editor'],
+			[menuCharacterEditor, 'Menu Character Editor'],
+			[dialogueEditor, 'Dialogue Editor'],
+			[dialoguePortraitEditor, 'Dialogue Portrait Editor'],
+			[characterEditor, 'Character Editor'],
+			[chartEditor, 'Chart Editor'],
+			[stageEditor, 'Stage Editor']
+			#if (!html5 && MODS_ALLOWED)
+			,[modManager, 'Mod Manager']
+			#end
+		];
 		FlxG.camera.bgColor = FlxColor.BLACK;
 		#if desktop
 		// Updating Discord Rich Presence
@@ -57,12 +103,12 @@ class MasterEditorMenu extends MusicBeatState
 
 		for (i in 0...options.length)
 		{
-			var leText:Alphabet = new Alphabet(0, (70 * i) + 30, options[i], true, false);
+			var leText:Alphabet = new Alphabet(0, (70 * i) + 30, options[i][0], true, false);
 			leText.isMenuItem = true;
 			leText.targetY = i;
 			grpTexts.add(leText);
 		}
-		
+
 		#if MODS_ALLOWED
 		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 42).makeGraphic(FlxG.width, 42, 0xFF000000);
 		textBG.alpha = 0.6;
@@ -119,8 +165,8 @@ class MasterEditorMenu extends MusicBeatState
 
 		if (controls.ACCEPT || FlxG.mouse.justPressed)
 		{
-			switch(options[curSelected]) {
-				case characterEditor:
+			switch(options[curSelected][1]) {
+				case 'Character Editor':
 					LoadingState.loadAndSwitchState(new CharacterEditorState(Character.DEFAULT_CHARACTER, false));
 				case weekEditor:
 					MusicBeatState.switchState(new WeekEditorState());
@@ -188,18 +234,17 @@ class MasterEditorMenu extends MusicBeatState
 			curDirectory = 0;
 
 		WeekData.setDirectoryFromWeek();
-		if(directories[curDirectory] == null || directories[curDirectory].length < 1)
-			directoryTxt.text = if(language == 'spanish')
-				'< Directorio de Mod No Cargado >'
-			else
-				'< No Mod Directory Loaded >';
-		else
-		{
+		if(directories[curDirectory] == null || directories[curDirectory].length < 1) {
+			switch(ClientPrefs.language.toLowerCase()) {
+				case 'spanish': directoryTxt.text = '< Directorio de Mod No Cargado >';
+				default: directoryTxt.text = '< No Mod Directory Loaded >';
+			}
+		} else {
 			Paths.currentModDirectory = directories[curDirectory];
-			directoryTxt.text = if(language == 'spanish')
-				'< Cargado Directorio de Mod: ' + Paths.currentModDirectory + ' >'
-			else
-				'< Loaded Mod Directory: ' + Paths.currentModDirectory + ' >';
+			switch(ClientPrefs.language.toLowerCase()) {
+				case 'spanish': directoryTxt.text = '< Directorio "' + Paths.currentModDirectory + '" Cargado >';
+				default: directoryTxt.text = '< Loaded Mod Directory: ' + Paths.currentModDirectory + ' >';
+			}
 		}
 		directoryTxt.text = directoryTxt.text.toUpperCase();
 	}
