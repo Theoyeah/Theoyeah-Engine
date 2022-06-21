@@ -14,7 +14,7 @@ class ClientPrefs {
 	public static var iconBounce:String = 'Default';
 	public static var globalAntialiasing:Bool = true;
 	public static var opponentStrums:Bool = false;
-	public static var noteSkin:String = 'Arrows';
+	public static var noteSkin:String = 'Normal';
 	public static var noteSplashes:String = 'Normal';
 	public static var lowQuality:Bool = false;
 	public static var framerate:Int = 60;
@@ -177,7 +177,7 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.noteSplashes) // fixes noteSplashes error
 			FlxG.save.data.noteSplashes = 'Normal';
-		else
+		else if(!FlxG.save.data.noteSplashes)
 			FlxG.save.data.noteSplashes = 'None';
 
 		if(FlxG.save.data.instantRespawn != null)
