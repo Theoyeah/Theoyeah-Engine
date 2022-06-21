@@ -5384,6 +5384,7 @@ class PlayState extends MusicBeatState
 				//case 'spanish': judgementCounter.text = 'Geniales: ${sicks}\nBien: ${goods}\nMal: ${bads}\nM*erdas: ${shits}'; // i think this is unnecessary
 				case 'francais': judgementCounter.text = 'Génials: ${sicks}\nCools: ${goods}\nMauvais: ${bads}\nM*rde: ${shits}';
 				default: judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';
+			}
 		}
 	}
 
