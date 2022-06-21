@@ -39,7 +39,6 @@ class NoteOffsetState extends MusicBeatState
 	var timeTxt:FlxText;
 	var beatText:Alphabet;
 	var beatTween:FlxTween;
-	
 
 	var changeModeText:FlxText;
 
@@ -286,7 +285,7 @@ class NoteOffsetState extends MusicBeatState
 			}
 
 			// probably there's a better way to do this but, oh well.
-			if (FlxG.mouse.justPressed)
+			if (FlxG.mouse.pressed)
 			{
 				FlxG.mouse.getScreenPosition(camHUD, startMousePos);
 				function omg(first:Dynamic):Bool { //i dont want to write all the code again and again
@@ -322,7 +321,7 @@ class NoteOffsetState extends MusicBeatState
 					startComboOffset.y = ClientPrefs.comboOffset[holdingObjectType + 1];
 				}
 			}
-			if(FlxG.mouse.justMoved && holdingObjectType != null)
+			if(FlxG.mouse.justMoved && holdingObjectType != null && FlxG.mouse.pressed)
 			{
 				var mousePos:FlxPoint = FlxG.mouse.getScreenPosition(camHUD);
 
@@ -532,7 +531,7 @@ class NoteOffsetState extends MusicBeatState
 		comboNums.visible = onComboMenu;
 		dumbTexts.visible = onComboMenu;
 		combosprshit.visible = onComboMenu;
-		
+
 		timeBarBG.visible = !onComboMenu;
 		timeBar.visible = !onComboMenu;
 		timeTxt.visible = !onComboMenu;
