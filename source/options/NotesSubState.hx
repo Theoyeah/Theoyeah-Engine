@@ -60,6 +60,11 @@ class NotesSubState extends MusicBeatSubstate
 		grpNumbers = new FlxTypedGroup<Alphabet>();
 		add(grpNumbers);
 
+		var text:FlxText = new FlxText(5, FlxG.height - 25, 0, "", 16);
+		text.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		text.text = "Press CONTROL to change your note skin";
+		add(text);
+
 		for (i in 0...ClientPrefs.arrowHSV.length) {
 			var yPos:Float = (165 * i) + 35;
 			for (j in 0...3) {
@@ -69,10 +74,7 @@ class NotesSubState extends MusicBeatSubstate
 			}
 
 			var note:FlxSprite = new FlxSprite(posX, yPos);
-			note.frames = Paths.getSparrowAtlas('NOTE_assets');
-			var animations:Array<String> = ['purple0', 'blue0', 'green0', 'red0'];
-			note.animation.addByPrefix('idle', animations[i]);
-			note.animation.play('idle');
+			note.ID = i;
 			note.antialiasing = ClientPrefs.globalAntialiasing;
 			grpNotes.add(note);
 			
@@ -84,6 +86,8 @@ class NotesSubState extends MusicBeatSubstate
 			newShader.brightness = ClientPrefs.arrowHSV[i][2] / 100;
 			shaderArray.push(newShader);
 		}
+
+		reloadNotes();
 
 		hsbText = new Alphabet(0, 0, "Hue    Saturation  Brightness", false, false, 0, 0.65);
 		hsbText.x = posX + 240;
@@ -127,11 +131,18 @@ class NotesSubState extends MusicBeatSubstate
 				}
 			}
 		} else {
-			if (controls.UI_UP_P || FlxG.mouse.wheel > 0) {
+
+			if (FlxG.keys.justPressed.CONTROL) {
+				var prompt = new NotesPromptSubState();
+				prompt.closeCallback = reloadNotes;
+				openSubState(prompt);
+			}
+
+			if (controls.UI_UP_P) {
 				changeSelection(-1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
-			if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
+			if (controls.UI_DOWN_P) {
 				changeSelection(1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
@@ -250,6 +261,9 @@ class NotesSubState extends MusicBeatSubstate
 		var item = grpNumbers.members[(selected * 3) + type];
 		item.changeText('0');
 		item.offset.x = (40 * (item.lettersArray.length - 1)) / 2;
+
+		ClientPrefs.noteSkin = 'normal';
+		reloadNotes();
 	}
 	function updateValue(change:Float = 0) {
 		curValue += change;
@@ -277,5 +291,18 @@ class NotesSubState extends MusicBeatSubstate
 		item.changeText(Std.string(roundedValue));
 		item.offset.x = (40 * (item.lettersArray.length - 1)) / 2;
 		if(roundedValue < 0) item.offset.x += 10;
+	}
+
+	function reloadNotes()
+	{
+		grpNotes.forEach(function(spr:FlxSprite)
+		{
+			spr.frames = Paths.getSparrowAtlas(NoteskinHelper.getNoteSkin(ClientPrefs.noteSkin));
+
+			var animations:Array<String> = ['purple0', 'blue0', 'green0', 'red0'];
+			spr.animation.addByPrefix('idle', animations[spr.ID]);
+			spr.animation.play('idle');
+			spr.antialiasing = ClientPrefs.globalAntialiasing;
+		});
 	}
 }
