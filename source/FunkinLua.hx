@@ -455,17 +455,17 @@ class FunkinLua {
 					if(luaInstance.scriptName == cervix)
 					{
 						Lua.getglobal(luaInstance.lua, global);
-						if(Lua.isnumber(luaInstance.lua,-1))
+						if(Lua.isnumber(luaInstance.lua, -1))
 							Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -1));
-						else if(Lua.isstring(luaInstance.lua,-1))
+						else if(Lua.isstring(luaInstance.lua, -1))
 							Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -1));
-						else if(Lua.isboolean(luaInstance.lua,-1))
+						else if(Lua.isboolean(luaInstance.lua, -1))
 							Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -1));
 						else
 							Lua.pushnil(lua);
 						// TODO: table
 
-						Lua.pop(luaInstance.lua,1); // remove the global
+						Lua.pop(luaInstance.lua, 1); // remove the global
 
 						return;
 					}
@@ -579,7 +579,7 @@ class FunkinLua {
 							if(pop == 2) Lua.rawset(lua, tableIdx); // then set it
 							Lua.pop(luaInstance.lua, 1); // for the loop
 						}
-						Lua.pop(luaInstance.lua,1); // end the loop entirely
+						Lua.pop(luaInstance.lua, 1); // end the loop entirely
 						Lua.pushvalue(lua, tableIdx); // push the table onto the stack so it gets returned
 
 						return;
@@ -707,7 +707,7 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "luaSpriteExists", function(tag:String) {
- 			return PlayState.instance.modchartSprites.exists(tag);
+ 			return (PlayState.instance.modchartSprites.exists(tag) || PlayState.instance.modchartSprites.exists(tag.toLowerCase()) || PlayState.instance.modchartSprites.exists(tag.toUpperCase()));
  		});
  		Lua_helper.add_callback(lua, "luaTextExists", function(tag:String) {
  			return PlayState.instance.modchartTexts.exists(tag);

@@ -1786,7 +1786,7 @@ class ChartingState extends MusicBeatState
 					updateCurStep();
 					var time:Float = FlxG.sound.music.time;
 					var beat:Float = curDecBeat;
-					var snap:Float = 4/quantization;
+					var snap:Float = 4 / quantization;
 					if (FlxG.keys.pressed.UP)
 					{
 						var fuck:Float = CoolUtil.quantize(beat, snap) - snap; //(Math.floor((beat+snap) / snap) * snap);
@@ -1860,7 +1860,7 @@ class ChartingState extends MusicBeatState
 					//(Math.floor((curStep + quants[curQuant] * 1.5 / (quants[curQuant] / 2)) / quants[curQuant]) * quants[curQuant]) * Conductor.stepCrochet; // snap into quantization
 					var time:Float = FlxG.sound.music.time;
 					var beat:Float = curDecBeat;
-					var snap:Float = 4/quantization;
+					var snap:Float = 4 / quantization;
 					if (FlxG.keys.pressed.UP)
 					{
 						var fuck:Float = CoolUtil.quantize(beat, snap) - snap;
@@ -2539,7 +2539,7 @@ class ChartingState extends MusicBeatState
 			{
 				var note:Note = setupNoteData(i, false);
 				curRenderedNotes.add(note);
-				
+
 				var text:String = 'Event: ' + note.eventName + ' (' + Math.floor(note.strumTime) + ' ms)' + '\nValue 1: ' + note.eventVal1 + '\nValue 2: ' + note.eventVal2;
 				if(note.eventLength > 1) text = note.eventLength + ' Events:\n' + note.eventName;
 
