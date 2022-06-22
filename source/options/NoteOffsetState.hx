@@ -320,15 +320,16 @@ class NoteOffsetState extends MusicBeatState
 					startComboOffset.x = ClientPrefs.comboOffset[holdingObjectType];
 					startComboOffset.y = ClientPrefs.comboOffset[holdingObjectType + 1];
 				}
-			}
-			if(FlxG.mouse.justMoved && holdingObjectType != null && FlxG.mouse.pressed)
-			{
-				var mousePos:FlxPoint = FlxG.mouse.getScreenPosition(camHUD);
+				if(FlxG.mouse.justMoved)
+				{
+					var mousePos:FlxPoint = FlxG.mouse.getScreenPosition(camHUD);
 
-				ClientPrefs.comboOffset[holdingObjectType] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
-				ClientPrefs.comboOffset[holdingObjectType + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
-				repositionCombo();
+					ClientPrefs.comboOffset[holdingObjectType] = Math.round((mousePos.x - startMousePos.x) + startComboOffset.x);
+					ClientPrefs.comboOffset[holdingObjectType + 1] = -Math.round((mousePos.y - startMousePos.y) - startComboOffset.y);
+					repositionCombo();
+				}
 			}
+
 			if(FlxG.mouse.justReleased) {
 				holdingObjectType = null;
 				trace("you aren't holding anything");
