@@ -131,7 +131,6 @@ class NotesSubState extends MusicBeatSubstate
 				}
 			}
 		} else {
-
 			if (FlxG.keys.justPressed.CONTROL) {
 				var prompt = new NotesPromptSubState();
 				prompt.closeCallback = reloadNotes;
