@@ -71,7 +71,7 @@ class ChartingState extends MusicBeatState
 		'Poisoned Note',
 		'Crash Note', //so we can actually test it -DEMOLITIONDON96 // Wait, that released right ? -Theoyeah // Wait, what do you mean? -Wither362
 		'GF Sing',
-		'No Animation',
+		'No Animation'
 	];
 	private var noteTypeIntMap:Map<Int, String> = new Map<Int, String>();
 	private var noteTypeMap:Map<String, Null<Int>> = new Map<String, Null<Int>>();
@@ -1677,15 +1677,15 @@ class ChartingState extends MusicBeatState
 			}
 
 			if(FlxG.keys.anyJustPressed(keyBindsforThings[0])) {
-				if(curZoom != 0)
+				if(curZoom > 0)
 					--curZoom;
 				else // resets the zoom
-					curZoom = zoomList.length;
+					curZoom = zoomList.length-1;
 				updateZoom();
 			}
 
 			if(FlxG.keys.anyJustPressed(keyBindsforThings[1])) {
-				if(curZoom != zoomList.length)
+				if(curZoom < zoomList.length-1)
 					curZoom++;
 				else
 					curZoom = 0; // resets the zoom
@@ -1960,7 +1960,7 @@ class ChartingState extends MusicBeatState
 		"\nSection: " + curSec +
 		"\n\nBeat: " + curBeat +
 		"\n\nStep: " + curStep +
-		"\n\nBeat Snap: 1/" + quantization;
+		"\n\nBeat Snap: 1/" + quantization * zoomList[curZoom];
 
 		var playedSound:Array<Bool> = [false, false, false, false]; //Prevents ouchy GF sex sounds
 		curRenderedNotes.forEachAlive(function(note:Note) {
