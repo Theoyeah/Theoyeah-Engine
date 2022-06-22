@@ -271,9 +271,12 @@ class FunkinLua {
 		// Character shit
 		set('boyfriendName', PlayState.SONG.player1);
 		set('bfName', PlayState.SONG.player1);
+		set('player1', PlayState.SONG.player1);
 		set('dadName', PlayState.SONG.player2);
+		set('player2', PlayState.SONG.player2);
 		set('gfName', PlayState.SONG.gfVersion);
 		set('gfVersion', PlayState.SONG.gfVersion);
+		set('girlfriendName', PlayState.SONG.gfVersion);
 
 //______________ Some settings, no jokes _______________\\
 //______________ Scroll things _________________________\\
@@ -2824,7 +2827,9 @@ class FunkinLua {
 		}
 
 		Convert.toLua(lua, data);
+		Convert.toLua(lua.toLowerCase(), data);
 		Lua.setglobal(lua, variable);
+		Lua.setglobal(lua.toLowerCase(), data);
 		#else
 		lol();
 		#end

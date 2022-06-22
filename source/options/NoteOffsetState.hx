@@ -378,7 +378,7 @@ class NoteOffsetState extends MusicBeatState
 			boyfriend.dance();
 			gf.dance();
 		}
-		
+
 		if(curBeat % 4 == 2)
 		{
 			FlxG.camera.zoom = 1.15;

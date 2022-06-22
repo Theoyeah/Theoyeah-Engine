@@ -200,7 +200,7 @@ class ControlsSubState extends MusicBeatSubstate {
 		}
 		return num;
 	}
-	
+
 	function changeSelection(change:Int = 0) {
 		do {
 			curSelected += change;

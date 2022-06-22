@@ -9,7 +9,7 @@ import sys.FileSystem;
 
 using StringTools;
 
-typedef NoteSkinFile =
+typedef NoteSkinFile = // this is for custom noteskins
 {
 	var name:String;
 	var imageFile:String;

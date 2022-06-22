@@ -29,7 +29,13 @@ class Note extends FlxSprite
 	public var wasGoodHit:Bool = false;
 	public var ignoreNote:Bool = false;
 	public var hitByOpponent:Bool = false;
+	/**
+	 * How many health does the note take when the opponent hits this note
+	 */
 	public var opponentHitTakeHealth:Float = 0.01;
+	/**
+	 * When opponent hit this note, if false, take health _if_ health is more than 0.1, if true, take health at any health value
+	 */
 	public var ignoreMinHealth:Bool = false;
 	public var noteWasHit:Bool = false;
 	public var prevNote:Note;
@@ -81,6 +87,9 @@ class Note extends FlxSprite
 	public var copyAngle:Bool = true;
 	public var copyAlpha:Bool = true;
 
+	/**
+	 * Health that you take when you hit it
+	 */
 	public var hitHealth:Float = 0.023;
 	public var missHealth:Float = 0.0475;
 	public var rating:String = 'unknown';
@@ -132,7 +141,7 @@ class Note extends FlxSprite
 				case 'Hurt Note': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
 					ignoreNote = mustPress;
 					reloadNote('', 'noteskins/HURTNOTE_assets');
-					noteSplashTexture = 'HURTnoteSplashes';
+					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -150,7 +159,7 @@ class Note extends FlxSprite
 				case 'Instakill Note':
 					ignoreNote = mustPress;
 					reloadNote('', 'noteskins/INSTAKILLNOTE_assets');
-					noteSplashTexture = 'HURTnoteSplashes';
+					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -165,7 +174,7 @@ class Note extends FlxSprite
 				case 'Crash Note':
 					ignoreNote = mustPress;
 					reloadNote('', 'noteskins/CRASHNOTE_assets');
-					noteSplashTexture = 'HURTnoteSplashes';
+					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -194,7 +203,7 @@ class Note extends FlxSprite
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
 					reloadNote('', 'noteskins/POISONEDNOTE_assets');
-					noteSplashTexture = 'POISONEDnoteSplashes';
+					noteSplashTexture = 'noteskins/POISONEDnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -263,7 +272,7 @@ class Note extends FlxSprite
 
 		// trace(prevNote);
 
-		if(prevNote!=null)
+		if(prevNote != null)
 			prevNote.nextNote = this;
 
 		if (isSustainNote && prevNote != null)
