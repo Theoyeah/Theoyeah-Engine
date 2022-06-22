@@ -20,6 +20,7 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 
 # What it adds 
 
+- NOTESKIN SELECYOR OH YEAHHH (by @Beastlyghost)
 - New Logo
 - New Icon
 - Added some custom easter eggs

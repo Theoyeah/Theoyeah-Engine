@@ -4540,7 +4540,8 @@ class PlayState extends MusicBeatState
 		notes.forEachAlive(function(note:Note) {
 			if (daNote != note && daNote.mustPress && daNote.noteData == note.noteData
 			    && daNote.isSustainNote == note.isSustainNote
-			    && Math.abs(daNote.strumTime - note.strumTime) < 1) {
+			    && Math.abs(daNote.strumTime - note.strumTime) < 1)
+			{
 				if(modchartObjects.exists('note${note.ID}')) modchartObjects.remove('note${note.ID}');
 				note.kill();
 				notes.remove(note, true);
@@ -4581,7 +4582,7 @@ class PlayState extends MusicBeatState
 
 	function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
 	{
-		if(ClientPrefs.ghostTapping) return; //fuck it
+		if(ClientPrefs.ghostTapping || cpuControlled) return; //fuck it
 
 		if (!boyfriend.stunned)
 		{
@@ -4627,6 +4628,11 @@ class PlayState extends MusicBeatState
 
 	function opponentNoteHit(note:Note):Void
 	{
+		if(note.ignoreMinHealth) // take health if note.ignoreMinHealth is activated
+			health -= note.opponentHitTakeHealth;
+		else if(health > 0.1) // take health if health is more than 0.1
+			health -= note.opponentHitTakeHealth;
+
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 			camZooming = true;
 
