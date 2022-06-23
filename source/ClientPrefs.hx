@@ -14,7 +14,7 @@ class ClientPrefs {
 	public static var iconBounce:String = 'Default';
 	public static var globalAntialiasing:Bool = true;
 	public static var opponentStrums:Bool = false;
-	public static var noteSkin:String = 'Arrows';
+	public static var noteSkin:String = 'Normal';
 	public static var noteSplashes:String = 'Normal';
 	public static var lowQuality:Bool = false;
 	public static var framerate:Int = 60;

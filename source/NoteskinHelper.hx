@@ -27,7 +27,8 @@ class NoteskinHelper
 	public static var noteSkins:Map<String, String> = [
 		'Unknown' => 'NOTE_assets',
 		'Arrows' => 'NOTE_assets',
-		'Circles' => 'CIRCLENOTE_assets'
+		'Normal' => 'NOTE_assets',
+		'Circle' => 'CIRCLENOTE_assets'
 	];
 
 	public static function reloadNoteSkinFiles()
@@ -80,7 +81,7 @@ class NoteskinHelper
 		else if(noteSkins.exists(skin))
 			path += noteSkins.get(skin);
 		else
-			path += noteSkins.get('Arrows');
+			path += noteSkins.get('Normal');
 
 		return path;
 	}
