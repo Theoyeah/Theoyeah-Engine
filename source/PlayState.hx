@@ -502,7 +502,7 @@ class PlayState extends MusicBeatState
 
 		switch (curStage.toLowerCase())
 		{
-			case 'stage': //Tutorial and Week 1
+			case 'stage': //Week 1
 				var bg:BGSprite = new BGSprite('stageback', -600, -200, 0.9, 0.9);
 				add(bg);
 
@@ -913,7 +913,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(doPush)
+		if(doPush) 
 			luaArray.push(new FunkinLua(luaFile));
 		#end
 		#end
@@ -1250,7 +1250,7 @@ class PlayState extends MusicBeatState
 		doof.cameras = [camHUD];
 
 		// if (SONG.song == 'South')
-			// FlxG.camera.alpha = 0.7;
+		// FlxG.camera.alpha = 0.7;
 		// UI_camera.zoom = 1;
 
 		// cameras = [FlxG.cameras.list[1]];
@@ -2891,14 +2891,14 @@ class PlayState extends MusicBeatState
 
 		switch (curStage)
 		{
-			case 'tank': // Week 7
+			case 'tank':
 				moveTank(elapsed);
 
-			case 'schoolEvil': // Week 6 - Thorns
+			case 'schoolEvil':
 				if(!ClientPrefs.lowQuality && bgGhouls.animation.curAnim.finished)
 					bgGhouls.visible = false;
 
-			case 'philly': // Week 3
+			case 'philly':
 				if(trainMoving)
 				{
 					trainFrameTiming += elapsed;
@@ -2926,8 +2926,8 @@ class PlayState extends MusicBeatState
 						--i;
 					}
 				}
-			case 'limo': // Week 4
-				if(!ClientPrefs.lowQuality /*&& ClientPrefs.violence*/) {
+			case 'limo':
+				if(!ClientPrefs.lowQuality) {
 					grpLimoParticles.forEach(function(spr:BGSprite) {
 						if(spr.animation.curAnim.finished) {
 							spr.kill();
@@ -3010,7 +3010,7 @@ class PlayState extends MusicBeatState
 						}
 					}
 				}
-			case 'mall': // Week 5 - Cocoa, Eggnog
+			case 'mall':
 				if(heyTimer > 0) {
 					heyTimer -= elapsed;
 					if(heyTimer <= 0) {
@@ -3025,12 +3025,10 @@ class PlayState extends MusicBeatState
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 			if(!startingSong && !endingSong && boyfriend.animation.curAnim.name.startsWith('idle')) {
 				boyfriendIdleTime += elapsed;
-				if(boyfriendIdleTime >= 0.15) { // Kind of a mercy thing for making the achievement easier to get as it's apparently frustrating to some playerss
+				if(boyfriendIdleTime >= 0.15) // Kind of a mercy thing for making the achievement easier to get as it's apparently frustrating to some playerss
 					boyfriendIdled = true;
-				}
-			} else {
+			} else
 				boyfriendIdleTime = 0;
-			}
 		}
 
 		super.update(elapsed);
@@ -3053,10 +3051,6 @@ class PlayState extends MusicBeatState
 				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ')' + ' | ' + ratingFC;//peeps wanted no integer rating
 	   	}
 
-		#if !CHEATING_ALLOWED
-		if(cpuControlled)
-			botplayTxt.visible = true;
-		#end
 		if(botplayTxt.visible) {
 			botplaySine += 180 * elapsed;
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
@@ -3139,6 +3133,7 @@ class PlayState extends MusicBeatState
 			default:
 				iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 				iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
+
 		}
 
 		if (healthDrain > 0 && health > 0.1)
@@ -3389,7 +3384,7 @@ class PlayState extends MusicBeatState
 				// Kill extremely late notes and cause misses
 				if (Conductor.songPosition > noteKillOffset + daNote.strumTime)
 				{
-					if (daNote.mustPress && !cpuControlled && !daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit)) {
+					if (daNote.mustPress && !cpuControlled &&!daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit)) {
 						noteMiss(daNote);
 					}
 
@@ -4058,10 +4053,7 @@ class PlayState extends MusicBeatState
 					}
 					MusicBeatState.switchState(new StoryMenuState());
 
-					#if CHEATING_ALLOWED
-					if(!ClientPrefs.getGameplaySetting('practice', false) && !ClientPrefs.getGameplaySetting('botplay', false))
-					{
-					#end
+					if(!ClientPrefs.getGameplaySetting('practice', false) && !ClientPrefs.getGameplaySetting('botplay', false)) {
 						StoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
 
 						if (SONG.validScore)
@@ -4071,16 +4063,15 @@ class PlayState extends MusicBeatState
 
 						FlxG.save.data.weekCompleted = StoryMenuState.weekCompleted;
 						FlxG.save.flush();
-					#if CHEATING_ALLOWED
 					}
-					#end
 					changedDifficulty = false;
 				}
 				else
 				{
 					var difficulty:String = CoolUtil.getDifficultyFilePath();
 
-					trace('LOADING NEXT SONG: ' + Paths.formatToSongPath(PlayState.storyPlaylist[0]) + ' [$difficulty]');
+					trace('LOADING NEXT SONG');
+					trace(Paths.formatToSongPath(PlayState.storyPlaylist[0]) + difficulty);
 
 					var winterHorrorlandNext = (Paths.formatToSongPath(SONG.song) == "eggnog");
 					if (winterHorrorlandNext)
@@ -4450,7 +4441,7 @@ class PlayState extends MusicBeatState
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
-		if(!cpuControlled && startedCountdown && !paused && key > -1)
+		if(!cpuControlled && startedCountdown &&!paused && key > -1)
 		{
 			var spr:StrumNote = playerStrums.members[key];
 			if(spr != null)
@@ -4730,6 +4721,7 @@ class PlayState extends MusicBeatState
 
 				if(!note.noMissAnimation)
 				{
+
 					switch(note.noteType) {
 
 						case 'Crash Note':
@@ -4856,9 +4848,9 @@ class PlayState extends MusicBeatState
 			var leType:String = note.noteType;
 			callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus, note.ID]);
 
-			if (!isSus)
+			if (!note.isSustainNote)
 			{
-				if(modchartObjects.exists('note${note.ID}')) modchartObjects.remove('note${note.ID}');
+				if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
 				note.kill();
 				notes.remove(note, true);
 				note.destroy();
@@ -5202,18 +5194,18 @@ class PlayState extends MusicBeatState
 
 		switch (curStage)
 		{
-			case 'tank': // Week 7
+			case 'tank':
 				if(!ClientPrefs.lowQuality) tankWatchtower.dance();
 				foregroundSprites.forEach(function(spr:BGSprite)
 				{
 					spr.dance();
 				});
-			case 'school': // Week 6 - Senpai, Roses
+			case 'school':
 				if(!ClientPrefs.lowQuality) {
 					bgGirls.dance();
 				}
 
-			case 'mall': // Week 5 - Cocoa, Eggnog
+			case 'mall':
 				if(!ClientPrefs.lowQuality) {
 					upperBoppers.dance(true);
 				}
@@ -5221,7 +5213,7 @@ class PlayState extends MusicBeatState
 				if(heyTimer <= 0) bottomBoppers.dance(true);
 				santa.dance(true);
 
-			case 'limo': // Week 4
+			case 'limo':
 				if(!ClientPrefs.lowQuality) {
 					grpLimoDancers.forEach(function(dancer:BackgroundDancer)
 					{
@@ -5231,7 +5223,7 @@ class PlayState extends MusicBeatState
 
 				if (FlxG.random.bool(10) && fastCarCanDrive)
 					fastCarDrive();
-			case "philly": // Week 3
+			case "philly":
 				if (!trainMoving)
 					trainCooldown += 1;
 
@@ -5386,7 +5378,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
 		if (ClientPrefs.crazycounter) {
-			//var totals:Int = sicks + goods + bads + shits;
+			var totals:Int = sicks + goods + bads + shits;
 			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}';//\nTotal hit: ${totals};
 		}
 	}

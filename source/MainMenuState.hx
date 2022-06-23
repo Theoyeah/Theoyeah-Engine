@@ -223,7 +223,7 @@ class MainMenuState extends MusicBeatState
 
 			if (controls.ACCEPT)
 			{
-				if (optionShit[curSelected] == 'donate') // i should remove this...
+				if (optionShit[curSelected] == 'donate')
 				{
 					CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
 				}
@@ -274,7 +274,7 @@ class MainMenuState extends MusicBeatState
 				}
 			}
 			#if desktop
-			if(FlxG.keys.anyJustPressed(debugKeys))
+			else if (FlxG.keys.anyJustPressed(debugKeys))
 			{
 				selectedSomethin = true;
 				Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Master Editor Menu";
