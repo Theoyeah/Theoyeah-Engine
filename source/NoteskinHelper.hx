@@ -25,7 +25,6 @@ class NoteskinHelper
 		-BeastlyGhost
 	**/
 	public static var noteSkins:Map<String, String> = [
-		'Unknown' => 'NOTE_assets',
 		'Arrows' => 'NOTE_assets',
 		'Normal' => 'NOTE_assets',
 		'Circle' => 'CIRCLENOTE_assets'
