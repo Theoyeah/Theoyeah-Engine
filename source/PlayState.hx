@@ -102,7 +102,7 @@ class PlayState extends MusicBeatState
 
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
-	#if (haxe >= "4.0.0")
+	#if (haxe >= "4.0.0") // who the fuck uses a version this old bro?!
 	public var boyfriendMap:Map<String, Boyfriend> = new Map();
 	public var dadMap:Map<String, Character> = new Map();
 	public var gfMap:Map<String, Character> = new Map();
@@ -3025,12 +3025,10 @@ class PlayState extends MusicBeatState
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 			if(!startingSong && !endingSong && boyfriend.animation.curAnim.name.startsWith('idle')) {
 				boyfriendIdleTime += elapsed;
-				if(boyfriendIdleTime >= 0.15) { // Kind of a mercy thing for making the achievement easier to get as it's apparently frustrating to some playerss
+				if(boyfriendIdleTime >= 0.15) // Kind of a mercy thing for making the achievement easier to get as it's apparently frustrating to some playerss
 					boyfriendIdled = true;
-				}
-			} else {
+			} else
 				boyfriendIdleTime = 0;
-			}
 		}
 
 		super.update(elapsed);
@@ -3107,6 +3105,7 @@ class PlayState extends MusicBeatState
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
 		*/
 
+		var iconOffset:Int = 26;
 		switch(ClientPrefs.iconBounce)
 		{
 			case 'Default':
@@ -3118,8 +3117,6 @@ class PlayState extends MusicBeatState
 				iconP2.scale.set(mult, mult);
 				iconP2.updateHitbox();
 
-				var iconOffset:Int = 26;
-
 				iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 				iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
 
@@ -3130,14 +3127,10 @@ class PlayState extends MusicBeatState
 				iconP1.updateHitbox();
 				iconP2.updateHitbox();
 
-				var iconOffset:Int = 26;
-
 				iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 				iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
 			default:
-				var iconOffset:Int = 26;
-
 				iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 				iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
 
@@ -3171,35 +3164,38 @@ class PlayState extends MusicBeatState
 				iconP1.animation.curAnim.curFrame = 0;
 		}
 
-		if (iconP2.animation.frames == 3)
+		if (iconP2.animation.frames == 3) // winning icon
 		{
-			if (healthBar.percent > 80)
+			if(healthBar.percent > 80)
 				iconP2.animation.curAnim.curFrame = 1;
-			else if (healthBar.percent < 20)
+			else if(healthBar.percent < 20)
 				iconP2.animation.curAnim.curFrame = 2;
 			else
 				iconP2.animation.curAnim.curFrame = 0;
 		}
 		else
 		{
-			if (healthBar.percent > 80)
+			if(healthBar.percent > 80)
 				iconP2.animation.curAnim.curFrame = 1;
 			else
 				iconP2.animation.curAnim.curFrame = 0;
 		}
 
-		if (FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene) {
+		if(FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene) {
 			persistentUpdate = false;
 			paused = true;
 			cancelMusicFadeTween();
 			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
 		}
 
-		if (startingSong && startedCountdown)
+		if(startingSong)
 		{
-			Conductor.songPosition += FlxG.elapsed * 1000;
-			if (Conductor.songPosition >= 0)
-				startSong();
+			if(startedCountdown)
+			{
+				Conductor.songPosition += FlxG.elapsed * 1000;
+				if(Conductor.songPosition >= 0)
+					startSong();
+			}
 		}
 		else
 		{
@@ -3249,7 +3245,7 @@ class PlayState extends MusicBeatState
 		FlxG.watch.addQuick("stepShit", curStep);
 
 		// RESET = Quick Game Over Screen
-		if (!ClientPrefs.noReset && controls.RESET && canReset && !inCutscene && startedCountdown &&  !endingSong)
+		if (!ClientPrefs.noReset && controls.RESET && canReset && !inCutscene && startedCountdown && !endingSong)
 		{
 			health = 0;
 			trace("RESET = True");
@@ -3348,8 +3344,10 @@ class PlayState extends MusicBeatState
 					opponentNoteHit(daNote);
 
 				if(daNote.mustPress && cpuControlled) {
-					if(daNote.isSustainNote && daNote.canBeHit) {
-						goodNoteHit(daNote);
+					if(daNote.isSustainNote) {
+						if(daNote.canBeHit) {
+							goodNoteHit(daNote);
+						}
 					} else if(daNote.strumTime <= Conductor.songPosition || (daNote.isSustainNote && daNote.canBeHit && daNote.mustPress)) {
 						goodNoteHit(daNote);
 					}
@@ -3359,21 +3357,27 @@ class PlayState extends MusicBeatState
 				if(strumGroup.members[daNote.noteData].sustainReduce && daNote.isSustainNote && (daNote.mustPress || !daNote.ignoreNote) &&
 					(!daNote.mustPress || (daNote.wasGoodHit || (daNote.prevNote.wasGoodHit && !daNote.canBeHit))))
 				{
-					if (strumScroll && (daNote.y - daNote.offset.y * daNote.scale.y + daNote.height >= center))
+					if (strumScroll)
 					{
-						var swagRect = new FlxRect(0, 0, daNote.frameWidth, daNote.frameHeight);
-						swagRect.height = (center - daNote.y) / daNote.scale.y;
-						swagRect.y = daNote.frameHeight - swagRect.height;
+						if(daNote.y - daNote.offset.y * daNote.scale.y + daNote.height >= center)
+						{
+							var swagRect = new FlxRect(0, 0, daNote.frameWidth, daNote.frameHeight);
+							swagRect.height = (center - daNote.y) / daNote.scale.y;
+							swagRect.y = daNote.frameHeight - swagRect.height;
 
-						daNote.clipRect = swagRect;
+							daNote.clipRect = swagRect;
+						}
 					}
-					else if (daNote.y + daNote.offset.y * daNote.scale.y <= center)
+					else
 					{
-						var swagRect = new FlxRect(0, 0, daNote.width / daNote.scale.x, daNote.height / daNote.scale.y);
-						swagRect.y = (center - daNote.y) / daNote.scale.y;
-						swagRect.height -= swagRect.y;
+						if (daNote.y + daNote.offset.y * daNote.scale.y <= center)
+						{
+							var swagRect = new FlxRect(0, 0, daNote.width / daNote.scale.x, daNote.height / daNote.scale.y);
+							swagRect.y = (center - daNote.y) / daNote.scale.y;
+							swagRect.height -= swagRect.y;
 
-						daNote.clipRect = swagRect;
+							daNote.clipRect = swagRect;
+						}
 					}
 				}
 
@@ -4377,7 +4381,7 @@ class PlayState extends MusicBeatState
 					{
 						for (doubleNote in pressNotes) {
 							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
-								if(modchartObjects.exists('note${doubleNote.ID}'))modchartObjects.remove('note${doubleNote.ID}');
+								if(modchartObjects.exists('note${doubleNote.ID}')) modchartObjects.remove('note${doubleNote.ID}');
 								doubleNote.kill();
 								notes.remove(doubleNote, true);
 								doubleNote.destroy();
@@ -4766,9 +4770,12 @@ class PlayState extends MusicBeatState
 			{
 				combo += 1;
 				popUpScore(note);
-				if(combo > 9999) combo = 9999;
+				if(combo > 9999) combo = 9999; // i should write here more value...
 			}
-			if(health <= maxHealth) health += note.hitHealth * healthGain;
+			if(health < maxHealth)
+				health += note.hitHealth * healthGain;
+			else
+				health = maxHealth;
 
 			if(!note.noAnimation) {
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
@@ -4790,10 +4797,12 @@ class PlayState extends MusicBeatState
 
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
 
-				if(note.gfNote && gf != null) 
+				if(note.gfNote)
 				{
-					gf.playAnim(animToPlay + note.animSuffix, true);
-					gf.holdTimer = 0;
+					if(gf != null) {
+						gf.playAnim(animToPlay + note.animSuffix, true);
+						gf.holdTimer = 0;
+					}
 				}
 				else
 				{
@@ -4850,7 +4859,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function spawnNoteSplashOnNote(note:Note) {
-		if(ClientPrefs.noteSplashes.toLowerCase() != 'none' && note != null) {
+		if(ClientPrefs.noteSplashes != 'None' && note != null) {
 			var strum:StrumNote = playerStrums.members[note.noteData];
 			if(strum != null)
 				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
@@ -4999,7 +5008,7 @@ class PlayState extends MusicBeatState
 
 	function killHenchmen():Void
 	{
-		if(!ClientPrefs.lowQuality && ClientPrefs.violence && curStage == 'limo') {
+		if(!ClientPrefs.lowQuality /*&& ClientPrefs.violence*/ && curStage == 'limo') {
 			if(limoKillingState < 1) {
 				limoMetalPole.x = -400;
 				limoMetalPole.visible = true;

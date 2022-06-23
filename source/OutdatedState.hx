@@ -41,7 +41,7 @@ class OutdatedState extends MusicBeatState
 		if(!leftState) {
 			if (controls.ACCEPT) {
 				leftState = true;
-				CoolUtil.browserLoad("https://github.com/Theoyeah/Theoyeah-Fnf-Engine/releases");
+				CoolUtil.browserLoad("https://github.com/Theoyeah/Theoyeah-Engine/releases/latest");
 			}
 			else if(controls.BACK) {
 				leftState = true;
