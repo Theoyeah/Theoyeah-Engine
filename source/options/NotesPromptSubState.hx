@@ -22,6 +22,12 @@ class NotesPromptSubState extends MusicBeatSubstate
 		for (skin in NoteskinHelper.noteSkins.keys())
 			if(!noteSkins.contains(skin)) noteSkins.push(skin);
 
+		if(!noteSkins.contains(ClientPrefs.noteSkin)) {
+			ClientPrefs.noteSkin = 'Unknown';
+			curSelected = 0;
+			noteSkins.insert(0, 'Unknown');
+		}
+
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.WHITE);
 		bg.alpha = 0.3;
 		add(bg);
@@ -30,9 +36,8 @@ class NotesPromptSubState extends MusicBeatSubstate
 		infoText.screenCenter(X);
 		add(infoText);
 
-		selectText = new Alphabet(0, 0, '< ' + noteSkins[curSelected] + ' >');
+		selectText = new Alphabet(0, 0, noteSkins[curSelected]);
 		selectText.y = infoText.y + selectText.height + 50;
-		selectText.screenCenter(X);
 		add(selectText);
 	}
 
@@ -70,6 +75,7 @@ class NotesPromptSubState extends MusicBeatSubstate
 	function changeSelection(change:Int = 0)
 	{
 		curSelected += change;
+		if(noteSkins.contains('Unknown')) noteSkins.remove('Unknown');
 
 		if (curSelected < 0)
 			curSelected = noteSkins.length - 1;
