@@ -44,13 +44,13 @@ class NotesSubState extends MusicBeatSubstate
 	var posX = 230;
 	public function new() {
 		super();
-
+		
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
-
+		
 		blackBG = new FlxSprite(posX - 25).makeGraphic(870, 200, FlxColor.BLACK);
 		blackBG.alpha = 0.4;
 		add(blackBG);
@@ -77,7 +77,7 @@ class NotesSubState extends MusicBeatSubstate
 			note.ID = i;
 			note.antialiasing = ClientPrefs.globalAntialiasing;
 			grpNotes.add(note);
-
+			
 
 			var newShader:ColorSwap = new ColorSwap();
 			note.shader = newShader.shader;
@@ -262,7 +262,7 @@ class NotesSubState extends MusicBeatSubstate
 		item.changeText('0');
 		item.offset.x = (40 * (item.lettersArray.length - 1)) / 2;
 
-		ClientPrefs.noteSkin = 'Arrows';
+		ClientPrefs.noteSkin = 'normal';
 		reloadNotes();
 	}
 	function updateValue(change:Float = 0) {

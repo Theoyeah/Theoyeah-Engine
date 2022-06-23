@@ -39,6 +39,7 @@ import openfl.Assets;
 using StringTools;
 typedef TitleData =
 {
+	
 	titlex:Float,
 	titley:Float,
 	startx:Float,
@@ -80,9 +81,9 @@ class TitleState extends MusicBeatState
 	#end
 
 	var mustUpdate:Bool = false;
-
+	
 	var titleJSON:TitleData;
-
+	
 	public static var updateVersion:String = '';
 
 	override public function create():Void
@@ -96,7 +97,7 @@ class TitleState extends MusicBeatState
 
 		// Just to load a mod on start up if ya got one. For mods that change the menu music and bg
 		WeekData.loadTheFirstEnabledMod();
-
+		
 		//trace(path, FileSystem.exists(path));
 
 		/*#if (polymod && !html5)
@@ -113,12 +114,12 @@ class TitleState extends MusicBeatState
 			}
 		}
 		#end*/
-
+		
 		#if CHECK_FOR_UPDATES
 		if(!closedState) {
 			trace('checking for update');
 			var http = new haxe.Http("https://raw.githubusercontent.com/Theoyeah/Theoyeah-Engine/main/gitVersion.txt");
-
+			
 			http.onData = function (data:String)
 			{
 				updateVersion = data.split('\n')[0].trim();
@@ -129,11 +130,11 @@ class TitleState extends MusicBeatState
 					mustUpdate = true;
 				}
 			}
-
+			
 			http.onError = function (error) {
 				trace('error: $error');
 			}
-
+			
 			http.request();
 		}
 		#end
@@ -154,14 +155,14 @@ class TitleState extends MusicBeatState
 		super.create();
 
 		FlxG.save.bind('funkin', 'ninjamuffin99');
-
+		
 		ClientPrefs.loadPrefs();
-
+		
 		Highscore.load();
 
 		// IGNORE THIS!!!
 		titleJSON = Json.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
-
+		
 		#if TITLE_SCREEN_EASTER_EGG
 		if (FlxG.save.data.psychDevsEasterEgg == null) FlxG.save.data.psychDevsEasterEgg = ''; //Crash prevention
 		switch(FlxG.save.data.psychDevsEasterEgg.toUpperCase())
@@ -328,9 +329,9 @@ class TitleState extends MusicBeatState
 			#end
 
 			default:
-				// EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
-				// EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
-				// EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
+			//EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
+			//EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
+			//EDIT THIS ONE IF YOU'RE MAKING A SOURCE CODE MOD!!!!
 				gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
 				gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
@@ -346,7 +347,7 @@ class TitleState extends MusicBeatState
 		#if (desktop && MODS_ALLOWED)
 		var path = Paths.currentModImages("titleEnter");
 		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)) {
+		if (!FileSystem.exists(path)){
 			path = Paths.currentModImages("titleEnter");
 		}
 		//trace(path, FileSystem.exists(path));
@@ -410,21 +411,21 @@ class TitleState extends MusicBeatState
 		psychSpr.updateHitbox();
 		psychSpr.screenCenter(X);
 		psychSpr.antialiasing = ClientPrefs.globalAntialiasing;
-
+		
 		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
 		add(tySpr);
 		tySpr.visible = false;
 		tySpr.setGraphicSize(Std.int(125 * 0.74)); //i dont know how this works, edit it later theoyeah to correct the image and all that
 		tySpr.updateHitbox();
 		tySpr.screenCenter(X);
-
+		
 		wrSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('wither_logo'));
 		add(wrSpr);
 		wrSpr.visible = false;
 		wrSpr.setGraphicSize(800, 600);
 		wrSpr.updateHitbox();
 		wrSpr.screenCenter(X);
-
+		
 		dnSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('demolitiondon_logo'));
 		add(dnSpr);
 		dnSpr.visible = false;

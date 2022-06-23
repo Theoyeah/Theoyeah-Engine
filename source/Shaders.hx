@@ -127,7 +127,7 @@ class Scanline extends FlxShader
 		{
 			if (mod(floor(openfl_TextureCoordv.y * openfl_TextureSize.y / scale), 2.0) == 0.0 ) {
 				float bitch = 1.0;
-
+	
 				vec4 texColor = texture2D(bitmap, openfl_TextureCoordv);
 				if (lockAlpha) bitch = texColor.a;
 				gl_FragColor = vec4(0.0, 0.0, 0.0, bitch);
@@ -325,7 +325,7 @@ class Grain extends FlxShader
 		uniform bool lockAlpha = false;
 
 		//a random texture generator, but you can also use a pre-computed perturbation texture
-
+	
 		vec4 rnm(in vec2 tc)
 		{
 			float noise =  sin(dot(tc + vec2(uTime,uTime), vec2(12.9898,78.233))) * 43758.5453;
@@ -333,8 +333,8 @@ class Grain extends FlxShader
 			float noiseR =  fract(noise) * 2.0 - 1.0;
 			float noiseG =  fract(noise * 1.2154) * 2.0 - 1.0;
 			float noiseB =  fract(noise * 1.3453) * 2.0 - 1.0;
-
-
+			
+				
 			float noiseA =  (fract(noise * 1.3647) * 2.0 - 1.0);
 
 			return vec4(noiseR,noiseG,noiseB,noiseA);

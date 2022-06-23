@@ -216,7 +216,7 @@ class FunkinLua {
 		// Camera poo
 		set('cameraX', 0);
 		set('cameraY', 0);
-
+		
 		// Screen stuff
 		set('screenWidth', FlxG.width);
 		set('screenHeight', FlxG.height);
@@ -240,7 +240,7 @@ class FunkinLua {
 		set('ratingFC', '');
 		set('maxHealth', 2);
 		set('version', MainMenuState.theoyeahEngineVersion.trim());
-
+		
 		set('inGameOver', false);
 		set('mustHitSection', false);
 		set('altAnim', false);
@@ -312,8 +312,7 @@ class FunkinLua {
 		set('kadeTxt', ClientPrefs.kadetxt);
 		set('iconBounce', ClientPrefs.iconBounce);
 		set('noteSplashes', ClientPrefs.noteSplashes);
-		set('noteSkin', ClientPrefs.noteSkin);
-
+		
 		// other things
 		set('mouseVisible', FlxG.mouse.visible);
 		set("scriptName", scriptName);
@@ -414,7 +413,7 @@ class FunkinLua {
 
 		});
 
-		Lua_helper.add_callback(lua, "getGlobalFromScript", function(?luaFile:String, ?global:String) { // returns the global from a script
+		Lua_helper.add_callback(lua, "getGlobalFromScript", function(?luaFile:String, ?global:String){ // returns the global from a script
 			if(luaFile == null) {
 				#if (linc_luajit >= "0.0.6")
 				LuaL.error(lua, "bad argument #1 to 'getGlobalFromScript' (string expected, got nil)");
@@ -474,7 +473,7 @@ class FunkinLua {
 			}
 			Lua.pushnil(lua);
 		});
-		Lua_helper.add_callback(lua, "setGlobalFromScript", function(luaFile:String, global:String, val:Dynamic) { // returns the global from a script
+		Lua_helper.add_callback(lua, "setGlobalFromScript", function(luaFile:String, global:String, val:Dynamic){ // returns the global from a script
 			var cervix = luaFile + ".lua";
 			if(luaFile.endsWith(".lua")) cervix = luaFile;
 			var doPush = false;
@@ -507,7 +506,7 @@ class FunkinLua {
 			}
 			Lua.pushnil(lua);
 		});
-		Lua_helper.add_callback(lua, "getGlobals", function(luaFile:String) { // returns a copy of the specified file's globals
+		Lua_helper.add_callback(lua, "getGlobals", function(luaFile:String){ // returns a copy of the specified file's globals
 			var cervix = luaFile + ".lua";
 			if(luaFile.endsWith(".lua")) cervix = luaFile;
 			var doPush = false;
@@ -550,13 +549,13 @@ class FunkinLua {
 
 							// Manual conversion
 							// first we convert the key
-							if(Lua.isnumber(luaInstance.lua, -2)) {
+							if(Lua.isnumber(luaInstance.lua,-2)) {
 								Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -2));
 								pop++;
-							} else if(Lua.isstring(luaInstance.lua, -2)) {
+							} else if(Lua.isstring(luaInstance.lua,-2)) {
 								Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -2));
 								pop++;
-							} else if(Lua.isboolean(luaInstance.lua, -2)) {
+							} else if(Lua.isboolean(luaInstance.lua,-2)) {
 								Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -2));
 								pop++;
 							}
@@ -564,13 +563,13 @@ class FunkinLua {
 
 
 							// then the value
-							if(Lua.isnumber(luaInstance.lua, -1)) {
+							if(Lua.isnumber(luaInstance.lua,-1)) {
 								Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -1));
 								pop++;
-							} else if(Lua.isstring(luaInstance.lua, -1)) {
+							} else if(Lua.isstring(luaInstance.lua,-1)) {
 								Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -1));
 								pop++;
-							} else if(Lua.isboolean(luaInstance.lua, -1)) {
+							} else if(Lua.isboolean(luaInstance.lua,-1)) {
 								Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -1));
 								pop++;
 							}
@@ -589,7 +588,7 @@ class FunkinLua {
 			}
 			Lua.pushnil(lua);
 		});
-		Lua_helper.add_callback(lua, "isRunning", function(luaFile:String) {
+		Lua_helper.add_callback(lua, "isRunning", function(luaFile:String){
 			var cervix = luaFile + ".lua";
 			if(luaFile.endsWith(".lua")) cervix = luaFile;
 			var doPush = false;
@@ -789,7 +788,7 @@ class FunkinLua {
 				loadFrames(spr, image, spriteType);
 			}
 		});
-
+		
 		Lua_helper.add_callback(lua, "getProperty", function(variable:String) {
 			var killMe:Array<String> = variable.split('.');
 			if(killMe.length > 1) {
@@ -2575,7 +2574,7 @@ class FunkinLua {
 			PlayState.instance.modchartTweens.remove(tagger);
 		}
 	}
-
+	
 	function tweenShit(tag:String, vars:String) {
 		cancelTween(tag);
 		var variables:Array<String> = vars.split('.');

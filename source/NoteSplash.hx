@@ -42,7 +42,7 @@ class NoteSplash extends FlxSprite
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0 && PlayState.SONG.splashSkin != 'noteSplashes') skin = PlayState.SONG.splashSkin;
 
 		loadAnims(skin);
-
+		
 		colorSwap = new ColorSwap();
 		shader = colorSwap.shader;
 
@@ -86,7 +86,7 @@ class NoteSplash extends FlxSprite
 	}
 
 	override function update(elapsed:Float) {
-		if(animation.curAnim != null && animation.curAnim.finished) kill();
+		if(animation.curAnim != null)if(animation.curAnim.finished) kill();
 
 		super.update(elapsed);
 	}

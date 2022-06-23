@@ -193,12 +193,12 @@ class CreditsState extends MusicBeatState
 
 				if (upP)
 				{
-					changeSelection(-shiftMult);
+					changeSelection(-1 * shiftMult);
 					holdTime = 0;
 				}
 				if (downP)
 				{
-					changeSelection(shiftMult);
+					changeSelection(1 * shiftMult);
 					holdTime = 0;
 				}
 
@@ -237,7 +237,7 @@ class CreditsState extends MusicBeatState
 				quitting = true;
 			}
 		}
-
+		
 		for (item in grpOptions.members)
 		{
 			if(!item.isBold)
