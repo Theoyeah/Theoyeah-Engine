@@ -144,7 +144,7 @@ class Paths
 	* @param library where to search
 	* @return i dont know
 	*/
-	public static function getPath(file:String, type:AssetType, ?library:String, where:String = 'shared')
+	public static function getPath(file:String, type:AssetType, ?library:String)
 	{
 		if (!getIsBlankString(library))
 			return getLibraryPath(file, library);
@@ -152,7 +152,7 @@ class Paths
 		if (currentLevel != null)
 		{
 			var levelPath:String = '';
-			if(currentLevel != where) {
+			if(currentLevel != 'shared') {
 				levelPath = getLibraryPathForce(file, currentLevel);
 				/*#if sys
 				if(FileSystem.exists(levelPath, type))
@@ -162,7 +162,7 @@ class Paths
 					return levelPath;
 			}
 
-			levelPath = getLibraryPathForce(file, where);
+			levelPath = getLibraryPathForce(file, "shared");
 			if (OpenFlAssets.exists(levelPath, type))
 				return levelPath;
 		}
@@ -262,11 +262,12 @@ class Paths
 		}
 		returnNull(key, where);
 		return null;
+		
 	}
 
-	static public function sound(key:String, ?library:String, where:String = 'sounds'):Sound
+	static public function sound(key:String, ?library:String):Sound
 	{
-		var sound:Sound = returnSound(where, key, library);
+		var sound:Sound = returnSound('sounds', key, library);
 		return sound;
 	}
 
