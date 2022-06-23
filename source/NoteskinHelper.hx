@@ -25,6 +25,7 @@ class NoteskinHelper
 		-BeastlyGhost
 	**/
 	public static var noteSkins:Map<String, String> = [
+		'Unknown' => 'NOTE_assets',
 		'Arrows' => 'NOTE_assets',
 		'Circles' => 'CIRCLENOTE_assets'
 	];
@@ -68,13 +69,15 @@ class NoteskinHelper
 		#end
 	}
 
-	public static function getNoteSkin(skin:String = 'Arrows', ?pixel:Bool = false)
+	public static function getNoteSkin(skin:String = 'Normal', ?pixel:Bool = false)
 	{
 		var path:String = 'noteskins/';
 		if (pixel)
-			path = 'pixelUI/noteskins/';
+			path = 'pixelUI/' + path;
 
-		if(noteSkins.exists(skin))
+		if(noteSkins.exists(skin.toLowerCase()))
+			path += noteSkins.get(skin.toLowerCase());
+		else if(noteSkins.exists(skin))
 			path += noteSkins.get(skin);
 		else
 			path += noteSkins.get('Arrows');
