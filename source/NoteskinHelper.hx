@@ -32,13 +32,15 @@ class NoteskinHelper
 	public static function reloadNoteSkinFiles()
 	{
 		#if sys
+		#if MODS_ALLOWED
 		var directories:Array<String> = [
-			#if MODS_ALLOWED
 			Paths.mods('noteskins/'),
 			Paths.mods(Paths.currentModDirectory + '/noteskins/'),
-			#end
 			Paths.getPreloadPath('noteskins/')
 		];
+		#else
+		var directories:Array<String> = [Paths.getPreloadPath('noteskins/')];
+		#end
 
 		for (i in 0...directories.length)
 		{

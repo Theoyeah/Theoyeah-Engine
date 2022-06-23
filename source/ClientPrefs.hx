@@ -175,7 +175,7 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.noteSplashes) // fixes noteSplashes error
 			FlxG.save.data.noteSplashes = 'Normal';
-		else if(!FlxG.save.data.noteSplashes)
+		else
 			FlxG.save.data.noteSplashes = 'None';
 
 		if(FlxG.save.data.instantRespawn != null)
