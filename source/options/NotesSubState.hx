@@ -262,7 +262,7 @@ class NotesSubState extends MusicBeatSubstate
 		item.changeText('0');
 		item.offset.x = (40 * (item.lettersArray.length - 1)) / 2;
 
-		ClientPrefs.noteSkin = 'normal';
+		ClientPrefs.noteSkin = 'Arrows';
 		reloadNotes();
 	}
 	function updateValue(change:Float = 0) {

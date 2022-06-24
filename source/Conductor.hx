@@ -33,7 +33,7 @@ class Conductor
 	{
 	}
 
-	public static function judgeNote(note:Note, diff:Float=0):Rating // die
+	public static function judgeNote(note:Note, diff:Float = 0):Rating // die
 	{
 		var data:Array<Rating> = PlayState.instance.ratingsData; //shortening cuz fuck u
 		for(i in 0...data.length-1) //skips last window (Shit)
@@ -45,12 +45,12 @@ class Conductor
 		}
 		return data[data.length - 1];
 	}
-	public static function getCrotchetAtTime(time:Float){
+	public static function getCrotchetAtTime(time:Float) {
  		var lastChange = getBPMFromSeconds(time);
  		return lastChange.stepCrochet*4;
  	}
 
- 	public static function getBPMFromSeconds(time:Float){
+ 	public static function getBPMFromSeconds(time:Float) {
  		var lastChange:BPMChangeEvent = {
  			stepTime: 0,
  			songTime: 0,
@@ -66,7 +66,7 @@ class Conductor
  		return lastChange;
  	}
 
- 	public static function getBPMFromStep(step:Float){
+ 	public static function getBPMFromStep(step:Float) {
  		var lastChange:BPMChangeEvent = {
  			stepTime: 0,
  			songTime: 0,
@@ -75,14 +75,14 @@ class Conductor
  		}
  		for (i in 0...Conductor.bpmChangeMap.length)
  		{
- 			if (Conductor.bpmChangeMap[i].stepTime<=step)
+ 			if (Conductor.bpmChangeMap[i].stepTime <= step)
  				lastChange = Conductor.bpmChangeMap[i];
  		}
 
  		return lastChange;
  	}
 
- 	public static function beatToSeconds(beat:Float): Float
+ 	public static function beatToSeconds(beat:Float):Float
 	{
  		var step = beat * 4;
  		var lastChange = getBPMFromStep(step);

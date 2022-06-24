@@ -55,6 +55,8 @@ class FunkinLua {
 	#end
 	public var camTarget:FlxCamera;
 	public var scriptName:String = '';
+	public var close:Bool = false;
+
 	var gonnaClose:Bool = false;
 
 	public var accessedProps:Map<String, Dynamic> = null;
@@ -731,6 +733,25 @@ class FunkinLua {
 			luaTrace('Platform not suppoted for checkFileExists!\nNeed mods activated for this!', true, false, FlxColor.RED);
 			return false;
 			#end
+		});
+
+		Lua_helper.add_callback(lua, "setHealthBarColors", function(leftHex:String, rightHex:String) {
+			var left:FlxColor = Std.parseInt(leftHex);
+			if(!leftHex.startsWith('0x')) left = Std.parseInt('0xff' + leftHex);
+			var right:FlxColor = Std.parseInt(rightHex);
+			if(!rightHex.startsWith('0x')) right = Std.parseInt('0xff' + rightHex);
+
+			PlayState.instance.healthBar.createFilledBar(left, right);
+			PlayState.instance.healthBar.updateBar();
+		});
+		Lua_helper.add_callback(lua, "setTimeBarColors", function(leftHex:String, rightHex:String) {
+			var left:FlxColor = Std.parseInt(leftHex);
+			if(!leftHex.startsWith('0x')) left = Std.parseInt('0xff' + leftHex);
+			var right:FlxColor = Std.parseInt(rightHex);
+			if(!rightHex.startsWith('0x')) right = Std.parseInt('0xff' + rightHex);
+
+			PlayState.instance.timeBar.createFilledBar(right, left);
+			PlayState.instance.timeBar.updateBar();
 		});
 
 		Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
@@ -2011,13 +2032,10 @@ class FunkinLua {
 			}
 			luaTrace(thisText, true, false, color);
 		});
-		Lua_helper.add_callback(lua, "close", function(printMessage:Bool) {
-			if(!gonnaClose) {
-				if(printMessage)
-					luaTrace('Stopping lua script: $scriptName');
-				PlayState.instance.closeLuas.push(this);
-			}
-			gonnaClose = true;
+
+		Lua_helper.add_callback(lua, "close", function() {
+			closed = true;
+			return closed;
 		});
 		Lua_helper.add_callback(lua, "stopScript", function(printMessage:Bool) {
 			if(!gonnaClose) {
@@ -2682,12 +2700,13 @@ class FunkinLua {
 			['transparent', FlxColor.TRANSPARENT],
 			['white', FlxColor.WHITE]
 		];
-		if(Std.isOfType(color, 'c')) {
+		if(color is String) {
 			for (i in 0...colorStuff.length) {
-				if(colorStuff[i][0].toLowerCase().trim().replace('-', '') == color.toLowerCase().trim().replace('-', ''))
+				if(colorStuff[i][0].toLowerCase().trim().replace('-', '') == color.toLowerCase().trim().replace('-', '')) {
 					colorr = colorStuff[i][1];
+				}
 			}
-		} else if(Std.isOfType(color, FlxColor.WHITE)) {
+		} else if(color is FlxColor) {
 			colorr = color;
 		}
 		if(ignoreCheck || getBool('luaDebugMode')) {

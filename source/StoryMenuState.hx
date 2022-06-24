@@ -100,7 +100,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			var weekFile:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
 			var isLocked:Bool = weekIsLocked(WeekData.weeksList[i]);
-			if(!isLocked || !weekFile.hiddenUntilUnlocked)
+			if((!isLocked || !weekFile.hiddenUntilUnlocked) && !loadedWeeks.contains(weekFile))
 			{
 				loadedWeeks.push(weekFile);
 				WeekData.setDirectoryFromWeek(weekFile);
@@ -240,12 +240,13 @@ class StoryMenuState extends MusicBeatState
 				changeDifficulty();
 
 			/*
+			#if CHEATING_ALLOWED
 			if(FlxG.keys.justPressed.CONTROL)
 			{
 				persistentUpdate = false;
 				openSubState(new GameplayChangersSubstate());
 			}
-			else */if(controls.RESET)
+			else #end */if(controls.RESET)
 			{
 				persistentUpdate = false;
 				openSubState(new ResetScoreSubState('', curDifficulty, '', curWeek));

@@ -20,7 +20,7 @@ class NotesPromptSubState extends MusicBeatSubstate
 		NoteskinHelper.reloadNoteSkinFiles();
 
 		for (skin in NoteskinHelper.noteSkins.keys())
-			noteSkins.push(skin);
+			if(!noteSkins.contains(skin)) noteSkins.push(skin);
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.WHITE);
 		bg.alpha = 0.3;
