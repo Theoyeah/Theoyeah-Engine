@@ -55,7 +55,7 @@ class FunkinLua {
 	#end
 	public var camTarget:FlxCamera;
 	public var scriptName:String = '';
-	public var close:Bool = false;
+	public var closed:Bool = false;
 
 	var gonnaClose:Bool = false;
 
