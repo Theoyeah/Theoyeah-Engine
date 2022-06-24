@@ -2706,7 +2706,7 @@ class FunkinLua {
 					colorr = colorStuff[i][1];
 				}
 			}
-		} else if(color is FlxColor) {
+		} else {
 			colorr = color;
 		}
 		if(ignoreCheck || getBool('luaDebugMode')) {
