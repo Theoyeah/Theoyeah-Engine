@@ -20,7 +20,7 @@ class NotesPromptSubState extends MusicBeatSubstate
 		NoteskinHelper.reloadNoteSkinFiles();
 
 		for (skin in NoteskinHelper.noteSkins.keys())
-			if(!noteSkins.contains(skin)) noteSkins.push(skin);
+			if(!noteSkins.contains(skin.toLowerCase())) noteSkins.push(skin.toUpperCase());
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.WHITE);
 		bg.alpha = 0.3;
@@ -30,7 +30,8 @@ class NotesPromptSubState extends MusicBeatSubstate
 		infoText.screenCenter(X);
 		add(infoText);
 
-		selectText = new Alphabet(0, 0);
+		selectText = new Alphabet(0, 0, '< ' + noteSkins[curSelected] + ' >');
+		selectText.screenCenter(X);
 		selectText.y = infoText.y + selectText.height + 50;
 		add(selectText);
 	}
@@ -76,7 +77,6 @@ class NotesPromptSubState extends MusicBeatSubstate
 			curSelected = 0;
 
 		selectText.changeText('< ' + noteSkins[curSelected] + ' >');
-		selectText.screenCenter(X);
 
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 	}

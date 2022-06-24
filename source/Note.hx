@@ -140,7 +140,7 @@ class Note extends FlxSprite
 			switch(value) {
 				case 'Hurt Note': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/HURTNOTE_assets');
+					reloadNote('', 'HURTNOTE_assets');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -158,7 +158,7 @@ class Note extends FlxSprite
 
 				case 'Instakill Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/INSTAKILLNOTE_assets');
+					reloadNote('', 'INSTAKILLNOTE_assets');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -173,7 +173,7 @@ class Note extends FlxSprite
 
 				case 'Crash Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/CRASHNOTE_assets');
+					reloadNote('', 'CRASHNOTE_assets');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -183,7 +183,7 @@ class Note extends FlxSprite
 
 				case 'Window Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/WINDOWNOTE_assets');
+					reloadNote('', 'WINDOWNOTE_assets');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -192,7 +192,7 @@ class Note extends FlxSprite
 
 				case 'Warning Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/WARNINGNOTE_assets');
+					reloadNote('', 'WARNINGNOTE_assets');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -202,7 +202,7 @@ class Note extends FlxSprite
 
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/POISONEDNOTE_assets');
+					reloadNote('', 'POISONEDNOTE_assets');
 					noteSplashTexture = 'noteskins/POISONEDnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -350,7 +350,7 @@ class Note extends FlxSprite
 		if(prefix == null) prefix = '';
 		if(texture == null) texture = '';
 		if(suffix == null) suffix = '';
-	
+
 		var skin:String = texture;
 		if (texture.length < 1)
 		{
@@ -392,7 +392,7 @@ class Note extends FlxSprite
 				offsetX += lastNoteOffsetXForPixelAutoAdjusting;
 				lastNoteOffsetXForPixelAutoAdjusting = (width - 7) * (PlayState.daPixelZoom / 2);
 				offsetX -= lastNoteOffsetXForPixelAutoAdjusting;
-				
+
 				/*if(animName != null && !animName.endsWith('end'))
 				{
 					lastScaleY /= lastNoteScaleToo;
