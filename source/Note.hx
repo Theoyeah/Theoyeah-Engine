@@ -140,7 +140,7 @@ class Note extends FlxSprite
 			switch(value) {
 				case 'Hurt Note': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/HURTNOTE_assets');
+					reloadNote('', 'noteskins/HURT'); // ok, we need a thing. i will put it in a discussion
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -158,7 +158,7 @@ class Note extends FlxSprite
 
 				case 'Instakill Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/INSTAKILLNOTE_assets');
+					reloadNote('', 'noteskins/INSTAKILL');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -173,7 +173,7 @@ class Note extends FlxSprite
 
 				case 'Crash Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/CRASHNOTE_assets');
+					reloadNote('', 'noteskins/CRASH');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -183,7 +183,7 @@ class Note extends FlxSprite
 
 				case 'Window Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/WINDOWNOTE_assets');
+					reloadNote('', 'noteskins/WINDOW');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -192,7 +192,7 @@ class Note extends FlxSprite
 
 				case 'Warning Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/WARNINGNOTE_assets');
+					reloadNote('', 'noteskins/WARNING');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -202,7 +202,7 @@ class Note extends FlxSprite
 
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/POISONEDNOTE_assets');
+					reloadNote('', 'noteskins/POISONED');
 					noteSplashTexture = 'noteskins/POISONEDnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -355,7 +355,7 @@ class Note extends FlxSprite
 		if (texture.length < 1)
 		{
 			skin = PlayState.SONG.arrowSkin;
-			if (skin == null || skin.length < 1)
+			if (skin == null || skin.replace(' ', '').length < 1)
 			{
 				skin = NoteskinHelper.getNoteSkin(ClientPrefs.noteSkin);
 			}
