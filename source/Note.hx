@@ -140,7 +140,7 @@ class Note extends FlxSprite
 			switch(value) {
 				case 'Hurt Note': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
 					ignoreNote = mustPress;
-					reloadNote('', 'HURTNOTE_assets');
+					reloadNote('', 'noteskins/HURTNOTE_assets');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -158,7 +158,7 @@ class Note extends FlxSprite
 
 				case 'Instakill Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'INSTAKILLNOTE_assets');
+					reloadNote('', 'noteskins/INSTAKILLNOTE_assets');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -173,7 +173,7 @@ class Note extends FlxSprite
 
 				case 'Crash Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'CRASHNOTE_assets');
+					reloadNote('', 'noteskins/CRASHNOTE_assets');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -183,7 +183,7 @@ class Note extends FlxSprite
 
 				case 'Window Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'WINDOWNOTE_assets');
+					reloadNote('', 'noteskins/WINDOWNOTE_assets');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -192,7 +192,7 @@ class Note extends FlxSprite
 
 				case 'Warning Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'WARNINGNOTE_assets');
+					reloadNote('', 'noteskins/WARNINGNOTE_assets');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -202,7 +202,7 @@ class Note extends FlxSprite
 
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'POISONEDNOTE_assets');
+					reloadNote('', 'noteskins/POISONEDNOTE_assets');
 					noteSplashTexture = 'noteskins/POISONEDnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
