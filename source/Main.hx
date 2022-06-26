@@ -122,20 +122,22 @@ class Main extends Sprite
 		dateNow = dateNow.replace(" ", "_");
 		dateNow = dateNow.replace(":", "'");
 
-		path = "./crash/" + "PsychEngine_" + dateNow + ".txt";
+		path = "./crash/" + "TheoyeahEngine_" + dateNow + ".txt";
 
+		var i:Int = 1;
 		for (stackItem in callStack)
 		{
 			switch (stackItem)
 			{
 				case FilePos(s, file, line, column):
-					errMsg += file + " (line " + line + ")\n";
+					errMsg += 'Error Number ' + i + ': File: "$file" (line: "$line")\n';
 				default:
 					Sys.println(stackItem);
 			}
+			i++;
 		}
 
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/ShadowMario/FNF-PsychEngine\n\n> Crash Handler written by: sqirra-rng";
+		errMsg = "Errors: \n" + errMsg + "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/Theoyeah/Theoyeah-Engine\n Or to the Psych Engine page: https://github.com/ShadowMario/FNF-PsychEngine\n\n> Crash Handler written by: sqirra-rng" /*+ "Edited by Wither362"*/;
 
 		if (!FileSystem.exists("./crash/"))
 			FileSystem.createDirectory("./crash/");
