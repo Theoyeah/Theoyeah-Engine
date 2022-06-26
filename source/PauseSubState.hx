@@ -151,6 +151,7 @@ class PauseSubState extends MusicBeatSubstate
 	}
 
 	var holdTime:Float = 0;
+	var cantUnpause:Float = 0.1;
 	override function update(elapsed:Float)
 	{
 		if (pauseMusic.volume < 0.5)
@@ -203,7 +204,7 @@ class PauseSubState extends MusicBeatSubstate
 				}
 		}
 
-		if (accepted)
+		if (accepted && (cantUnpause <= 0 || !ClientPrefs.controllerMode))
 		{
 			if (menuItems == difficultyChoices)
 			{

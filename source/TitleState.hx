@@ -24,7 +24,9 @@ import options.GraphicsSettingsSubState;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
+import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
+import flixel.graphics.frames.FlxFrame;
 import flixel.math.FlxRect;
 import flixel.system.FlxSound;
 import flixel.system.ui.FlxSoundTray;
@@ -67,6 +69,9 @@ class TitleState extends MusicBeatState
 	var wrSpr:FlxSprite;
 	var dnSpr:FlxSprite;
 	var coolguys:FlxSprite;
+
+	var titleTextColors:Array<FlxColor> = [0xFF33FFFF, 0xFF3333CC];
+	var titleTextAlphas:Array<Float> = [1, .64];	
 
 	var curWacky:Array<String> = [];
 
@@ -219,10 +224,15 @@ class TitleState extends MusicBeatState
 			}
 			#end
 
-			new FlxTimer().start(1, function(tmr:FlxTimer)
-			{
+			if (initialized)
 				startIntro();
-			});
+			else
+				{
+					new FlxTimer().start(1, function(tmr:FlxTimer)
+					{
+						startIntro();
+					});
+				}
 		}
 		#end
 	}
@@ -360,8 +370,25 @@ class TitleState extends MusicBeatState
 
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
 		#end
-		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
-		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
+		var animFrames:Array<FlxFrame> = [];
+		@:privateAccess {
+			titleText.animation.findByPrefix(animFrames, "ENTER IDLE");
+			titleText.animation.findByPrefix(animFrames, "ENTER FREEZE");
+		}
+
+		if (animFrames.length > 0) {
+			newTitle = true;
+
+			titleText.animation.addByPrefix('idle', "ENTER IDLE", 24);
+			titleText.animation.addByPrefix('press', ClientPrefs.flashing ? "ENTER PRESSED" : "ENTER FREEZE", 24);
+		}
+		else {
+			newTitle = false;
+
+			titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
+			titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
+		}
+
 		titleText.antialiasing = ClientPrefs.globalAntialiasing;
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
@@ -471,6 +498,9 @@ class TitleState extends MusicBeatState
 	var transitioning:Bool = false;
 	private static var playJingle:Bool = false;
 
+	var newTitle:Bool = false;
+	var titleTimer:Float = 0;
+
 	override function update(elapsed:Float)
 	{
 		if (FlxG.sound.music != null)
@@ -502,16 +532,39 @@ class TitleState extends MusicBeatState
 			#end
 		}
 
+		
+		if (newTitle) {
+			titleTimer += CoolUtil.boundTo(elapsed, 0, 1);
+			if (titleTimer > 2) titleTimer -= 2;
+		}
+
+
 		// EASTER EGG
 
 		if (initialized && !transitioning && skippedIntro)
 		{
+			if (newTitle && !pressedEnter)
+				{
+					var timer:Float = titleTimer;
+					if (timer >= 1)
+						timer = (-timer) + 2;
+	
+					timer = FlxEase.quadInOut(timer);
+	
+					titleText.color = FlxColor.interpolate(titleTextColors[0], titleTextColors[1], timer);
+					titleText.alpha = FlxMath.lerp(titleTextAlphas[0], titleTextAlphas[1], timer);
+				}
+	
 			if(pressedEnter)
 			{
+				titleText.color = FlxColor.WHITE;
+				titleText.alpha = 1;
+
 				if(titleText != null) titleText.animation.play('press');
 
-				if(ClientPrefs.flashing)
+				if(ClientPrefs.flashing) {
 					FlxG.camera.flash(FlxColor.WHITE, 1);
+			}
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 				transitioning = true;
