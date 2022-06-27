@@ -65,7 +65,8 @@ class ControlsSubState extends MusicBeatSubstate {
 		['Zoom in', 'zoom+'],
 		['Zoom out', 'zoom-'],
 		['Note sustain +', 'increase'],
-		['Note sustain -', 'decrease']
+		['Note sustain -', 'decrease'],
+		['Autosave Chart', 'autosave']
 	];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;

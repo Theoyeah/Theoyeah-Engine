@@ -95,6 +95,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		if (ClientPrefs.instantRespawn)
 		{
 			trace('game over skipped');
+			WeekData.loadTheFirstEnabledMod();
 			LoadingState.loadAndSwitchState(new PlayState(), true);
 		}
 
@@ -107,6 +108,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			PlayState.deathCounter = 0;
 			PlayState.seenCutscene = false;
 
+			WeekData.loadTheFirstEnabledMod();
 			if (PlayState.isStoryMode)
 				MusicBeatState.switchState(new StoryMenuState());
 			else

@@ -95,13 +95,14 @@ class ClientPrefs {
 		'volume_up'		=> [NUMPADPLUS, PLUS],
 		'volume_down'	=> [NUMPADMINUS, MINUS],
 
-		'debug_1'		=> [SEVEN, NONE],
-		'debug_2'		=> [EIGHT, NONE],
+		'debug_1'		=> [SEVEN, NONE], // charting editor state
+		'debug_2'		=> [EIGHT, NONE], // character editor
 
 		'zoom+'			=> [Z, NONE],
 		'zoom-'			=> [X, NONE],
 		'decrease'		=> [Q, NONE],
-		'increase'		=> [E, NONE]
+		'increase'		=> [E, NONE],
+		'autosave'		=> [P, NONE]
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
