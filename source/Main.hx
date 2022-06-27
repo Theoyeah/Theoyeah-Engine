@@ -122,7 +122,7 @@ class Main extends Sprite
 		dateNow = dateNow.replace(" ", "_");
 		dateNow = dateNow.replace(":", "'");
 
-		path = "./crash/" + "TheoyeahEngine_" + dateNow + ".txt";
+		path = "./logs/crash/" + "TheoyeahEngine_" + dateNow + ".txt";
 
 		var i:Int = 1;
 		for (stackItem in callStack)
@@ -137,17 +137,16 @@ class Main extends Sprite
 			i++;
 		}
 
-		errMsg = "Errors: \n" + errMsg + "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/Theoyeah/Theoyeah-Engine\n Or to the Psych Engine page: https://github.com/ShadowMario/FNF-PsychEngine\n\n> Crash Handler written by: sqirra-rng" /*+ "Edited by Wither362"*/;
-
-		if (!FileSystem.exists("./crash/"))
-			FileSystem.createDirectory("./crash/");
+		errMsg = "Errors: \n" + errMsg + "\nUncaught Error: " + e.error + "\nUnexpected ?\nThen please report this error to the GitHub page: https://github.com/Theoyeah/Theoyeah-Engine.\nIf you need any help regarding how to fix, please look up in the wiki!"
+		if (!FileSystem.exists("./logs/crash/"))
+			FileSystem.createDirectory("./logs/crash/");
 
 		File.saveContent(path, errMsg + "\n");
 
 		Sys.println(errMsg);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
-		Application.current.window.alert(errMsg, "Error!");
+		Application.current.window.alert(errMsg, "Fatal Error!");
 		DiscordClient.shutdown();
 		Sys.exit(1);
 	}
