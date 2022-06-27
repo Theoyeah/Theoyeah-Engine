@@ -138,7 +138,7 @@ class Main extends Sprite
 		}
 
 		errMsg = "Errors: \n" + errMsg + "\nUncaught Error: " + e.error + "\nUnexpected ?\nThen please report this error to the GitHub page: https://github.com/Theoyeah/Theoyeah-Engine.\nIf you need any help regarding how to fix, please look up in the wiki!";
-		if (!FileSystem.exists("./logs/crash/"));
+		if (!FileSystem.exists("./logs/crash/"))
 			FileSystem.createDirectory("./logs/crash/");
 
 		File.saveContent(path, errMsg + "\n");
