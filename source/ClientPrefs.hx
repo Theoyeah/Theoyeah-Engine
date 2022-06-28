@@ -33,6 +33,7 @@ class ClientPrefs {
 	public static var controllerMode:Bool = false;
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
+	public static var checkForUpdates:Bool = true;
 	public static var introbg:Bool = false;
 	public static var longhealthbar:Bool = true;
 	public static var noscore:Bool = false;
@@ -102,7 +103,7 @@ class ClientPrefs {
 		'zoom-'			=> [X, NONE],
 		'decrease'		=> [Q, NONE],
 		'increase'		=> [E, NONE],
-		'autosave'		=> [P, NONE]
+		'save'			=> [P, NONE]
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -149,6 +150,7 @@ class ClientPrefs {
 		FlxG.save.data.comboOffset = comboOffset;
 		FlxG.save.data.achievementsMap = Achievements.achievementsMap;
 		FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
+		FlxG.save.data.checkForUpdates = checkForUpdates;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
 		FlxG.save.data.sickWindow = sickWindow;
@@ -188,6 +190,10 @@ class ClientPrefs {
 		}
 		if (FlxG.save.data.shaders != null) {
 			shaders = FlxG.save.data.shaders;
+		}
+		if (FlxG.save.data.checkForUpdates != null)
+		{
+			checkForUpdates = FlxG.save.data.checkForUpdates;
 		}
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;

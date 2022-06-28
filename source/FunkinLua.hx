@@ -30,6 +30,7 @@ import openfl.utils.Assets;
 import flixel.math.FlxMath;
 import flixel.util.FlxSave;
 import flixel.addons.transition.FlxTransitionableState;
+import flixel.system.FlxAssets.FlxShader;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
@@ -37,6 +38,10 @@ import sys.io.File;
 import Type.ValueType;
 import Controls;
 import DialogueBoxPsych;
+#if hscript
+import hscript.Parser;
+import hscript.Interp;
+#end
 
 #if desktop
 import Discord;
@@ -56,6 +61,10 @@ class FunkinLua {
 	public var camTarget:FlxCamera;
 	public var scriptName:String = '';
 	public var closed:Bool = false;
+
+	#if hscript
+	public static var haxeInterp:Interp = null;
+	#end
 
 	var gonnaClose:Bool = false;
 
@@ -156,7 +165,7 @@ class FunkinLua {
 		//trace('Lua version: ' + Lua.version());
 		//trace("LuaJIT version: " + Lua.versionJIT());
 
-		LuaL.dostring(lua, CLENSE);
+		//LuaL.dostring(lua, CLENSE);
 		try {
 			var result:Dynamic = LuaL.dofile(lua, script);
 			var resultStr:String = Lua.tostring(lua, result);
@@ -724,6 +733,42 @@ class FunkinLua {
 
 			PlayState.instance.timeBar.createFilledBar(right, left);
 			PlayState.instance.timeBar.updateBar();
+		});
+		Lua_helper.add_callback(lua, "runHaxeCode", function(codeToRun:String) {
+			#if hscript
+			initHaxeInterp();
+
+			try {
+				var myFunction:Dynamic = haxeInterp.expr(new Parser().parseString(codeToRun));
+				myFunction();
+			}
+			catch (e:Dynamic) {
+				switch(e)
+				{
+					case 'Null Function Pointer', 'SReturn':
+						//nothing
+					default:
+						luaTrace(scriptName + ":" + lastCalledFunction + " - " + e, false, false, FlxColor.RED);
+				}
+			}
+			#end
+		});
+
+		Lua_helper.add_callback(lua, "addHaxeLibrary", function(libName:String, ?libFolder:String = '') {
+			#if hscript
+			initHaxeInterp();
+
+			try {
+				var str:String = '';
+				if(libFolder.length > 0)
+					str = libFolder + '.';
+
+				haxeInterp.variables.set(libName, Type.resolveClass(str + libName));
+			}
+			catch (e:Dynamic) {
+				luaTrace(scriptName + ":" + lastCalledFunction + " - " + e, false, false, FlxColor.RED);
+			}
+			#end
 		});
 
 		Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
@@ -2575,6 +2620,39 @@ class FunkinLua {
 		#end
 	}
 
+	#if hscript
+	public function initHaxeInterp()
+	{
+		if(haxeInterp == null)
+		{
+			haxeInterp = new Interp();
+			haxeInterp.variables.set('FlxG', FlxG);
+			haxeInterp.variables.set('FlxSprite', FlxSprite);
+			haxeInterp.variables.set('FlxCamera', FlxCamera);
+			haxeInterp.variables.set('FlxTween', FlxTween);
+			haxeInterp.variables.set('FlxEase', FlxEase);
+			haxeInterp.variables.set('PlayState', PlayState);
+			haxeInterp.variables.set('game', PlayState.instance);
+			haxeInterp.variables.set('Paths', Paths);
+			haxeInterp.variables.set('Conductor', Conductor);
+			haxeInterp.variables.set('ClientPrefs', ClientPrefs);
+			haxeInterp.variables.set('Character', Character);
+			haxeInterp.variables.set('Alphabet', Alphabet);
+			haxeInterp.variables.set('StringTools', StringTools);
+
+			haxeInterp.variables.set('setVar', function(name:String, value:Dynamic)
+			{
+				PlayState.instance.variables.set(name, value);
+			});
+			haxeInterp.variables.set('getVar', function(name:String)
+			{
+				if(!PlayState.instance.variables.exists(name)) return null;
+				return PlayState.instance.variables.get(name);
+			});
+		}
+	}
+	#end
+
 	public static function setVarInArray(instance:Dynamic, variable:String, value:Dynamic):Any
 	{
 		var shit:Array<String> = variable.split('[');
@@ -2594,14 +2672,8 @@ class FunkinLua {
 		/*if(Std.isOfType(instance, Map))
  			instance.set(variable,value);
  		else*/
- 		switch(Type.typeof(instance)) {
- 			case ValueType.TClass(haxe.ds.StringMap) | ValueType.TClass(haxe.ds.ObjectMap) | ValueType.TClass(haxe.ds.IntMap) | ValueType.TClass(haxe.ds.EnumValueMap):
- 				instance.set(variable, value);
- 			default:
- 				Reflect.setProperty(instance, variable, value);
- 		};
 
-
+		Reflect.setProperty(instance, variable, value);
 
 		return true;
 	}
@@ -2618,12 +2690,7 @@ class FunkinLua {
 			}
 			return blah;
 		}
-		switch(Type.typeof(instance)) {
- 			case ValueType.TClass(haxe.ds.StringMap) | ValueType.TClass(haxe.ds.ObjectMap) | ValueType.TClass(haxe.ds.IntMap) | ValueType.TClass(haxe.ds.EnumValueMap):
- 				return instance.get(variable);
- 			default:
- 				return Reflect.getProperty(instance, variable);
- 		};
+		return Reflect.getProperty(instance, variable);
 	}
 
 	inline static function getTextObject(name:String):FlxText
@@ -2699,7 +2766,7 @@ class FunkinLua {
 	}
 
 	function resetSpriteTag(tag:String) {
-		if(!PlayState.instance.modchartSprites.exists(tag)) {
+		if(!PlayState.instance.modchartSprites.exists(tag) && !PlayState.instance.modchartSprites.exists(tag.toLowerCase())) {
 			return;
 		}
 
@@ -2720,7 +2787,7 @@ class FunkinLua {
 			PlayState.instance.modchartTweens.remove(tagger);
 		}
 	}
-	
+
 	function tweenShit(tag:String, vars:String) {
 		cancelTween(tag);
 		var variables:Array<String> = vars.split('.');
@@ -2860,10 +2927,12 @@ class FunkinLua {
 		#end
  	}
 
+	var lastCalledFunction:String = '';
  	public function call(func:String, args:Array<Dynamic>): Dynamic{
 		#if LUA_ALLOWED
 		if(closed) return Function_Continue;
 
+		lastCalledFunction = func;
 		try {
 			if(lua == null) return Function_Continue;
 
@@ -2927,7 +2996,7 @@ class FunkinLua {
 	function isErrorAllowed(error:String) {
 		switch(error)
 		{
-			case 'attempt to call a nil value':
+			case 'attempt to call a nil value' | 'C++ exception':
 				return false;
 		}
 		return true;
@@ -3034,12 +3103,8 @@ class DebugLuaText extends FlxText
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 		disableTime -= elapsed;
-		if(disableTime <= 0) {
-			kill();
-			parentGroup.remove(this);
-			destroy();
-		}
-		else if(disableTime < 1) alpha = disableTime;
+		if(disableTime < 0) disableTime = 0;
+		if(disableTime < 1) alpha = disableTime;
 	}
 	
 }

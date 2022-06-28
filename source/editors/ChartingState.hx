@@ -219,7 +219,7 @@ class ChartingState extends MusicBeatState
 	 * 'zoom-'
 	 * 'increase'
 	 * 'decrease'
-	 * 'autosave'
+	 * 'save'
 	 */
 	var keyBindsforThings:Array<Array<FlxKey>>;
 	override function create()
@@ -229,7 +229,7 @@ class ChartingState extends MusicBeatState
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('zoom-')),
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('increase')),
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('decrease')),
-			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('autosave'))
+			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('save'))
 		];
 
 		if (PlayState.SONG != null)
@@ -375,7 +375,7 @@ class ChartingState extends MusicBeatState
 		\nHold Shift to move 4x faster
 		\nHold Control and click on an arrow to select it
 		\n" + keyBonds["zoom+"][0].toString() + "/" + keyBonds["zoom-"][0].toString() + " - Zoom in/out
-		\n" + keyBonds["autosave"][0].toString() + " - Autosave Chart
+		\n" + keyBonds["save"][0].toString() + " - Save Chart
 		\n
 		\nEsc - Test your chart inside Chart Editor
 		\nEnter - Play your chart
