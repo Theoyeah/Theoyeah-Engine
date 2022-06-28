@@ -85,7 +85,7 @@ class CreditsState extends MusicBeatState
 			['Theoyeah Engine Team'],
 			['Theoyeah',					'theoyeah',			'Creator of Theoyeah Engine and main director',									'',																'009BF4'], // Fuck you, im a minor, so i can't have a freaking youtube channel
 			['DEMOLITIONDON96',				'demolitiondon',	'Another cool contributor',														'https://youtube.com/c/DEMOLITIONDON96',						'03C6FC'],
-			['Wither362',           		'wither',			'Another coolder (do you get it?)',/*yeah, from coder and cool*/  				'https://www.youtube.com/channel/UCsVr-qBLxT0uSWH037BmlHw',     'FF0000'/*i hate red, but i dont know to put other colors so...*/],
+			['Wither362',           		'wither',			'Another coolder (do you get it?)',/*yeah, from coder and cool*/  				'https://www.youtube.com/channel/UCsVr-qBLxT0uSWH037BmlHw',     '242124'],
 			[''],
 			['Pull Requests and Code used'],
 			['Magnumsrt',					'',					'Creator of stage editor',														''],
@@ -272,7 +272,7 @@ class CreditsState extends MusicBeatState
 				curSelected = 0;
 		} while(unselectableCheck(curSelected));
 
-		var newColor:Int =  getCurrentBGColor();
+		var newColor:Int = getCurrentBGColor();
 		if(newColor != intendedColor) {
 			if(colorTween != null) {
 				colorTween.cancel();
