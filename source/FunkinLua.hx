@@ -165,7 +165,7 @@ class FunkinLua {
 		//trace('Lua version: ' + Lua.version());
 		//trace("LuaJIT version: " + Lua.versionJIT());
 
-		//LuaL.dostring(lua, CLENSE);
+		//LuaL.dostring(lua, CLENSE); // for this you need the clense
 		try {
 			var result:Dynamic = LuaL.dofile(lua, script);
 			var resultStr:String = Lua.tostring(lua, result);
@@ -3051,15 +3051,6 @@ class FunkinLua {
 	{
 		return PlayState.instance.isDead ? GameOverSubstate.instance : PlayState.instance;
 	}
-
-	static inline var CLENSE:String = "
-		os.execute, os.getenv, os.rename, os.remove, os.tmpname = nil, nil, nil, nil, nil
-		io, load, loadfile, loadstring, dofile = nil, nil, nil, nil, nil
-		require, module, package = nil, nil, nil
-		newproxy = nil
-		gcinfo = nil
-		jit = nil
-	"; // superpowers04/cyn-8/DragShot
 }
 
 class ModchartSprite extends FlxSprite

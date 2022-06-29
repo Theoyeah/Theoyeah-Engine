@@ -2335,6 +2335,38 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	public function updateScore(miss:Bool = false)
+	{
+		if (ClientPrefs.kadetxt)
+		{
+			if(ratingName == '?') {
+				scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accuracy: 0.00% ' + '| Rating: N/A' ;
+			} else {
+				scoreTxt.text = 'Score: ' + songScore + ' |  Combo Breaks: ' + songMisses + ' | Accuracy: ' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ' | '+ 'Rating: '+ ratingFC;//peeps wanted no integer rating
+			}
+		} else {
+			if(ratingName == '?') {
+				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' | N/A' ;
+			} else  {
+				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ')' + ' | ' + ratingFC;//peeps wanted no integer rating
+			}
+		}
+
+		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
+		{
+			if(scoreTxtTween != null) {
+				scoreTxtTween.cancel();
+			}
+			scoreTxt.scale.x = 1.075;
+			scoreTxt.scale.y = 1.075;
+			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
+				onComplete: function(twn:FlxTween) {
+					scoreTxtTween = null;
+				}
+			});
+		}
+	}
+
 	public function setSongTime(time:Float)
 	{
 		if(time < 0) time = 0;
@@ -3027,19 +3059,6 @@ class PlayState extends MusicBeatState
  		setOnLuas('curDecBeat', curDecBeat);
 		setOnLuas('curdecstep', curDecStep);
  		setOnLuas('curdecbeat', curDecBeat);
-
-		if (ClientPrefs.kadetxt)
-		{
-			if(ratingName == '?')
-				scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accuracy: 0.00% ' + '| Rating: N/A' ;
-			else 
-				scoreTxt.text = 'Score: ' + songScore + ' |  Combo Breaks: ' + songMisses + ' | Accuracy: ' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ' | '+ 'Rating: '+ ratingFC;//peeps wanted no integer rating
-		} else {
-			if(ratingName == '?')
-				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' | N/A' ;
-			else
-				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ')' + ' | ' + ratingFC;//peeps wanted no integer rating
-	   	}
 
 		#if !CHEATING_ALLOWED
 		botplayTxt.visible = cpuControlled;
@@ -4220,21 +4239,7 @@ class PlayState extends MusicBeatState
 			{
 				songHits++;
 				totalPlayed++;
-				RecalculateRating();
-			}
-
-			if(ClientPrefs.scoreZoom)
-			{
-				if(scoreTxtTween != null) {
-					scoreTxtTween.cancel();
-				}
-				scoreTxt.scale.x = 1.075;
-				scoreTxt.scale.y = 1.075;
-				scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
-					onComplete: function(twn:FlxTween) {
-						scoreTxtTween = null;
-					}
-				});
+				RecalculateRating(false);
 			}
 		}
 
@@ -4613,7 +4618,7 @@ class PlayState extends MusicBeatState
 		if(!practiceMode) songScore -= 10;
 
 		totalPlayed++;
-		RecalculateRating();
+		RecalculateRating(true);
 
 		var char:Character = boyfriend;
 		if(daNote.gfNote) {
@@ -4653,7 +4658,7 @@ class PlayState extends MusicBeatState
 			if(!endingSong)
 				songMisses++;
 			totalPlayed++;
-			RecalculateRating();
+			RecalculateRating(true);
 
 			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 			// FlxG.sound.play(Paths.sound('missnote1'), 1, false);
@@ -4879,9 +4884,9 @@ class PlayState extends MusicBeatState
 			var leType:String = note.noteType;
 			callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus, note.ID]);
 
-			if (!note.isSustainNote)
+			if(!note.isSustainNote)
 			{
-				if(modchartObjects.exists('note${note.ID}'))modchartObjects.remove('note${note.ID}');
+				if(modchartObjects.exists('note${note.ID}')) modchartObjects.remove('note${note.ID}');
 				note.kill();
 				notes.remove(note, true);
 				note.destroy();
@@ -4889,15 +4894,15 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function spawnNoteSplashOnNote(note:Note) {
-		if(ClientPrefs.noteSplashes.toLowerCase() != 'none' && note != null) {
+	function spawnNoteSplashOnNote(note:Note, animationsCount:Int = 3) {
+		if(ClientPrefs.noteSplashes != 'None' && note != null) {
 			var strum:StrumNote = playerStrums.members[note.noteData];
 			if(strum != null)
-				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
+				spawnNoteSplash(strum.x, strum.y, note.noteData, note, animationsCount);
 		}
 	}
 
-	public function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
+	public function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null, animationsCount:Int = 3) {
 		var skin:String = NoteSplash.noteS();
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0 && PlayState.SONG.splashSkin != 'noteSplashes') skin = PlayState.SONG.splashSkin;
 
@@ -4905,14 +4910,14 @@ class PlayState extends MusicBeatState
 		var sat:Float = ClientPrefs.arrowHSV[data % 4][1] / 100;
 		var brt:Float = ClientPrefs.arrowHSV[data % 4][2] / 100;
 		if(note != null) {
-			skin = note.noteSplashTexture;
+			if(note.noteSplashTexture != null || note.noteSplashTexture.length < 1) skin = note.noteSplashTexture;
 			hue = note.noteSplashHue;
 			sat = note.noteSplashSat;
 			brt = note.noteSplashBrt;
 		}
 
 		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
-		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt);
+		splash.setupNoteSplash(x, y, data, skin, hue, sat, brt, animationsCount);
 		grpNoteSplashes.add(splash);
 	}
 
@@ -5347,10 +5352,15 @@ class PlayState extends MusicBeatState
 	public var ratingName:String = '?';
 	public var ratingPercent:Float;
 	public var ratingFC:String;
-	public function RecalculateRating() {
+	public function RecalculateRating(badHit:Bool = false) {
 		setOnLuas('score', songScore);
 		setOnLuas('misses', songMisses);
 		setOnLuas('hits', songHits);
+
+		if (badHit)
+			updateScore(true); // miss notes shouldn't make the scoretxt bounce -Ghost
+		else
+			updateScore(false);
 
 		var ret:Dynamic = callOnLuas('onRecalculateRating', [], false);
 		if(ret != FunkinLua.Function_Stop)
