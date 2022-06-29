@@ -5451,40 +5451,41 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if(!Achievements.isAchievementUnlocked(achievementName) && !cpuControlled && !unlock) {
+			if(!Achievements.isAchievementUnlocked(achievementName) && !cpuControlled) {
 				var weekName:String = WeekData.getWeekFileName();
-				switch(achievementName)
-				{
-					case 'week1_nomiss':
-						if(weekName == 'week1') unlock = true;
-					case 'week2_nomiss':
-						if(weekName == 'week2') unlock = true;
-					case 'week3_nomiss':
-						if(weekName == 'week3') unlock = true;
-					case 'week4_nomiss':
-						if(weekName == 'week4') unlock = true;
-					case 'week5_nomiss':
-						if(weekName == 'week5') unlock = true;
-					case 'week6_nomiss':
-						if(weekName == 'week6') unlock = true;
-					case 'week7_nomiss':
-						if(weekName == 'week7') unlock = true;
-					case 'ur_bad':
-						if(ratingPercent < 0.2 && !practiceMode) {
+				if(!unlock) {
+					switch(achievementName)
+					{
+						case 'week1_nomiss':
+							if(weekName == 'week1') unlock = true;
+						case 'week2_nomiss':
+							if(weekName == 'week2') unlock = true;
+						case 'week3_nomiss':
+							if(weekName == 'week3') unlock = true;
+						case 'week4_nomiss':
+							if(weekName == 'week4') unlock = true;
+						case 'week5_nomiss':
+							if(weekName == 'week5') unlock = true;
+						case 'week6_nomiss':
+							if(weekName == 'week6') unlock = true;
+						case 'week7_nomiss':
+							if(weekName == 'week7') unlock = true;
+						case 'ur_bad':
+							if(ratingPercent < 0.2 && !practiceMode) {
+								unlock = true;
+							}
+						case 'ur_good':
+							if(ratingPercent >= 1 && !usedPractice) {
 							unlock = true;
-						}
-					case 'ur_good':
-						if(ratingPercent >= 1 && !usedPractice) {
+					}
+						case 'roadkill_enthusiast':
+							if(Achievements.henchmenDeath >= 100) {
+								unlock = true;
+							}
+						case 'oversinging':
+							if(boyfriend.holdTimer >= 10 && !usedPractice) {
 							unlock = true;
-						}
-					case 'roadkill_enthusiast':
-						if(Achievements.henchmenDeath >= 100) {
-							unlock = true;
-						}
-					case 'oversinging':
-						if(boyfriend.holdTimer >= 10 && !usedPractice) {
-							unlock = true;
-						}
+					}
 					case 'hype':
 						if(!boyfriendIdled && !usedPractice) {
 							unlock = true;
@@ -5509,8 +5510,8 @@ class PlayState extends MusicBeatState
 							unlock = true;
 						}
 				}
-
-				if(unlock) {
+				}
+			if(unlock) {
 					Achievements.unlockAchievement(achievementName);
 					return achievementName;
 				}
