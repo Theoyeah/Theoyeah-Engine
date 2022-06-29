@@ -5422,7 +5422,7 @@ class PlayState extends MusicBeatState
 
 				for (json in Achievements.loadedAchievements)
 				{
-					if (json.unlocksAfter == weekName && !Achievements.isAchievementUnlocked(json.icon) && !json.customGoal)
+					if(((json.unlocksAfter == weekName || (achievementName.contains('nomiss') && achievementName.replace('_nomiss', '') == weekName)) && isStoryMode) && !Achievements.isAchievementUnlocked(json.icon) && !json.customGoal && !unlock)
 						unlock = true;
 					achievementName = json.icon;
 				}
@@ -5476,42 +5476,46 @@ class PlayState extends MusicBeatState
 							}
 						case 'ur_good':
 							if(ratingPercent >= 1 && !usedPractice) {
-							unlock = true;
-					}
+								unlock = true;
+							}
 						case 'roadkill_enthusiast':
 							if(Achievements.henchmenDeath >= 100) {
 								unlock = true;
 							}
 						case 'oversinging':
 							if(boyfriend.holdTimer >= 10 && !usedPractice) {
-							unlock = true;
-					}
-					case 'hype':
-						if(!boyfriendIdled && !usedPractice) {
-							unlock = true;
-						}
-					case 'two_keys':
-						if(!usedPractice) {
-							var howManyPresses:Int = 0;
-							for (j in 0...keysPressed.length) {
-								if(keysPressed[j]) howManyPresses++;
-							}
-
-							if(howManyPresses <= 2) {
 								unlock = true;
 							}
-						}
-					case 'toastie':
-						if(/*ClientPrefs.framerate <= 60 &&*/ ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing && !ClientPrefs.imagesPersist) {
-							unlock = true;
-						}
-					case 'debugger':
-						if(Paths.formatToSongPath(SONG.song) == 'test' && !usedPractice) {
-							unlock = true;
-						}
+						case 'hype':
+							if(!boyfriendIdled && !usedPractice) {
+								unlock = true;
+							}
+						case 'two_keys':
+							if(!usedPractice) {
+								var howManyPresses:Int = 0;
+								for (j in 0...keysPressed.length) {
+									if(keysPressed[j]) howManyPresses++;
+								}
+
+								if(howManyPresses <= 2) {
+									unlock = true;
+								}
+							}
+						case 'toastie':
+							if(/*ClientPrefs.framerate <= 60 &&*/ ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing && !ClientPrefs.imagesPersist) {
+								unlock = true;
+							}
+						case 'debugger':
+							if(Paths.formatToSongPath(SONG.song) == 'test' && !usedPractice) {
+								unlock = true;
+							}
+						default:
+							if(achievementName.contains('nomiss') && achievementName.replace('_', '').replace('nomiss', '') == weekName) {
+								unlock = true;
+							}
+					}
 				}
-				}
-			if(unlock) {
+				if(unlock) {
 					Achievements.unlockAchievement(achievementName);
 					return achievementName;
 				}
