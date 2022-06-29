@@ -31,6 +31,8 @@ class NoteOffsetState extends MusicBeatState
 	var comboNums:FlxSpriteGroup;
 	var dumbTexts:FlxTypedGroup<FlxText>;
 
+	var beforeComboOffset:Array<Int> = ClientPrefs.comboOffset;
+
 	var barPercent:Float = 0;
 	var delayMin:Int = 0;
 	var delayMax:Int = 500;
@@ -227,7 +229,7 @@ class NoteOffsetState extends MusicBeatState
 				FlxG.keys.justPressed.RIGHT,
 				FlxG.keys.justPressed.UP,
 				FlxG.keys.justPressed.DOWN,
-			
+
 				FlxG.keys.justPressed.A,
 				FlxG.keys.justPressed.D,
 				FlxG.keys.justPressed.W,
@@ -335,9 +337,22 @@ class NoteOffsetState extends MusicBeatState
 
 			if(controls.RESET)
 			{
-				for (i in 0...ClientPrefs.comboOffset.length)
-				{
-					ClientPrefs.comboOffset[i] = 0;
+				if(FlxG.keys.justPressed.S) { // if it doesnt work, i will change it by pressed
+ 					ClientPrefs.comboOffset[0] = beforeComboOffset[0];
+ 					ClientPrefs.comboOffset[1] = beforeComboOffset[1];
+ 				}
+ 				if(FlxG.keys.justPressed.N) {
+ 					ClientPrefs.comboOffset[2] = beforeComboOffset[2];
+ 					ClientPrefs.comboOffset[3] = beforeComboOffset[3];
+ 				}
+ 				if(FlxG.keys.justPressed.C) {
+ 					ClientPrefs.comboOffset[4] = beforeComboOffset[4];
+ 					ClientPrefs.comboOffset[5] = beforeComboOffset[5];
+ 				}
+				if(FlxG.keys.justPressed.CONTROL) { // reset everything
+					for (i in 0...ClientPrefs.comboOffset.length) {
+						ClientPrefs.comboOffset[i] = 0;
+					}
 				}
 				repositionCombo();
 			}
