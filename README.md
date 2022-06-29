@@ -20,6 +20,7 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 
 # What it adds 
 
+- NOTESKIN SELECYOR OH YEAHHH (by @Beastlyghost)
 - New Logo
 - New Icon
 - Added some custom easter eggs
@@ -46,7 +47,7 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 - Optimized, a lot of code
 - Added a cool background in intro
 - Added the original MiddleScroll !
-<!--- [Mp3](Project.xml#L54) and [Wav](Project.xml#L55) support ! //im with it, looks that it doesnt work -wither -->
+- [Mp3](Project.xml#L54) and [Wav](Project.xml#L55) support !
 - More options
 - **Instakill Note and Crash Note!!** (with a fabulous texture)
 - **Windows Note and Warning Note** (with *another* fabulous texture)

@@ -56,6 +56,7 @@
 	<define name="MKV_ALLOWED" if="VIDEOS_ALLOWED"/>
 	<define name="MUSIC_FOLDER_ALLOWED"/>
 	<define name="MORE_ZOOM"/>
+	<define name="CRASH_HANDLER" if="desktop release" />
 
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3"  unless="web"/>
@@ -81,6 +82,7 @@
 		<library name="week5"         preload="true" />
 		<library name="week6"         preload="true" />
 		<library name="week7"         preload="true" />
+		<library name="week8"         preload="true" />
 	</section>
 
 	<section if="NO_PRELOAD_ALL">
@@ -92,6 +94,7 @@
 		<library name="week5"         preload="false" />
 		<library name="week6"         preload="false" />
 		<library name="week7"         preload="false" />
+		<library name="week8"         preload="false" />
 	</section>
 
 
@@ -112,6 +115,9 @@
 	<assets path="assets/week6"         library="week6"         exclude="*.mp3" unless="web"/>
 	<assets path="assets/week7"         library="week7"         exclude="*.ogg" if="web"/>
 	<assets path="assets/week7"         library="week7"         exclude="*.mp3" unless="web"/>
+	<assets path="assets/week8"         library="week8"         exclude="*.ogg" if="web"/>
+	<assets path="assets/week8"         library="week8"         exclude="*.mp3" unless="web"/>
+	
 
 	<section if="MODS_ALLOWED">
 		<assets path='example_mods' rename='mods' embed='false'/>
@@ -135,6 +141,7 @@
 	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
 	<haxelib name="hscript" />
+	<define name="hscriptPos" />
 
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
@@ -176,7 +183,10 @@
 
 	<!--Disable the Flixel core focus lost screen-->
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
-	
+
+	<!--Allow working memory greater than 1 Gig-->
+	<!--<haxedef name="HXCPP_GC_BIG_BLOCKS" /> -->
+
 	<!-- Show debug traces for hxCodec -->
 	<haxedef name="HXC_DEBUG_TRACE" if="debug" />
 
@@ -185,6 +195,10 @@
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
+
+	<!--Used for Izzy Engine's crash handler-->
+	<haxedef name="HXCPP_CHECK_POINTER" if="CRASH_HANDLER" />
+	<haxedef name="HXCPP_STACK_LINE" if="CRASH_HANDLER" />
 
 	<!-- _________________________________ Custom _______________________________ -->
 

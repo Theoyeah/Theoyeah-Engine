@@ -65,7 +65,8 @@ class ControlsSubState extends MusicBeatSubstate {
 		['Zoom in', 'zoom+'],
 		['Zoom out', 'zoom-'],
 		['Note sustain +', 'increase'],
-		['Note sustain -', 'decrease']
+		['Note sustain -', 'decrease'],
+		['Save Chart', 'save']
 	];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -200,7 +201,7 @@ class ControlsSubState extends MusicBeatSubstate {
 		}
 		return num;
 	}
-	
+
 	function changeSelection(change:Int = 0) {
 		do {
 			curSelected += change;

@@ -14,6 +14,7 @@ class ClientPrefs {
 	public static var iconBounce:String = 'Default';
 	public static var globalAntialiasing:Bool = true;
 	public static var opponentStrums:Bool = false;
+	public static var noteSkin:String = 'Arrows';
 	public static var noteSplashes:String = 'Normal';
 	public static var lowQuality:Bool = false;
 	public static var framerate:Int = 60;
@@ -32,8 +33,8 @@ class ClientPrefs {
 	public static var controllerMode:Bool = false;
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
+	public static var checkForUpdates:Bool = true;
 	public static var introbg:Bool = false;
-	public static var noteskin:String = 'Arrows';
 	public static var longhealthbar:Bool = true;
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
@@ -65,7 +66,7 @@ class ClientPrefs {
 		'opponentplay' => false
 	];
 
-	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
+	public static var comboOffset:Array<Int> = [0, 0, 0, 0, 0, 0];
 	public static var ratingOffset:Int = 0;
 	public static var sickWindow:Int = 45;
 	public static var goodWindow:Int = 90;
@@ -80,28 +81,29 @@ class ClientPrefs {
 		'note_down'		=> [S, DOWN],
 		'note_up'		=> [W, UP],
 		'note_right'	=> [D, RIGHT],
-		
+
 		'ui_left'		=> [A, LEFT],
 		'ui_down'		=> [S, DOWN],
 		'ui_up'			=> [W, UP],
 		'ui_right'		=> [D, RIGHT],
-		
+
 		'accept'		=> [SPACE, ENTER],
 		'back'			=> [BACKSPACE, ESCAPE],
 		'pause'			=> [ENTER, ESCAPE],
 		'reset'			=> [R, NONE],
-		
+
 		'volume_mute'	=> [ZERO, NONE],
 		'volume_up'		=> [NUMPADPLUS, PLUS],
 		'volume_down'	=> [NUMPADMINUS, MINUS],
-		
-		'debug_1'		=> [SEVEN, NONE],
-		'debug_2'		=> [EIGHT, NONE],
-		
+
+		'debug_1'		=> [SEVEN, NONE], // charting editor state
+		'debug_2'		=> [EIGHT, NONE], // character editor
+
 		'zoom+'			=> [Z, NONE],
 		'zoom-'			=> [X, NONE],
 		'decrease'		=> [Q, NONE],
-		'increase'		=> [E, NONE]
+		'increase'		=> [E, NONE],
+		'save'			=> [P, NONE]
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -111,6 +113,7 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
+		FlxG.save.data.noteSkin = noteSkin;
 		FlxG.save.data.winningIcon = winningIcon;
 		//FlxG.save.data.multiplicativeValue = multiplicativeValue;
 		FlxG.save.data.downScroll = downScroll;
@@ -142,12 +145,12 @@ class ClientPrefs {
 		FlxG.save.data.noReset = noReset;
 		FlxG.save.data.noscore = noscore;
 		FlxG.save.data.opponentStrums = opponentStrums;
-		FlxG.save.data.noteskin = noteskin;
 		FlxG.save.data.camfollow = camfollow;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
 		FlxG.save.data.comboOffset = comboOffset;
 		FlxG.save.data.achievementsMap = Achievements.achievementsMap;
 		FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
+		FlxG.save.data.checkForUpdates = checkForUpdates;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
 		FlxG.save.data.sickWindow = sickWindow;
@@ -159,7 +162,7 @@ class ClientPrefs {
 		FlxG.save.data.hitsoundVolume = hitsoundVolume;
 		FlxG.save.data.pauseMusic = pauseMusic;
 		FlxG.save.data.instantRespawn = instantRespawn;
-	
+
 		FlxG.save.flush();
 
 		var save:FlxSave = new FlxSave();
@@ -170,10 +173,11 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-		if(FlxG.save.data.noteSplashes) // fixes noteSplashes error
+		if(FlxG.save.data.noteSkin != null) {
+			noteSkin = FlxG.save.data.noteSkin;
+		}
+		if(FlxG.save.data.noteSplashes || !FlxG.save.data.noteSplashes) // fixes noteSplashes error - EDIT: well, i want to YOU to see the new notesplashes
 			FlxG.save.data.noteSplashes = 'Normal';
-		else
-			FlxG.save.data.noteSplashes = 'None';
 
 		if(FlxG.save.data.instantRespawn != null)
 			instantRespawn = FlxG.save.data.instantRespawn;
@@ -186,6 +190,10 @@ class ClientPrefs {
 		}
 		if (FlxG.save.data.shaders != null) {
 			shaders = FlxG.save.data.shaders;
+		}
+		if (FlxG.save.data.checkForUpdates != null)
+		{
+			checkForUpdates = FlxG.save.data.checkForUpdates;
 		}
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;
@@ -210,9 +218,6 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.flashing != null) {
 			flashing = FlxG.save.data.flashing;
-		}
-		if(FlxG.save.data.noteskin != null) {
-			noteskin = FlxG.save.data.noteskin;
 		}
 		if(FlxG.save.data.globalAntialiasing != null) {
 			globalAntialiasing = FlxG.save.data.globalAntialiasing;
@@ -325,7 +330,7 @@ class ClientPrefs {
 				gameplaySettings.set(name, value);
 			}
 		}
-		
+
 		// flixel automatically saves your volume!
 		if(FlxG.save.data.volume != null)
 		{

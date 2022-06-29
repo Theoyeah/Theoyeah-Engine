@@ -47,7 +47,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.scrollSpeed = 1.5;
 		option.minValue = 0.5;
 		option.changeValue = 0.1;
-		
+
 		if (goption.getValue() != "constant")
 		{
 			option.displayFormat = '%vX';
@@ -111,7 +111,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	public function new()
 	{
 		super();
-		
+
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0.6;
 		add(bg);
@@ -125,7 +125,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 		checkboxGroup = new FlxTypedGroup<CheckboxThingie>();
 		add(checkboxGroup);
-		
+
 		getOptions();
 
 		for (i in 0...optionsArray.length)
@@ -139,7 +139,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptions.add(optionText);
 
-			if(optionsArray[i].type == 'bool') {
+			if(optionsArray[i].type.toLowerCase() == 'bool') {
 				var checkbox:CheckboxThingie = new CheckboxThingie(optionText.x - 105, optionText.y, optionsArray[i].getValue() == true);
 				checkbox.sprTracker = optionText;
 				checkbox.offsetY = -60;
@@ -184,7 +184,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		if(nextAccept <= 0)
 		{
 			var usesCheckbox = true;
-			if(curOption.type != 'bool')
+			if(curOption.type.toLowerCase() != 'bool')
 			{
 				usesCheckbox = false;
 			}
@@ -204,18 +204,18 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 					if(holdTime > 0.5 || pressed) {
 						if(pressed) {
 							var add:Dynamic = null;
-							if(curOption.type != 'string') {
+							if(curOption.type.toLowerCase() != 'string') {
 								add = controls.UI_LEFT ? -curOption.changeValue : curOption.changeValue;
 							}
 
-							switch(curOption.type)
+							switch(curOption.type.toLowerCase())
 							{
 								case 'int' | 'float' | 'percent':
 									holdValue = curOption.getValue() + add;
 									if(holdValue < curOption.minValue) holdValue = curOption.minValue;
 									else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
 
-									switch(curOption.type)
+									switch(curOption.type.toLowerCase())
 									{
 										case 'int':
 											holdValue = Math.round(holdValue);
@@ -239,7 +239,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 									curOption.curOption = num;
 									curOption.setValue(curOption.options[num]); //lol
-									
+
 									if (curOption.name == "Scroll Type")
 									{
 										var oOption:GameplayOption = getOptionByName("Scroll Speed");
@@ -264,7 +264,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 							updateTextFrom(curOption);
 							curOption.change();
 							FlxG.sound.play(Paths.sound('scrollMenu'));
-						} else if(curOption.type != 'string') {
+						} else if(curOption.type.toLowerCase() != 'string') {
 							holdValue += curOption.scrollSpeed * elapsed * (controls.UI_LEFT ? -1 : 1);
 							if(holdValue < curOption.minValue) holdValue = curOption.minValue;
 							else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
@@ -273,7 +273,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 							{
 								case 'int':
 									curOption.setValue(Math.round(holdValue));
-								
+
 								case 'float' | 'percent':
 									curOption.setValue(FlxMath.roundDecimal(holdValue, curOption.decimals));
 							}
@@ -282,7 +282,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 						}
 					}
 
-					if(curOption.type != 'string') {
+					if(curOption.type.toLowerCase() != 'string') {
 						holdTime += elapsed;
 					}
 				} else if(controls.UI_LEFT_R || controls.UI_RIGHT_R) {
@@ -296,9 +296,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 				{
 					var leOption:GameplayOption = optionsArray[i];
 					leOption.setValue(leOption.defaultValue);
-					if(leOption.type != 'bool')
+					if(leOption.type.toLowerCase() != 'bool')
 					{
-						if(leOption.type == 'string')
+						if(leOption.type.toLowerCase() == 'string')
 						{
 							leOption.curOption = leOption.options.indexOf(leOption.getValue());
 						}
@@ -331,7 +331,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 	function updateTextFrom(option:GameplayOption) {
 		var text:String = option.displayFormat;
 		var val:Dynamic = option.getValue();
-		if(option.type == 'percent') val *= 100;
+		if(option.type.toLowerCase() == 'percent') val *= 100;
 		var def:Dynamic = option.defaultValue;
 		option.text = text.replace('%v', val).replace('%d', def);
 	}
@@ -343,7 +343,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		}
 		holdTime = 0;
 	}
-	
+
 	function changeSelection(change:Int = 0)
 	{
 		curSelected += change;
@@ -416,7 +416,7 @@ class GameplayOption
 
 		if(defaultValue == 'null variable value')
 		{
-			switch(type)
+			switch(type.toLowerCase())
 			{
 				case 'bool':
 					defaultValue = false;
@@ -436,14 +436,14 @@ class GameplayOption
 			setValue(defaultValue);
 		}
 
-		switch(type)
+		switch(type.toLowerCase())
 		{
 			case 'string':
 				var num:Int = options.indexOf(getValue());
 				if(num > -1) {
 					curOption = num;
 				}
-	
+
 			case 'percent':
 				displayFormat = '%v%';
 				changeValue = 0.01;

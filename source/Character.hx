@@ -61,7 +61,7 @@ class Character extends FlxSprite
 	public var singDuration:Float = 4; //Multiplier of how long a character holds the sing pose
 	public var idleSuffix:String = '';
 	public var danceIdle:Bool = false; //Character use "danceLeft" and "danceRight" instead of "idle"
-	
+
 	public var skipDance:Bool = false;
 
 	public var healthIcon:String = 'face';
@@ -129,10 +129,10 @@ class Character extends FlxSprite
 				#if MODS_ALLOWED
 				var modTxtToFind:String = Paths.modsTxt(json.image);
 				var txtToFind:String = Paths.getPath('images/' + json.image + '.txt', TEXT);
-				
+
 				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
 				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
-				
+
 				if (FileSystem.exists(modTxtToFind) || FileSystem.exists(txtToFind) || Assets.exists(txtToFind))
 				#else
 				if (Assets.exists(Paths.getPath('images/' + json.image + '.txt', TEXT)))
@@ -140,14 +140,14 @@ class Character extends FlxSprite
 				{
 					spriteType = "packer";
 				}
-				
+
 				#if MODS_ALLOWED
 				var modAnimToFind:String = Paths.modFolders('images/' + json.image + '/Animation.json');
 				var animToFind:String = Paths.getPath('images/' + json.image + '/Animation.json', TEXT);
-				
+
 				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
 				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
-				
+
 				if (FileSystem.exists(modAnimToFind) || FileSystem.exists(animToFind) || Assets.exists(animToFind))
 				#else
 				if (Assets.exists(Paths.getPath('images/' + json.image + '/Animation.json', TEXT)))
@@ -156,14 +156,13 @@ class Character extends FlxSprite
 					spriteType = "texture";
 				}
 
-				switch (spriteType){
-					
+				switch (spriteType) {
 					case "packer":
 						frames = Paths.getPackerAtlas(json.image);
-					
+
 					case "sparrow":
 						frames = Paths.getSparrowAtlas(json.image);
-					
+
 					case "texture":
 						frames = AtlasFrameMaker.construct(json.image);
 				}
@@ -225,7 +224,8 @@ class Character extends FlxSprite
 		{
 			flipX = !flipX;
 
-			/*// Doesn't flip for BF, since his are already in the right place???
+			/*
+			// Doesn't flip for BF, since his are already in the right place???
 			if (!curCharacter.startsWith('bf'))
 			{
 				// var animArray
@@ -243,9 +243,10 @@ class Character extends FlxSprite
 					animation.getByName('singRIGHTmiss').frames = animation.getByName('singLEFTmiss').frames;
 					animation.getByName('singLEFTmiss').frames = oldMiss;
 				}
-			}*/
+			}
+			*/
 		}
-		
+
 		switch(curCharacter)
 		{
 			case 'pico-speaker':
@@ -369,21 +370,22 @@ class Character extends FlxSprite
 	}
 
 	function loadMappedAnims():Void
-		{
-			var noteData:Array<SwagSection> = Song.loadFromJson('picospeaker', Paths.formatToSongPath(PlayState.SONG.song)).notes;
-			for (section in noteData) {
-				for (songNotes in section.sectionNotes) {
-					animationNotes.push(songNotes);
-				}
+	{
+		var noteData:Array<SwagSection> = Song.loadFromJson('picospeaker', Paths.formatToSongPath(PlayState.SONG.song)).notes;
+		for (section in noteData) {
+			for (songNotes in section.sectionNotes) {
+				animationNotes.push(songNotes);
 			}
-			TankmenBG.animationNotes = animationNotes;
-			animationNotes.sort(sortAnims);
 		}
-	
-		function sortAnims(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int
-		{
-			return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
-		}
+		TankmenBG.animationNotes = animationNotes;
+		animationNotes.sort(sortAnims);
+	}
+
+	function sortAnims(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int
+	{
+		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
+	}
+
 	public var danceEveryNumBeats:Int = 2;
 	private var settingCharacterUp:Bool = true;
 	public function recalculateDanceIdle() {
@@ -415,5 +417,8 @@ class Character extends FlxSprite
 	public function quickAnimAdd(name:String, anim:String)
 	{
 		animation.addByPrefix(name, anim, 24, false);
+	}
+	public function contains(name:String):Bool {
+		return animOffsets.exists(name);
 	}
 }

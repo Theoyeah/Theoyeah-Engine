@@ -11,6 +11,20 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
 
+//crash handler stuff
+#if CRASH_HANDLER
+import lime.app.Application;
+import openfl.events.UncaughtErrorEvent;
+import haxe.CallStack;
+import haxe.io.Path;
+import Discord.DiscordClient;
+import sys.FileSystem;
+import sys.io.File;
+import sys.io.Process;
+#end
+
+using StringTools;
+
 class Main extends Sprite
 {
 	var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
@@ -67,10 +81,6 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
-		#if !debug
-		initialState = TitleState;
-		#end
-	
 		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 
@@ -94,5 +104,53 @@ class Main extends Sprite
 		FlxG.mouse.visible = false;
 		#end
 
+		#if CRASH_HANDLER
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
+		#end
 	}
+
+	// Code was entirely made by sqirra-rng for their fnf engine named "Izzy Engine", big props to them!!!
+	// very cool person for real they don't get enough credit for their work
+	#if CRASH_HANDLER
+	function onCrash(e:UncaughtErrorEvent):Void
+	{
+		var errMsg:String = "";
+		var path:String;
+		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
+		var dateNow:String = Date.now().toString();
+
+		dateNow = dateNow.replace(" ", "_");
+		dateNow = dateNow.replace(":", "'");
+
+		path = "./logs/crash/" + "TheoyeahEngine_" + dateNow + ".txt";
+
+		var i:Int = 1;
+		for (stackItem in callStack)
+		{
+			switch (stackItem)
+			{
+				case FilePos(s, file, line, column):
+					errMsg += 'Error Number $i: File: "$file" (line: "$line")\n';
+				default:
+					Sys.println(stackItem);
+			}
+			i++;
+		}
+
+		errMsg =
+		"Errors:\n" + errMsg + "\nUncaught Error: " + e.error + "\nUnexpected ?\nThen please report this error to the GitHub page: https://github.com/Theoyeah/Theoyeah-Engine.\nIf you need any help regarding how to fix, please look up in the wiki!";
+
+		if (!FileSystem.exists("./logs/crash/"))
+			FileSystem.createDirectory("./logs/crash/");
+
+		File.saveContent(path, errMsg + "\n");
+
+		Sys.println(errMsg);
+		Sys.println("Crash dump saved in " + Path.normalize(path));
+
+		Application.current.window.alert(errMsg, "Fatal Error!");
+		DiscordClient.shutdown();
+		Sys.exit(1);
+	}
+	#end
 }

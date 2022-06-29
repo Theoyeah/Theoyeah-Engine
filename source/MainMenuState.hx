@@ -34,7 +34,7 @@ class MainMenuState extends MusicBeatState
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
 
-	
+
 	var optionShit:Array<String> = [
 		'story_mode',
 		'freeplay',
@@ -49,9 +49,12 @@ class MainMenuState extends MusicBeatState
 	var debugKeys:Array<FlxKey>;
 
 	var logo:FlxSprite;
-	
+
 	override function create()
 	{
+		#if MODS_ALLOWED
+		Paths.pushGlobalMods();
+		#end
 		WeekData.loadTheFirstEnabledMod();
 
 		#if desktop
@@ -104,7 +107,7 @@ class MainMenuState extends MusicBeatState
 		bgScroll.velocity.set(50, 50);
 		bgScroll.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bgScroll);
-		
+
 		// magenta.scrollFactor.set();
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
@@ -243,7 +246,7 @@ class MainMenuState extends MusicBeatState
 								ease: FlxEase.quadOut,
 								onComplete: function(twn:FlxTween)
 								{
-									
+
 								}
 							});
 						}
@@ -274,7 +277,7 @@ class MainMenuState extends MusicBeatState
 				}
 			}
 			#if desktop
-			else if (FlxG.keys.anyJustPressed(debugKeys))
+			if(FlxG.keys.anyJustPressed(debugKeys))
 			{
 				selectedSomethin = true;
 				Application.current.window.title = "Friday Night Funkin': Theoyeah Engine - Master Editor Menu";
