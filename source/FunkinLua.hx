@@ -1391,7 +1391,7 @@ class FunkinLua {
 			PlayState.instance.persistentUpdate = false;
 			PauseSubState.restartSong(skipTransition);
 		});
-		Lua_helper.add_callback(lua, "exitSong", function(skipTransition:Bool, goFreeplay:Bool = PlayState.isStoryMode, songToPlay:String = 'freakyMenu') {
+		Lua_helper.add_callback(lua, "exitSong", function(skipTransition:Bool, songToPlay:String = 'freakyMenu') {
 			if(skipTransition)
 			{
 				FlxTransitionableState.skipNextTransIn = true;
@@ -1403,7 +1403,7 @@ class FunkinLua {
 			if(FlxTransitionableState.skipNextTransIn)
 				CustomFadeTransition.nextCamera = null;
 
-			if(!goFreeplay)
+			if(PlayState.isStoryMode)
 				MusicBeatState.switchState(new StoryMenuState());
 			else
 				MusicBeatState.switchState(new FreeplayState());
