@@ -98,7 +98,6 @@ class PlayState extends MusicBeatState
 	public var modchartSounds:Map<String, FlxSound> = new Map<String, FlxSound>();
 	public var modchartTexts:Map<String, ModchartText> = new Map<String, ModchartText>();
 	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
-	public var modchartObjects:Map<String, FlxSprite> = new Map<String, FlxSprite>();
 
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
@@ -1621,15 +1620,12 @@ class PlayState extends MusicBeatState
 	}
 
  	public function getLuaObject(tag:String, text:Bool = true):FlxSprite {
- 		if(modchartObjects.exists(tag)) return modchartObjects.get(tag);
  		if(modchartSprites.exists(tag)) return modchartSprites.get(tag);
  		if(text && modchartTexts.exists(tag)) return modchartTexts.get(tag);
 
-		if(modchartObjects.exists(tag.toLowerCase())) return modchartObjects.get(tag.toLowerCase());
  		if(modchartSprites.exists(tag.toLowerCase())) return modchartSprites.get(tag.toLowerCase());
  		if(text && modchartTexts.exists(tag.toLowerCase())) return modchartTexts.get(tag.toLowerCase());
 
-		if(modchartObjects.exists(tag.toUpperCase())) return modchartObjects.get(tag.toUpperCase());
  		if(modchartSprites.exists(tag.toUpperCase())) return modchartSprites.get(tag.toUpperCase());
  		if(text && modchartTexts.exists(tag.toUpperCase())) return modchartTexts.get(tag.toUpperCase());
 
@@ -1651,23 +1647,28 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
+		var fifilepath:String = Paths.video(name.toLowerCase());
 		#if MKV_ALLOWED
 		var mkvFilepath:String = Paths.video(name, false, true);
+		var otherMkvFilepath:String = Paths.video(name.toLowerCase(), false, true);
 		#end
 
 		#if sys
-		if(!FileSystem.exists(filepath) #if MKV_ALLOWED && !FileSystem.exists(mkvFilepath) #end )
+		if(!FileSystem.exists(filepath) && !FileSystem.exists(fifilepath) #if MKV_ALLOWED && !FileSystem.exists(mkvFilepath) && !FileSystem.exists(otherMkvFilepath) #end )
 		#else
-		if(!OpenFlAssets.exists(filepath) #if MKV_ALLOWED && !OpenFlAssets.exists(mkvFilepath) #end )
+		if(!OpenFlAssets.exists(filepath) && !OpenFlAssets.exists(fifilepath) #if MKV_ALLOWED && !OpenFlAssets.exists(mkvFilepath) && !OpenFlAssets.exists(otherMkvFilepath) #end )
 		#end
 		{
 			FlxG.log.warn('Couldnt find video file: ' + name);
 			startAndEnd();
 			return;
 		}
-		
+
 
 		var video:MP4Handler = new MP4Handler();
+		if( #if sys !FileSystem.exists(filepath) && FileSystem.exists(fifilepath)#else !OpenFlAssets.exists(filepath) && OpenFlAssets.exists(fifilepath)#end )
+			filepath = fifilepath; // specifies what file
+
 		video.playVideo(filepath);
 		video.finishCallback = function()
 		{
@@ -2309,7 +2310,6 @@ class PlayState extends MusicBeatState
 				daNote.visible = false;
 				daNote.ignoreNote = true;
 
-				if(modchartObjects.exists('note${daNote.ID}')) modchartObjects.remove('note${daNote.ID}');
 				daNote.kill();
 				unspawnNotes.remove(daNote);
 				daNote.destroy();
@@ -2326,7 +2326,6 @@ class PlayState extends MusicBeatState
 				daNote.visible = false;
 				daNote.ignoreNote = true;
 
-				if(modchartObjects.exists('note${daNote.ID}')) modchartObjects.remove('note${daNote.ID}');
 				daNote.kill();
 				notes.remove(daNote, true);
 				daNote.destroy();
@@ -2548,8 +2547,6 @@ class PlayState extends MusicBeatState
 				var susLength:Float = swagNote.sustainLength;
 
 				susLength = susLength / Conductor.stepCrochet;
-				swagNote.ID = unspawnNotes.length;
- 				modchartObjects.set('note${swagNote.ID}', swagNote);
 				unspawnNotes.push(swagNote);
 
 				var floorSus:Int = Math.floor(susLength);
@@ -2562,8 +2559,6 @@ class PlayState extends MusicBeatState
 						sustainNote.mustPress = gottaHitNote;
 						sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
 						sustainNote.noteType = swagNote.noteType;
-						sustainNote.ID = unspawnNotes.length;
- 						modchartObjects.set('note${sustainNote.ID}', sustainNote);
 						sustainNote.scrollFactor.set();
 						swagNote.tail.push(sustainNote);
  						sustainNote.parent = swagNote;
@@ -2758,11 +2753,9 @@ class PlayState extends MusicBeatState
 				babyArrow.alpha = targetAlpha;
 
 			if (player == 1) {
-				modchartObjects.set("playerStrum" + i, babyArrow);
 				playerStrums.add(babyArrow);
 			} else
 			{
-				modchartObjects.set("opponentStrum" + i, babyArrow);
 				if(ClientPrefs.middleScroll)
 				{
 					babyArrow.x += 310;
@@ -3060,7 +3053,8 @@ class PlayState extends MusicBeatState
 		setOnLuas('curdecstep', curDecStep);
  		setOnLuas('curdecbeat', curDecBeat);
 
-		#if !CHEATING_ALLOWED
+		#if CHEATING_ALLOWED
+		#else // it didnt let me do it the way around
 		botplayTxt.visible = cpuControlled;
 		#end
 		if(botplayTxt.visible) {
@@ -3259,7 +3253,7 @@ class PlayState extends MusicBeatState
 				var dunceNote:Note = unspawnNotes[0];
 				notes.insert(0, dunceNote);
 				dunceNote.spawned = true;
- 				callOnLuas('onSpawnNote', [notes.members.indexOf(dunceNote), dunceNote.noteData, dunceNote.noteType, dunceNote.isSustainNote, dunceNote.ID]);
+ 				callOnLuas('onSpawnNote', [notes.members.indexOf(dunceNote), dunceNote.noteData, dunceNote.noteType, dunceNote.isSustainNote]);
 
 				var index:Int = unspawnNotes.indexOf(dunceNote);
 				unspawnNotes.splice(index, 1);
@@ -3391,7 +3385,6 @@ class PlayState extends MusicBeatState
 					daNote.active = false;
 					daNote.visible = false;
 
-					if(modchartObjects.exists('note${daNote.ID}')) modchartObjects.remove('note${daNote.ID}');
 					daNote.kill();
 					notes.remove(daNote, true);
 					daNote.destroy();
@@ -3874,8 +3867,10 @@ class PlayState extends MusicBeatState
 				if(bgGirls != null) bgGirls.swapDanceType();
 
 			case 'Change Scroll Speed':
+				#if CHEATING_ALLOWED
 				if (songSpeedType == "constant")
 					return;
+				#end
 				var val1:Float = Std.parseFloat(value1);
 				var val2:Float = Std.parseFloat(value2);
 				if(Math.isNaN(val1)) val1 = 1;
@@ -4186,7 +4181,6 @@ class PlayState extends MusicBeatState
 			daNote.active = false;
 			daNote.visible = false;
 
-			if(modchartObjects.exists('note${daNote.ID}')) modchartObjects.remove('note${daNote.ID}');
 			daNote.kill();
 			notes.remove(daNote, true);
 			daNote.destroy();
@@ -4409,7 +4403,6 @@ class PlayState extends MusicBeatState
 					{
 						for (doubleNote in pressNotes) {
 							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
-								if(modchartObjects.exists('note${doubleNote.ID}')) modchartObjects.remove('note${doubleNote.ID}');
 								doubleNote.kill();
 								notes.remove(doubleNote, true);
 								doubleNote.destroy();
@@ -4587,7 +4580,6 @@ class PlayState extends MusicBeatState
 			    && daNote.isSustainNote == note.isSustainNote
 			    && Math.abs(daNote.strumTime - note.strumTime) < 1)
 			{
-				if(modchartObjects.exists('note${note.ID}')) modchartObjects.remove('note${note.ID}');
 				note.kill();
 				notes.remove(note, true);
 				note.destroy();
@@ -4622,7 +4614,7 @@ class PlayState extends MusicBeatState
 			char.playAnim(animToPlay, true);
 		}
 
-		callOnLuas('noteMiss', [notes.members.indexOf(daNote), daNote.noteData, daNote.noteType, daNote.isSustainNote, daNote.ID]);
+		callOnLuas('noteMiss', [notes.members.indexOf(daNote), daNote.noteData, daNote.noteType, daNote.isSustainNote]);
 	}
 
 	function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
@@ -4718,11 +4710,10 @@ class PlayState extends MusicBeatState
 		StrumPlayAnim(true, Std.int(Math.abs(note.noteData)) % 4, time);
 		note.hitByOpponent = true;
 
-		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote, note.ID]);
+		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
 
 		if (!note.isSustainNote)
 		{
-			if(modchartObjects.exists('note${note.ID}')) modchartObjects.remove('note${note.ID}');
 			note.kill();
 			notes.remove(note, true);
 			note.destroy();
@@ -4785,7 +4776,6 @@ class PlayState extends MusicBeatState
 				note.wasGoodHit = true;
 				if (!note.isSustainNote)
 				{
-					if(modchartObjects.exists('note${note.ID}')) modchartObjects.remove('note${note.ID}');
 					note.kill();
 					notes.remove(note, true);
 					note.destroy();
@@ -4873,11 +4863,10 @@ class PlayState extends MusicBeatState
 			var isSus:Bool = note.isSustainNote; //GET OUT OF MY HEAD, GET OUT OF MY HEAD, GET OUT OF MY HEAD
 			var leData:Int = Math.round(Math.abs(note.noteData));
 			var leType:String = note.noteType;
-			callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus, note.ID]);
+			callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus]);
 
 			if(!note.isSustainNote)
 			{
-				if(modchartObjects.exists('note${note.ID}')) modchartObjects.remove('note${note.ID}');
 				note.kill();
 				notes.remove(note, true);
 				note.destroy();
@@ -5348,10 +5337,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('misses', songMisses);
 		setOnLuas('hits', songHits);
 
-		if (badHit)
-			updateScore(true); // miss notes shouldn't make the scoretxt bounce -Ghost
-		else
-			updateScore(false);
+		updateScore(badHit); // miss notes shouldn't make the scoretxt bounce -Ghost
 
 		var ret:Dynamic = callOnLuas('onRecalculateRating', [], false);
 		if(ret != FunkinLua.Function_Stop)
@@ -5383,7 +5369,7 @@ class PlayState extends MusicBeatState
 			}
 
 			// Rating FC
-			ratingFC = "";
+			ratingFC = '';
 			if (sicks > 0) ratingFC = "SFC";
 			if (goods > 0) ratingFC = "GFC";
 			if (bads > 0 || shits > 0) ratingFC = "FC";

@@ -1101,14 +1101,6 @@ class CharacterEditorState extends MusicBeatState
 		var inputTexts:Array<FlxUIInputText> = [animationInputText, imageInputText, healthIconInputText, animationNameInputText, animationIndicesInputText];
 		for (i in 0...inputTexts.length) {
 			if(inputTexts[i].hasFocus) {
-				if(FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.V && Clipboard.text != null) { //Copy paste
-					inputTexts[i].text = ClipboardAdd(inputTexts[i].text);
-					inputTexts[i].caretIndex = inputTexts[i].text.length;
-					getEvent(FlxUIInputText.CHANGE_EVENT, inputTexts[i], null, []);
-				}
-				if(FlxG.keys.justPressed.ENTER) {
-					inputTexts[i].hasFocus = false;
-				}
 				FlxG.sound.muteKeys = [];
 				FlxG.sound.volumeDownKeys = [];
 				FlxG.sound.volumeUpKeys = [];
@@ -1131,7 +1123,7 @@ class CharacterEditorState extends MusicBeatState
 				FlxG.mouse.visible = false;
 				return;
 			}
-			
+
 			if (FlxG.keys.justPressed.R) {
 				FlxG.camera.zoom = 1;
 				if (FlxG.keys.pressed.SHIFT)
@@ -1189,7 +1181,7 @@ class CharacterEditorState extends MusicBeatState
 				if (FlxG.keys.justPressed.T)
 				{
 					char.animationsArray[curAnim].offsets = [0, 0];
-					
+
 					char.addOffset(char.animationsArray[curAnim].anim, char.animationsArray[curAnim].offsets[0], char.animationsArray[curAnim].offsets[1]);
 					ghostChar.addOffset(char.animationsArray[curAnim].anim, char.animationsArray[curAnim].offsets[0], char.animationsArray[curAnim].offsets[1]);
 					genBoyOffsets();
@@ -1228,8 +1220,8 @@ class CharacterEditorState extends MusicBeatState
 
 		if (FlxG.mouse.justPressedRight)
 		{
-				lastPosition.set(CoolUtil.boundTo(FlxG.mouse.getScreenPosition().x, 0, FlxG.width), 
-				CoolUtil.boundTo(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
+			lastPosition.set(CoolUtil.boundTo(FlxG.mouse.getScreenPosition().x, 0, FlxG.width), 
+			CoolUtil.boundTo(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
 		}
 
 		if (FlxG.mouse.pressedRight) // draggable camera with mouse movement
@@ -1248,7 +1240,7 @@ class CharacterEditorState extends MusicBeatState
 				camFollow.x = camFollow.x - -CoolUtil.boundTo(mouseDiff.x, -FlxG.width, FlxG.width) * mult;
 				camFollow.y = camFollow.y - -CoolUtil.boundTo(mouseDiff.y, -FlxG.height, FlxG.height) * mult;
 
-				lastPosition.set(CoolUtil.boundTo(FlxG.mouse.getScreenPosition().x, 0, FlxG.width), 
+				lastPosition.set(CoolUtil.boundTo(FlxG.mouse.getScreenPosition().x, 0, FlxG.width),
 				CoolUtil.boundTo(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
 			}
 		}
@@ -1256,12 +1248,12 @@ class CharacterEditorState extends MusicBeatState
 		{
 			FlxG.mouse.visible = true;
 		}
-	
+
 		if (FlxG.mouse.wheel != 0)
 		{
 			FlxG.camera.zoom += FlxG.mouse.wheel / 10;
 		}
-		
+
 		//camMenu.zoom = FlxG.camera.zoom;
 		ghostChar.setPosition(char.x, char.y);
 		super.update(elapsed);
@@ -1324,10 +1316,10 @@ class CharacterEditorState extends MusicBeatState
 			"scale": char.jsonScale,
 			"sing_duration": char.singDuration,
 			"healthicon": char.healthIcon,
-		
+
 			"position":	char.positionArray,
 			"camera_position": char.cameraPosition,
-		
+
 			"flip_x": char.originalFlipX,
 			"no_antialiasing": char.noAntialiasing,
 			"healthbar_colors": char.healthColorArray
@@ -1345,8 +1337,8 @@ class CharacterEditorState extends MusicBeatState
 		}
 	}
 
-        //shared with stageeditorstate
-       public static function ClipboardAdd(prefix:String = ''):String {
+    //shared with stageeditorstate
+	public static function ClipboardAdd(prefix:String = ''):String {
 		if(prefix.toLowerCase().endsWith('v')) //probably copy paste attempt
 		{
 			prefix = prefix.substring(0, prefix.length-1);
