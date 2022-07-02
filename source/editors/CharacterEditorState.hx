@@ -1114,14 +1114,16 @@ class CharacterEditorState extends MusicBeatState
 
 		if(!charDropDown.dropPanel.visible) {
 			if (FlxG.keys.justPressed.ESCAPE) {
-				if(goToPlayState) {
-					MusicBeatState.switchState(new PlayState());
-				} else {
-					MusicBeatState.switchState(new editors.MasterEditorMenu());
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
-				}
-				FlxG.mouse.visible = false;
-				return;
+				//openSubState(new Prompt('Take in mid that maybe you havent saved the character!\n\nProceed?', 0, function() {
+					if(goToPlayState) {
+						MusicBeatState.switchState(new PlayState());
+					} else {
+						MusicBeatState.switchState(new editors.MasterEditorMenu());
+						FlxG.sound.playMusic(Paths.music('freakyMenu'));
+					}
+					FlxG.mouse.visible = false;
+					return;
+				//}));
 			}
 
 			if (FlxG.keys.justPressed.R) {
@@ -1240,8 +1242,7 @@ class CharacterEditorState extends MusicBeatState
 				camFollow.x = camFollow.x - -CoolUtil.boundTo(mouseDiff.x, -FlxG.width, FlxG.width) * mult;
 				camFollow.y = camFollow.y - -CoolUtil.boundTo(mouseDiff.y, -FlxG.height, FlxG.height) * mult;
 
-				lastPosition.set(CoolUtil.boundTo(FlxG.mouse.getScreenPosition().x, 0, FlxG.width),
-				CoolUtil.boundTo(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
+				lastPosition.set(CoolUtil.boundTo(FlxG.mouse.getScreenPosition().x, 0, FlxG.width), CoolUtil.boundTo(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
 			}
 		}
 		else
@@ -1337,7 +1338,7 @@ class CharacterEditorState extends MusicBeatState
 		}
 	}
 
-    //shared with stageeditorstate
+	//shared with stageeditorstate
 	public static function ClipboardAdd(prefix:String = ''):String {
 		if(prefix.toLowerCase().endsWith('v')) //probably copy paste attempt
 		{
