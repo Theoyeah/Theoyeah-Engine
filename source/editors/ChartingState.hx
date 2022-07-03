@@ -1723,20 +1723,12 @@ class ChartingState extends MusicBeatState
 				return;
 			}
 
-			if(FlxG.keys.anyJustPressed(keyBindsforThings[0])) {
-				var shift:Int = if(FlxG.keys.pressed.SHIFT) 1 else 0;
-				if(curZoom > 0 && curZoom + shift < zoomList.length-1)
-					curZoom = curZoom - (1 + shift);
-				else // resets the zoom
-					curZoom = zoomList.length-1;
+			if(FlxG.keys.anyJustPressed(keyBindsforThings[0]) && curZoom > 0) {
+				--curZoom;
 				updateZoom();
 			}
-			if(FlxG.keys.anyJustPressed(keyBindsforThings[1])) {
-				var shift:Int = if(FlxG.keys.pressed.SHIFT) 1 else 0;
-				if(curZoom < zoomList.length-1)
-					curZoom = curZoom + shift;
-				else
-					curZoom = 0; // resets the zoom
+			if(FlxG.keys.anyJustPressed(keyBindsforThings[0]) && curZoom < zoomList.length-1) {
+				curZoom++;
 				updateZoom();
 			}
 
