@@ -384,7 +384,7 @@ class ChartingState extends MusicBeatState
 
 		var tipTextArray:Array<String> = text.split('\n');
 		for (i in 0...tipTextArray.length) {
-			var tipText:FlxText = new FlxText(UI_box.x, UI_box.y + UI_box.height + 8, 0, tipTextArray[i], 16);
+			var tipText:FlxText = new FlxText(UI_box.x, UI_box.y + UI_box.height + 7, 0, tipTextArray[i], 16);
 			tipText.y += i * 12;
 			tipText.setFormat(Paths.font("vcr.ttf"), 14, FlxColor.WHITE, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
 			//tipText.borderSize = 2;
