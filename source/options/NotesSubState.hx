@@ -44,13 +44,13 @@ class NotesSubState extends MusicBeatSubstate
 	var posX = 230;
 	public function new() {
 		super();
-		
+
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
-		
+
 		blackBG = new FlxSprite(posX - 25).makeGraphic(870, 200, FlxColor.BLACK);
 		blackBG.alpha = 0.4;
 		add(blackBG);
@@ -62,7 +62,7 @@ class NotesSubState extends MusicBeatSubstate
 
 		var text:FlxText = new FlxText(5, FlxG.height - 25, 0, "", 16);
 		text.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		text.text = "Press CONTROL to change your note skin";
+		text.text = "Press CONTROL to change your note skin"; // this is NOT for mobile...
 		add(text);
 
 		for (i in 0...ClientPrefs.arrowHSV.length) {
@@ -77,7 +77,6 @@ class NotesSubState extends MusicBeatSubstate
 			note.ID = i;
 			note.antialiasing = ClientPrefs.globalAntialiasing;
 			grpNotes.add(note);
-			
 
 			var newShader:ColorSwap = new ColorSwap();
 			note.shader = newShader.shader;

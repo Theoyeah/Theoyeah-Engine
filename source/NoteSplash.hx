@@ -15,19 +15,11 @@ class NoteSplash extends FlxSprite
 	public static function noteS():String { // from noteSplashes
 		var hola:String = 'noteSplashes';
 		switch(ClientPrefs.noteSplashes.toLowerCase()) {
-			case 'inverted': hola = 'inverted';
-			case 'red': hola = 'red';
-			case 'cyan': hola = 'cyan';
-			case 'green': hola = 'green';
-			case 'pink': hola = 'pink';
-			case 'idk': hola = 'idk';
 			case 'original': hola = 'og';
+			case 'inverted' | 'red' | 'cyan' | 'green' | 'pink' | 'idk': hola = ClientPrefs.noteSplashes.toLowerCase();
 		}
-		if(hola != 'noteSplashes') {
-			return hola.toLowerCase() + '_noteSplashes';
-		} else {
-			return hola;
-		}
+		if(hola != 'noteSplashes') return hola.toLowerCase() + '_noteSplashes';
+		return hola;
 	}
 
 	/**
@@ -77,7 +69,7 @@ class NoteSplash extends FlxSprite
 	}
 
 	function loadAnims(skin:String, animationsCount:Int = 3) {
-		frames = Paths.getSparrowAtlas(skin.startsWith('noteSplashes') ? skin : 'noteSplashes/' + skin);
+		frames = Paths.getSparrowAtlas(skin.startsWith('noteSplashes/') ? skin : 'noteSplashes/' + skin);
 		for (i in 1...animationsCount) {
 			animation.addByPrefix("note1-" + i, "note splash blue " + i, 24, false);
 			animation.addByPrefix("note2-" + i, "note splash green " + i, 24, false);

@@ -3582,12 +3582,10 @@ class PlayState extends MusicBeatState
 					boyfriend.specialAnim = true;
 					boyfriend.heyTimer = time;
 				}
-
 			case 'Set GF Speed':
 				var value:Int = Std.parseInt(value1);
 				if(Math.isNaN(value) || value < 1) value = 1;
 				gfSpeed = value;
-
 			case 'Philly Glow':
 				var lightId:Int = Std.parseInt(value1);
 				if(Math.isNaN(lightId)) lightId = 0;
@@ -3686,10 +3684,8 @@ class PlayState extends MusicBeatState
 						}
 						phillyGlowGradient.bop();
 				}
-
 			case 'Kill Henchmen':
 				killHenchmen();
-
 			case 'Add Camera Zoom':
 				if(ClientPrefs.camZooms && FlxG.camera.zoom < 1.35) {
 					var camZoom:Float = Std.parseFloat(value1);
@@ -3700,13 +3696,11 @@ class PlayState extends MusicBeatState
 					FlxG.camera.zoom += camZoom;
 					camHUD.zoom += hudZoom;
 				}
-
 			case 'Trigger BG Ghouls':
 				if(curStage == 'schoolEvil' && !ClientPrefs.lowQuality) {
 					bgGhouls.dance(true);
 					bgGhouls.visible = true;
 				}
-
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);
 				var char:Character = dad;
@@ -3730,7 +3724,6 @@ class PlayState extends MusicBeatState
 					char.playAnim(value1, true);
 					char.specialAnim = true;
 				}
-
 			case 'Camera Follow Pos':
 				var val1:Float = Std.parseFloat(value1);
 				var val2:Float = Std.parseFloat(value2);
@@ -3743,7 +3736,6 @@ class PlayState extends MusicBeatState
 					camFollow.y = val2;
 					isCameraOnForcedPos = true;
 				}
-
 			case 'Alt Idle Animation':
 				var char:Character = dad;
 				switch(value1.toLowerCase().trim()) {
@@ -3766,7 +3758,6 @@ class PlayState extends MusicBeatState
 					char.idleSuffix = value2;
 					char.recalculateDanceIdle();
 				}
-
 			case 'Screen Shake':
 				var valuesArray:Array<String> = [value1, value2];
 				var targetsArray:Array<FlxCamera> = [camGame, camHUD];
@@ -3783,8 +3774,6 @@ class PlayState extends MusicBeatState
 						targetsArray[i].shake(intensity, duration);
 					}
 				}
-
-
 			case 'Change Character':
 				var charType:Int = 0;
 				var colors:Bool = true;
@@ -3862,10 +3851,8 @@ class PlayState extends MusicBeatState
 				}
 				if(colors) // optimization
 					reloadHealthBarColors();
-
 			case 'BG Freaks Expression':
 				if(bgGirls != null) bgGirls.swapDanceType();
-
 			case 'Change Scroll Speed':
 				#if CHEATING_ALLOWED
 				if (songSpeedType == "constant")
@@ -3889,14 +3876,12 @@ class PlayState extends MusicBeatState
 						}
 					});
 				}
-
 			case 'Set Property':
 				var killMe:Array<String> = value1.split('.');
 				if(killMe.length > 1)
 					Reflect.setProperty(FunkinLua.getPropertyLoopThingWhatever(killMe, true, true), killMe[killMe.length-1], value2);
 				else
 					Reflect.setProperty(this, value1, value2);
-
 			case 'Change Icon': // only to see if i can create events that actually work
 				var icon = value2;
 				if(!value2.startsWith('icon-'))
@@ -4890,7 +4875,7 @@ class PlayState extends MusicBeatState
 		var sat:Float = ClientPrefs.arrowHSV[data % 4][1] / 100;
 		var brt:Float = ClientPrefs.arrowHSV[data % 4][2] / 100;
 		if(note != null) {
-			if(note.noteSplashTexture != null || note.noteSplashTexture.length < 1) skin = note.noteSplashTexture;
+			if(note.noteSplashTexture != null && note.noteSplashTexture.length < 1) skin = note.noteSplashTexture;
 			hue = note.noteSplashHue;
 			sat = note.noteSplashSat;
 			brt = note.noteSplashBrt;
