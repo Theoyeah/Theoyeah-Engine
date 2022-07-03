@@ -100,6 +100,16 @@ class VisualsUISubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Combo Display',
+			'Set your desired value for when the Combo Numbers should appear\n1 means as soon as you hit a note\nDefault is 2',
+			'comboDisplay',
+			'int',
+			2);
+		addOption(option);
+		option.scrollSpeed = 15; // i dont know how this works
+		option.minValue = 0;
+		option.maxValue = 9999; // max posible combo
+
 		var option:Option = new Option('Kade Engine Score Text',
 			"If checked, the text below the health bar\nwill change to Kade Engine.",
 			'kadetxt',
