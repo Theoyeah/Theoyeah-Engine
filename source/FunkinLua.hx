@@ -753,14 +753,14 @@ class FunkinLua {
 			#end
 		});
 
-		Lua_helper.add_callback(lua, "addHaxeLibrary", function(libName:String, ?libFolder:String = '') {
+		Lua_helper.add_callback(lua, "addHaxeLibrary", function(libName:String, ?libPackage:String = '') {
 			#if hscript
 			initHaxeInterp();
 
 			try {
 				var str:String = '';
-				if(libFolder.length > 0)
-					str = libFolder + '.';
+				if(libPackage.length > 0)
+					str = libPackage + '.';
 
 				haxeInterp.variables.set(libName, Type.resolveClass(str + libName));
 			}
@@ -1338,7 +1338,7 @@ class FunkinLua {
 		{
 			return Reflect.getProperty(FlxG.gamepads.getByID(id).pressed, name);
 		});
-		Lua_helper.add_callback(lua, "gamepadJustReleased", function(id:Int, name:String)
+		Lua_helper.add_callback(lua, "gamepadReleased", function(id:Int, name:String)
 		{
 			return Reflect.getProperty(FlxG.gamepads.getByID(id).justReleased, name);
 		});
@@ -1667,7 +1667,6 @@ class FunkinLua {
 						var luaObj:ModchartSprite = obj;
 
 						var daOffset = luaObj.animOffsets.get(name);
-						trace(daOffset);
 						if (luaObj.animOffsets.exists(name))
 						{
 							luaObj.offset.set(daOffset[0], daOffset[1]);
@@ -2242,7 +2241,7 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "removeLuaText", function(tag:String, destroy:Bool = true) {
 			if(!PlayState.instance.modchartTexts.exists(tag))
 				return;
-			
+
 			var pee:ModchartText = PlayState.instance.modchartTexts.get(tag);
 			if(destroy)
 				pee.kill();
@@ -2258,7 +2257,7 @@ class FunkinLua {
 			}
 		});
 
-		Lua_helper.add_callback(lua, "initSaveData", function(name:String, ?folder:String = 'psychenginemods') {
+		Lua_helper.add_callback(lua, "initSaveData", function(name:String, ?folder:String = 'theoyeahenginemods') {
 			if(!PlayState.instance.modchartSaves.exists(name))
 			{
 				var save:FlxSave = new FlxSave();
@@ -2276,14 +2275,14 @@ class FunkinLua {
 			}
 			luaTrace('Save file not initialized: $name');
 		});
-		Lua_helper.add_callback(lua, "getDataFromSave", function(name:String, field:String) {
+		Lua_helper.add_callback(lua, "getDataFromSave", function(name:String, field:String, ?defaultValue:Dynamic = null) {
 			if(PlayState.instance.modchartSaves.exists(name))
 			{
 				var retVal:Dynamic = Reflect.field(PlayState.instance.modchartSaves.get(name).data, field);
 				return retVal;
 			}
 			luaTrace('Save file not initialized: $name');
-			return null;
+			return defaultValue;
 		});
 		Lua_helper.add_callback(lua, "setDataFromSave", function(name:String, field:String, value:Dynamic) {
 			if(PlayState.instance.modchartSaves.exists(name))
@@ -2302,17 +2301,17 @@ class FunkinLua {
 			}
 
 			var path:String = Paths.modFolders(filename);
-			if(FileSystem.exists(path))
-			{
+			var papath:String = Paths.modFolders(filename.toLowerCase());
+			if(FileSystem.exists(path) || FileSystem.exists(papath))
 				return true;
-			}
+
 			return FileSystem.exists(Paths.getPath('assets/$filename', TEXT));
 			#else
 			if(absolute)
 			{
-				return Assets.exists(filename);
+				return (Assets.exists(filename) || Assets.exists(filename.toLowerCase()));
 			}
-			return Assets.exists(Paths.getPath('assets/$filename', TEXT));
+			return (Assets.exists(Paths.getPath('assets/$filename', TEXT)) || Assets.exists(Paths.getPath('assets/' + filename.toLowerCase(), TEXT)));
 			#end
 		});
 		Lua_helper.add_callback(lua, "saveFile", function(path:String, content:String, ?absolute:Bool = false)
@@ -2329,25 +2328,35 @@ class FunkinLua {
 			}
 			return false;
 		});
-		Lua_helper.add_callback(lua, "deleteFile", function(path:String, ?ignoreModFolders:Bool = false)
+		Lua_helper.add_callback(lua, "deleteFile", function(path:String, ?ignoreModFolders:Bool = false, ?tryLowerCase:Bool = false)
 		{
 			try {
 				#if MODS_ALLOWED
 				if(!ignoreModFolders)
 				{
 					var lePath:String = Paths.modFolders(path);
+					var lelePath:String = Paths.modFolders(path.toLowerCase());
 					if(FileSystem.exists(lePath))
 					{
 						FileSystem.deleteFile(lePath);
+						return true;
+					} else if(FileSystem.exists(lelePath) && tryLowerCase)
+					{
+						FileSystem.deleteFile(lelePath);
 						return true;
 					}
 				}
 				#end
 
 				var lePath:String = Paths.getPath(path, TEXT);
+				var lelePath:String = Paths.getPath(path.toLowerCase(), TEXT);
 				if(Assets.exists(lePath))
 				{
 					FileSystem.deleteFile(lePath);
+					return true;
+				} else if(Assets.exists(lelePath) && tryLowerCase)
+				{
+					FileSystem.deleteFile(lelePath);
 					return true;
 				}
 			} catch (e:Dynamic) {
@@ -2361,7 +2370,7 @@ class FunkinLua {
 
 		// DEPRECATED, DONT MESS WITH THESE SHITS, ITS JUST THERE FOR BACKWARD COMPATIBILITY
 		Lua_helper.add_callback(lua, "objectPlayAnimation", function(obj:String, name:String, forced:Bool = false, ?startFrame:Int = 0) {
-			luaTrace("objectPlayAnimation is deprecated! Use playAnim instead", false, true);
+			deprecated("objectPlayAnimation", "playAnim instead");
 			if(PlayState.instance.getLuaObject(obj, false) != null) {
 				PlayState.instance.getLuaObject(obj, false).animation.play(name, forced, false, startFrame);
 				return true;
@@ -2375,12 +2384,12 @@ class FunkinLua {
 			return false;
 		});
 		Lua_helper.add_callback(lua, "characterPlayAnim", function(character:String, anim:String, ?forced:Bool = false) {
-			luaTrace("characterPlayAnim is deprecated! Use playAnim instead", false, true);
-			switch(character.toLowerCase()) {
+			deprecated("characterPlayAnim", "playAnim instead");
+			switch(charactersStuff(character)) {
 				case 'dad':
 					if(PlayState.instance.dad.animOffsets.exists(anim))
 						PlayState.instance.dad.playAnim(anim, forced);
-				case 'gf' | 'girlfriend':
+				case 'gf':
 					if(PlayState.instance.gf != null && PlayState.instance.gf.animOffsets.exists(anim))
 						PlayState.instance.gf.playAnim(anim, forced);
 				default:
@@ -2535,12 +2544,12 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "scanlineEffect", function(camera:String, lockAlpha:Bool = false) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new ScanlineEffect(lockAlpha));
-			
+
 		});
 		Lua_helper.add_callback(lua, "grainEffect", function(camera:String, grainSize:Float, lumAmount:Float, lockAlpha:Bool = false) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new GrainEffect(grainSize, lumAmount, lockAlpha));
-			
+
 		});
 		Lua_helper.add_callback(lua, "tiltshiftEffect", function(camera:String, blurAmount:Float, center:Float) {
 			if (ClientPrefs.shaders)
@@ -2550,62 +2559,62 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "vcrEffect", function(camera:String,glitchFactor:Float = 0.0, distortion:Bool = true, perspectiveOn:Bool = true, vignetteMoving:Bool = true) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new VCRDistortionEffect(glitchFactor, distortion, perspectiveOn, vignetteMoving));
-			
+
 		});
 		Lua_helper.add_callback(lua, "fuckinDaveAndBambi1", function(camera:String,waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));
-			
+
 		});
 		Lua_helper.add_callback(lua, "fuckinDaveAndBambi2", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new PulseEffect(waveSpeed, waveFrq, waveAmp));
-			
+
 		});
 		Lua_helper.add_callback(lua, "fuckinDaveAndBambi3", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new DistortBGEffect(waveSpeed, waveFrq, waveAmp));
-			
+
 		});
 		Lua_helper.add_callback(lua, "glitchEffect", function(camera:String,waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));
-			
+
 		});
 		Lua_helper.add_callback(lua, "pulseEffect", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new PulseEffect(waveSpeed, waveFrq, waveAmp));
-			
+
 		});
 		Lua_helper.add_callback(lua, "distortBGEffect", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new DistortBGEffect(waveSpeed, waveFrq, waveAmp));
-			
+
 		});
 		Lua_helper.add_callback(lua, "invertColors", function(camera:String, lockAlpha:Bool = false) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new InvertColorsEffect(lockAlpha));
-			
+
 		});
 		Lua_helper.add_callback(lua, "greyscaleEffect1", function(camera:String) { //for dem funkies
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
-			
+
 		});
 		Lua_helper.add_callback(lua, "greyscaleEffect2", function(camera:String) { //for dem funkies
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
-			
+
 		});
 		Lua_helper.add_callback(lua, "3DEffect", function(camera:String, xrotation:Float = 0, yrotation:Float = 0, zrotation:Float = 0, depth:Float = 0) { //for dem funkies
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new ThreeDEffect(xrotation, yrotation, zrotation, depth));
-			
+
 		});
 		Lua_helper.add_callback(lua, "bloomEffect", function(camera:String, intensity:Float = 0.35, blurSize:Float = 1.0) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new BloomEffect(blurSize/512.0, intensity));
-			
+
 		});
 		Lua_helper.add_callback(lua, "killShaders", function(camera:String) {
 			PlayState.instance.clearShaderFromCamera(camera);
@@ -2643,8 +2652,11 @@ class FunkinLua {
 			});
 			haxeInterp.variables.set('getVar', function(name:String)
 			{
-				if(!PlayState.instance.variables.exists(name)) return null;
-				return PlayState.instance.variables.get(name);
+				if(PlayState.instance.variables.exists(name))
+					return PlayState.instance.variables.get(name);
+				if(PlayState.instance.variables.exists(name.toLowerCase()))
+					return PlayState.instance.variables.get(name.toLowerCase());
+				return null
 			});
 		}
 	}
@@ -2807,7 +2819,7 @@ class FunkinLua {
 
 	//Better optimized than using some getProperty shit or idk
 	function getFlxEaseByString(?ease:String = '') {
-		switch(ease.toLowerCase().trim()) {
+		switch(ease.toLowerCase().trim().replace('_', '').replace('-', '')) {
 			case 'backin': return FlxEase.backIn;
 			case 'backinout': return FlxEase.backInOut;
 			case 'backout': return FlxEase.backOut;
