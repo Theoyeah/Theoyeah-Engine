@@ -45,6 +45,7 @@ class ClientPrefs {
 	//public static var multiplicativeValue:Float = 0;
 	public static var musicSelected:String = 'freakyMenu';
 	public static var autoPause:Bool = false;
+	public static var comboDisplay:Int = 2;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -140,6 +141,7 @@ class ClientPrefs {
 		FlxG.save.data.ghostTapping = ghostTapping;
 		FlxG.save.data.timeBarType = timeBarType;
 		FlxG.save.data.scoreZoom = scoreZoom;
+		FlxG.save.data.comboDisplay = comboDisplay;
 		FlxG.save.data.kadetxt = kadetxt;
 		FlxG.save.data.introbg = introbg;
 		FlxG.save.data.noReset = noReset;
@@ -176,6 +178,8 @@ class ClientPrefs {
 		if(FlxG.save.data.noteSkin != null) {
 			noteSkin = FlxG.save.data.noteSkin;
 		}
+		if(FlxG.save.data.comboDisplay != null) comboDisplay = FlxG.save.data.comboDisplay;
+
 		if(FlxG.save.data.noteSplashes || !FlxG.save.data.noteSplashes) // fixes noteSplashes error - EDIT: well, i want to YOU to see the new notesplashes
 			FlxG.save.data.noteSplashes = 'Normal';
 
