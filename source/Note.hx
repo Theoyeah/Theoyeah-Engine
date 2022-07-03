@@ -140,7 +140,7 @@ class Note extends FlxSprite
 			switch(value) {
 				case 'Hurt Note': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/HURT'); // ok, we need a thing. i will put it in a discussion
+					reloadNote('', 'noteskins/HURTNOTE_assets'); // ok, we need a thing. i will put it in a discussion
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -158,7 +158,7 @@ class Note extends FlxSprite
 
 				case 'Instakill Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/INSTAKILL');
+					reloadNote('', 'noteskins/INSTAKILLNOTE_assets');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -173,7 +173,7 @@ class Note extends FlxSprite
 
 				case 'Crash Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/CRASH');
+					reloadNote('', 'noteskins/CRASHNOTE_assets');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -183,7 +183,7 @@ class Note extends FlxSprite
 
 				case 'Window Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/WINDOW');
+					reloadNote('', 'noteskins/WINDOWNOTE_assets');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -192,7 +192,7 @@ class Note extends FlxSprite
 
 				case 'Warning Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/WARNING');
+					reloadNote('', 'noteskins/WARNINGNOTE_assets');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -202,7 +202,7 @@ class Note extends FlxSprite
 
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/POISONED');
+					reloadNote('', 'noteskins/POISONEDNOTE_assets');
 					noteSplashTexture = 'noteskins/POISONEDnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
