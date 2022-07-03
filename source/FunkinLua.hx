@@ -2656,7 +2656,7 @@ class FunkinLua {
 					return PlayState.instance.variables.get(name);
 				if(PlayState.instance.variables.exists(name.toLowerCase()))
 					return PlayState.instance.variables.get(name.toLowerCase());
-				return null
+				return null;
 			});
 		}
 	}
