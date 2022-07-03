@@ -1866,7 +1866,7 @@ class ChartingState extends MusicBeatState
 			if(!blockInput) {
 				if(FlxG.keys.justPressed.RIGHT) {
 					curQuant++;
-					if(curQuant>quantizations.length-1)
+					if(curQuant > quantizations.length-1)
 						curQuant = 0;
 
 					quantization = quantizations[curQuant];
@@ -2013,7 +2013,7 @@ class ChartingState extends MusicBeatState
 			"\nSection: " + curSec +
 			"\n\nBeat: " + Std.string(curDecBeat).substring(0,4) +
 			"\n\nStep: " + curStep +
-			"\n\nBeat Snap: " + (quantization * zoomList[curZoom]) + 'th';
+			"\n\nBeat Snap: " + quantization + 'th';
 
 		var playedSound:Array<Bool> = [false, false, false, false]; //Prevents ouchy GF sex sounds
 		curRenderedNotes.forEachAlive(function(note:Note) {
