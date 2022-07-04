@@ -1723,7 +1723,7 @@ class ChartingState extends MusicBeatState
 				return;
 			}
 
-			if(FlxG.keys.anyJustPressed(keyBindsforThings[0]) && curZoom > 0) {
+			if(FlxG.keys.anyJustPressed(keyBindsforThings[1]) && curZoom > 0) {
 				--curZoom;
 				updateZoom();
 			}
