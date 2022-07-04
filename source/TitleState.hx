@@ -154,11 +154,11 @@ class TitleState extends MusicBeatState
 					mustUpdate = true;
 				}
 			}
-			
+
 			http.onError = function (error) {
 				trace('error: $error');
 			}
-			
+
 			http.request();
 		}
 		#end
