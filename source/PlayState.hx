@@ -2630,7 +2630,7 @@ class PlayState extends MusicBeatState
 		switch(event.event) {
 			case 'Change Character':
 				var charType:Int = 0;
-				switch(event.value1.toLowerCase()) {
+				switch(event.value1.toLowerCase().trim()) {
 					case 'gf' | 'girlfriend' | '3' | 'girl' | 'middle':
 						charType = 2;
 					case 'dad' | 'opponent' | '2' | 'daddy' | 'dady' | 'bad' | 'left' | 'leftguy':
