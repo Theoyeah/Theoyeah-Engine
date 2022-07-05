@@ -1824,6 +1824,11 @@ class PlayState extends MusicBeatState
 			camHUD.visible = false;
 			//inCutscene = true; //this would stop the camera movement, oops
 
+        var cutscenetxt:FlxText;// Subtittles on Week 7 coming soon :eyes:
+		cutscenetxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, 32);
+		cutscenetxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.BLACK, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		cutscenetxt.visible = true;
+
 		var tankman:FlxSprite = new FlxSprite(-20, 320);
 			tankman.frames = Paths.getSparrowAtlas('cutscenes/' + songName);
 			tankman.antialiasing = ClientPrefs.globalAntialiasing;
