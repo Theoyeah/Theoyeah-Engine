@@ -55,4 +55,4 @@ jobs:
         with:
           name: windows x32
           path: export/release/windows/bin
-          retention-days: 5
+          # retention-days: 5
