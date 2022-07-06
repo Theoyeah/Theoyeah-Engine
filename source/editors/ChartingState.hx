@@ -70,6 +70,7 @@ class ChartingState extends MusicBeatState
 		'Instakill Note',
 		'Window Note',
 		'Warning Note',
+		'Healthy Note',
 		'Poisoned Note',
 		'Crash Note', //so we can actually test it -DEMOLITIONDON96 // Wait, that released right ? -Theoyeah // Wait, what do you mean? -Wither362
 		'GF Sing',

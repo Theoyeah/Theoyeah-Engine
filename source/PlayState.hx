@@ -2277,7 +2277,7 @@ class PlayState extends MusicBeatState
 						note.copyAlpha = false;
 						note.alpha = note.multAlpha;
 						if(ClientPrefs.middleScroll && !note.mustPress) {
-							note.alpha *= 0.35;
+							note.alpha *= 0;
 						}
 					});
 				}
@@ -2743,7 +2743,7 @@ class PlayState extends MusicBeatState
 			if (player < 1)
 			{
 				if(ClientPrefs.opponentStrums) targetAlpha = 0;
-				else if(ClientPrefs.middleScroll) targetAlpha = 0.35;
+				else if(ClientPrefs.middleScroll) targetAlpha = 0;
 			}
 
 			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
@@ -4759,6 +4759,10 @@ class PlayState extends MusicBeatState
 								boyfriend.playAnim('hurt', true);
 								boyfriend.specialAnim = true;
 							}
+							
+						case 'Healthy Note': 
+							FlxG.sound.play(Paths.sound('yay'), 1);
+							
 
 					}
 				}

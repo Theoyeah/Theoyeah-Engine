@@ -171,6 +171,15 @@ class Note extends FlxSprite
 					}
 					hitCausesMiss = true;
 
+				case 'Healthy Note':
+					ignoreNote = mustPress;
+					reloadNote('', 'noteskins/HEALTHYNOTE_assets');
+					colorSwap.hue = 0;
+					colorSwap.saturation = 0;
+					colorSwap.brightness = 0;
+					hitByOpponent = false;
+					hitCausesMiss = false;
+				
 				case 'Crash Note':
 					ignoreNote = mustPress;
 					reloadNote('', 'noteskins/CRASHNOTE_assets');

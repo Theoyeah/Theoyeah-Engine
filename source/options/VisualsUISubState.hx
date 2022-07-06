@@ -150,15 +150,14 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.onChange = onChangeFPSCounter;
 		#end
 
-// maybe when 4.0 will be released
-	/*	#if CHECK_FOR_UPDATES
+	#if CHECK_FOR_UPDATES
 		var option:Option = new Option('Check for Updates',
-			'On Release builds, turn this on to check for updates when you start the game\nNOT RECOMMENDED.',
+			'Turn this off to never check for updates when you start the game\nNOT RECOMMENDED.',
 			'checkForUpdates',
 			'bool',
 			true);
 		addOption(option);
-		#end */
+		#end 
 
 		super();
 	}
