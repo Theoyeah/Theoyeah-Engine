@@ -217,7 +217,7 @@ class FunkinLua {
 		// Camera poo
 		set('cameraX', 0);
 		set('cameraY', 0);
-		
+
 		// Screen stuff
 		set('screenWidth', FlxG.width);
 		set('screenHeight', FlxG.height);
@@ -241,7 +241,7 @@ class FunkinLua {
 		set('ratingFC', '');
 		set('maxHealth', 2);
 		set('version', MainMenuState.theoyeahEngineVersion.trim());
-		
+
 		set('inGameOver', false);
 		set('mustHitSection', false);
 		set('altAnim', false);
@@ -317,6 +317,9 @@ class FunkinLua {
 		// other things
 		set('mouseVisible', FlxG.mouse.visible);
 		set('scriptName', scriptName);
+		set('cheatingAllowed', #if CHEATING_ALLOWED true #else false #end);
+		set('wavAllowed', #if WAV_ALLOWED true #else false #end);
+		set('mp3Allowed', #if MP3_ALLOWED true #else false #end);
 
 
 		#if windows

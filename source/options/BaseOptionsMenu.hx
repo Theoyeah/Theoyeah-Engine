@@ -221,7 +221,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 							{
 								case 'int':
 									curOption.setValue(Math.round(holdValue));
-								
+
 								case 'float' | 'percent':
 									curOption.setValue(FlxMath.roundDecimal(holdValue, curOption.decimals));
 							}
@@ -284,7 +284,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		}
 		holdTime = 0;
 	}
-	
+
 	function changeSelection(change:Int = 0)
 	{
 		curSelected += change;

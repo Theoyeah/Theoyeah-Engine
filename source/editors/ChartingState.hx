@@ -1633,7 +1633,7 @@ class ChartingState extends MusicBeatState
 					&& FlxG.mouse.y > gridBG.y
 					&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * getSectionBeats() * 4) * zoomList[curZoom])
 				{
-					FlxG.log.add('added note id: ' + addNote(null, null, null, true));
+					addTextToLog('added note id: ' + addNote(null, null, null, true));
 					addNote();
 				}
 			}
@@ -1679,6 +1679,9 @@ class ChartingState extends MusicBeatState
 
 		if (!blockInput)
 		{
+			if(FlxG.keys.anyJustPressed(ClientPrefs.copyKey(ClientPrefs.keyBinds.get('save')))) {
+				autosaveSong();
+			}
 			if (FlxG.keys.justPressed.ESCAPE)
 			{
 				autosaveSong();
@@ -1725,10 +1728,6 @@ class ChartingState extends MusicBeatState
 			if(FlxG.keys.anyJustPressed(ClientPrefs.copyKey(ClientPrefs.keyBinds.get('zoom+'))) && curZoom < zoomList.length-1) {
 				curZoom++;
 				updateZoom();
-			}
-
-			if(FlxG.keys.anyJustPressed(ClientPrefs.copyKey(ClientPrefs.keyBinds.get('save')))) {
-				autosaveSong();
 			}
 
 			if (FlxG.keys.justPressed.TAB)
@@ -1935,7 +1934,7 @@ class ChartingState extends MusicBeatState
 					var datime = (feces - secStart) - (dastrum - secStart); //idk math find out why it doesn't work on any other section other than 0
 					if (curSelectedNote != null)
 					{
-						var controlArray:Array<Bool> = [
+						var controlArray:Array<Bool> = [ // this doesnt let you to put all the notes at the same time
 							FlxG.keys.pressed.ONE,
 							FlxG.keys.pressed.TWO,
 							FlxG.keys.pressed.THREE,
@@ -2801,9 +2800,9 @@ class ChartingState extends MusicBeatState
 		{
 			curRenderedNotes.forEachAlive(function(note:Note)
 			{
-				if (note.overlapsPoint(new FlxPoint(strumLineNotes.members[d].x + 1,strumLine.y + 1)) && note.noteData == d % 4)
+				if (note.overlapsPoint(new FlxPoint(strumLineNotes.members[d].x + 1, strumLine.y + 1)) && note.noteData == d % 4)
 				{
-					//trace('tryin to delete note...');
+					//addTextToLog('tryin to delete note...');
 					if(!delnote) deleteNote(note);
 					delnote = true;
 				}
