@@ -234,7 +234,9 @@ class PauseSubState extends MusicBeatSubstate
 					deleteSkipTimeText();
 					regenMenu();
 				case 'Toggle Practice Mode':
-					toggleBotplay(!PlayState.instance.practiceMode);
+					PlayState.instance.practiceMode = !PlayState.instance.practiceMode;
+					PlayState.changedDifficulty = true;
+					practiceText.visible = PlayState.instance.practiceMode;
 				case "Restart Song":
 					restartSong();
 				case "Leave Charting Mode":
@@ -259,7 +261,11 @@ class PauseSubState extends MusicBeatSubstate
 					close();
 					PlayState.instance.finishSong(true);
 				case 'Toggle Botplay':
-					toggleBotplay();
+					PlayState.instance.cpuControlled = !PlayState.instance.cpuControlled;
+					PlayState.changedDifficulty = true;
+					PlayState.instance.botplayTxt.visible = PlayState.instance.cpuControlled;
+					PlayState.instance.botplayTxt.alpha = 1;
+					PlayState.instance.botplaySine = 0;
 				case "Options":
 					Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
 					toOptions = true;
@@ -390,10 +396,10 @@ class PauseSubState extends MusicBeatSubstate
 		curSelected = 0;
 		changeSelection();
 	}
-	
+
 	function updateSkipTextStuff()
 	{
-		if(skipTimeText == null|| skipTimeTracker == null) return;
+		if(skipTimeText == null || skipTimeTracker == null) return;
 
 		skipTimeText.x = skipTimeTracker.x + skipTimeTracker.width + 60;
 		skipTimeText.y = skipTimeTracker.y;
@@ -403,15 +409,5 @@ class PauseSubState extends MusicBeatSubstate
 	function updateSkipTimeText()
 	{
 		skipTimeText.text = FlxStringUtil.formatTime(Math.max(0, Math.floor(curTime / 1000)), false) + ' / ' + FlxStringUtil.formatTime(Math.max(0, Math.floor(FlxG.sound.music.length / 1000)), false);
-	}
-
-	function toggleBotplay(practique:Bool = false) {
-		PlayState.instance.cpuControlled = !PlayState.instance.cpuControlled;
-		PlayState.instance.practiceMode = practique;
-		practiceText.visible = PlayState.instance.practiceMode;
-		PlayState.changedDifficulty = true;
-		PlayState.instance.botplayTxt.visible = PlayState.instance.cpuControlled;
-		PlayState.instance.botplayTxt.alpha = 1;
-		PlayState.instance.botplaySine = 0;
 	}
 }
