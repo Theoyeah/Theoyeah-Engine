@@ -22,7 +22,7 @@ class Note extends FlxSprite
 {
 	public var strumTime:Float = 0;
 
-	public var mustPress:Bool = false;
+	public var mustPress:Bool = false; // change this to change ALL the notes at the same time
 	public var noteData:Int = 0;
 	public var canBeHit:Bool = false;
 	public var tooLate:Bool = false;
@@ -179,7 +179,8 @@ class Note extends FlxSprite
 					colorSwap.brightness = 0;
 					hitByOpponent = false;
 					hitCausesMiss = false;
-				
+					hitHealth += 0.020;
+
 				case 'Crash Note':
 					ignoreNote = mustPress;
 					reloadNote('', 'noteskins/CRASHNOTE_assets');

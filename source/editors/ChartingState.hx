@@ -3057,6 +3057,17 @@ class ChartingState extends MusicBeatState
 		addTextToDebug(text, color);
 		#end
 	}
+
+	
+	override function updateCurStep():Void 
+	{
+
+		var lastChange = Conductor.getBPMFromSeconds(Conductor.songPosition);
+
+		var shit = ((Conductor.songPosition ) - lastChange.songTime) / lastChange.stepCrochet;
+		curDecStep = lastChange.stepTime + shit;
+		curStep = lastChange.stepTime + Math.floor(shit);
+	}
 }
 
 class AttachedFlxText extends FlxText
