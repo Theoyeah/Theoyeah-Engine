@@ -1,5 +1,6 @@
 package;
 
+import lime.system.System;
 #if desktop
 import Discord.DiscordClient;
 import sys.thread.Thread;
@@ -361,10 +362,6 @@ class TitleState extends MusicBeatState
 		var path = Paths.currentModImages("titleEnter");
 		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)) {
-			path = Paths.currentModImages("titleEnter");
-		}
-		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)) {
 			path = "assets/images/titleEnter.png";
 		}
 		//trace(path, FileSystem.exists(path));
@@ -412,11 +409,10 @@ class TitleState extends MusicBeatState
 
 		if (ClientPrefs.introbg) {
 			blackScreen = new FlxSprite().loadGraphic(Paths.image('menutheme'));
-			credGroup.add(blackScreen);
 		} else {
 			blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-			credGroup.add(blackScreen);
 		}
+		credGroup.add(blackScreen);
 
 		credTextShit = new Alphabet(0, 0, "", true);
 		credTextShit.screenCenter();

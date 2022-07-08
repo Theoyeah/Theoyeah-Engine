@@ -30,7 +30,7 @@ typedef SwagSong =
 	var splashSkin:String;
 	var validScore:Bool;
 }
- 
+
 class Song
 {
 	public var song:String;
@@ -95,8 +95,11 @@ class Song
 		var formattedSong:String = Paths.formatToSongPath(jsonInput);
 		#if MODS_ALLOWED
 		var moddyFile:String = Paths.modsJson(formattedFolder + '/' + formattedSong);
+		var otherModdyFile:String = Paths.modsJson(folder + '/' + jsonInput);
 		if(FileSystem.exists(moddyFile)) {
 			rawJson = File.getContent(moddyFile).trim();
+		} else if(FileSystem.exists(moddyFile)) {
+			rawJson = File.getContent(otherModdyFile).trim();
 		}
 		#end
 
