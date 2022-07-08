@@ -705,7 +705,7 @@ class FunkinLua {
 				}
 				return;
 			}
-			luaTrace('Script "$luaFile" doesn' + "'t exist!", false, false, FlxColor.RED);
+			traceLuaError('Script "$luaFile" doesn' + "'t exist!");
 		});
 
 		Lua_helper.add_callback(lua, "luaSpriteExists", function(tag:String) {
@@ -750,7 +750,7 @@ class FunkinLua {
 					case 'Null Function Pointer', 'SReturn':
 						//nothing
 					default:
-						luaTrace(scriptName + ":" + lastCalledFunction + " - " + e, false, false, FlxColor.RED);
+						traceLuaError(scriptName + ":" + lastCalledFunction + " - " + e);
 				}
 			}
 			#end
@@ -768,7 +768,7 @@ class FunkinLua {
 				haxeInterp.variables.set(libName, Type.resolveClass(str + libName));
 			}
 			catch (e:Dynamic) {
-				luaTrace(scriptName + ":" + lastCalledFunction + " - " + e, false, false, FlxColor.RED);
+				traceLuaError(scriptName + ":" + lastCalledFunction + " - " + e);
 			}
 			#end
 		});
@@ -861,7 +861,7 @@ class FunkinLua {
 				}
 				return getGroupStuff(leArray, variable);
 			}
-			luaTrace("Object #" + index + " from group: " + obj + " doesn't exist!", false, false, FlxColor.RED);
+			traceLuaError("Object #" + index + " from group: " + obj + " doesn't exist!");
 			return null;
 		});
 		@:privateAccess
@@ -949,7 +949,7 @@ class FunkinLua {
 				getInstance().insert(position, leObj);
 				return;
 			}
-			luaTrace('Object $obj doesnt exist!', false, false, FlxColor.RED);
+			traceLuaError('Object $obj doesnt exist!');
 		});
 
 		// gay ass tweens
@@ -1053,20 +1053,6 @@ class FunkinLua {
 
 			if(testicle != null) {
 				PlayState.instance.modchartTweens.set(tag, FlxTween.tween(testicle, {y: value}, duration, {ease: getFlxEaseByString(ease),
-					onComplete: function(twn:FlxTween) {
-						PlayState.instance.callOnLuas('onTweenCompleted', [tag]);
-						PlayState.instance.modchartTweens.remove(tag);
-					}
-				}));
-			}
-		});
-		Lua_helper.add_callback(lua, "noteTweenAngle", function(tag:String, note:Int, value:Dynamic, duration:Float, ease:String) {
-			cancelTween(tag);
-			if(note < 0) note = 0;
-			var testicle:StrumNote = PlayState.instance.strumLineNotes.members[note % PlayState.instance.strumLineNotes.length];
-
-			if(testicle != null) {
-				PlayState.instance.modchartTweens.set(tag, FlxTween.tween(testicle, {angle: value}, duration, {ease: getFlxEaseByString(ease),
 					onComplete: function(twn:FlxTween) {
 						PlayState.instance.callOnLuas('onTweenCompleted', [tag]);
 						PlayState.instance.modchartTweens.remove(tag);
@@ -2327,7 +2313,7 @@ class FunkinLua {
 
 				return true;
 			} catch (e:Dynamic) {
-				luaTrace("Error trying to save " + path + ": " + e, false, false, FlxColor.RED);
+				traceLuaError("Error trying to save " + path + ": " + e);
 			}
 			return false;
 		});
@@ -2363,7 +2349,7 @@ class FunkinLua {
 					return true;
 				}
 			} catch (e:Dynamic) {
-				luaTrace("Error trying to delete " + path + ": " + e, false, false, FlxColor.RED);
+				traceLuaError("Error trying to delete " + path + ": " + e);
 			}
 			return false;
 		});
@@ -2707,7 +2693,7 @@ class FunkinLua {
 
 	inline static function getTextObject(name:String):FlxText
 	{
-		return PlayState.instance.modchartTexts.exists(name) ? PlayState.instance.modchartTexts.get(name) : Reflect.getProperty(PlayState.instance, name);
+		return PlayState.instance.modchartTexts.exists(name) ? PlayState.instance.modchartTexts.get(name) : PlayState.instance.modchartTexts.exists(name.toLowerCase()) ? PlayState.instance.modchartTexts.get(name.toLowerCase()) : Reflect.getProperty(PlayState.instance, name);
 	}
 
 	function getGroupStuff(leArray:Dynamic, variable:String) {
@@ -2764,36 +2750,37 @@ class FunkinLua {
 	}
 
 	function resetTextTag(tag:String) {
-		if(!PlayState.instance.modchartTexts.exists(tag))
+		var tagger = if(PlayState.instance.modchartTexts.exists(tag)) tag else tag.toLowerCase();
+		if(PlayState.instance.modchartTexts.exists(tagger)) {
+			var pee:ModchartText = PlayState.instance.modchartTexts.get(tagger);
+			pee.kill();
+			if(pee.wasAdded)
+				PlayState.instance.remove(pee, true);
+
+			pee.destroy();
+			PlayState.instance.modchartTexts.remove(tagger);
+		} else
 			return;
-
-
-		var pee:ModchartText = PlayState.instance.modchartTexts.get(tag);
-		pee.kill();
-		if(pee.wasAdded)
-			PlayState.instance.remove(pee, true);
-
-		pee.destroy();
-		PlayState.instance.modchartTexts.remove(tag);
 	}
 
 	function resetSpriteTag(tag:String) {
-		if(!PlayState.instance.modchartSprites.exists(tag) && !PlayState.instance.modchartSprites.exists(tag.toLowerCase())) {
+		var tagger = if(PlayState.instance.modchartSprites.exists(tag)) tag else tag.toLowerCase();
+		if(!PlayState.instance.modchartSprites.exists(tagger)) {
 			return;
 		}
 
-		var pee:ModchartSprite = PlayState.instance.modchartSprites.get(tag);
+		var pee:ModchartSprite = PlayState.instance.modchartSprites.get(tagger);
 		pee.kill();
 		if(pee.wasAdded) {
 			PlayState.instance.remove(pee, true);
 		}
 		pee.destroy();
-		PlayState.instance.modchartSprites.remove(tag);
+		PlayState.instance.modchartSprites.remove(tagger);
 	}
 
 	function cancelTween(tag:String) {
-		var tagger:String = if(PlayState.instance.modchartTweens.exists(tag)) tag else if(PlayState.instance.modchartTweens.exists(tag.toLowerCase())) tag.toLowerCase() else 'nope';
-		if(tagger != 'nope') {
+		var tagger:String = if(PlayState.instance.modchartTweens.exists(tag)) tag else tag.toLowerCase();
+		if(PlayState.instance.modchartTweens.exists(tagger)) {
 			PlayState.instance.modchartTweens.get(tagger).cancel();
 			PlayState.instance.modchartTweens.get(tagger).destroy();
 			PlayState.instance.modchartTweens.remove(tagger);
@@ -2811,8 +2798,8 @@ class FunkinLua {
 	}
 
 	function cancelTimer(tag:String) {
-		var tagger:String = if(PlayState.instance.modchartTimers.exists(tag)) tag else if(PlayState.instance.modchartTimers.exists(tag.toLowerCase())) tag.toLowerCase() else 'nope';
-		if(tagger != 'nope') {
+		var tagger:String = if(PlayState.instance.modchartTimers.exists(tag)) tag else tag.toLowerCase();
+		if(PlayState.instance.modchartTimers.exists(tagger)) {
 			var theTimer:FlxTimer = PlayState.instance.modchartTimers.get(tagger);
 			theTimer.cancel();
 			theTimer.destroy();
@@ -2959,7 +2946,7 @@ class FunkinLua {
 			if(!resultIsAllowed(lua, result))
 			{
 				Lua.pop(lua, 1);
-				if(error != null) luaTrace("ERROR (" + func + "): " + error, false, false, FlxColor.RED);
+				if(error != null) traceLuaError("ERROR (" + func + "): " + error);
 			}
 			else
 			{
