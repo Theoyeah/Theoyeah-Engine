@@ -46,6 +46,14 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		option.onChange = onChangeMenuMusic;
 		*/
 
+		var option:Option = new Option('Song Style:',
+			"What style of music would you like while playing?",
+			'songstyle',// Hey, idk how do i call it
+			'string',
+			'Normal',
+			['Normal', 'Hi-Fi', 'Lo-Fi']);
+	    addOption(option);
+
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them."',
 			'hitsoundVolume',

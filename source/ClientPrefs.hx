@@ -45,6 +45,7 @@ class ClientPrefs {
 	//public static var multiplicativeValue:Float = 0;
 	public static var musicSelected:String = 'freakyMenu';
 	public static var autoPause:Bool = false;
+	public static var songstyle:String = 'Normal';
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -143,6 +144,7 @@ class ClientPrefs {
 		FlxG.save.data.kadetxt = kadetxt;
 		FlxG.save.data.introbg = introbg;
 		FlxG.save.data.noReset = noReset;
+		FlxG.save.data.songstyle = songstyle;
 		FlxG.save.data.noscore = noscore;
 		FlxG.save.data.opponentStrums = opponentStrums;
 		FlxG.save.data.camfollow = camfollow;
@@ -191,6 +193,10 @@ class ClientPrefs {
 		if (FlxG.save.data.checkForUpdates != null)
 		{
 			checkForUpdates = FlxG.save.data.checkForUpdates;
+		}
+		if (FlxG.save.data.songstyle != null)
+		{
+			songstyle = FlxG.save.data.songstyle;
 		}
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;
