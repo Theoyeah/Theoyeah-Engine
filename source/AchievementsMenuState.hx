@@ -58,7 +58,7 @@ class AchievementsMenuState extends MusicBeatState
 		{
 			var achieveName:String = Achievements.achievementsStuff[achievementIndex[i]][2];
 			var optionText:Alphabet = new Alphabet(0, (100 * i) + 210,
-				Achievements.isAchievementUnlocked(achieveName) ? Achievements.achievementsStuff[achievementIndex[i]][0] == "" ? "No name" : Achievements.achievementsStuff[achievementIndex[i]][0] : '?',
+				Achievements.isAchievementUnlocked(achieveName) ? Achievements.achievementsStuff[achievementIndex[i]][0] : '?',
 				false, false);
 			optionText.isMenuItem = true;
 			optionText.x += 280;
@@ -132,9 +132,7 @@ class AchievementsMenuState extends MusicBeatState
 					achievementArray[i].alpha = 1;
 			}
 		}
-		descText.text = Achievements.achievementsStuff[achievementIndex[curSelected]][1] != null ?
-			Achievements.achievementsStuff[achievementIndex[curSelected]][1] :
-			"No description";
+		descText.text = Achievements.achievementsStuff[achievementIndex[curSelected]][1];
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 	}
 	#end

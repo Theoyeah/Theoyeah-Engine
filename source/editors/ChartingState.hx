@@ -2887,7 +2887,7 @@ class ChartingState extends MusicBeatState
 		//redos.push(_song);
 		undos.pop();
 		//_song.notes = undos[undos.length - 1];
-		///trace(_song.notes);
+		//trace(_song.notes);
 		//updateGrid();
 	}
 	function getStrumTime(yPos:Float, doZoomCalc:Bool = true):Float
@@ -2954,7 +2954,7 @@ class ChartingState extends MusicBeatState
 
 	private function saveLevel()
 	{
-		_song.events.sort(sortByTime);
+		if(_song.events != null && _song.events.length > 1) _song.events.sort(sortByTime);
 		var json = {
 			"song": _song
 		};
@@ -2978,7 +2978,7 @@ class ChartingState extends MusicBeatState
 
 	private function saveEvents()
 	{
-		_song.events.sort(sortByTime);
+		if(_song.events != null && _song.events.length > 1) _song.events.sort(sortByTime);
 		var eventsSong:Dynamic = {
 			events: _song.events
 		};
@@ -3063,7 +3063,7 @@ class ChartingState extends MusicBeatState
 		#end
 	}
 
-	
+
 	override function updateCurStep():Void 
 	{
 

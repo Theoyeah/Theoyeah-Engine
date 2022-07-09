@@ -150,7 +150,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.onChange = onChangeFPSCounter;
 		#end
 
-	#if CHECK_FOR_UPDATES
+		#if CHECK_FOR_UPDATES
 		var option:Option = new Option('Check for Updates',
 			'Turn this off to never check for updates when you start the game\nNOT RECOMMENDED.',
 			'checkForUpdates',
