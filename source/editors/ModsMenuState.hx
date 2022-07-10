@@ -500,12 +500,12 @@ class ModsMenuState extends MusicBeatState
 		var shiftMult:Int = 1;
 		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
-		if(controls.UI_UP_P || FlxG.mouse.wheel > 0)
+		if((controls.UI_UP_P || FlxG.mouse.wheel > 0)  && !noModsTxt.visible)
 		{
 			changeSelection(-shiftMult);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
-		if(controls.UI_DOWN_P || FlxG.mouse.wheel < 0)
+		if((controls.UI_DOWN_P || FlxG.mouse.wheel < 0) && !noModsTxt.visible)
 		{
 			changeSelection(shiftMult);
 			FlxG.sound.play(Paths.sound('scrollMenu'));

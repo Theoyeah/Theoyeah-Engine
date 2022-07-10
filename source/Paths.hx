@@ -482,7 +482,7 @@ class Paths
 		#if MP3_ALLOWED
 		var mp3File:String = modsMP3Sounds(path, key);
 		#end
-		var theFile:String = if(FileSystem.exists(file)) file #if WAV_ALLOWED else if(FileSystem.exists(file_)) file_ #end #if MP3_ALLOWED else mp3File #end;
+		var theFile:String = if(FileSystem.exists(file)) file #if WAV_ALLOWED else #if MP3_ALLOWED if(FileSystem.exists(file_)) #end file_ #end #if MP3_ALLOWED else mp3File #end;
 		if(FileSystem.exists(theFile)) {
 			if(!currentTrackedSounds.exists(theFile)) {
 				currentTrackedSounds.set(theFile, Sound.fromFile(theFile));
