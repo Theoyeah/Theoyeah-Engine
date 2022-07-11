@@ -3909,12 +3909,12 @@ class PlayState extends MusicBeatState
 				if(!ClientPrefs.shaders) return;
 
 				var theEffects:Array<String> = value3.split(',');
-				var theFloatEffects:Array<Float>;
+				var theFloatEffects:Array<Float> = [];
 				for (i in 0...theEffects.length) {
 					if(!Math.isNaN(Std.parseFloat(theEffects[i])))
 						theFloatEffects.push(Std.parseFloat(theEffects[i]));
 				}
-				var boolEffects:Array<String>;
+				var boolEffects:Array<String> = [];
 				for (i in 0...theEffects.length) {
 					boolEffects.push(theEffects[i].toLowerCase().replace(' ', ''));
 				}
