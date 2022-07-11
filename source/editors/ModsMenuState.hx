@@ -564,7 +564,7 @@ class ModsMenuState extends MusicBeatState
 				mod.alphabet.alpha = 1;
 				selector.sprTracker = mod.alphabet;
 				descriptionTxt.text = mod.description;
-				if (mod.restart && !descriptionTxt.text.contains('restart')) { //finna make it to where if nothing changed then it won't reset
+				if (mod.restart && !descriptionTxt.text.toLowerCase().contains('restart')) { //finna make it to where if nothing changed then it won't reset
 					descriptionTxt.text += " (This Mod will restart the game!)";
 				}
 
@@ -747,6 +747,14 @@ class ModMetadata
 				if(description != null && description.length > 0)
 				{
 					this.description = description;
+				}
+				if(name == 'Name')
+				{
+					this.name = folder;
+				}
+				if(description == 'Description')
+				{
+					this.description = "No description provided.";
 				}
 				if(colors != null && colors.length > 2)
 				{

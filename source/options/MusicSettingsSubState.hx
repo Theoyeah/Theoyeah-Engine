@@ -36,24 +36,6 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		title = 'Music';
 		rpcTitle = 'Music Settings Menu'; //for Discord Rich Presence
 
-		//I'd suggest using "Low Quality" as an example for making your own option since it is the simplest here
-		/*var option:Option = new Option('Low Quality', //Name
-			'If checked, disables some background details,\ndecreases loading times and improves performance.', //Description
-			'lowQuality', //Save data variable name
-			'bool', //Variable type
-			false); //Default value
-		addOption(option);*/
-
-		/*
-		var option:Option = new Option('Persistent Cached Data',
-			'If checked, images loaded will stay in memory\nuntil the game is closed, this increases memory usage,\nbut basically makes reloading times instant.',
-			'imagesPersist',
-			'bool',
-			false);
-		option.onChange = onChangePersistentData; //Persistent Cached Data changes FlxGraphic.defaultPersist
-		addOption(option);
-		*/
-
 		/*var option:Option = new Option('Music',
 			'What music you want to play',
 			'musicSelected',
@@ -63,7 +45,7 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeMenuMusic;
 		*/
-		
+
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them."',
 			'hitsoundVolume',
@@ -76,7 +58,7 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		option.decimals = 1;
 		option.onChange = onChangeHitsoundVolume;
-		
+
 
 		var option:Option = new Option('Pause Screen Song:',
 			"What song do you prefer for the Pause Screen?",
@@ -87,7 +69,7 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangePauseMusic;
 
-		
+
 		super();
 	}
 
@@ -106,7 +88,7 @@ class MusicSettingsSubState extends BaseOptionsMenu
 
 		changedMusic = true;
 	}
-	
+
 	var changedMenuMusic:Bool = false;
 	function onChangeMenuMusic()
 	{
@@ -123,5 +105,5 @@ class MusicSettingsSubState extends BaseOptionsMenu
 		if(changedMusic) FlxG.sound.playMusic(Paths.music(ClientPrefs.musicSelected));
 		super.destroy();
 	}
-	
+
 }

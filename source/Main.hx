@@ -94,13 +94,9 @@ class Main extends Sprite
 		}
 		#end
 
-		if(ClientPrefs.autoPause) {
-			FlxG.autoPause = true;
- 		} else {
-			FlxG.autoPause = false;
-		}
+		FlxG.autoPause = #if html5 false #else ClientPrefs.autoPause #end;
+
 		#if html5
-		FlxG.autoPause = false;
 		FlxG.mouse.visible = false;
 		#end
 
@@ -119,8 +115,7 @@ class Main extends Sprite
 		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
 		var dateNow:String = Date.now().toString();
 
-		dateNow = dateNow.replace(" ", "_");
-		dateNow = dateNow.replace(":", "'");
+		dateNow = dateNow.replace(" ", "_").replace(':', "'");
 
 		path = "./logs/crash/" + "TheoyeahEngine_" + dateNow + ".txt";
 

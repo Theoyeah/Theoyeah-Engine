@@ -42,13 +42,6 @@ class VisualsUISubState extends BaseOptionsMenu
 			['Normal', 'None', /*'Original',*/ 'Inverted', 'Red', 'Pink', 'Cyan', 'Green', 'IDK']);
 		addOption(option);
 
-		var option:Option = new Option('Kade Engine Score Text',
-			"If checked, the text below the health bar\nwill change to Kade Engine.",
-			'kadetxt',
-			'bool',
-			false);
-		addOption(option);
-
 		var option:Option = new Option('Flashing Lights',
 			"Uncheck this if you're sensitive to flashing lights!",
 			'flashing',
@@ -100,18 +93,25 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
-		var option:Option = new Option('Longer Health Bar',
-			"If unchecked, the health bar will be set to the original one.",
-			'longhealthbar',
-			'bool',
-			true);
-		addOption(option);
-
 		var option:Option = new Option('Hide Score Text',
 			"If checked, the text under the health bar will not be showed.",
 			'noscore',
 			'bool',
 			false);
+		addOption(option);
+
+		var option:Option = new Option('Kade Engine Score Text',
+			"If checked, the text below the health bar\nwill change to Kade Engine.",
+			'kadetxt',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option('Score Text Zoom on Hit',
+			"If unchecked, disables the Score text zooming\neverytime you hit a note.",
+			'scoreZoom',
+			'bool',
+			true);
 		addOption(option);
 
 		var option:Option = new Option('Camera Follow Player Pose',
@@ -121,10 +121,9 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
-
-		var option:Option = new Option('Score Text Zoom on Hit',
-			"If unchecked, disables the Score text zooming\neverytime you hit a note.",
-			'scoreZoom',
+		var option:Option = new Option('Longer Health Bar',
+			"If unchecked, the health bar will be set to the original one.",
+			'longhealthbar',
 			'bool',
 			true);
 		addOption(option);
@@ -151,14 +150,14 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.onChange = onChangeFPSCounter;
 		#end
 
-		#if CHECK_FOR_UPDATES
+	#if CHECK_FOR_UPDATES
 		var option:Option = new Option('Check for Updates',
-			'On Release builds, turn this on to check for updates when you start the game\nNOT RECOMMENDED.',
+			'Turn this off to never check for updates when you start the game\nNOT RECOMMENDED.',
 			'checkForUpdates',
 			'bool',
 			true);
 		addOption(option);
-		#end
+		#end 
 
 		super();
 	}

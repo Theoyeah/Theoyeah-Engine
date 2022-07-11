@@ -44,7 +44,7 @@ class PlayerSettings
 		controls.setKeyboardScheme(scheme);
 	}
 
-	/* 
+	/*
 		static public function addAvatar(avatar:Player):PlayerSettings
 		{
 			var settings:PlayerSettings;

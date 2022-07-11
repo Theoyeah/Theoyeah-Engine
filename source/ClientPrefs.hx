@@ -176,9 +176,6 @@ class ClientPrefs {
 		if(FlxG.save.data.noteSkin != null) {
 			noteSkin = FlxG.save.data.noteSkin;
 		}
-		if(FlxG.save.data.noteSplashes || !FlxG.save.data.noteSplashes) // fixes noteSplashes error - EDIT: well, i want to YOU to see the new notesplashes
-			FlxG.save.data.noteSplashes = 'Normal';
-
 		if(FlxG.save.data.instantRespawn != null)
 			instantRespawn = FlxG.save.data.instantRespawn;
 
@@ -366,6 +363,9 @@ class ClientPrefs {
 		FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
 		FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
 	}
+	/**
+		USE THIS BEFORE TAKING "OUR" FLXKEYS!!!
+	**/
 	public static function copyKey(arrayToCopy:Array<FlxKey>):Array<FlxKey> {
 		var copiedArray:Array<FlxKey> = arrayToCopy.copy();
 		var i:Int = 0;

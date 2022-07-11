@@ -1,5 +1,6 @@
 package;
 
+import lime.system.System;
 #if desktop
 import Discord.DiscordClient;
 import sys.thread.Thread;
@@ -154,11 +155,11 @@ class TitleState extends MusicBeatState
 					mustUpdate = true;
 				}
 			}
-			
+
 			http.onError = function (error) {
 				trace('error: $error');
 			}
-			
+
 			http.request();
 		}
 		#end
@@ -346,6 +347,9 @@ class TitleState extends MusicBeatState
 				gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		}
+		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
+		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
 
 		add(gfDance);
@@ -356,10 +360,6 @@ class TitleState extends MusicBeatState
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
 		#if (desktop && MODS_ALLOWED)
 		var path = Paths.currentModImages("titleEnter");
-		//trace(path, FileSystem.exists(path));
-		if (!FileSystem.exists(path)){
-			path = Paths.currentModImages("titleEnter");
-		}
 		//trace(path, FileSystem.exists(path));
 		if (!FileSystem.exists(path)) {
 			path = "assets/images/titleEnter.png";
@@ -409,11 +409,10 @@ class TitleState extends MusicBeatState
 
 		if (ClientPrefs.introbg) {
 			blackScreen = new FlxSprite().loadGraphic(Paths.image('menutheme'));
-			credGroup.add(blackScreen);
 		} else {
 			blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-			credGroup.add(blackScreen);
 		}
+		credGroup.add(blackScreen);
 
 		credTextShit = new Alphabet(0, 0, "", true);
 		credTextShit.screenCenter();
@@ -438,21 +437,21 @@ class TitleState extends MusicBeatState
 		psychSpr.updateHitbox();
 		psychSpr.screenCenter(X);
 		psychSpr.antialiasing = ClientPrefs.globalAntialiasing;
-		
+
 		tySpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('theoyeah_logo'));
 		add(tySpr);
 		tySpr.visible = false;
 		tySpr.setGraphicSize(Std.int(125 * 0.74)); //i dont know how this works, edit it later theoyeah to correct the image and all that
 		tySpr.updateHitbox();
 		tySpr.screenCenter(X);
-		
+
 		wrSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('wither_logo'));
 		add(wrSpr);
 		wrSpr.visible = false;
 		wrSpr.setGraphicSize(800, 600);
 		wrSpr.updateHitbox();
 		wrSpr.screenCenter(X);
-		
+
 		dnSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('demolitiondon_logo'));
 		add(dnSpr);
 		dnSpr.visible = false;
@@ -532,7 +531,7 @@ class TitleState extends MusicBeatState
 			#end
 		}
 
-		
+
 		if (newTitle) {
 			titleTimer += CoolUtil.boundTo(elapsed, 0, 1);
 			if (titleTimer > 2) titleTimer -= 2;
@@ -544,17 +543,17 @@ class TitleState extends MusicBeatState
 		if (initialized && !transitioning && skippedIntro)
 		{
 			if (newTitle && !pressedEnter)
-				{
-					var timer:Float = titleTimer;
-					if (timer >= 1)
-						timer = (-timer) + 2;
-	
-					timer = FlxEase.quadInOut(timer);
-	
-					titleText.color = FlxColor.interpolate(titleTextColors[0], titleTextColors[1], timer);
-					titleText.alpha = FlxMath.lerp(titleTextAlphas[0], titleTextAlphas[1], timer);
-				}
-	
+			{
+				var timer:Float = titleTimer;
+				if (timer >= 1)
+					timer = (-timer) + 2;
+
+				timer = FlxEase.quadInOut(timer);
+
+				titleText.color = FlxColor.interpolate(titleTextColors[0], titleTextColors[1], timer);
+				titleText.alpha = FlxMath.lerp(titleTextAlphas[0], titleTextAlphas[1], timer);
+			}
+
 			if(pressedEnter)
 			{
 				titleText.color = FlxColor.WHITE;
@@ -564,7 +563,7 @@ class TitleState extends MusicBeatState
 
 				if(ClientPrefs.flashing) {
 					FlxG.camera.flash(FlxColor.WHITE, 1);
-			}
+				}
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 				transitioning = true;
@@ -702,12 +701,12 @@ class TitleState extends MusicBeatState
 			sickBeats++;
 			switch (sickBeats)
 			{
-				case 1: 
+				case 1:
 					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 					FlxG.sound.music.fadeIn(4, 0, 1);
 				case 2:
 					createCoolText(['Theoyeah Engine by'], 15);
-			// credTextShit.visible = true;
+					// credTextShit.visible = true;
 				case 3:
 					addMoreText('Theoyeah', 15);
 					tySpr.visible = true;
@@ -716,9 +715,9 @@ class TitleState extends MusicBeatState
 				case 4:
 					deleteCoolText();
 					tySpr.visible = false;
-			// credTextShit.visible = false;
-			// credTextShit.text = 'In association \nwith';
-			// credTextShit.screenCenter();
+					// credTextShit.visible = false;
+					// credTextShit.text = 'In association \nwith';
+					// credTextShit.screenCenter();
 				case 5:
 					createCoolText(['With help of'], 15);
 				case 7:
@@ -733,40 +732,40 @@ class TitleState extends MusicBeatState
 				case 11:
 					addMoreText('Psych Engine', -40);
 					psychSpr.visible = true;
-			// credTextShit.text += '\nNewgrounds';
+					// credTextShit.text += '\nNewgrounds';
 				case 12:
 					deleteCoolText();
 					psychSpr.visible = false;
-			// credTextShit.visible = false;
+					// credTextShit.visible = false;
 
-			// credTextShit.text = 'Shoutouts Tom Fulp';
-			// credTextShit.screenCenter();
+					// credTextShit.text = 'Shoutouts Tom Fulp';
+					// credTextShit.screenCenter();
 				case 13:
 					createCoolText([curWacky[0]]);
-			// credTextShit.visible = true;
+					// credTextShit.visible = true;
 				case 14:
 					addMoreText(curWacky[1]);
-			// credTextShit.text += '\nlmao';
+					// credTextShit.text += '\nlmao';
 				case 15:
 					if (curWacky[2] != null) { //im stupid bro, i wrote 3 instead of 2
 						addMoreText(curWacky[2]);
 					} else {
-						deleteCoolText();
 						sickBeats++;
 					}
 				case 16:
 					deleteCoolText();
-			// credTextShit.visible = false;
-			// credTextShit.text = "Friday";
-			// credTextShit.screenCenter();
+					// credTextShit.visible = false;
+					// credTextShit.text = "Friday";
+					// credTextShit.screenCenter();
 				case 17:
 					addMoreText("Friday Night Funkin'");
-			// credTextShit.visible = true;
+					// credTextShit.visible = true;
 				case 18:
 					addMoreText('Theoyeah');
-			// credTextShit.text += '\nNight';
+					// credTextShit.text += '\nNight';
 				case 19:
-					addMoreText('Engine'); // credTextShit.text += '\nFunkin';
+					addMoreText('Engine');
+					// credTextShit.text += '\nFunkin';
 
 				case 20:
 					skipIntro();
@@ -815,7 +814,7 @@ class TitleState extends MusicBeatState
 						skippedIntro = true;
 						playJingle = false;
 
-						FlxG.sound.playMusic(Paths.music(ClientPrefs.musicSelected), 0);
+						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 						FlxG.sound.music.fadeIn(4, 0, 0.7);
 						return;
 				}
@@ -839,7 +838,7 @@ class TitleState extends MusicBeatState
 						FlxG.camera.flash(FlxColor.WHITE, 3);
 					}
 					sound.onComplete = function() {
-						FlxG.sound.playMusic(Paths.music(ClientPrefs.musicSelected), 0);
+						FlxG.sound.playMusic(Paths.music(), 0);
 						FlxG.sound.music.fadeIn(4, 0, 0.7);
 						transitioning = false;
 					};
