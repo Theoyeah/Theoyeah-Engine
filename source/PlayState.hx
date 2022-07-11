@@ -1576,7 +1576,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public function removeShaderFromCamera(cam:String,effect:ShaderEffect) {
+	public function removeShaderFromCamera(cam:String, effect:ShaderEffect) {
 		switch(cam.toLowerCase()) {
 			case 'camhud' | 'hud': 
 				camHUDShaders.remove(effect);
@@ -3562,7 +3562,7 @@ class PlayState extends MusicBeatState
 				}
 			case 'Hey!':
 				var value:Int = 2;
-				switch(value1.toLowerCase().trim()) {
+				switch(theValue1) {
 					case 'bf' | 'boyfriend' | '0':
 						value = 0;
 					case 'gf' | 'girlfriend' | '1':
@@ -3715,7 +3715,7 @@ class PlayState extends MusicBeatState
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);
 				var char:Character = dad;
-				switch(value2.toLowerCase().trim()) {
+				switch(theValue2) {
 					case 'bf' | 'boyfriend':
 						char = boyfriend;
 					case 'gf' | 'girlfriend':
@@ -3749,7 +3749,7 @@ class PlayState extends MusicBeatState
 				}
 			case 'Alt Idle Animation':
 				var char:Character = dad;
-				switch(value1.toLowerCase().trim()) {
+				switch(theValue1) {
 					case 'gf' | 'girlfriend':
 						char = gf;
 					case 'boyfriend' | 'bf':
@@ -3788,7 +3788,7 @@ class PlayState extends MusicBeatState
 			case 'Change Character':
 				var charType:Int = 0;
 				var colors:Bool = true;
-				switch(value1.toLowerCase().trim()) {
+				switch(theValue1) {
 					case 'gf' | 'girlfriend' | 'middle' | 'girl':
 						charType = 2;
 					case 'dad' | 'opponent' | 'daddy' | 'dady' | 'left':
@@ -3894,17 +3894,63 @@ class PlayState extends MusicBeatState
 					Reflect.setProperty(FunkinLua.getPropertyLoopThingWhatever(killMe, true, true), killMe[killMe.length-1], value2);
 				else
 					Reflect.setProperty(this, value1, value2);
-			case 'Change Icon': // only to see if i can create events that actually work
+			case 'Change Icon':
 				var icon = value2;
 				if(!value2.startsWith('icon-'))
 					icon = 'icon-$value2';
-				switch(value1.toLowerCase().trim()) {
+				switch(theValue1) {
 					case 'dad' | 'opponent' | 'daddy' | 'dady' | 'left':
 						iconP2.changeIcon(icon);
 					default:
 						iconP1.changeIcon(icon);
 				}
 				reloadHealthBarColors();
+			case 'Add Shader':
+				if(!ClientPrefs.shaders) return;
+
+				var theEffects:Array<String> = value3.split(',');
+				var theFloatEffects:Array<Float>;
+				for (i in 0...theEffects.length) {
+					if(!Math.isNaN(Std.parseFloat(theEffects[i])))
+						theFloatEffects.push(Std.parseFloat(theEffects[i]));
+				}
+				var boolEffects:Array<String>;
+				for (i in 0...theEffects.length) {
+					boolEffects.push(theEffects[i].toLowerCase().replace(' ', ''));
+				}
+				var camera:String = value2.trim();
+				switch(theValue1.replace(' ', '')) {
+					case 'chromaticeffect':
+						addShaderToCamera(camera, new ChromaticAberrationEffect(Std.parseFloat(theEffects[0])));
+					case 'scanlineeffect':
+						addShaderToCamera(camera, new ScanlineEffect(boolEffects[0] == "true"));
+					case 'graineffect':
+						addShaderToCamera(camera, new GrainEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1]), boolEffects[2] == "true"));
+					case 'tiltshifteffect':
+						addShaderToCamera(camera, new TiltshiftEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1])));
+					case 'vcreffect':
+						addShaderToCamera(camera, new VCRDistortionEffect(Std.parseFloat(theEffects[0]), boolEffects[1] == "true", boolEffects[2] == "true", boolEffects[3] == "true"));
+					case 'fuckindaveandbambi1' | 'glitcheffect':
+						addShaderToCamera(camera, new GlitchEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1]), Std.parseFloat(theEffects[2])));
+					case 'fuckindaveandbambi2' | 'pulseeffect':
+						addShaderToCamera(camera, new PulseEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1]), Std.parseFloat(theEffects[2])));
+					case 'fuckindaveandbambi3' | 'distortbgeffect':
+						addShaderToCamera(camera, new DistortBGEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1]), Std.parseFloat(theEffects[2])));
+					case 'invertcolors' | 'invertcolorseffect':
+						addShaderToCamera(camera, new InvertColorsEffect(boolEffects[0] == "true"));
+					case 'greyscaleeffect':
+						addShaderToCamera(camera, new GreyscaleEffect());
+					case 'threedeffect' | '3deffect':
+						addShaderToCamera(camera, new ThreeDEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1]), Std.parseFloat(theEffects[2]), Std.parseFloat(theEffects[3])));
+					case 'bloomeffect':
+						addShaderToCamera(camera, new BloomEffect(Std.parseFloat(theEffects[0]) / 512.0, Std.parseFloat(theEffects[1])));
+					case 'killshaders' | 'clearshaders':
+						clearShaderFromCamera(camera);
+				}
+			case 'Kill Shaders':
+				clearShaderFromCamera(value1.trim());
+			/*case 'Remove Shader':
+				removeShaderFromCamera(value1.trim(), value2);*/
 		}
 		callOnLuas('onEvent', [eventName, value1, value2, value3]);
 	}

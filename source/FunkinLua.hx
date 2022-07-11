@@ -2534,12 +2534,12 @@ class FunkinLua {
 				PlayState.instance.addShaderToCamera(camera, new TiltshiftEffect(blurAmount, center));
 
 		});
-		Lua_helper.add_callback(lua, "vcrEffect", function(camera:String,glitchFactor:Float = 0.0, distortion:Bool = true, perspectiveOn:Bool = true, vignetteMoving:Bool = true) {
+		Lua_helper.add_callback(lua, "vcrEffect", function(camera:String, glitchFactor:Float = 0.0, distortion:Bool = true, perspectiveOn:Bool = true, vignetteMoving:Bool = true) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new VCRDistortionEffect(glitchFactor, distortion, perspectiveOn, vignetteMoving));
 
 		});
-		Lua_helper.add_callback(lua, "fuckinDaveAndBambi1", function(camera:String,waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
+		Lua_helper.add_callback(lua, "fuckinDaveAndBambi1", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));
 
@@ -2574,12 +2574,7 @@ class FunkinLua {
 				PlayState.instance.addShaderToCamera(camera, new InvertColorsEffect(lockAlpha));
 
 		});
-		Lua_helper.add_callback(lua, "greyscaleEffect1", function(camera:String) { //for dem funkies
-			if (ClientPrefs.shaders)
-				PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
-
-		});
-		Lua_helper.add_callback(lua, "greyscaleEffect2", function(camera:String) { //for dem funkies
+		Lua_helper.add_callback(lua, "greyscaleEffect", function(camera:String) { //for dem funkies
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
 
@@ -2591,7 +2586,7 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "bloomEffect", function(camera:String, intensity:Float = 0.35, blurSize:Float = 1.0) {
 			if (ClientPrefs.shaders)
-				PlayState.instance.addShaderToCamera(camera, new BloomEffect(blurSize/512.0, intensity));
+				PlayState.instance.addShaderToCamera(camera, new BloomEffect(blurSize / 512.0, intensity));
 
 		});
 		Lua_helper.add_callback(lua, "killShaders", function(camera:String) {
