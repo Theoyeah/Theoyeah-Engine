@@ -434,6 +434,16 @@ class Paths
 		return path.toLowerCase().replace(' ', '-');
 	}
 
+	inline static public function getImagesPath(key:String, ?library:String, where:String = 'images') {
+		var path = getPath('$where/$key.png', IMAGE, library);
+		var path_ = getPath('$where/$key.PNG', IMAGE, library);
+		var papath = getPath('$where/$key.jpg', IMAGE, library);
+		var papapath = getPath('$where/$key.JPG', IMAGE, library);
+		if(OpenFlAssets.exists(path, IMAGE)) return path;
+		if(OpenFlAssets.exists(path_, IMAGE)) return path_;
+		if(OpenFlAssets.exists(papath, IMAGE)) return papath;
+		return papapath;
+	}
 	// completely rewritten asset loading? fuck!
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
 	public static function returnGraphic(key:String, ?library:String, where:String = 'images') {
@@ -451,17 +461,15 @@ class Paths
 		}
 		#end
 
-		var path = getPath('$where/$key.png', IMAGE, library);
-		var path_ = getPath('$where/$key.PNG', IMAGE, library);
-		var thePath:String = if(OpenFlAssets.exists(path, IMAGE)) path else path_;
-		if (OpenFlAssets.exists(thePath, IMAGE)) {
-			if(!currentTrackedAssets.exists(thePath)) {
-				var newGraphic:FlxGraphic = FlxG.bitmap.add(thePath, false, thePath);
+		var path = getImagesPath(key, library, where);
+		if (OpenFlAssets.exists(path, IMAGE)) {
+			if(!currentTrackedAssets.exists(path)) {
+				var newGraphic:FlxGraphic = FlxG.bitmap.add(path, false, path);
 				newGraphic.persist = true;
-				currentTrackedAssets.set(thePath, newGraphic);
+				currentTrackedAssets.set(path, newGraphic);
 			}
-			localTrackedAssets.push(thePath);
-			return currentTrackedAssets.get(thePath);
+			localTrackedAssets.push(path);
+			return currentTrackedAssets.get(path);
 		}
 		returnNull(key, where);
 		return null;
