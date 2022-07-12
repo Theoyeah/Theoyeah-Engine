@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Windows, Linux, Mac and Html5 build
+name: Main build
 
 # Controls when the action will run.
 on:
@@ -27,7 +27,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: 4.2.4
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -71,7 +71,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: 4.2.4
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -114,7 +114,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: 4.2.4
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -156,7 +156,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: 4.2.4
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -199,7 +199,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: 4.2.4
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
