@@ -206,7 +206,6 @@ class PlayState extends MusicBeatState
 	public var instakillOnMiss:Bool = false;
 	public var cpuControlled:Bool = false;
 	public var practiceMode:Bool = false;
-	public var random:Bool = false;
 
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
@@ -369,7 +368,6 @@ class PlayState extends MusicBeatState
 
 		// Gameplay settings
 		instakillOnMiss = ClientPrefs.getGameplaySetting('instakill', false);
-		random = ClientPrefs.getGameplaySetting('random', false);
 		#if CHEATING_ALLOWED
 		healthGain = ClientPrefs.getGameplaySetting('healthgain', 1);
 		healthLoss = ClientPrefs.getGameplaySetting('healthloss', 1);
