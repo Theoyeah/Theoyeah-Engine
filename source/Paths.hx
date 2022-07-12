@@ -1,5 +1,6 @@
 package;
 
+import lime.tools.Library;
 import animateatlas.AtlasFrameMaker;
 import flixel.math.FlxPoint;
 import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
@@ -155,11 +156,7 @@ class Paths
 			var levelPath:String = '';
 			if(currentLevel != where) {
 				levelPath = getLibraryPathForce(file, currentLevel);
-				/*#if sys
-				if(FileSystem.exists(levelPath, type))
-				#else*/
 				if (OpenFlAssets.exists(levelPath, type))
-				//#end
 					return levelPath;
 			}
 
@@ -246,13 +243,13 @@ class Paths
 		#end
 		if(!getIsBlankString(where, true)) {
 			#if MKV_ALLOWED
-			if(mkvFile && #if sys FileSystem.exists('assets/$where/$key.mkv') #else OpenFlAssets.exists('assets/$where/$key.mkv') #end )
+			if(mkvFile && #if sys FileSystem.exists(assets('$where/$key.mkv')) #else OpenFlAssets.exists('assets/$where/$key.mkv') #end )
 				return assets('$where/$key.mkv');
-			else if(mkvFile && #if sys FileSystem.exists('assets/$where/$key.MKV') #else OpenFlAssets.exists('assets/$where/$key.MKV') #end )
+			else if(mkvFile && #if sys FileSystem.exists(assets('$where/$key.MKV')) #else OpenFlAssets.exists('assets/$where/$key.MKV') #end )
 				return assets('$where/$key.MKV');
-			else #end if( #if sys FileSystem.exists('assets/$where/$key.$VIDEO_EXT') #else OpenFlAssets.exists('assets/$where/$key.$VIDEO_EXT') #end )
+			else #end if( #if sys FileSystem.exists(assets('$where/$key.$VIDEO_EXT')) #else OpenFlAssets.exists('assets/$where/$key.$VIDEO_EXT') #end )
 				return assets('$where/$key.$VIDEO_EXT'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
-			else if( #if sys FileSystem.exists('assets/$where/$key.MP4') #else OpenFlAssets.exists('assets/$where/$key.MP4') #end )
+			else if( #if sys FileSystem.exists(assets('$where/$key.MP4')) #else OpenFlAssets.exists('assets/$where/$key.MP4') #end )
 				return assets('$where/$key.MP4'); //returns 'assets/videos/' + key + '.' + VIDEO_EXT
 		} else {
 			#if MKV_ALLOWED
@@ -437,36 +434,42 @@ class Paths
 		return path.toLowerCase().replace(' ', '-');
 	}
 
+	inline static public function getImagesPath(key:String, ?library:String, where:String = 'images') {
+		var path = getPath('$where/$key.png', IMAGE, library);
+		var path_ = getPath('$where/$key.PNG', IMAGE, library);
+		var papath = getPath('$where/$key.jpg', IMAGE, library);
+		var papapath = getPath('$where/$key.JPG', IMAGE, library);
+		if(OpenFlAssets.exists(path, IMAGE)) return path;
+		if(OpenFlAssets.exists(path_, IMAGE)) return path_;
+		if(OpenFlAssets.exists(papath, IMAGE)) return papath;
+		return papapath;
+	}
 	// completely rewritten asset loading? fuck!
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
 	public static function returnGraphic(key:String, ?library:String, where:String = 'images') {
 		#if MODS_ALLOWED
-		var modKey:String = modsImages(key, where);
-		var modKey_:String = modImages2(key, where);
-		var thisModKey:String = if(FileSystem.exists(modKey)) modKey else modKey_;
-		if(FileSystem.exists(thisModKey)) {
-			if(!currentTrackedAssets.exists(thisModKey)) {
-				var newBitmap:BitmapData = BitmapData.fromFile(thisModKey);
-				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, thisModKey);
+		var modKey:String = modImagesAll(key, where);
+		if(FileSystem.exists(modKey)) {
+			if(!currentTrackedAssets.exists(modKey)) {
+				var newBitmap:BitmapData = BitmapData.fromFile(modKey);
+				var newGraphic:FlxGraphic = FlxGraphic.fromBitmapData(newBitmap, false, modKey);
 				newGraphic.persist = true;
-				currentTrackedAssets.set(thisModKey, newGraphic);
+				currentTrackedAssets.set(modKey, newGraphic);
 			}
-			localTrackedAssets.push(thisModKey);
-			return currentTrackedAssets.get(thisModKey);
+			localTrackedAssets.push(modKey);
+			return currentTrackedAssets.get(modKey);
 		}
 		#end
 
-		var path = getPath('$where/$key.png', IMAGE, library);
-		var path_ = getPath('$where/$key.PNG', IMAGE, library);
-		var thePath:String = if(OpenFlAssets.exists(path, IMAGE)) path else path_;
-		if (OpenFlAssets.exists(thePath, IMAGE)) {
-			if(!currentTrackedAssets.exists(thePath)) {
-				var newGraphic:FlxGraphic = FlxG.bitmap.add(thePath, false, thePath);
+		var path = getImagesPath(key, library, where);
+		if (OpenFlAssets.exists(path, IMAGE)) {
+			if(!currentTrackedAssets.exists(path)) {
+				var newGraphic:FlxGraphic = FlxG.bitmap.add(path, false, path);
 				newGraphic.persist = true;
-				currentTrackedAssets.set(thePath, newGraphic);
+				currentTrackedAssets.set(path, newGraphic);
 			}
-			localTrackedAssets.push(thePath);
-			return currentTrackedAssets.get(thePath);
+			localTrackedAssets.push(path);
+			return currentTrackedAssets.get(path);
 		}
 		returnNull(key, where);
 		return null;
@@ -577,6 +580,19 @@ class Paths
 	inline static public function modImages2(key:String, where:String = 'images') {
 		return modFolders('$where/$key.PNG');
 	}
+	inline static public function modImages3(key:String, where:String = 'images', upper:Bool = false) {
+		if(upper) return modFolders('$where/$key.JPG');
+		return modFolders('$where/$key.jpg');
+	}
+	inline static public function modImagesAll(key:String, where:String = 'images') {
+		if(FileSystem.exists(modsImages(key, where)))
+			return modsImages(key, where);
+		if(FileSystem.exists(modImages2(key, where))) 
+			return modImages2(key, where);
+		if(FileSystem.exists(modImages3(key, where))) 
+			return modImages3(key, where);
+		return modImages3(key, where, true);
+	}
 
 	inline static public function modsXml(key:String, where:String = 'images') {
 		return modFolders('$where/$key.xml');
@@ -586,9 +602,9 @@ class Paths
 		return modFolders('$where/$key.txt');
 	}
 
-	inline static public function modsShaderFragment(key:String, ?library:String)
+	inline static public function modsShaderFragment(key:String, ?library:String, where:String = 'shaders')
 	{
-		return modFolders('shaders/$key.frag');
+		return modFolders('$where/$key.frag');
 	}
 	inline static public function modsShaderVertex(key:String, ?library:String, where:String = 'shaders')
 	{

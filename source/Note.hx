@@ -252,6 +252,9 @@ class Note extends FlxSprite
 		if (prevNote == null)
 			prevNote = this;
 
+		if(PlayState.instance.random)
+			noteData = FlxG.random.int(0, 3);
+
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
 		this.inEditor = inEditor;
@@ -270,7 +273,7 @@ class Note extends FlxSprite
 			shader = colorSwap.shader;
 
 			x += swagWidth * (noteData);
-			if(!isSustainNote && noteData > -1 && noteData < 4) { //Doing this 'if' check to fix the warnings on Senpai songs
+			if(!isSustainNote && noteData < 4) { //Doing this 'if' check to fix the warnings on Senpai songs
 				var animToPlay:String = '';
 				switch (noteData % 4)
 				{
