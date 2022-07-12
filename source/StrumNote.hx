@@ -3,6 +3,13 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import openfl.system.System;
+import openfl.utils.AssetType;
+import openfl.utils.Assets as OpenFlAssets;
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+#end
 
 using StringTools;
 
@@ -46,7 +53,7 @@ class StrumNote extends FlxSprite
 		var lastAnim:String = null;
 		if(animation.curAnim != null) lastAnim = animation.curAnim.name;
 
-		if(PlayState.isPixelStage)
+		if(PlayState.isPixelStage /*&& #if sys FileSystem.exists(Paths.image('pixelUI/' + texture)) #else OpenFlAssets.exists(Paths.getPath('pixelUI/' + texture, IMAGE)) #end */)
 		{
 			loadGraphic(Paths.image('pixelUI/' + texture));
 			width = width / 4;

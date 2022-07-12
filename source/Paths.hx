@@ -1,28 +1,26 @@
 package;
 
 import animateatlas.AtlasFrameMaker;
-import flixel.math.FlxPoint;
-import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
-import openfl.geom.Rectangle;
-import flixel.math.FlxRect;
-import haxe.xml.Access;
-import openfl.system.System;
+import flash.media.Sound;
 import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
+import flixel.math.FlxPoint;
+import flixel.math.FlxRect;
+import haxe.Json;
+import haxe.xml.Access;
+import lime.utils.Assets;
+import openfl.display.BitmapData;
+import openfl.geom.Rectangle;
+import openfl.system.System;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
-import lime.utils.Assets;
-import flixel.FlxSprite;
 #if sys
-import sys.io.File;
 import sys.FileSystem;
+import sys.io.File;
 #end
-import flixel.graphics.FlxGraphic;
-import openfl.display.BitmapData;
-import haxe.Json;
-
-import flash.media.Sound;
-
 using StringTools;
 
 class Paths
@@ -353,7 +351,7 @@ class Paths
 		return assets('$where/$key');
 	}
 
-	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String, prefix:String = '', suffix:String = ''):Bool
+	inline static public function fileExists(key:String, type:AssetType, ignoreMods:Bool = false, ?library:String, prefix:String = '', suffix:String = ''):Bool
 	{
 		#if MODS_ALLOWED
 		if(FileSystem.exists(currentModKey(prefix + key + suffix)) || FileSystem.exists(mods(prefix + key + suffix)) || FileSystem.exists(currentModKey(prefix + key.toLowerCase() + suffix)) || FileSystem.exists(mods(prefix + key.toLowerCase() + suffix))) {
@@ -366,7 +364,7 @@ class Paths
 		}
 		return false;
 	}
-	inline static public function whereExists(key:String, type:AssetType, traceThings:Bool = false, whatValueToReturn:Int = 0, ?ignoreMods:Bool = false, ?library:String) {
+	inline static public function whereExists(key:String, type:AssetType, traceThings:Bool = false, whatValueToReturn:Int = 0, ignoreMods:Bool = false, ?library:String) {
 		var here:Array<Dynamic> = [];
 		var moreThanOne:Bool = false;
 		var isNull:Array<Dynamic> = [];

@@ -58,9 +58,9 @@ class Character extends FlxSprite
 	public var specialAnim:Bool = false;
 	public var animationNotes:Array<Dynamic> = [];
 	public var stunned:Bool = false;
-	public var singDuration:Float = 4; //Multiplier of how long a character holds the sing pose
+	public var singDuration:Float = 4; // Multiplier of how long a character holds the sing pose
 	public var idleSuffix:String = '';
-	public var danceIdle:Bool = false; //Character use "danceLeft" and "danceRight" instead of "idle"
+	public var danceIdle:Bool = false; // Character use "danceLeft" and "danceRight" instead of "idle"
 
 	public var skipDance:Bool = false;
 
@@ -80,7 +80,7 @@ class Character extends FlxSprite
 	public var healthColorArray:Array<Int> = [255, 0, 0];
 
 	public static var DEFAULT_CHARACTER:String = 'bf'; //In case a character is missing, it will use BF on its place
-	public function new(x:Float, y:Float, ?character:String = 'bf', ?isPlayer:Bool = false)
+	public function new(x:Float, y:Float, character:String = 'bf', isPlayer:Bool = false)
 	{
 		super(x, y);
 
@@ -145,7 +145,7 @@ class Character extends FlxSprite
 				var modAnimToFind:String = Paths.modFolders('images/' + json.image + '/Animation.json');
 				var animToFind:String = Paths.getPath('images/' + json.image + '/Animation.json', TEXT);
 
-				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
+				//var modTextureToFind:String = Paths.modFolders('images/' + json.image);
 				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
 
 				if (FileSystem.exists(modAnimToFind) || FileSystem.exists(animToFind) || Assets.exists(animToFind))
@@ -225,7 +225,7 @@ class Character extends FlxSprite
 			flipX = !flipX;
 
 			/*
-			// Doesn't flip for BF, since his are already in the right place???
+			// Doesn't flip for BF, since he is already in the right place???
 			if (!curCharacter.startsWith('bf'))
 			{
 				// var animArray

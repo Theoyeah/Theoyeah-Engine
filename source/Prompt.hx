@@ -33,7 +33,7 @@ class Prompt extends MusicBeatSubstate
 	var cornerSize:Int = 10;
 
 	public function new(promptText:String = '', defaultSelected:Int = 0, okCallback:Void->Void, cancelCallback:Void->Void, acceptOnDefault:Bool = false,
-			option1:String = null, option2:String = null)
+			?option1:String, ?option2:String, option1X:Float = 473.3, option1Y:Float = 450, option2X:Float = 633.3, option2Y:Float = 450)
 	{
 		selected = defaultSelected;
 		okc = okCallback;
@@ -48,13 +48,13 @@ class Prompt extends MusicBeatSubstate
 			op1 = option1;
 		if (option2 != null)
 			op2 = option2;
-		buttonAccept = new FlxButton(473.3, 450, op1, function()
+		buttonAccept = new FlxButton(option1X, option1Y, op1, function()
 		{
 			if (okc != null)
 				okc();
 			close();
 		});
-		buttonNo = new FlxButton(633.3, 450, op2, function()
+		buttonNo = new FlxButton(option2X, option2Y, op2, function()
 		{
 			if (cancelc != null)
 				cancelc();
