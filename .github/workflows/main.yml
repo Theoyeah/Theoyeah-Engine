@@ -27,7 +27,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.4
+          haxe-version: 4.2.5
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -71,7 +71,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.4
+          haxe-version: 4.2.5
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -89,7 +89,7 @@ jobs:
           haxelib install hxjsonast
           haxelib install hxCodec
           haxelib git linc_luajit https://github.com/nebulazorua/linc_luajit
-          haxelib install hscript 
+          haxelib install hscript
           haxelib git hscript-ex https://github.com/ianharrigan/hscript-ex
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib install hxcpp-debug-server
@@ -114,7 +114,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.4
+          haxe-version: 4.2.5
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -156,7 +156,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.4
+          haxe-version: 4.2.5
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -199,7 +199,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.4
+          haxe-version: 4.2.5
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
