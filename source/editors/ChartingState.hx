@@ -99,7 +99,9 @@ class ChartingState extends MusicBeatState
 		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
 		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
 		['Set Property', "Value 1: Variable name\nValue 2: New value"],
-		['Change Icon', "Value 1: Character to change icon (Dad, BF)\nValue 2: Icon name"]
+		['Change Icon', "Value 1: Character to change icon (Dad, BF)\nValue 2: Icon name"],
+		['Add Shader', "Value 1: Shader to add\nValue 2: Camera\nValue 3: The parameters to take in count\nGo to source to see the code"],
+		['Kill Shaders', "Value 1: Camera\nClears all the shaders of the specified camera"]
 	];
 
 	var _file:FileReference;
@@ -161,6 +163,7 @@ class ChartingState extends MusicBeatState
 
 	var value1InputText:FlxUIInputText;
 	var value2InputText:FlxUIInputText;
+	var value3InputText:FlxUIInputText;
 	var currentSongName:String;
 
 	var zoomTxt:FlxText;
@@ -1085,6 +1088,11 @@ class ChartingState extends MusicBeatState
 		value2InputText = new FlxUIInputText(20, 150, 100, "");
 		blockPressWhileTypingOn.push(value2InputText);
 
+		var text:FlxText = new FlxText(20, 170, 0, "Value 3:");
+		tab_group_event.add(text);
+		value3InputText = new FlxUIInputText(20, 190, 100, "");
+		blockPressWhileTypingOn.push(value3InputText);
+
 		// New event buttons
 		var removeButton:FlxButton = new FlxButton(eventDropDown.x + eventDropDown.width + 10, eventDropDown.y, '-', function()
 		{
@@ -1163,6 +1171,7 @@ class ChartingState extends MusicBeatState
 		tab_group_event.add(descText);
 		tab_group_event.add(value1InputText);
 		tab_group_event.add(value2InputText);
+		tab_group_event.add(value3InputText);
 		tab_group_event.add(eventDropDown);
 
 		UI_box.addGroup(tab_group_event);
@@ -1513,6 +1522,10 @@ class ChartingState extends MusicBeatState
 				}
 				else if(sender == value2InputText) {
 					curSelectedNote[1][curEventSelected][2] = value2InputText.text;
+					updateGrid();
+				}
+				else if(sender == value3InputText) {
+					curSelectedNote[1][curEventSelected][3] = value3InputText.text;
 					updateGrid();
 				}
 				else if(sender == strumTimeInputText) {
@@ -2529,6 +2542,7 @@ class ChartingState extends MusicBeatState
 				}
 				value1InputText.text = curSelectedNote[1][curEventSelected][1];
 				value2InputText.text = curSelectedNote[1][curEventSelected][2];
+				value3InputText.text = curSelectedNote[1][curEventSelected][3];
 			}
 			strumTimeInputText.text = '' + curSelectedNote[0];
 		}
@@ -2856,7 +2870,8 @@ class ChartingState extends MusicBeatState
 				var event = eventStuff[Std.parseInt(eventDropDown.selectedId)][0];
 				var text1 = value1InputText.text;
 				var text2 = value2InputText.text;
-				_song.events.push([noteStrum, [[event, text1, text2]]]);
+				var text3 = value3InputText.text;
+				_song.events.push([noteStrum, [[event, text1, text2, text3]]]);
 				curSelectedNote = _song.events[_song.events.length - 1];
 				curEventSelected = 0;
 				changeEventSelected();
@@ -2887,7 +2902,7 @@ class ChartingState extends MusicBeatState
 		//redos.push(_song);
 		undos.pop();
 		//_song.notes = undos[undos.length - 1];
-		///trace(_song.notes);
+		//trace(_song.notes);
 		//updateGrid();
 	}
 	function getStrumTime(yPos:Float, doZoomCalc:Bool = true):Float
@@ -2925,7 +2940,7 @@ class ChartingState extends MusicBeatState
 	function loadJson(song:String):Void
 	{
 		//make it look sexier if possible
-		if ((CoolUtil.difficulties[PlayState.storyDifficulty] != CoolUtil.defaultDifficulty /*'Normal'*/) && CoolUtil.difficulties[PlayState.storyDifficulty] != null) {
+		if (CoolUtil.difficulties[PlayState.storyDifficulty] != CoolUtil.defaultDifficulty /*'Normal'*/ && CoolUtil.difficulties[PlayState.storyDifficulty] != null) {
 			PlayState.SONG = Song.loadFromJson(song.toLowerCase() + "-" + CoolUtil.difficulties[PlayState.storyDifficulty], song.toLowerCase());
 		} else {
 			PlayState.SONG = Song.loadFromJson(song.toLowerCase(), song.toLowerCase());
@@ -2954,7 +2969,7 @@ class ChartingState extends MusicBeatState
 
 	private function saveLevel()
 	{
-		_song.events.sort(sortByTime);
+		if(_song.events != null && _song.events.length > 1) _song.events.sort(sortByTime);
 		var json = {
 			"song": _song
 		};
@@ -2978,7 +2993,7 @@ class ChartingState extends MusicBeatState
 
 	private function saveEvents()
 	{
-		_song.events.sort(sortByTime);
+		if(_song.events != null && _song.events.length > 1) _song.events.sort(sortByTime);
 		var eventsSong:Dynamic = {
 			events: _song.events
 		};
@@ -3063,7 +3078,7 @@ class ChartingState extends MusicBeatState
 		#end
 	}
 
-	
+
 	override function updateCurStep():Void 
 	{
 
