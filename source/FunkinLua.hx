@@ -2995,6 +2995,7 @@ class FunkinLua {
 		Convert.toLua(lua, data);
 		Lua.setglobal(lua, variable);
 		Lua.setglobal(lua, variable.toLowerCase());
+		Lua.setglobal(lua, variable.toUpperCase());
 		#else
 		lol();
 		#end
