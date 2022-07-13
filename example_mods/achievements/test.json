@@ -1,8 +1,0 @@
-{
-    "unlocksAfter": "tutorial",
-	"icon": "lol",
-	"name": "test",
-	"description": "testing",
-	"hidden": false,
-	"customGoal": false
-}
