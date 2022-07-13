@@ -206,6 +206,8 @@ class PlayState extends MusicBeatState
 	public var instakillOnMiss:Bool = false;
 	public var cpuControlled:Bool = false;
 	public var practiceMode:Bool = false;
+	public var randomMode:Bool = false;
+	public var susHeal:Bool = true; // GET OUT OF MY HEAD!!!
 
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
@@ -368,6 +370,8 @@ class PlayState extends MusicBeatState
 
 		// Gameplay settings
 		instakillOnMiss = ClientPrefs.getGameplaySetting('instakill', false);
+		randomMode = ClientPrefs.getGameplaySetting('random', false);
+		susHeal = ClientPrefs.getGameplaySetting('susHeal', true);
 		#if CHEATING_ALLOWED
 		healthGain = ClientPrefs.getGameplaySetting('healthgain', 1);
 		healthLoss = ClientPrefs.getGameplaySetting('healthloss', 1);
@@ -2349,11 +2353,10 @@ class PlayState extends MusicBeatState
 				scoreTxt.text = 'Score: ' + songScore + ' |  Combo Breaks: ' + songMisses + ' | Accuracy: ' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ' | '+ 'Rating: '+ ratingFC;//peeps wanted no integer rating
 			}
 		} else {
-			if(ratingName == '?') {
-				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' | N/A' ;
-			} else  {
-				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ')' + ' | ' + ratingFC;//peeps wanted no integer rating
-			}
+			scoreTxt.text = 'Score: ' + songScore
+				+ ' | Misses: ' + songMisses
+				+ ' | Rating: ' + ratingName
+				+ (ratingName != '?' ? ' [${Highscore.floorDecimal(ratingPercent * 100, 2)}% | $ratingFC]' : '');
 		}
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
@@ -2369,6 +2372,7 @@ class PlayState extends MusicBeatState
 				}
 			});
 		}
+		callOnLuas('onUpdateScore', [miss]);
 	}
 
 	public function setSongTime(time:Float)
@@ -2544,7 +2548,7 @@ class PlayState extends MusicBeatState
 				var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
 				swagNote.mustPress = gottaHitNote;
 				swagNote.sustainLength = songNotes[2];
-				swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
+				swagNote.gfNote = (section.gfSection && (songNotes[1] < 4));
 				swagNote.noteType = songNotes[3];
 				if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = editors.ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
 
@@ -2563,7 +2567,7 @@ class PlayState extends MusicBeatState
 
 						var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + (Conductor.stepCrochet / FlxMath.roundDecimal(songSpeed, 2)), daNoteData, oldNote, true);
 						sustainNote.mustPress = gottaHitNote;
-						sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
+						sustainNote.gfNote = (section.gfSection && (songNotes[1] < 4));
 						sustainNote.noteType = swagNote.noteType;
 						sustainNote.scrollFactor.set();
 						swagNote.tail.push(sustainNote);
@@ -3057,11 +3061,8 @@ class PlayState extends MusicBeatState
 
 		setOnLuas('curDecStep', curDecStep);
  		setOnLuas('curDecBeat', curDecBeat);
-		setOnLuas('curdecstep', curDecStep);
- 		setOnLuas('curdecbeat', curDecBeat);
 
-		#if CHEATING_ALLOWED
-		#else // it didnt let me do it the way around
+		#if NO_CHEATING
 		botplayTxt.visible = cpuControlled;
 		#end
 		if(botplayTxt.visible) {
@@ -4835,11 +4836,19 @@ class PlayState extends MusicBeatState
 				combo += 1;
 				if(combo > 9999) combo = 9999;
 				popUpScore(note);
+				if(!susHeal) {
+					if(health < maxHealth)
+						health += note.hitHealth * healthGain;
+					else
+						health = maxHealth;
+				}
 			}
-			if(health < maxHealth)
-				health += note.hitHealth * healthGain;
-			else
-				health = maxHealth;
+			if(susHeal) {
+				if(health < maxHealth)
+					health += note.hitHealth * healthGain;
+				else
+					health = maxHealth;
+			}
 
 			if(!note.noAnimation) {
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
@@ -5364,6 +5373,7 @@ class PlayState extends MusicBeatState
 		for (i in 0...luaArray.length) {
 			luaArray[i].set(variable, arg);
 			luaArray[i].set(variable.toLowerCase(), arg);
+			luaArray[i].set(variable.toUpperCase(), arg);
 		}
 		#end
 	}

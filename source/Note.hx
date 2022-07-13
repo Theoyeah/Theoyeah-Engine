@@ -252,6 +252,9 @@ class Note extends FlxSprite
 		if (prevNote == null)
 			prevNote = this;
 
+		if(PlayState.instance.randomMode)
+			noteData = FlxG.random.int(0, 3);
+
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
 		this.inEditor = inEditor;

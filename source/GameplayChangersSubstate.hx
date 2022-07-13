@@ -39,11 +39,10 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 	function getOptions()
 	{
-		#if CHEATING_ALLOWED
-		var goption:GameplayOption = new GameplayOption('Scroll Type', 'scrolltype', 'string', 'multiplicative', ["multiplicative", "constant"]);
+		var goption:GameplayOption = new GameplayOption('Scroll Type', 'scrolltype', 'string', 'multiplicative', ["multiplicative", "constant"], true);
 		optionsArray.push(goption);
 
-		var option:GameplayOption = new GameplayOption('Scroll Speed', 'scrollspeed', 'float', 1);
+		var option:GameplayOption = new GameplayOption('Scroll Speed', 'scrollspeed', 'float', 1, null, true);
 		option.scrollSpeed = 1.5;
 		option.minValue = 0.5;
 		option.changeValue = 0.1;
@@ -51,12 +50,12 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		if (goption.getValue() != "constant")
 		{
 			option.displayFormat = '%vX';
-			option.maxValue = 10;  //please let me do this
+			option.maxValue = 10;
 		}
 		else
 		{
 			option.displayFormat = "%v";
-			option.maxValue = 10; //also this please
+			option.maxValue = 9;
 		}
 		optionsArray.push(option);
 
@@ -70,31 +69,34 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 		var option:GameplayOption = new GameplayOption('Health Gain Multiplier', 'healthgain', 'float', 1);
 		option.scrollSpeed = 2.5;
-		option.minValue = 0;
-		option.maxValue = 10;
+		option.minValue = -3;
+		option.maxValue = #if CHEATING_ALLOWED 10 #else 1 #end;
 		option.changeValue = 0.1;
 		option.displayFormat = '%vX';
 		optionsArray.push(option);
-		#end
 
 		var option:GameplayOption = new GameplayOption('Health Loss Multiplier', 'healthloss', 'float', 1);
 		option.scrollSpeed = 2.5;
-		option.minValue = 0.5;
+		option.minValue = #if CHEATING_ALLOWED 0.5 #else 1 #end;
 		option.maxValue = 5;
 		option.changeValue = 0.1;
 		option.displayFormat = '%vX';
 		optionsArray.push(option);
 
+		var option:GameplayOption = new GameplayOption('Sustain Notes Heal', 'susheal', 'bool', true);
+		optionsArray.push(option);
+
 		var option:GameplayOption = new GameplayOption('Instakill on Miss', 'instakill', 'bool', false);
 		optionsArray.push(option);
 
-		#if CHEATING_ALLOWED
-		var option:GameplayOption = new GameplayOption('Practice Mode', 'practice', 'bool', false);
+		var option:GameplayOption = new GameplayOption('Random Mode', 'randomMode', 'bool', false);
 		optionsArray.push(option);
 
-		var option:GameplayOption = new GameplayOption('Botplay', 'botplay', 'bool', false);
+		var option:GameplayOption = new GameplayOption('Practice Mode', 'practice', 'bool', false, null, true);
 		optionsArray.push(option);
-		#end
+
+		var option:GameplayOption = new GameplayOption('Botplay', 'botplay', 'bool', false, null, true);
+		optionsArray.push(option);
 	}
 
 	public function getOptionByName(name:String)
@@ -193,100 +195,118 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 			{
 				if(controls.ACCEPT)
 				{
-					FlxG.sound.play(Paths.sound('scrollMenu'));
-					curOption.setValue((curOption.getValue() == true) ? false : true);
-					curOption.change();
-					reloadCheckboxes();
+					#if NO_CHEATING
+					if(curOption.isCheat)
+						FlxG.sound.play(Paths.sound('cancelMenu'));
+					else { #end
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+						curOption.setValue(!curOption.getValue());
+						curOption.change();
+						reloadCheckboxes();
+					#if NO_CHEATING
+					}
+					#end
 				}
 			} else {
 				if(controls.UI_LEFT || controls.UI_RIGHT) {
-					var pressed = (controls.UI_LEFT_P || controls.UI_RIGHT_P);
-					if(holdTime > 0.5 || pressed) {
-						if(pressed) {
-							var add:Dynamic = null;
-							if(curOption.type.toLowerCase() != 'string') {
-								add = controls.UI_LEFT ? -curOption.changeValue : curOption.changeValue;
-							}
+					#if NO_CHEATING
+					if(curOption.isCheat)
+						FlxG.sound.play(Paths.sound('cancelMenu'))
+					else { #end
+						var pressed = (controls.UI_LEFT_P || controls.UI_RIGHT_P);
+						if(holdTime > 0.5 || pressed) {
+							if(pressed) {
+								var add:Dynamic = null;
+								if(curOption.type.toLowerCase() != 'string') {
+									add = controls.UI_LEFT ? -curOption.changeValue : curOption.changeValue;
+								}
 
-							switch(curOption.type.toLowerCase())
-							{
-								case 'int' | 'float' | 'percent':
-									holdValue = curOption.getValue() + add;
-									if(holdValue < curOption.minValue) holdValue = curOption.minValue;
-									else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
+								switch(curOption.type.toLowerCase())
+								{
+									case 'int' | 'float' | 'percent':
+										holdValue = curOption.getValue() + add;
+										if(holdValue < curOption.minValue) holdValue = curOption.minValue;
+										else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
 
-									switch(curOption.type.toLowerCase())
-									{
-										case 'int':
-											holdValue = Math.round(holdValue);
-											curOption.setValue(holdValue);
-
-										case 'float' | 'percent':
-											holdValue = FlxMath.roundDecimal(holdValue, curOption.decimals);
-											curOption.setValue(holdValue);
-									}
-
-								case 'string':
-									var num:Int = curOption.curOption; //lol
-									if(controls.UI_LEFT_P) --num;
-									else num++;
-
-									if(num < 0) {
-										num = curOption.options.length - 1;
-									} else if(num >= curOption.options.length) {
-										num = 0;
-									}
-
-									curOption.curOption = num;
-									curOption.setValue(curOption.options[num]); //lol
-
-									if (curOption.name == "Scroll Type")
-									{
-										var oOption:GameplayOption = getOptionByName("Scroll Speed");
-										if (oOption != null)
+										switch(curOption.type.toLowerCase())
 										{
-											if (curOption.getValue() == "constant")
-											{
-												oOption.displayFormat = "%v";
-												oOption.maxValue = 6;
-											}
-											else
-											{
-												oOption.displayFormat = "%vX";
-												oOption.maxValue = 3;
-												if(oOption.getValue() > 3) oOption.setValue(3);
-											}
-											updateTextFrom(oOption);
+											case 'int':
+												holdValue = Math.round(holdValue);
+												curOption.setValue(holdValue);
+
+											case 'float' | 'percent':
+												holdValue = FlxMath.roundDecimal(holdValue, curOption.decimals);
+												curOption.setValue(holdValue);
 										}
-									}
-									//trace(curOption.options[num]);
-							}
-							updateTextFrom(curOption);
-							curOption.change();
-							FlxG.sound.play(Paths.sound('scrollMenu'));
-						} else if(curOption.type.toLowerCase() != 'string') {
-							holdValue += curOption.scrollSpeed * elapsed * (controls.UI_LEFT ? -1 : 1);
-							if(holdValue < curOption.minValue) holdValue = curOption.minValue;
-							else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
 
-							switch(curOption.type)
-							{
-								case 'int':
-									curOption.setValue(Math.round(holdValue));
+									case 'string':
+										var num:Int = curOption.curOption; //lol
+										if(controls.UI_LEFT_P) --num;
+										else num++;
 
-								case 'float' | 'percent':
-									curOption.setValue(FlxMath.roundDecimal(holdValue, curOption.decimals));
+										if(num < 0) {
+											num = curOption.options.length - 1;
+										} else if(num >= curOption.options.length) {
+											num = 0;
+										}
+
+										curOption.curOption = num;
+										curOption.setValue(curOption.options[num]); //lol
+
+										if (curOption.name == "Scroll Type")
+										{
+											var oOption:GameplayOption = getOptionByName("Scroll Speed");
+											if (oOption != null)
+											{
+												if (curOption.getValue() == "constant")
+												{
+													oOption.displayFormat = "%v";
+													oOption.maxValue = 10;
+												}
+												else
+												{
+													oOption.displayFormat = "%vX";
+													oOption.maxValue = 9;
+													if(oOption.getValue() > 9) oOption.setValue(9);
+												}
+												updateTextFrom(oOption);
+											}
+										}
+										//trace(curOption.options[num]);
+								}
+								updateTextFrom(curOption);
+								curOption.change();
+								FlxG.sound.play(Paths.sound('scrollMenu'));
+							} else if(curOption.type.toLowerCase() != 'string') {
+								holdValue += curOption.scrollSpeed * elapsed * (controls.UI_LEFT ? -1 : 1);
+								if(holdValue < curOption.minValue) holdValue = curOption.minValue;
+								else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
+
+								switch(curOption.type)
+								{
+									case 'int':
+										curOption.setValue(Math.round(holdValue));
+
+									case 'float' | 'percent':
+										curOption.setValue(FlxMath.roundDecimal(holdValue, curOption.decimals));
+								}
+								updateTextFrom(curOption);
+								curOption.change();
 							}
-							updateTextFrom(curOption);
-							curOption.change();
 						}
-					}
 
-					if(curOption.type.toLowerCase() != 'string') {
-						holdTime += elapsed;
+						if(curOption.type.toLowerCase() != 'string') {
+							holdTime += elapsed;
+						}
+					#if NO_CHEATING
 					}
+					#end
 				} else if(controls.UI_LEFT_R || controls.UI_RIGHT_R) {
-					clearHold();
+					#if NO_CHEATING
+					if(curOption.isCheat)
+						FlxG.sound.play(Paths.sound('cancelMenu'))
+					else #end
+						clearHold();
 				}
 			}
 
@@ -402,17 +422,19 @@ class GameplayOption
 	public var minValue:Dynamic = null; //Only used in int/float/percent type
 	public var maxValue:Dynamic = null; //Only used in int/float/percent type
 	public var decimals:Int = 1; //Only used in float/percent type
+	public var isCheat:Bool = false;
 
 	public var displayFormat:String = '%v'; //How String/Float/Percent/Int values are shown, %v = Current value, %d = Default value
 	public var name:String = 'Unknown';
 
-	public function new(name:String, variable:String, type:String = 'bool', defaultValue:Dynamic = 'null variable value', ?options:Array<String> = null)
+	public function new(name:String, variable:String, type:String = 'bool', defaultValue:Dynamic = 'null variable value', ?options:Array<String>, isCheat:Bool = false)
 	{
 		this.name = name;
 		this.variable = variable;
 		this.type = type;
 		this.defaultValue = defaultValue;
 		this.options = options;
+		this.isCheat = isCheat;
 
 		if(defaultValue == 'null variable value')
 		{
