@@ -45,10 +45,9 @@ class AchievementsMenuState extends MusicBeatState
 		Achievements.loadAchievements();
 		for (i in 0...Achievements.achievementsStuff.length)
 		{
-			if ((!Achievements.achievementsStuff[i][3] || Achievements.achievementsStuff[i][3] == null)
-				|| Achievements.achievementsMap.exists(Achievements.achievementsStuff[i][2])
-				&& !options.contains(Achievements.achievementsStuff[i] // fixes DUPLICATION BUG, now i have to find a way to implement the custom achievements... -Wither
-			)) {
+			if ((!Achievements.achievementsStuff[i][4] || Achievements.achievementsStuff[i][4] == null)
+				&& !options.contains(Achievements.achievementsStuff[i]) // fixes DUPLICATION BUG, now i have to find a way to implement the custom achievements... -Wither
+			) {
 				options.push(Achievements.achievementsStuff[i]);
 				achievementIndex.push(i);
 			}
@@ -56,6 +55,10 @@ class AchievementsMenuState extends MusicBeatState
 
 		for (i in 0...options.length)
 		{
+			if(options[i] == options[i+1] || options[i] == options[i-1]) {
+				options.remove(options[i]); // i know this is stupid, but is better to delete all the copies
+				continue;
+			}
 			var achieveName:String = Achievements.achievementsStuff[achievementIndex[i]][2];
 			var optionText:Alphabet = new Alphabet(0, (100 * i) + 210,
 				Achievements.isAchievementUnlocked(achieveName) ? Achievements.achievementsStuff[achievementIndex[i]][0] : '?',
@@ -77,6 +80,13 @@ class AchievementsMenuState extends MusicBeatState
 		descText.scrollFactor.set();
 		descText.borderSize = 2.4;
 		add(descText);
+
+		var resetText:FlxText = new FlxText(0, 680, FlxG.width, "Press R to reset achievement/nPress ALT + R to reset all", 12);
+ 		resetText.borderSize = 2.5;
+ 		resetText.setFormat(Paths.font("vcr.ttf"), 28, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+ 		resetText.scrollFactor.set();
+ 		add(resetText);
+
 		changeSelection();
 
 		super.create();
@@ -84,15 +94,35 @@ class AchievementsMenuState extends MusicBeatState
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
-		var shiftMult:Int = 1;
-		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
 		if (controls.UI_UP_P  || FlxG.mouse.wheel > 0) {
-			changeSelection(-shiftMult);
+			changeSelection(-1);
 		}
 		if (controls.UI_DOWN_P  || FlxG.mouse.wheel < 0) {
-			changeSelection(shiftMult);
+			changeSelection(1);
 		}
+
+		if(controls.RESET) {
+			if(FlxG.keys.pressed.ALT) {
+				openSubState(new Prompt('This action will clear ALL the progress.\n\nProceed?', 0, function() {
+					FlxG.sound.play(Paths.sound('confirmMenu'));
+					for (i in 0...achievementArray.length) {
+						achievementArray[i].forget();
+						grpOptions.members[i].changeText('?');
+					}
+				}, function() {
+					FlxG.sound.play(Paths.sound('confirmMenu'));
+				}, false));
+			} else {
+				openSubState(new Prompt('This action will clear the progress of the selected achievement.\n\nProceed?', 0, function() {
+					FlxG.sound.play(Paths.sound('confirmMenu'));
+					achievementArray[curSelected].forget();
+					grpOptions.members[curSelected].changeText('?');
+				}, function() {
+					FlxG.sound.play(Paths.sound('cancelMenu'));
+				}, false));
+			}
+ 		}
 
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -120,16 +150,10 @@ class AchievementsMenuState extends MusicBeatState
 		}
 
 		for (i in 0...achievementArray.length) {
-			if(Achievements.achievementsStuff[i][4] is Array)
-				achievementArray[i].alpha = Achievements.achievementsStuff[i][4][0];
-			else
-				achievementArray[i].alpha = 0.6;
+			achievementArray[i].alpha = 0.6;
 
 			if(i == curSelected) {
-				if(Achievements.achievementsStuff[i][4] is Array)
-					achievementArray[i].alpha = Achievements.achievementsStuff[i][4][1];
-				else
-					achievementArray[i].alpha = 1;
+				achievementArray[i].alpha = 1;
 			}
 		}
 		descText.text = Achievements.achievementsStuff[achievementIndex[curSelected]][1];

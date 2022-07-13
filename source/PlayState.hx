@@ -4083,9 +4083,12 @@ class PlayState extends MusicBeatState
 		if(achievementObj != null) {
 			return;
 		} else {
+			var achieve:String = checkForAchievement();
+			/*
 			var achieve:String = checkForAchievement(['week1_nomiss', 'week2_nomiss', 'week3_nomiss', 'week4_nomiss',
 				'week5_nomiss', 'week6_nomiss', 'week7_nomiss', 'ur_bad',
 				'ur_good', 'hype', 'two_keys', 'toastie', 'debugger']);
+			*/
 
 			if(achieve != null) {
 				startAchievement(achieve);
@@ -5446,81 +5449,128 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	public static var othersCodeName:String = 'otherAchievements';
 	#if ACHIEVEMENTS_ALLOWED
+	/**
+	 * Here's where you hardcode your achievements!
+	 */
 	private function checkForAchievement(achievesToCheck:Array<String> = null):String
 	{
 		if(chartingMode) return null;
 
 		var usedPractice:Bool = (ClientPrefs.getGameplaySetting('practice', false) || ClientPrefs.getGameplaySetting('botplay', false));
-		for (i in 0...achievesToCheck.length) {
-			var achievementName:String = achievesToCheck[i];
-			if(!Achievements.isAchievementUnlocked(achievementName) && !cpuControlled) {
-				var unlock:Bool = false;
-				switch(achievementName)
-				{
-					case 'week1_nomiss' | 'week2_nomiss' | 'week3_nomiss' | 'week4_nomiss' | 'week5_nomiss' | 'week6_nomiss' | 'week7_nomiss':
-						if(isStoryMode && campaignMisses + songMisses < 1 && storyPlaylist.length <= 1 && !changedDifficulty && !usedPractice)
-						{
-							var weekName:String = WeekData.getWeekFileName();
-							switch(weekName) //I know this is a lot of duplicated code, but it's easier readable and you can add weeks with different names than the achievement tag
-							{
-								case 'week1':
-									if(achievementName == 'week1_nomiss') unlock = true;
-								case 'week2':
-									if(achievementName == 'week2_nomiss') unlock = true;
-								case 'week3':
-									if(achievementName == 'week3_nomiss') unlock = true;
-								case 'week4':
-									if(achievementName == 'week4_nomiss') unlock = true;
-								case 'week5':
-									if(achievementName == 'week5_nomiss') unlock = true;
-								case 'week6':
-									if(achievementName == 'week6_nomiss') unlock = true;
-								case 'week7':
-									if(achievementName == 'week7_nomiss') unlock = true;
-							}
-						}
-					case 'ur_bad':
-						if(ratingPercent < 0.2 && !practiceMode) {
-							unlock = true;
-						}
-					case 'ur_good':
-						if(ratingPercent >= 1 && !usedPractice) {
-							unlock = true;
-						}
-					case 'roadkill_enthusiast':
-						if(Achievements.henchmenDeath >= 100) {
-							unlock = true;
-						}
-					case 'oversinging':
-						if(boyfriend.holdTimer >= 10 && !usedPractice) {
-							unlock = true;
-						}
-					case 'hype':
-						if(!boyfriendIdled && !usedPractice) {
-							unlock = true;
-						}
-					case 'two_keys':
-						if(!usedPractice) {
-							var howManyPresses:Int = 0;
-							for (j in 0...keysPressed.length) {
-								if(keysPressed[j]) howManyPresses++;
-							}
+		var achievementsToCheck:Array<String> = achievesToCheck;
+		if (achievementsToCheck == null) {
+			achievementsToCheck = [];
+			for (i in 0...Achievements.achievementsStuff.length) {
+				achievementsToCheck.push(Achievements.achievementsStuff[i][2]);
+			}
+			achievementsToCheck.push(othersCodeName);
+		}
 
-							if(howManyPresses <= 2) {
-								unlock = true;
-							}
-						}
-					case 'toastie':
-						if(/*ClientPrefs.framerate <= 60 &&*/ ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing && !ClientPrefs.imagesPersist) {
-							unlock = true;
-						}
-					case 'debugger':
-						if(Paths.formatToSongPath(SONG.song) == 'test' && !usedPractice) {
-							unlock = true;
-						}
+		for (i in 0...achievementsToCheck.length) {
+			var achievementName:String = achievementsToCheck[i];
+			var unlock:Bool = false;
+
+			if (achievementName == othersCodeName && !usedPractice /*&& isStoryMode && campaignMisses + songMisses < 1 && CoolUtil.difficultyString() == 'HARD' && storyPlaylist.length <= 1 && !changedDifficulty && !usedPractice*/)
+			{
+				var weekName:String = WeekData.getWeekFileName();
+
+				for (json in Achievements.loadedAchievements)
+				{
+					if(((json.unlocksAfter == weekName || (achievementName.contains('nomiss') && achievementName.replace('_nomiss', '') == weekName)) && isStoryMode) && !Achievements.isAchievementUnlocked(json.icon) && !json.customGoal && !unlock)
+						unlock = true;
+					achievementName = json.icon;
 				}
 
+				for (k in 0...Achievements.achievementsStuff.length)
+				{
+					var unlockPoint:String = Achievements.achievementsStuff[k][3];
+					if (unlockPoint != null)
+					{
+						if (unlockPoint == weekName && !unlock && !Achievements.isAchievementUnlocked(Achievements.achievementsStuff[k][2]))
+							unlock = true;
+						achievementName = Achievements.achievementsStuff[k][2];
+					}
+				}
+			}
+
+			for (json in Achievements.loadedAchievements) { //Requires jsons for call
+				var ret:Dynamic = callOnLuas('onCheckForAchievement', [json.icon]); //Set custom goals
+
+				//IDK, like
+				// if getProperty('misses') > 10 and leName == 'lmao_skill_issue' then return Function_Continue end
+
+				if (ret == FunkinLua.Function_Continue && !Achievements.isAchievementUnlocked(json.icon) && json.customGoal && !unlock) {
+					unlock = true;
+					achievementName = json.icon;
+				}
+			}
+
+			if(!Achievements.isAchievementUnlocked(achievementName) && !cpuControlled) {
+				var weekName:String = WeekData.getWeekFileName();
+				if(!unlock) {
+					switch(achievementName)
+					{
+						case 'week1_nomiss':
+							if(weekName == 'week1') unlock = true;
+						case 'week2_nomiss':
+							if(weekName == 'week2') unlock = true;
+						case 'week3_nomiss':
+							if(weekName == 'week3') unlock = true;
+						case 'week4_nomiss':
+							if(weekName == 'week4') unlock = true;
+						case 'week5_nomiss':
+							if(weekName == 'week5') unlock = true;
+						case 'week6_nomiss':
+							if(weekName == 'week6') unlock = true;
+						case 'week7_nomiss':
+							if(weekName == 'week7') unlock = true;
+						case 'ur_bad':
+							if(ratingPercent < 0.2 && !practiceMode) {
+								unlock = true;
+							}
+						case 'ur_good':
+							if(ratingPercent >= 1 && !usedPractice) {
+								unlock = true;
+							}
+						case 'roadkill_enthusiast':
+							if(Achievements.henchmenDeath >= 100) {
+								unlock = true;
+							}
+						case 'oversinging':
+							if(boyfriend.holdTimer >= 10 && !usedPractice) {
+								unlock = true;
+							}
+						case 'hype':
+							if(!boyfriendIdled && !usedPractice) {
+								unlock = true;
+							}
+						case 'two_keys':
+							if(!usedPractice) {
+								var howManyPresses:Int = 0;
+								for (j in 0...keysPressed.length) {
+									if(keysPressed[j]) howManyPresses++;
+								}
+
+								if(howManyPresses <= 2) {
+									unlock = true;
+								}
+							}
+						case 'toastie':
+							if(/*ClientPrefs.framerate <= 60 &&*/ ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing && !ClientPrefs.imagesPersist) {
+								unlock = true;
+							}
+						case 'debugger':
+							if(Paths.formatToSongPath(SONG.song) == 'test' && !usedPractice) {
+								unlock = true;
+							}
+						default:
+							if(achievementName.contains('nomiss') && achievementName.replace('_', '').replace('nomiss', '') == weekName) {
+								unlock = true;
+							}
+					}
+				}
 				if(unlock) {
 					Achievements.unlockAchievement(achievementName);
 					return achievementName;
