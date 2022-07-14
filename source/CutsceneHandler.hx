@@ -18,6 +18,11 @@ import flixel.util.FlxSort;
 
 class CutsceneHandler extends FlxBasic
 {
+	private var controls(get, never):Controls;
+
+	inline function get_controls():Controls
+		return PlayerSettings.player1.controls;
+
 	public var timedEvents:Array<Dynamic> = [];
 	public var finishCallback:Void->Void = null;
 	public var finishCallback2:Void->Void = null;
@@ -25,6 +30,7 @@ class CutsceneHandler extends FlxBasic
 	public var endTime:Float = 0;
 	public var objects:Array<FlxSprite> = [];
 	public var music:String = null;
+	public var sounds:Array<FlxSound> = [];
 	public function new()
 	{
 		super();
@@ -64,6 +70,29 @@ class CutsceneHandler extends FlxBasic
 				spr.kill();
 				PlayState.instance.remove(spr);
 				spr.destroy();
+			}
+
+			kill();
+			destroy();
+			PlayState.instance.remove(this);
+		}
+
+		if (controls.ACCEPT)
+		{
+			finishCallback();
+			if(finishCallback2 != null) finishCallback2();
+
+			for (spr in objects)
+			{
+				spr.kill();
+				PlayState.instance.remove(spr);
+				spr.destroy();
+			}
+
+			for (sound in sounds)
+			{
+				if (sound.playing)
+					sound.stop();
 			}
 
 			kill();

@@ -1322,8 +1322,8 @@ class PlayState extends MusicBeatState
 						}
 					});
 					FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
-					if(gf != null) gf.playAnim('scared', true);
-					boyfriend.playAnim('scared', true);
+					if(gf != null && gf.animOffsets.exists('scared')) gf.playAnim('scared', true);
+					if(boyfriend.animOffsets.exists('scared')) boyfriend.playAnim('scared', true);
 
 				case "winter-horrorland":
 					var blackScreen:FlxSprite = new FlxSprite().makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
@@ -1883,6 +1883,15 @@ class PlayState extends MusicBeatState
 
 				var wellWellWell:FlxSound = new FlxSound().loadEmbedded(Paths.sound('wellWellWell'));
 				FlxG.sound.list.add(wellWellWell);
+				cutsceneHandler.sounds.push(wellWellWell);
+
+				var beep:FlxSound = new FlxSound().loadEmbedded(Paths.sound('bfBeep'));
+				FlxG.sound.list.add(beep);
+				cutsceneHandler.sounds.push(beep);
+
+				var killYou:FlxSound = new FlxSound().loadEmbedded(Paths.sound('killYou'));
+				FlxG.sound.list.add(killYou);
+				cutsceneHandler.sounds.push(killYou);
 
 				tankman.animation.addByPrefix('wellWell', 'TANK TALK 1 P1', 24, false);
 				tankman.animation.addByPrefix('killYou', 'TANK TALK 1 P2', 24, false);
@@ -1905,9 +1914,11 @@ class PlayState extends MusicBeatState
 				// Beep!
 				cutsceneHandler.timer(4.5, function()
 				{
-					boyfriend.playAnim('singUP', true);
-					boyfriend.specialAnim = true;
-					FlxG.sound.play(Paths.sound('bfBeep'));
+					if(boyfriend.animOffsets.exists('singUP')) {
+						boyfriend.playAnim('singUP', true);
+						boyfriend.specialAnim = true;
+					}
+					beep.play(true);
 				});
 
 				// Move camera to Tankman
@@ -1918,7 +1929,7 @@ class PlayState extends MusicBeatState
 
 					// We should just kill you but... what the hell, it's been a boring day... let's see what you've got!
 					tankman.animation.play('killYou', true);
-					FlxG.sound.play(Paths.sound('killYou'));
+					killYou.play(true);
 				});
 
 			case 'guns':
@@ -1930,6 +1941,7 @@ class PlayState extends MusicBeatState
 
 				var tightBars:FlxSound = new FlxSound().loadEmbedded(Paths.sound('tankSong2'));
 				FlxG.sound.list.add(tightBars);
+				cutsceneHandler.sounds.push(tightBars);
 
 				tankman.animation.addByPrefix('tightBars', 'TANK TALK 2', 24, false);
 				tankman.animation.play('tightBars', true);
@@ -1945,11 +1957,13 @@ class PlayState extends MusicBeatState
 
 				cutsceneHandler.timer(4, function()
 				{
-					gf.playAnim('sad', true);
-					gf.animation.finishCallback = function(name:String)
-					{
+					if(gf.animOffsets.exists('sad')) {
 						gf.playAnim('sad', true);
-					};
+						gf.animation.finishCallback = function(name:String)
+						{
+							gf.playAnim('sad', true);
+						};
+					}
 				});
 
 			case 'stress':
@@ -2001,6 +2015,7 @@ class PlayState extends MusicBeatState
 
 				var cutsceneSnd:FlxSound = new FlxSound().loadEmbedded(Paths.sound('stressCutscene'));
 				FlxG.sound.list.add(cutsceneSnd);
+				cutsceneHandler.sounds.push(cutsceneSnd);
 
 				tankman.animation.addByPrefix('godEffingDamnIt', 'TANK TALK 3', 24, false);
 				tankman.animation.play('godEffingDamnIt', true);
@@ -2053,15 +2068,17 @@ class PlayState extends MusicBeatState
 
 							boyfriendGroup.alpha = 1;
 							boyfriendCutscene.visible = false;
-							boyfriend.playAnim('bfCatch', true);
-							boyfriend.animation.finishCallback = function(name:String)
-							{
-								if (name != 'idle')
+							if(boyfriend.animOffsets.exists('bfCatch')) {
+								boyfriend.playAnim('bfCatch', true);
+								boyfriend.animation.finishCallback = function(name:String)
 								{
-									boyfriend.playAnim('idle', true);
-									boyfriend.animation.curAnim.finish(); // Instantly goes to last frame
-								}
-							};
+									if (name != 'idle')
+									{
+										boyfriend.playAnim('idle', true);
+										boyfriend.animation.curAnim.finish(); // Instantly goes to last frame
+									}
+								};
+							}
 
 							picoCutscene.animation.finishCallback = function(name:String)
 							{
@@ -2347,16 +2364,19 @@ class PlayState extends MusicBeatState
 	{
 		if (ClientPrefs.kadetxt)
 		{
-			if(ratingName == '?') {
-				scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accuracy: 0.00% ' + '| Rating: N/A' ;
-			} else {
-				scoreTxt.text = 'Score: ' + songScore + ' |  Combo Breaks: ' + songMisses + ' | Accuracy: ' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' + ' | '+ 'Rating: '+ ratingFC;//peeps wanted no integer rating
-			}
+			scoreTxt.text = 'Score: ' + songScore
+				+ ' |  Combo Breaks: ' + songMisses
+				+ ' | Accuracy: ' + (ratingName != '?' ? Highscore.floorDecimal(ratingPercent * 100, 2) : 0.00) + '%'
+				+ ' | Rating: ' + ratingFC //peeps wanted no integer rating
+				//+ ' | Health: ' + Highscore.floorDecimal(healthBar.percent, 2) + '%'
+				;
 		} else {
 			scoreTxt.text = 'Score: ' + songScore
 				+ ' | Misses: ' + songMisses
 				+ ' | Rating: ' + ratingName
-				+ (ratingName != '?' ? ' [${Highscore.floorDecimal(ratingPercent * 100, 2)}% | $ratingFC]' : '');
+				+ (ratingName != '?' ? ' [${Highscore.floorDecimal(ratingPercent * 100, 2)}% | $ratingFC]' : '')
+				//+ ' | Health: ' + Highscore.floorDecimal(healthBar.percent, 2) + '%'
+				;
 		}
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
@@ -3574,11 +3594,11 @@ class PlayState extends MusicBeatState
 				if(Math.isNaN(time) || time <= 0) time = 0.6;
 
 				if(value != 0) {
-					if(dad.curCharacter.startsWith('gf')) { //Tutorial GF is actually Dad! The GF is an imposter!! ding ding ding ding ding ding ding, dindinding, end my suffering
+					if(dad.curCharacter.startsWith('gf') && dad.animOffsets.exists('cheer')) { //Tutorial GF is actually Dad! The GF is an imposter!! ding ding ding ding ding ding ding, dindinding, end my suffering
 						dad.playAnim('cheer', true);
 						dad.specialAnim = true;
 						dad.heyTimer = time;
-					} else if (gf != null) {
+					} else if (gf != null && gf.animOffsets.exists('cheer')) {
 						gf.playAnim('cheer', true);
 						gf.specialAnim = true;
 						gf.heyTimer = time;
@@ -3589,7 +3609,7 @@ class PlayState extends MusicBeatState
 						heyTimer = time;
 					}
 				}
-				if(value != 1) {
+				if(value != 1 && boyfriend.animOffsets.exists('hey')) {
 					boyfriend.playAnim('hey', true);
 					boyfriend.specialAnim = true;
 					boyfriend.heyTimer = time;
@@ -3731,7 +3751,7 @@ class PlayState extends MusicBeatState
 						}
 				}
 
-				if (char != null)
+				if (char != null && char.animOffsets.exists(value1))
 				{
 					char.playAnim(value1, true);
 					char.specialAnim = true;
@@ -4484,7 +4504,7 @@ class PlayState extends MusicBeatState
 			}
 
 			var spr:StrumNote = playerStrums.members[key];
-			if(spr != null && spr.animation.curAnim.name != 'confirm')
+			if(spr != null && spr.animation.curAnim.name != 'confirm' && spr.animation.curAnim != null)
 			{
 				spr.playAnim('pressed');
 				spr.resetAnim = 0;
@@ -4508,7 +4528,7 @@ class PlayState extends MusicBeatState
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
-		if(!cpuControlled && startedCountdown &&!paused && key > -1)
+		if(!cpuControlled && startedCountdown && !paused && key > -1)
 		{
 			var spr:StrumNote = playerStrums.members[key];
 			if(spr != null)
@@ -4704,7 +4724,7 @@ class PlayState extends MusicBeatState
 			});
 			*/
 
-			if(boyfriend.hasMissAnimations) {
+			if(boyfriend.hasMissAnimations && boyfriend.animOffsets.exists(singAnimations[Std.int(Math.abs(direction))] + 'miss')) {
 				boyfriend.playAnim(singAnimations[Std.int(Math.abs(direction))] + 'miss', true);
 			}
 			vocals.volume = 0;
@@ -4740,7 +4760,7 @@ class PlayState extends MusicBeatState
 				char = gf;
 			}
 
-			if(char != null)
+			if(char != null && char.animOffsets.exists(animToPlay))
 			{
 				char.playAnim(animToPlay, true);
 				char.holdTimer = 0;
@@ -4875,15 +4895,17 @@ class PlayState extends MusicBeatState
 
 				if(note.gfNote) 
 				{
-					if(gf != null) {
+					if(gf != null && gf.animOffsets.exists(animToPlay + note.animSuffix)) {
 						gf.playAnim(animToPlay + note.animSuffix, true);
 						gf.holdTimer = 0;
 					}
 				}
 				else
 				{
-					boyfriend.playAnim(animToPlay + note.animSuffix, true);
-					boyfriend.holdTimer = 0;
+					if(boyfriend.animOffsets.exists(animToPlay + note.animSuffix)) {
+						boyfriend.playAnim(animToPlay + note.animSuffix, true);
+						boyfriend.holdTimer = 0;
+					}
 				}
 
 				if(note.noteType == 'Hey!') {
@@ -4893,10 +4915,14 @@ class PlayState extends MusicBeatState
 						boyfriend.heyTimer = 0.6;
 					}
 
-					if(gf != null && gf.animOffsets.exists('cheer')) {
-						gf.playAnim('cheer', true);
-						gf.specialAnim = true;
-						gf.heyTimer = 0.6;
+					if(gf != null) {
+						if(gf.animOffsets.exists('cheer') || gf.animOffsets.exists('hey')) {
+							if(gf.animOffsets.exists('cheer')) gf.playAnim('cheer', true);
+							else gf.playAnim('hey', true);
+
+							gf.specialAnim = true;
+							gf.heyTimer = 0.6;
+						}
 					}
 				}
 			}
