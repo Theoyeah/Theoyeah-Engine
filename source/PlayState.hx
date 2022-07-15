@@ -314,6 +314,12 @@ class PlayState extends MusicBeatState
 
 	// Less laggy controls
 	private var keysArray:Array<Dynamic>;
+	
+	// Alt poison function
+	public var altPoison:Bool = ClientPrefs.altPoison;
+	public var hitPoisonNote:Bool = false;
+	public var poisonTime:Float = FlxG.random.int(1, 20); // 1 to 20 seconds
+	public var canHeal:Bool = true;
 
 	var precacheList:Map<String, String> = new Map<String, String>();
 
@@ -2882,10 +2888,20 @@ class PlayState extends MusicBeatState
 	var canPause:Bool = true;
 	var limoSpeed:Float = 0;
 
-	override public function update(elapsed:Float)
+	override public function update(elapsed:Float) {
 	{
-		if (FlxG.keys.justPressed.NINE)
+		if (FlxG.keys.justPressed.NINE) { // why not
 			iconP1.swapOldIcon();
+		}
+		
+		if (altPoison && hitPoisonNote) {
+			canHeal = false;
+			health = 0.0001; //LOLOLOLOLOLLOLOLOLOLOLOLOLOLOLOLOLOLOLOLOLOLOL
+			new FlxTimer().start(poisonTime, function(tmr:FlxTimer)
+				canHeal = true;
+				hitPoisonNote = false;
+			});
+		}
 
 		callOnLuas('onUpdate', [elapsed]);
 
@@ -4758,11 +4774,16 @@ class PlayState extends MusicBeatState
 							lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');
 
 						case 'Poisoned Note':
-							new FlxTimer().start(1.3, function(tmr:FlxTimer) //i dont know how this works
- 							{
- 								health -= 0.05; 
- 							});
-							healthDrain = 0.10; // what does this means?
+							if (!altPoison) {
+								new FlxTimer().start(1.3, function(tmr:FlxTimer) //i dont know how this works
+ 								{
+ 									health -= 0.05; 
+ 								});
+								healthDrain = 0.10; // what does this means?
+							}
+							else {
+								hitPoisonNote = true;
+							}
 
 						case 'Hurt Note': //Hurt note
 							if(boyfriend.animation.getByName('hurt') != null) {
