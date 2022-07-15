@@ -95,8 +95,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 		
-		var option:Option = new Option('Instant Respawn',
-			"If checked, the poison note function will work differently.",
+		var option:Option = new Option('Different poison note function',
+			"If checked, the poison note function \nwill work differently.",
 			'altPoison',
 			'bool',
 			false);
