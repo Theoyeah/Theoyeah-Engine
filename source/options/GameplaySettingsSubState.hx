@@ -88,9 +88,16 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
-        var option:Option = new Option('Hide Opponent Notes',
+      		var option:Option = new Option('Hide Opponent Notes',
 			'If checked, opponent notes get hidden.',
 			'opponentStrums',
+			'bool',
+			false);
+		addOption(option);
+		
+		var option:Option = new Option('Instant Respawn',
+			"If checked, the poison note function will work differently.",
+			'altPoison',
 			'bool',
 			false);
 		addOption(option);
