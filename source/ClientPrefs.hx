@@ -14,6 +14,7 @@ class ClientPrefs {
 	public static var iconBounce:String = 'Default';
 	public static var globalAntialiasing:Bool = true;
 	public static var opponentStrums:Bool = false;
+	public static var altPoison:Bool = false;
 	public static var noteSkin:String = 'Arrows';
 	public static var noteSplashes:String = 'Normal';
 	public static var lowQuality:Bool = false;
@@ -143,6 +144,7 @@ class ClientPrefs {
 		FlxG.save.data.noReset = noReset;
 		FlxG.save.data.noscore = noscore;
 		FlxG.save.data.opponentStrums = opponentStrums;
+		FlxG.save.data.altPoison = altPoison;
 		FlxG.save.data.camfollow = camfollow;
 		FlxG.save.data.healthBarAlpha = healthBarAlpha;
 		FlxG.save.data.comboOffset = comboOffset;
@@ -202,6 +204,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.opponentStrums != null) {
 			opponentStrums = FlxG.save.data.opponentStrums;
+		}
+		if(FlxG.save.data.altPoison != null) {
+			altPoison = FlxG.save.data.altPoison;
 		}
 		if(FlxG.save.data.showFPS != null) {
 			showFPS = FlxG.save.data.showFPS;
