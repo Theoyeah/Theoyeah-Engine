@@ -500,12 +500,12 @@ class ModsMenuState extends MusicBeatState
 		var shiftMult:Int = 1;
 		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
-		if(controls.UI_UP_P || FlxG.mouse.wheel > 0)
+		if((controls.UI_UP_P || FlxG.mouse.wheel > 0)  && !noModsTxt.visible)
 		{
 			changeSelection(-shiftMult);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
-		if(controls.UI_DOWN_P || FlxG.mouse.wheel < 0)
+		if((controls.UI_DOWN_P || FlxG.mouse.wheel < 0) && !noModsTxt.visible)
 		{
 			changeSelection(shiftMult);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -524,27 +524,17 @@ class ModsMenuState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		if(mods.length < 1)
-		{
-			for (obj in visibleWhenHasMods)
-			{
-				obj.visible = false;
-			}
-			for (obj in visibleWhenNoMods)
-			{
-				obj.visible = true;
-			}
-			return;
-		}
+		var noMods:Bool = (mods.length < 1);
 
 		for (obj in visibleWhenHasMods)
 		{
-			obj.visible = true;
+			obj.visible = !noMods;
 		}
 		for (obj in visibleWhenNoMods)
 		{
-			obj.visible = false;
+			obj.visible = noMods;
 		}
+		if(noMods) return;
 
 		curSelected += change;
 		if(curSelected < 0)
@@ -574,7 +564,7 @@ class ModsMenuState extends MusicBeatState
 				mod.alphabet.alpha = 1;
 				selector.sprTracker = mod.alphabet;
 				descriptionTxt.text = mod.description;
-				if (mod.restart && !descriptionTxt.text.contains('restart')) { //finna make it to where if nothing changed then it won't reset
+				if (mod.restart && !descriptionTxt.text.toLowerCase().contains('restart')) { //finna make it to where if nothing changed then it won't reset
 					descriptionTxt.text += " (This Mod will restart the game!)";
 				}
 
@@ -757,6 +747,14 @@ class ModMetadata
 				if(description != null && description.length > 0)
 				{
 					this.description = description;
+				}
+				if(name == 'Name')
+				{
+					this.name = folder;
+				}
+				if(description == 'Description')
+				{
+					this.description = "No description provided.";
 				}
 				if(colors != null && colors.length > 2)
 				{

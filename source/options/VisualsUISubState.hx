@@ -33,22 +33,15 @@ class VisualsUISubState extends BaseOptionsMenu
 	{
 		title = 'Visuals and UI';
 		rpcTitle = 'Visuals & UI Settings Menu'; //for Discord Rich Presence
-		
+
 		var option:Option = new Option('Note Splashes:',
 			"What type of noteSplashes do you want?",
 			'noteSplashes',
 			'string',
 			'Normal',
-			['Normal', 'None', 'Original', 'Inverted', 'Red', 'Pink', 'Cyan', 'Green', 'IDK']);
+			['Normal', 'None', /*'Original',*/ 'Inverted', 'Red', 'Pink', 'Cyan', 'Green', 'IDK']);
 		addOption(option);
 
-		var option:Option = new Option('Kade Engine Score Text',
-			"If checked, the text below the health bar\nwill change to Kade Engine.",
-			'kadetxt',
-			'bool',
-			false);
-		addOption(option);
-	
 		var option:Option = new Option('Flashing Lights',
 			"Uncheck this if you're sensitive to flashing lights!",
 			'flashing',
@@ -63,7 +56,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
-		var option:Option = new Option('Kade Engine Judgement Counter',
+		var option:Option = new Option('Judgement Counter',
 			"If checked, there will be a judgement counter when playing.",
 			'crazycounter',
 			'bool',
@@ -76,7 +69,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool',
 			false);
 		addOption(option);
-		
+
 		var option:Option = new Option('Time Bar:',
 			"What should the Time Bar display?",
 			'timeBarType',
@@ -84,7 +77,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'Time Left',
 			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
 		addOption(option);
-		
+
 		var option:Option = new Option('Icon Bounce:',
 			'How should your icons bounce?',
 			'iconBounce',
@@ -100,18 +93,25 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
-		var option:Option = new Option('Longer Health Bar',
-			"If unchecked, the health bar will be set to the original one.",
-			'longhealthbar',
-			'bool',
-			true);
-		addOption(option);
-
 		var option:Option = new Option('Hide Score Text',
 			"If checked, the text under the health bar will not be showed.",
 			'noscore',
 			'bool',
 			false);
+		addOption(option);
+
+		var option:Option = new Option('Kade Engine Score Text',
+			"If checked, the text below the health bar\nwill change to Kade Engine.",
+			'kadetxt',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option('Score Text Zoom on Hit',
+			"If unchecked, disables the Score text zooming\neverytime you hit a note.",
+			'scoreZoom',
+			'bool',
+			true);
 		addOption(option);
 
 		var option:Option = new Option('Camera Follow Player Pose',
@@ -121,10 +121,9 @@ class VisualsUISubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
-
-		var option:Option = new Option('Score Text Zoom on Hit',
-			"If unchecked, disables the Score text zooming\neverytime you hit a note.",
-			'scoreZoom',
+		var option:Option = new Option('Longer Health Bar',
+			"If unchecked, the health bar will be set to the original one.",
+			'longhealthbar',
 			'bool',
 			true);
 		addOption(option);
@@ -140,7 +139,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		option.decimals = 1;
 		addOption(option);
-		
+
 		#if !mobile
 		var option:Option = new Option('FPS Counter',
 			'If unchecked, hides FPS Counter.',
@@ -150,12 +149,20 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeFPSCounter;
 		#end
-		
+
+		#if CHECK_FOR_UPDATES
+		var option:Option = new Option('Check for Updates',
+			'Turn this off to never check for updates when you start the game\nNOT RECOMMENDED.',
+			'checkForUpdates',
+			'bool',
+			true);
+		addOption(option);
+		#end 
 
 		super();
 	}
 
-	
+
 
 	#if !mobile
 	function onChangeFPSCounter()

@@ -15,14 +15,15 @@ typedef EventNote = {
 	strumTime:Float,
 	event:String,
 	value1:String,
-	value2:String
+	value2:String,
+	value3:String
 }
 
 class Note extends FlxSprite
 {
 	public var strumTime:Float = 0;
 
-	public var mustPress:Bool = false;
+	public var mustPress:Bool = false; // change this to change ALL the notes at the same time
 	public var noteData:Int = 0;
 	public var canBeHit:Bool = false;
 	public var tooLate:Bool = false;
@@ -45,6 +46,7 @@ class Note extends FlxSprite
 
 	public var tail:Array<Note> = []; // for sustains
 	public var parent:Note;
+	public var blockHit:Bool = false; // only works for player
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -54,6 +56,7 @@ class Note extends FlxSprite
 	public var eventLength:Int = 0;
 	public var eventVal1:String = '';
 	public var eventVal2:String = '';
+	public var eventVal3:String = '';
 
 	public var colorSwap:ColorSwap;
 	public var inEditor:Bool = false;
@@ -104,7 +107,7 @@ class Note extends FlxSprite
 	public var distance:Float = 2000; //plan on doing scroll directions soon -bb
 
 	public var hitsoundDisabled:Bool = false;
-	
+
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
 		multSpeed = value;
@@ -132,15 +135,18 @@ class Note extends FlxSprite
 
 	private function set_noteType(value:String):String {
 		noteSplashTexture = PlayState.SONG.splashSkin;
-		colorSwap.hue = ClientPrefs.arrowHSV[noteData % 4][0] / 360;
-		colorSwap.saturation = ClientPrefs.arrowHSV[noteData % 4][1] / 100;
-		colorSwap.brightness = ClientPrefs.arrowHSV[noteData % 4][2] / 100;
+		if (noteData > -1 && noteData < ClientPrefs.arrowHSV.length)
+		{
+			colorSwap.hue = ClientPrefs.arrowHSV[noteData][0] / 360;
+			colorSwap.saturation = ClientPrefs.arrowHSV[noteData][1] / 100;
+			colorSwap.brightness = ClientPrefs.arrowHSV[noteData][2] / 100;
+		}
 
 		if(noteData > -1 && noteType != value) {
 			switch(value) {
 				case 'Hurt Note': // NOTE THAT FOR ALL CUSTOM NOTETYPES YOULL NEED TO ADD THEM TO CHARTING STATE ELSE THE USER CANT USE IT
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/HURT'); // ok, we need a thing. i will put it in a discussion
+					reloadNote('', 'noteskins/HURTNOTE_assets'); // ok, we need a thing. i will put it in a discussion
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -158,7 +164,7 @@ class Note extends FlxSprite
 
 				case 'Instakill Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/INSTAKILL');
+					reloadNote('', 'noteskins/INSTAKILLNOTE_assets');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -171,9 +177,19 @@ class Note extends FlxSprite
 					}
 					hitCausesMiss = true;
 
+				case 'Healthy Note':
+					ignoreNote = mustPress;
+					reloadNote('', 'noteskins/HEALTHYNOTE_assets');
+					colorSwap.hue = 0;
+					colorSwap.saturation = 0;
+					colorSwap.brightness = 0;
+					hitByOpponent = false;
+					hitCausesMiss = false;
+					hitHealth += 0.020;
+
 				case 'Crash Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/CRASH');
+					reloadNote('', 'noteskins/CRASHNOTE_assets');
 					noteSplashTexture = 'noteskins/HURTnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -183,7 +199,7 @@ class Note extends FlxSprite
 
 				case 'Window Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/WINDOW');
+					reloadNote('', 'noteskins/WINDOWNOTE_assets');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -192,7 +208,7 @@ class Note extends FlxSprite
 
 				case 'Warning Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/WARNING');
+					reloadNote('', 'noteskins/WARNINGNOTE_assets');
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
@@ -202,7 +218,7 @@ class Note extends FlxSprite
 
 				case 'Poisoned Note':
 					ignoreNote = mustPress;
-					reloadNote('', 'noteskins/POISONED');
+					reloadNote('', 'noteskins/POISONEDNOTE_assets');
 					noteSplashTexture = 'noteskins/POISONEDnoteSplashes';
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
@@ -236,6 +252,9 @@ class Note extends FlxSprite
 		if (prevNote == null)
 			prevNote = this;
 
+		if(PlayState.instance.randomMode)
+			noteData = FlxG.random.int(0, 3);
+
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
 		this.inEditor = inEditor;
@@ -253,8 +272,8 @@ class Note extends FlxSprite
 			colorSwap = new ColorSwap();
 			shader = colorSwap.shader;
 
-			x += swagWidth * (noteData % 4);
-			if(!isSustainNote) { //Doing this 'if' check to fix the warnings on Senpai songs
+			x += swagWidth * (noteData);
+			if(!isSustainNote && noteData > -1 && noteData < 4) { //Doing this 'if' check to fix the warnings on Senpai songs
 				var animToPlay:String = '';
 				switch (noteData % 4)
 				{
@@ -286,7 +305,7 @@ class Note extends FlxSprite
 			offsetX += width / 2;
 			copyAngle = false;
 
-			switch (noteData)
+			switch (noteData % 4)
 			{
 				case 0:
 					animation.play('purpleholdend');
@@ -307,7 +326,7 @@ class Note extends FlxSprite
 
 			if (prevNote.isSustainNote)
 			{
-				switch (prevNote.noteData)
+				switch (prevNote.noteData % 4)
 				{
 					case 0:
 						prevNote.animation.play('purplehold');

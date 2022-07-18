@@ -34,7 +34,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		title = 'Gameplay Settings';
 		rpcTitle = 'Gameplay Settings Menu'; //for Discord Rich Presence
 
-		/*var option:Option = new Option("Multiplicative Value", //taked from the wither engine
+		/*var option:Option = new Option("Multiplicative Value", //taked from the wither engine, this is broken, if u activate this, u'll have to code it functionality
 			"When you press SHIFT it multiplies the value by\nthe value you set it\nif it's 0, it will count the default value",
 			"multiplicativeValue",
 			"float",

@@ -3,7 +3,7 @@
 
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?include_prereleases&label=latest%20version)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Theoyeah/Theoyeah-Engine?style=flat-square&label=latest%20stable%20version)](https://github.com/Theoyeah/Theoyeah-Engine/releases/latest)
-![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/Theoyeah/Theoyeah-Engine/latest?style=)
+![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/Theoyeah/Theoyeah-Engine/latest)
 [![GitHub all releases downloaded](https://img.shields.io/github/downloads/Theoyeah/Theoyeah-Engine/total?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/releases) [![GitHub issues](https://img.shields.io/github/issues/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/pulls) []() []()
 [![GitHub LICENSE](https://img.shields.io/github/license/Theoyeah/Theoyeah-Engine?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/LICENSE) ![GitHub repo size](https://img.shields.io/github/repo-size/Theoyeah/Theoyeah-Engine)  ![Supported platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20macOS%2C%20linux%2C%20html5-red)
 
@@ -14,16 +14,18 @@
 # Theoyeah Engine
 
 Hello, here a (again) new edited version psych engine!
-I will try to add things that shadow mario will never do
+I will try to add things that Shadow Mario will never do
 
 Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take that in mind!
 
-# What it adds 
+# What it adds
 
+- Value 3 for events!
 - NOTESKIN SELECYOR OH YEAHHH (by @Beastlyghost)
 - New Logo
 - New Icon
 - Added some custom easter eggs
+- You can make your own achievement without source !!!!!
 - Stage Editor (made by @magnumsrtisswag)
 - New fps counter (by @BeastlyGhost)
 - Fixed _null_ error in the chart editor
@@ -31,9 +33,9 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 - Judgement counter!
 - Winning Icons (from [Mic up' Engine](https://github.com/Verwex/Funkin-Mic-d-Up-SC))
 - old funkin.png
-- Fucked difficulty 
+- Fucked difficulty
 - longer health bar
-- tweaked scoretxt 
+- tweaked scoretxt
 - opponent take health when pressing note
 - Better Menu !
 - no more donate button (look at [readme.txt](art/readme.txt) if you want to donate at original creator of fnf)
@@ -47,7 +49,7 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 - Optimized, a lot of code
 - Added a cool background in intro
 - Added the original MiddleScroll !
-<!--- [Mp3](Project.xml#L54) and [Wav](Project.xml#L55) support ! //im with it, looks that it doesnt work -wither -->
+- [Mp3](Project.xml#L54) and [Wav](Project.xml#L55) support !
 - More options
 - **Instakill Note and Crash Note!!** (with a fabulous texture)
 - **Windows Note and Warning Note** (with *another* fabulous texture)

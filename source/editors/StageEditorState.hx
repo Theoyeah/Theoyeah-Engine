@@ -192,7 +192,10 @@ class StageEditorState extends MusicBeatState
 		bf.cameras = [camPeople];
 		dad.cameras = [camPeople];
 
-		var tabs = [{name: 'Layers', label: 'Layers'}, {name: 'Settings', label: 'Settings'},];
+		var tabs = [
+			{name: 'Layers', label: 'Layers'},
+			{name: 'Settings', label: 'Settings'}
+		];
 
 		UI_box = new FlxUITabMenu(null, tabs, true);
 		UI_box.cameras = [camMenu];

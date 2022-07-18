@@ -34,6 +34,7 @@ class ClientPrefs {
 	public static var controllerMode:Bool = false;
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
+	public static var checkForUpdates:Bool = true;
 	public static var introbg:Bool = false;
 	public static var longhealthbar:Bool = true;
 	public static var noscore:Bool = false;
@@ -63,10 +64,12 @@ class ClientPrefs {
 		'instakill' => false,
 		'practice' => false,
 		'botplay' => false,
+		'randomMode' => false,
+		'susheal' => true,
 		'opponentplay' => false
 	];
 
-	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
+	public static var comboOffset:Array<Int> = [0, 0, 0, 0, 0, 0];
 	public static var ratingOffset:Int = 0;
 	public static var sickWindow:Int = 45;
 	public static var goodWindow:Int = 90;
@@ -96,13 +99,14 @@ class ClientPrefs {
 		'volume_up'		=> [NUMPADPLUS, PLUS],
 		'volume_down'	=> [NUMPADMINUS, MINUS],
 
-		'debug_1'		=> [SEVEN, NONE],
-		'debug_2'		=> [EIGHT, NONE],
+		'debug_1'		=> [SEVEN, NONE], // charting editor state
+		'debug_2'		=> [EIGHT, NONE], // character editor
 
 		'zoom+'			=> [Z, NONE],
 		'zoom-'			=> [X, NONE],
 		'decrease'		=> [Q, NONE],
-		'increase'		=> [E, NONE]
+		'increase'		=> [E, NONE],
+		'save'			=> [P, NONE]
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -150,6 +154,7 @@ class ClientPrefs {
 		FlxG.save.data.comboOffset = comboOffset;
 		FlxG.save.data.achievementsMap = Achievements.achievementsMap;
 		FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
+		FlxG.save.data.checkForUpdates = checkForUpdates;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
 		FlxG.save.data.sickWindow = sickWindow;
@@ -175,9 +180,6 @@ class ClientPrefs {
 		if(FlxG.save.data.noteSkin != null) {
 			noteSkin = FlxG.save.data.noteSkin;
 		}
-		if(FlxG.save.data.noteSplashes || !FlxG.save.data.noteSplashes) // fixes noteSplashes error - EDIT: well, i want to YOU to see the new notesplashes
-			FlxG.save.data.noteSplashes = 'Normal';
-
 		if(FlxG.save.data.instantRespawn != null)
 			instantRespawn = FlxG.save.data.instantRespawn;
 
@@ -189,6 +191,10 @@ class ClientPrefs {
 		}
 		if (FlxG.save.data.shaders != null) {
 			shaders = FlxG.save.data.shaders;
+		}
+		if (FlxG.save.data.checkForUpdates != null)
+		{
+			checkForUpdates = FlxG.save.data.checkForUpdates;
 		}
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;
@@ -364,6 +370,9 @@ class ClientPrefs {
 		FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
 		FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
 	}
+	/**
+		USE THIS BEFORE TAKING "OUR" FLXKEYS!!!
+	**/
 	public static function copyKey(arrayToCopy:Array<FlxKey>):Array<FlxKey> {
 		var copiedArray:Array<FlxKey> = arrayToCopy.copy();
 		var i:Int = 0;

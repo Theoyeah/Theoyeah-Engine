@@ -34,7 +34,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	public static var songName:String = '';
 
-	
+
 	public static var toOptions:Bool = false;
 	
 	public function new(x:Float, y:Float)
@@ -46,11 +46,11 @@ class PauseSubState extends MusicBeatSubstate
 		}
 
 		toOptions = false;
-		
+
 		if(PlayState.chartingMode)
 		{
 			menuItemsOG.insert(2, 'Leave Charting Mode');
-			
+
 			var num:Int = 0;
 			if(!PlayState.instance.startingSong)
 			{
@@ -71,7 +71,7 @@ class PauseSubState extends MusicBeatSubstate
 
 
 		pauseMusic = new FlxSound();
-		if(songName != null) {
+		if(songName != null && songName.length > 0) {
 			pauseMusic.loadEmbedded(Paths.music(songName), true, true);
 		} else if (songName != 'None') {
 			pauseMusic.loadEmbedded(Paths.music(Paths.formatToSongPath(ClientPrefs.pauseMusic)), true, true);
@@ -79,7 +79,7 @@ class PauseSubState extends MusicBeatSubstate
 		pauseMusic.volume = 0;
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
 
-		if(ClientPrefs.pauseMusic.toLowerCase() == 'none') {
+		if(ClientPrefs.pauseMusic == 'None') {
 			pauseMusic.volume = 0;
 		}
 
@@ -151,6 +151,7 @@ class PauseSubState extends MusicBeatSubstate
 	}
 
 	var holdTime:Float = 0;
+	var cantUnpause:Float = 0.1;
 	override function update(elapsed:Float)
 	{
 		if (pauseMusic.volume < 0.5)
@@ -203,7 +204,7 @@ class PauseSubState extends MusicBeatSubstate
 				}
 		}
 
-		if (accepted)
+		if (accepted && (cantUnpause <= 0 || !ClientPrefs.controllerMode))
 		{
 			if (menuItems == difficultyChoices)
 			{
@@ -277,15 +278,16 @@ class PauseSubState extends MusicBeatSubstate
 					WeekData.loadTheFirstEnabledMod();
 					if(PlayState.isStoryMode) {
 						MusicBeatState.switchState(new StoryMenuState());
-						Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
 					} else {
 						MusicBeatState.switchState(new FreeplayState());
-						Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
 					}
+					Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
 					PlayState.cancelMusicFadeTween();
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					PlayState.changedDifficulty = false;
 					PlayState.chartingMode = false;
+					// PlayState.instance.cpuControlled = false;
+					// PlayState.instance.practiceMode = false;
 			}
 		}
 	}
@@ -394,10 +396,10 @@ class PauseSubState extends MusicBeatSubstate
 		curSelected = 0;
 		changeSelection();
 	}
-	
+
 	function updateSkipTextStuff()
 	{
-		if(skipTimeText == null|| skipTimeTracker == null) return;
+		if(skipTimeText == null || skipTimeTracker == null) return;
 
 		skipTimeText.x = skipTimeTracker.x + skipTimeTracker.width + 60;
 		skipTimeText.y = skipTimeTracker.y;

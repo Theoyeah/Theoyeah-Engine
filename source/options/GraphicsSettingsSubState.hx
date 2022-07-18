@@ -76,19 +76,21 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		option.onChange = onChangePersistentData; //Persistent Cached Data changes FlxGraphic.defaultPersist
 		addOption(option);
 		*/
-		var option:Option = new Option('Shaders', 
-			'If checked, you can use shaders to customize your gameplay!', 
-			'shaders', 
-			'bool', 
-			true); 
+		var option:Option = new Option('Shaders',
+			'If checked, you can use shaders to customize your gameplay!',
+			'shaders',
+			'bool',
+			true);
 		addOption(option);
 
-		var option:Option = new Option('Auto Pause', 
-			'If enabled, will pause when the app is unfocused.', 
-			'autoPause', 
-			'bool', 
-			true); 
+		#if !html5
+		var option:Option = new Option('Auto Pause',
+			'If enabled, will pause when the app is unfocused.',
+			'autoPause',
+			'bool',
+			true);
 		addOption(option);
+		#end
 
 		super();
 	}

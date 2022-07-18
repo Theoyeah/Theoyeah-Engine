@@ -94,13 +94,9 @@ class Main extends Sprite
 		}
 		#end
 
-		if(ClientPrefs.autoPause) {
-			FlxG.autoPause = true;
- 		} else {
-			FlxG.autoPause = false;
-		}
+		FlxG.autoPause = #if html5 false #else ClientPrefs.autoPause #end;
+
 		#if html5
-		FlxG.autoPause = false;
 		FlxG.mouse.visible = false;
 		#end
 
@@ -119,33 +115,35 @@ class Main extends Sprite
 		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
 		var dateNow:String = Date.now().toString();
 
-		dateNow = dateNow.replace(" ", "_");
-		dateNow = dateNow.replace(":", "'");
+		dateNow = dateNow.replace(" ", "_").replace(':', "'");
 
-		path = "./crash/" + "PsychEngine_" + dateNow + ".txt";
+		path = "./logs/crash/" + "TheoyeahEngine_" + dateNow + ".txt";
 
+		var i:Int = 1;
 		for (stackItem in callStack)
 		{
 			switch (stackItem)
 			{
 				case FilePos(s, file, line, column):
-					errMsg += file + " (line " + line + ")\n";
+					errMsg += 'Error Number $i: File: "$file" (line: "$line")\n';
 				default:
 					Sys.println(stackItem);
 			}
+			i++;
 		}
 
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/ShadowMario/FNF-PsychEngine\n\n> Crash Handler written by: sqirra-rng";
+		errMsg =
+		"Errors:\n" + errMsg + "\nUncaught Error: " + e.error + "\nUnexpected ?\nThen please report this error to the GitHub page: https://github.com/Theoyeah/Theoyeah-Engine.\nIf you need any help regarding how to fix, please look up in the wiki!";
 
-		if (!FileSystem.exists("./crash/"))
-			FileSystem.createDirectory("./crash/");
+		if (!FileSystem.exists("./logs/crash/"))
+			FileSystem.createDirectory("./logs/crash/");
 
 		File.saveContent(path, errMsg + "\n");
 
 		Sys.println(errMsg);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
-		Application.current.window.alert(errMsg, "Error!");
+		Application.current.window.alert(errMsg, "Fatal Error!");
 		DiscordClient.shutdown();
 		Sys.exit(1);
 	}
