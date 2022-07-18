@@ -89,7 +89,7 @@ class CreditsState extends MusicBeatState
 			[''],
 			['Pull Requests and Code used'],
 			['Magnumsrt',					'',					'Creator of stage editor',														''],
-			['BeastlyGhost',        		'',     			'Creator of v0.3 FPS Counter (Base Game)\n(Memory used), and other GOD things', ''],
+			['BeastlyGhost',        		'ghost',     			'Creator of v0.3 FPS Counter (Base Game)\n(Memory used), and other GOD things',			'https://twitter.com/Fan_de_RPG',				'b0ceff'],
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',				'shadowmario',		'Main Programmer of Psych Engine',												'https://twitter.com/Shadow_Mario_',							'444444'],
