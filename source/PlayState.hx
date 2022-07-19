@@ -4757,6 +4757,22 @@ class PlayState extends MusicBeatState
 
 			var char:Character = dad;
 			var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))] + altAnim;
+			switch (Std.int(Math.abs(note.noteData)))
+			{
+				case 0:
+					animToPlay = 'singLEFT';
+					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x -= 20;
+				case 1:
+					animToPlay = 'singDOWN';
+					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y += 20;
+				case 2:
+					animToPlay = 'singUP';
+					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y -= 20;
+				case 3:
+					animToPlay = 'singRIGHT';
+					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x += 20;
+			}
+			var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))] + altAnim;
 			if(note.gfNote) {
 				char = gf;
 			}
@@ -4880,16 +4896,16 @@ class PlayState extends MusicBeatState
 				{
 					case 0:
 						animToPlay = 'singLEFT';
-						if(ClientPrefs.camfollow) camFollow.x -= 20;
+						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x -= 20;
 					case 1:
 						animToPlay = 'singDOWN';
-						if(ClientPrefs.camfollow) camFollow.y += 20;
+						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y += 20;
 					case 2:
 						animToPlay = 'singUP';
-						if(ClientPrefs.camfollow) camFollow.y -= 20;
+						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y -= 20;
 					case 3:
 						animToPlay = 'singRIGHT';
-						if(ClientPrefs.camfollow) camFollow.x += 20;
+						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x += 20;
 				}
 
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
