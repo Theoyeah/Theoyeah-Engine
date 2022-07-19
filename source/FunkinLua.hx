@@ -84,7 +84,7 @@ class FunkinLua {
 	public function couldntFindObject(vars:Dynamic) {
 		#if LUA_ALLOWED
 		var varr:String = vars.toString;
-		traceLuaError('Couldnt find object: $varr');
+		luaTrace('Couldnt find object: $varr');
 		#else
 		lol();
 		#end
@@ -150,7 +150,7 @@ class FunkinLua {
 	public function notExists(obj:Dynamic) {
 		#if LUA_ALLOWED
 		var object:String = obj.toString();
-		traceLuaError('Object $object doesnt exist!');
+		luaTrace('Object $object doesnt exist!');
 		#else
 		lol();
 		#end
@@ -659,7 +659,7 @@ class FunkinLua {
 				PlayState.instance.luaArray.push(new FunkinLua(cervix)); 
 				return;
 			}
-			traceLuaError('Script "$luaFile" ' + "doesn't exist!");
+			luaTrace('Script "$luaFile" ' + "doesn't exist!");
 		});
 
 		Lua_helper.add_callback(lua, "removeLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
@@ -699,7 +699,7 @@ class FunkinLua {
 				}
 				return;
 			}
-			traceLuaError('Script "$luaFile" doesn' + "'t exist!");
+			luaTrace('Script "$luaFile" doesn' + "'t exist!");
 		});
 
 		Lua_helper.add_callback(lua, "luaSpriteExists", function(tag:String) {
@@ -744,7 +744,7 @@ class FunkinLua {
 					case 'Null Function Pointer', 'SReturn':
 						//nothing
 					default:
-						traceLuaError(scriptName + ":" + lastCalledFunction + " - " + e);
+						luaTrace(scriptName + ":" + lastCalledFunction + " - " + e);
 				}
 			}
 			#end
@@ -762,7 +762,7 @@ class FunkinLua {
 				haxeInterp.variables.set(libName, Type.resolveClass(str + libName));
 			}
 			catch (e:Dynamic) {
-				traceLuaError(scriptName + ":" + lastCalledFunction + " - " + e);
+				luaTrace(scriptName + ":" + lastCalledFunction + " - " + e);
 			}
 			#end
 		});
@@ -855,7 +855,7 @@ class FunkinLua {
 				}
 				return getGroupStuff(leArray, variable);
 			}
-			traceLuaError("Object #" + index + " from group: " + obj + " doesn't exist!");
+			luaTrace("Object #" + index + " from group: " + obj + " doesn't exist!");
 			return null;
 		});
 		@:privateAccess
@@ -928,7 +928,7 @@ class FunkinLua {
 			if(leObj != null)
 				return getInstance().members.indexOf(leObj);
 
-			traceLuaError('Object $obj doesnt exist!');
+			luaTrace('Object $obj doesnt exist!');
 			return -1;
 		});
 		Lua_helper.add_callback(lua, "setObjectOrder", function(obj:String, position:Int) {
@@ -943,7 +943,7 @@ class FunkinLua {
 				getInstance().insert(position, leObj);
 				return;
 			}
-			traceLuaError('Object $obj doesnt exist!');
+			luaTrace('Object $obj doesnt exist!');
 		});
 
 		// gay ass tweens
@@ -1531,7 +1531,7 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "makeLuaSprite", function(tag:String, image:String, x:Float, y:Float) {
 			/*
 			if(!FileSystem.exists(Paths.image(image))) {
-				traceLuaError('The image "$image" doesnt exists');
+				luaTrace('The image "$image" doesnt exists');
 				return null;
 			}*/
 			tag = tag.replace('.', '');
@@ -1736,7 +1736,7 @@ class FunkinLua {
 				if(updateHitbox) poop.updateHitbox();
 				return;
 			}
-			traceLuaError('Couldnt find object: ' + obj);
+			luaTrace('Couldnt find object: ' + obj);
 		});
 		Lua_helper.add_callback(lua, "scaleObject", function(obj:String, x:Float, y:Float, updateHitbox:Bool = true) {
 			if(PlayState.instance.getLuaObject(obj) != null) {
@@ -1757,7 +1757,7 @@ class FunkinLua {
 				if(updateHitbox) poop.updateHitbox();
 				return;
 			}
-			traceLuaError('Couldnt find object: ' + obj);
+			luaTrace('Couldnt find object: ' + obj);
 		});
 		Lua_helper.add_callback(lua, "updateHitbox", function(obj:String) {
 			if(PlayState.instance.getLuaObject(obj) != null) {
@@ -1771,7 +1771,7 @@ class FunkinLua {
 				poop.updateHitbox();
 				return;
 			}
-			traceLuaError('Couldnt find object: ' + obj);
+			luaTrace('Couldnt find object: ' + obj);
 		});
 		Lua_helper.add_callback(lua, "updateHitboxFromGroup", function(group:String, index:Int) {
 			if(Std.isOfType(Reflect.getProperty(getInstance(), group), FlxTypedGroup)) {
@@ -1787,7 +1787,7 @@ class FunkinLua {
 			if(parent != null && child != null)
 				return parent.tail.contains(child);
 
-			traceLuaError('${parentID} or ${childID} is not a valid note ID');
+			luaTrace('${parentID} or ${childID} is not a valid note ID');
 			return false;
 		});
 		Lua_helper.add_callback(lua, "removeLuaSprite", function(tag:String, destroy:Bool = true) {
@@ -1835,7 +1835,7 @@ class FunkinLua {
 				object.cameras = [cameraFromString(camera)];
 				return true;
 			}
-			traceLuaError("Object " + obj + " doesn't exist!");
+			luaTrace("Object " + obj + " doesn't exist!");
 			return false;
 		});
 		Lua_helper.add_callback(lua, "setBlendMode", function(obj:String, blend:String = '') {
@@ -1855,7 +1855,7 @@ class FunkinLua {
 				spr.blend = blendModeFromString(blend);
 				return true;
 			}
-			traceLuaError("Object " + obj + " doesn't exist!");
+			luaTrace("Object " + obj + " doesn't exist!");
 			return false;
 		});
 
@@ -1885,7 +1885,7 @@ class FunkinLua {
 						return;
 				}
 			}
-			traceLuaError("Object " + obj + " doesn't exist!");
+			luaTrace("Object " + obj + " doesn't exist!");
 		});
 		Lua_helper.add_callback(lua, "objectsOverlap", function(obj1:String, obj2:String) {
 			var namesArray:Array<String> = [obj1, obj2];
@@ -1950,11 +1950,11 @@ class FunkinLua {
 				var shit:DialogueFile = DialogueBoxPsych.parseDialogue(path);
 				if(shit.dialogue.length > 0) {
 					PlayState.instance.startDialogue(shit, music);
-					traceLuaError('Successfully loaded dialogue "$dialogueFile"');
+					luaTrace('Successfully loaded dialogue "$dialogueFile"');
 				} else
-					traceLuaError('Dialogue file "$dialogueFile" is badly formatted!');
+					luaTrace('Dialogue file "$dialogueFile" is badly formatted!');
 			} else {
-				traceLuaError('Dialogue file "' + dialogueFile + '" not found');
+				luaTrace('Dialogue file "' + dialogueFile + '" not found');
 				if(PlayState.instance.endingSong)
 					PlayState.instance.endSong();
 				else
@@ -1968,9 +1968,9 @@ class FunkinLua {
 			else if(FileSystem.exists(Paths.video(videoFile.toLowerCase())))
 				PlayState.instance.startVideo(videoFile.toLowerCase());
 			else
-				traceLuaError('Video file not found: $videoFile');
+				luaTrace('Video file not found: $videoFile');
 			#else
-			traceLuaError('videos are not allowed');
+			luaTrace('videos are not allowed');
 			if(PlayState.instance.endingSong)
 				PlayState.instance.endSong();
 			else
@@ -2075,20 +2075,20 @@ class FunkinLua {
 			}
 		});
 
-		Lua_helper.add_callback(lua, "debugPrint", function(text1:Dynamic = '', text2:Dynamic = '', text3:Dynamic = '', text4:Dynamic = '', text5:Dynamic = '', color:String = 'white') {
+		Lua_helper.add_callback(lua, "debugPrint", function(text1:Dynamic = '', text2:Dynamic = '', text3:Dynamic = '', text4:Dynamic = '', text5:Dynamic = '') {
 			if (text1 == null) text1 = '';
 			if (text2 == null) text2 = '';
 			if (text3 == null) text3 = '';
 			if (text4 == null) text4 = '';
 			if (text5 == null) text5 = '';
-			luaTrace('' + text1 + text2 + text3 + text4 + text5, true, false, color);
+			luaTrace('' + text1 + text2 + text3 + text4 + text5, true, false);
 		});
-		Lua_helper.add_callback(lua, "debugPrintArray", function(text:Array<String>, color:String = 'white') { // better for arrays
+		Lua_helper.add_callback(lua, "debugPrintArray", function(text:Array<String>){ // better for arrays
 			var thisText:String = '';
 			for (i in 0...text.length) {
 				thisText += text[i];
 			}
-			luaTrace(thisText, true, false, color);
+			luaTrace(thisText, true, false);
 		});
 
 		Lua_helper.add_callback(lua, "close", function() {
@@ -2302,7 +2302,7 @@ class FunkinLua {
 
 				return true;
 			} catch (e:Dynamic) {
-				traceLuaError("Error trying to save " + path + ": " + e);
+				luaTrace("Error trying to save " + path + ": " + e);
 			}
 			return false;
 		});
@@ -2338,7 +2338,7 @@ class FunkinLua {
 					return true;
 				}
 			} catch (e:Dynamic) {
-				traceLuaError("Error trying to delete " + path + ": " + e);
+				luaTrace("Error trying to delete " + path + ": " + e);
 			}
 			return false;
 		});
@@ -2421,7 +2421,7 @@ class FunkinLua {
 				PlayState.instance.modchartSprites.get(tag).cameras = [cameraFromString(camera)];
 				return true;
 			}
-			traceLuaError("Lua sprite with tag: " + tag + " doesn't exist!");
+			luaTrace("Lua sprite with tag: " + tag + " doesn't exist!");
 			return false;
 		});
 		Lua_helper.add_callback(lua, "setLuaSpriteScrollFactor", function(tag:String, scrollX:Float, scrollY:Float) {
@@ -2470,7 +2470,7 @@ class FunkinLua {
 				}
 				return Reflect.setProperty(PlayState.instance.modchartSprites.get(tag), variable, value);
 			}
-			traceLuaError('Lua sprite with tag: "$tag" ' + "doesn't exist!");
+			luaTrace('Lua sprite with tag: "$tag" ' + "doesn't exist!");
 		});
 		Lua_helper.add_callback(lua, "musicFadeIn", function(duration:Float, fromValue:Float = 0, toValue:Float = 1) {
 			FlxG.sound.music.fadeIn(duration, fromValue, toValue);
@@ -2862,44 +2862,16 @@ class FunkinLua {
 		return PlayState.instance.camGame;
 	}
 
-	public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false, color:Dynamic = 'white') {
+	public function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false, color:FlxColor = FlxColor.WHITE) {
 		#if LUA_ALLOWED
-		var colorr:FlxColor = FlxColor.WHITE;
-		var colorStuff:Array<Array<Dynamic>> = [
-			['red', FlxColor.RED],
-			['blue', FlxColor.BLUE],
-			['black', FlxColor.BLACK],
-			['brown', FlxColor.BROWN],
-			['cyan', FlxColor.CYAN],
-			['gray', FlxColor.GRAY],
-			['green', FlxColor.GREEN],
-			['lime', FlxColor.LIME],
-			['yellow', FlxColor.YELLOW],
-			['transparent', FlxColor.TRANSPARENT],
-			['white', FlxColor.WHITE]
-		];
-		if(color is String) {
-			for (i in 0...colorStuff.length) {
-				if(colorStuff[i][0].toLowerCase().trim().replace('-', '') == color.toLowerCase().trim().replace('-', '')) {
-					colorr = colorStuff[i][1];
-				}
-			}
-		} else {
-			colorr = color;
-		}
 		if(ignoreCheck || getBool('luaDebugMode')) {
 			if(deprecated && !getBool('luaDeprecatedWarnings')) {
 				return;
 			}
-			PlayState.instance.addTextToDebug(text, colorr);
+			PlayState.instance.addTextToDebug(text, color);
 			trace(text);
 		}
-		#else
-		lol();
 		#end
-	}
-	public function traceLuaError(text:String) {
-		luaTrace(text, false, false, 'red');
 	}
 
  	function getErrorMessage() {
@@ -2930,7 +2902,7 @@ class FunkinLua {
 			if(!resultIsAllowed(lua, result))
 			{
 				Lua.pop(lua, 1);
-				if(error != null) traceLuaError("ERROR (" + func + "): " + error);
+				//if(error != null) luaTrace("ERROR (" + func + "): " + error);
 			}
 			else
 			{
