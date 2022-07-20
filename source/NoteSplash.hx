@@ -16,7 +16,7 @@ class NoteSplash extends FlxSprite
 		var hola:String = 'noteSplashes';
 		switch(ClientPrefs.noteSplashes.toLowerCase()) {
 			case 'original': hola = 'og';
-			case 'inverted' | 'red' | 'cyan' | 'green' | 'pink' | 'idk': hola = ClientPrefs.noteSplashes.toLowerCase();
+			case 'inverted' | 'red' | 'cyan' | 'green' | 'pink' | 'idk' | 'saturated': hola = ClientPrefs.noteSplashes.toLowerCase();
 		}
 		if(hola != 'noteSplashes') return hola.toLowerCase() + '_noteSplashes';
 		return hola;

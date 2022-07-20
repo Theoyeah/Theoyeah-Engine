@@ -26,7 +26,9 @@ class NoteskinHelper
 	**/
 	public static var noteSkins:Map<String, String> = [
 		'arrows' => 'NOTE_assets',
-		'circles' => 'CIRCLENOTE_assets'
+		'circles' => 'CIRCLENOTE_assets',
+		'bars' => 'BARNOTE_assets',
+		'saturated' => 'SATURATEDNOTE_assets'
 	];
 
 	public static function reloadNoteSkinFiles()
