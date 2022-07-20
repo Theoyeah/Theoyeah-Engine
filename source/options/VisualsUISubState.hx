@@ -39,7 +39,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'noteSplashes',
 			'string',
 			'Normal',
-			['Normal', 'None', /*'Original',*/ 'Inverted', 'Red', 'Pink', 'Cyan', 'Green', 'IDK']);
+			['Normal', 'None', /*'Original',*/ 'Inverted', 'Red', 'Pink', 'Cyan', 'Green', 'IDK', 'Saturated']);
 		addOption(option);
 
 		var option:Option = new Option('Flashing Lights',
