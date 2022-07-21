@@ -5480,7 +5480,8 @@ class PlayState extends MusicBeatState
 			if (goods > 0) ratingFC = "GFC";
 			if (bads > 0 || shits > 0) ratingFC = "FC";
 			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
-			else if (songMisses >= 10) ratingFC = "Clear";
+			if (songMisses >= 10) ratingFC = "Clear";
+			else if (ratingName == '?') ratingFC = "?";
 		}
 		updateScore(badHit); // miss notes shouldn't make the scoretxt bounce -Ghost
 		setOnLuas('rating', ratingPercent);
