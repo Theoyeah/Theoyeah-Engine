@@ -35,7 +35,8 @@ class HealthIcon extends FlxSprite
 	}
 
 	private var iconOffsets:Array<Float> = [0, 0];
-	public function changeIcon(char:String) {
+	public function changeIcon(char:String)
+	{
 		if(this.char != char) {
 			var name:String = 'icons/' + char;
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-' + char; //Older versions of psych engine's support
@@ -43,24 +44,31 @@ class HealthIcon extends FlxSprite
 			var file:Dynamic = Paths.image(name);
 
 			loadGraphic(file); //Load stupidly first for getting the file size
-			var oldWidth = width;
-			if (width == 450) {
-				loadGraphic(file, true, Math.floor(width / 3), Math.floor(height)); //Then load it fr // winning icons go br
-				iconOffsets[0] = (width - 150) / 3;
-				iconOffsets[1] = (width - 150) / 3;
-				iconOffsets[2] = (width - 150) / 3;
-			} else {
-				loadGraphic(file, true, Math.floor(width / 2), Math.floor(height)); //Then load it fr // winning icons go br
-				iconOffsets[0] = (width - 150) / 2;
-				iconOffsets[1] = (width - 150) / 2;
-			}
-			updateHitbox();
+			
+			var frames:Array<Int> = [0, 1, 2];
+			var finalWidth = 3;
 
-			if (oldWidth == 450) {
-				animation.add(char, [0, 1, 2], 0, false, isPlayer);
-			} else {
-				animation.add(char, [0, 1], 0, false, isPlayer);
+			switch (iconGraphic.width)
+			{
+				case 450:
+					finalWidth = 3;
+					frames = [0, 1, 2];
+					iconOffsets[0] = (width - 150) / finalWidth;
+					iconOffsets[1] = (width - 150) / finalWidth;
+					iconOffsets[2] = (width - 150) / finalWidth;
+				case 300:
+					finalWidth = 2;
+					frames = [0, 1];
+					iconOffsets[0] = (width - 150) / finalWidth;
+					iconOffsets[1] = (width - 150) / finalWidth;
+				case 150:
+					finalWidth = 1;
+					frames = [0];
+					iconOffsets[0] = (width - 150) / finalWidth;
 			}
+			loadGraphic(file, true, Math.floor(width / finalWidth), Math.floor(height)); //Then load it fr
+			animation.add('icon', frames, 0, false, isPlayer);
+			updateHitbox();
 			animation.play(char);
 			this.char = char;
 
