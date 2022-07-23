@@ -54,18 +54,18 @@ class HealthIcon extends FlxSprite
 				case 450:
 					finalWidth = 3;
 					frames = [0, 1, 2];
-					iconOffsets[0] = (width - 150) / finalWidth;
-					iconOffsets[1] = (width - 150) / finalWidth;
-					iconOffsets[2] = (width - 150) / finalWidth;
+					iconOffsets[0] = (width - 150) / 3;
+					iconOffsets[1] = (width - 150) / 3;
+					iconOffsets[2] = (width - 150) / 3;
 				case 300:
 					finalWidth = 2;
 					frames = [0, 1];
-					iconOffsets[0] = (width - 150) / finalWidth;
-					iconOffsets[1] = (width - 150) / finalWidth;
+					iconOffsets[0] = (width - 150) / 2;
+					iconOffsets[1] = (width - 150) / 2;
 				case 150:
 					finalWidth = 1;
 					frames = [0];
-					iconOffsets[0] = (width - 150) / finalWidth;
+					iconOffsets[0] = (width - 150) / 1;
 			}
 			loadGraphic(file, true, Math.floor(width / finalWidth), Math.floor(height)); //Then load it fr
 			animation.add('icon', frames, 0, false, isPlayer);
