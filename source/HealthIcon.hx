@@ -35,37 +35,45 @@ class HealthIcon extends FlxSprite
 	}
 
 	private var iconOffsets:Array<Float> = [0, 0];
-	public function changeIcon(char:String) {
-		if(this.char != char) {
+	public function changeIcon(char:String)
+	{
+		if(this.char != char)
+		{
 			var name:String = 'icons/' + char;
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-' + char; //Older versions of psych engine's support
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-face'; //Prevents crash from missing icon
 			var file:Dynamic = Paths.image(name);
 
 			loadGraphic(file); //Load stupidly first for getting the file size
-			var oldWidth = width;
-			if (width == 450) {
-				loadGraphic(file, true, Math.floor(width / 3), Math.floor(height)); //Then load it fr // winning icons go br
-				iconOffsets[0] = (width - 150) / 3;
-				iconOffsets[1] = (width - 150) / 3;
-				iconOffsets[2] = (width - 150) / 3;
-			} else {
-				loadGraphic(file, true, Math.floor(width / 2), Math.floor(height)); //Then load it fr // winning icons go br
-				iconOffsets[0] = (width - 150) / 2;
-				iconOffsets[1] = (width - 150) / 2;
+			var frames:Array<Int> = [0, 1, 2];
+			var finalWidth = 3;
+			switch (file.width)
+			{
+				case 450:
+					finalWidth = 3;
+					frames = [0, 1, 2];
+					iconOffsets[0] = (width - 450) / 3;
+					iconOffsets[1] = (width - 450) / 3;
+				case 300:
+					finalWidth = 2;
+					frames = [0, 1];
+					iconOffsets[0] = (width - 300) / 2;
+					iconOffsets[1] = (width - 300) / 2;
+				case 150:
+					finalWidth = 1;
+					frames = [0];
+					iconOffsets[0] = (width - 150) / 1;
 			}
+			loadGraphic(file, true, Math.floor(width / finalWidth), Math.floor(height)); //Then load it fr
 			updateHitbox();
 
-			if (oldWidth == 450) {
-				animation.add(char, [0, 1, 2], 0, false, isPlayer);
-			} else {
-				animation.add(char, [0, 1], 0, false, isPlayer);
-			}
+			animation.add(char, frames, 0, false, isPlayer);
 			animation.play(char);
 			this.char = char;
 
 			antialiasing = ClientPrefs.globalAntialiasing;
-			if(char.endsWith('-pixel')) {
+			if(char.endsWith('-pixel'))
+			{
 				antialiasing = false;
 			}
 		}
