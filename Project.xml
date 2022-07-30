@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': Theoyeah Engine" file="TheoyeahEngine" packageName="com.shadowmario.psychengine" package="com.shadowmario.psychengine" main="Main" version="4.0-beta.2" company="Theoyeah" />
+	<app title="Friday Night Funkin': Theoyeah Engine With New Features" file="TheoyeahEngine" packageName="com.shadowmario.psychengine" package="com.shadowmario.psychengine" main="Main" version="4.0-beta.2" company="Theoyeah" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -28,10 +28,10 @@
 
 	<!--Desktop-specific-->
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
-
-	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" resizable="false"/>
-
+	
+	<!--Playstation-specific (omg)-->
+	<window if="playstation" orientation="landscape" fullscreen="true" width="0" height="0" />
+	
 	<!--Switch-specific-->
 	<window if="switch" orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
 
