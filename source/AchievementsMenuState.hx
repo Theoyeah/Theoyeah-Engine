@@ -81,9 +81,9 @@ class AchievementsMenuState extends MusicBeatState
 		descText.borderSize = 2.4;
 		add(descText);
 
-		var resetText:FlxText = new FlxText(0, 680, FlxG.width, "Press R to reset achievement/nPress ALT + R to reset all", 12);
+		var resetText:FlxText = new FlxText(0, 680, FlxG.width, "Press R to reset achievement\nPress ALT + R to reset all", 12);
  		resetText.borderSize = 2.5;
- 		resetText.setFormat(Paths.font("vcr.ttf"), 28, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+ 		resetText.setFormat(Paths.font("vcr.ttf"),18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
  		resetText.scrollFactor.set();
  		add(resetText);
 
