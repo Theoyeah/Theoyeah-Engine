@@ -1,5 +1,7 @@
 package;
 
+import lime.graphics.ImageBuffer;
+import lime.graphics.Image;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -8,6 +10,13 @@ import flixel.util.FlxColor;
 import flash.display.BitmapData;
 import editors.ChartingState;
 import flash.system.System;
+import openfl.system.System;
+import openfl.utils.AssetType;
+import openfl.utils.Assets as OpenFlAssets;
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 using StringTools;
 
@@ -391,17 +400,20 @@ class Note extends FlxSprite
 		var lastScaleY:Float = scale.y;
 		var blahblah:String = arraySkin.join('/');
 		if(PlayState.isPixelStage) {
+			var notefile:String = 'pixelUI/$blahblah';
 			if(isSustainNote) {
-				loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'));
+				if(!Paths.fileExists(notefile + 'ENDS', IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
+				loadGraphic(Paths.image(notefile + 'ENDS'));
 				width = width / 4;
 				height = height / 2;
 				originalHeightForCalcs = height;
-				loadGraphic(Paths.image('pixelUI/' + blahblah + 'ENDS'), true, Math.floor(width), Math.floor(height));
+				loadGraphic(Paths.image(notefile + 'ENDS'), true, Math.floor(width), Math.floor(height));
 			} else {
-				loadGraphic(Paths.image('pixelUI/' + blahblah));
+				if(Paths.fileExists(notefile, IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
+				loadGraphic(Paths.image(notefile));
 				width = width / 4;
 				height = height / 5;
-				loadGraphic(Paths.image('pixelUI/' + blahblah), true, Math.floor(width), Math.floor(height));
+				loadGraphic(Paths.image(notefile), true, Math.floor(width), Math.floor(height));
 			}
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 			loadPixelNoteAnims();
@@ -487,30 +499,20 @@ class Note extends FlxSprite
 		if (mustPress)
 		{
 			// ok river
-			if (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult)
-				&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
-				canBeHit = true;
-			else
-				canBeHit = false;
+			canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) && strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
 
-			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
-				tooLate = true;
+			tooLate = (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit);
 		}
 		else
 		{
 			canBeHit = false;
 
-			if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
-			{
-				if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
-					wasGoodHit = true;
-			}
+			wasGoodHit = (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult) && (isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition);
 		}
 
-		if (tooLate && !inEditor)
+		if (tooLate && !inEditor && alpha > 0.3)
 		{
-			if (alpha > 0.3)
-				alpha = 0.3;
+			alpha = 0.3;
 		}
 	}
 }

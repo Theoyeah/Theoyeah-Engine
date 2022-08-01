@@ -2662,7 +2662,7 @@ class PlayState extends MusicBeatState
 		switch(event.event) {
 			case 'Change Character':
 				var charType:Int = 0;
-				switch(event.value1.toLowerCase().trim()) {
+				switch(event.value1.toLowerCase().trim().replace(' ', '')) {
 					case 'gf' | 'girlfriend' | '3' | 'girl' | 'middle':
 						charType = 2;
 					case 'dad' | 'opponent' | '2' | 'daddy' | 'dady' | 'bad' | 'left' | 'leftguy':
@@ -4599,7 +4599,7 @@ class PlayState extends MusicBeatState
 			{
 				// hold note functions
 				if (daNote.isSustainNote && controlHoldArray[daNote.noteData] && daNote.canBeHit 
-				&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
+					&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
 					goodNoteHit(daNote);
 				}
 			});

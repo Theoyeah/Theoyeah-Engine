@@ -510,7 +510,7 @@ class EditorPlayState extends MusicBeatState
 
 		super.onFocus();
 	}
-	
+
 	override public function onFocusLost():Void
 	{
 		vocals.pause();
@@ -1013,7 +1013,7 @@ class EditorPlayState extends MusicBeatState
 
 	// Note splash shit, duh
 	function spawnNoteSplashOnNote(note:Note) {
-		if(ClientPrefs.noteSplashes.toLowerCase() != 'none' && note != null) {
+		if(ClientPrefs.noteSplashes != 'None' && note != null) {
 			var strum:StrumNote = playerStrums.members[note.noteData];
 			if(strum != null) {
 				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
