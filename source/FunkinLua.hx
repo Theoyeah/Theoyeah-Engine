@@ -2104,7 +2104,7 @@ class FunkinLua {
 			gonnaClose = true;
 		});
 
-		Lua_helper.add_callback(lua, "changePresence", function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float) {
+		Lua_helper.add_callback(lua, "changePresence", function(details:String, ?state:String, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float) {
 			#if desktop
 				DiscordClient.changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp);
 			#end
@@ -2292,7 +2292,7 @@ class FunkinLua {
 			return (Assets.exists(Paths.getPath('assets/$filename', TEXT)) || Assets.exists(Paths.getPath('assets/' + filename.toLowerCase(), TEXT)));
 			#end
 		});
-		Lua_helper.add_callback(lua, "saveFile", function(path:String, content:String, ?absolute:Bool = false)
+		Lua_helper.add_callback(lua, "saveFile", function(path:String, content:String, absolute:Bool = false)
 		{
 			try {
 				if(!absolute)
@@ -2306,7 +2306,7 @@ class FunkinLua {
 			}
 			return false;
 		});
-		Lua_helper.add_callback(lua, "deleteFile", function(path:String, ?ignoreModFolders:Bool = false, ?tryLowerCase:Bool = false)
+		Lua_helper.add_callback(lua, "deleteFile", function(path:String, ignoreModFolders:Bool = false, tryLowerCase:Bool = false)
 		{
 			try {
 				#if MODS_ALLOWED
@@ -2944,7 +2944,7 @@ class FunkinLua {
 	}
 
 	#if LUA_ALLOWED
-	function resultIsAllowed(leLua:State, leResult:Null<Int>) { //Makes it ignore warnings
+	function resultIsAllowed(leLua:State, ?leResult:Int) { //Makes it ignore warnings
 		return Lua.type(leLua, leResult) >= Lua.LUA_TNIL;
 	}
 

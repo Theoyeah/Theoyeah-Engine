@@ -3,16 +3,12 @@ package editors;
 #if desktop
 import Discord.DiscordClient;
 #end
+import WeekData;
+import flash.net.FileFilter;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxMath;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
-import flixel.system.FlxSound;
-import openfl.utils.Assets;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
@@ -20,18 +16,22 @@ import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.math.FlxMath;
+import flixel.system.FlxSound;
+import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import openfl.net.FileReference;
+import flixel.util.FlxColor;
+import haxe.Json;
+import lime.system.Clipboard;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
-import flash.net.FileFilter;
-import lime.system.Clipboard;
-import haxe.Json;
+import openfl.net.FileReference;
+import openfl.utils.Assets;
 #if sys
-import sys.io.File;
 import sys.FileSystem;
+import sys.io.File;
 #end
-import WeekData;
 
 using StringTools;
 
@@ -58,7 +58,7 @@ class WeekEditorState extends MusicBeatState
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
 		txtWeekTitle.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, RIGHT);
 		txtWeekTitle.alpha = 0.7;
-		
+
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 		var bgYellow:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 386, 0xFFF9CF51);
 		bgSprite = new FlxSprite(0, 56);
@@ -71,22 +71,22 @@ class WeekEditorState extends MusicBeatState
 
 		var blackBarThingie:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 56, FlxColor.BLACK);
 		add(blackBarThingie);
-		
+
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
-		
+
 		lock = new FlxSprite();
 		lock.frames = ui_tex;
 		lock.animation.addByPrefix('lock', 'lock');
 		lock.animation.play('lock');
 		lock.antialiasing = ClientPrefs.globalAntialiasing;
 		add(lock);
-		
+
 		missingFileText = new FlxText(0, 0, FlxG.width, "");
 		missingFileText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		missingFileText.borderSize = 2;
 		missingFileText.visible = false;
 		add(missingFileText); 
-		
+
 		var charArray:Array<String> = weekFile.weekCharacters;
 		for (char in 0...3)
 		{
@@ -132,7 +132,7 @@ class WeekEditorState extends MusicBeatState
 		UI_box.scrollFactor.set();
 		addWeekUI();
 		addOtherUI();
-		
+
 		UI_box.selected_tab_id = 'Week';
 		add(UI_box);
 
@@ -142,14 +142,14 @@ class WeekEditorState extends MusicBeatState
 		loadWeekButton.screenCenter(X);
 		loadWeekButton.x -= 120;
 		add(loadWeekButton);
-		
+
 		var freeplayButton:FlxButton = new FlxButton(0, 650, "Freeplay", function() {
 			MusicBeatState.switchState(new WeekEditorFreeplayState(weekFile));
-			
+
 		});
 		freeplayButton.screenCenter(X);
 		add(freeplayButton);
-	
+
 		var saveWeekButton:FlxButton = new FlxButton(0, 650, "Save Week", function() {
 			saveWeek(weekFile);
 		});
@@ -163,7 +163,7 @@ class WeekEditorState extends MusicBeatState
 	var displayNameInputText:FlxUIInputText;
 	var weekNameInputText:FlxUIInputText;
 	var weekFileInputText:FlxUIInputText;
-	
+
 	var opponentInputText:FlxUIInputText;
 	var boyfriendInputText:FlxUIInputText;
 	var girlfriendInputText:FlxUIInputText;
@@ -171,11 +171,11 @@ class WeekEditorState extends MusicBeatState
 	var hideCheckbox:FlxUICheckBox;
 
 	public static var weekFileName:String = 'week1';
-	
+
 	function addWeekUI() {
 		var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = "Week";
-		
+
 		songsInputText = new FlxUIInputText(10, 30, 200, '', 8);
 		blockPressWhileTypingOn.push(songsInputText);
 
@@ -188,7 +188,7 @@ class WeekEditorState extends MusicBeatState
 
 		backgroundInputText = new FlxUIInputText(10, opponentInputText.y + 40, 120, '', 8);
 		blockPressWhileTypingOn.push(backgroundInputText);
-		
+
 
 		displayNameInputText = new FlxUIInputText(10, backgroundInputText.y + 60, 200, '', 8);
 		blockPressWhileTypingOn.push(backgroundInputText);
@@ -321,7 +321,7 @@ class WeekEditorState extends MusicBeatState
 
 		txtTracklist.screenCenter(X);
 		txtTracklist.x -= FlxG.width * 0.35;
-		
+
 		txtWeekTitle.text = weekFile.storyName.toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
 	}
@@ -332,8 +332,7 @@ class WeekEditorState extends MusicBeatState
 
 		var isMissing:Bool = true;
 		if(assetName != null && assetName.length > 0) {
-			if( #if MODS_ALLOWED FileSystem.exists(Paths.modsImages('menubackgrounds/menu_' + assetName)) || #end
-			Assets.exists(Paths.getPath('images/menubackgrounds/menu_' + assetName + '.png', IMAGE), IMAGE)) {
+			if( #if MODS_ALLOWED FileSystem.exists(Paths.modsImages('menubackgrounds/menu_' + assetName)) || #end Assets.exists(Paths.getPath('images/menubackgrounds/menu_' + assetName + '.png', IMAGE), IMAGE)) {
 				bgSprite.loadGraphic(Paths.image('menubackgrounds/menu_' + assetName));
 				isMissing = false;
 			}
@@ -348,11 +347,10 @@ class WeekEditorState extends MusicBeatState
 		weekThing.visible = true;
 		missingFileText.visible = false;
 		var assetName:String = weekFileInputText.text.trim();
-		
+
 		var isMissing:Bool = true;
 		if(assetName != null && assetName.length > 0) {
-			if( #if MODS_ALLOWED FileSystem.exists(Paths.modsImages('storymenu/' + assetName)) || #end
-			Assets.exists(Paths.getPath('images/storymenu/' + assetName + '.png', IMAGE), IMAGE)) {
+			if( #if MODS_ALLOWED FileSystem.exists(Paths.modsImages('storymenu/' + assetName)) || #end Assets.exists(Paths.getPath('images/storymenu/' + assetName + '.png', IMAGE), IMAGE)) {
 				weekThing.loadGraphic(Paths.image('storymenu/' + assetName));
 				isMissing = false;
 			}
@@ -370,7 +368,7 @@ class WeekEditorState extends MusicBeatState
 		DiscordClient.changePresence("Week Editor", "Editting: " + weekFileName);
 		#end
 	}
-	
+
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>) {
 		if(id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText)) {
 			if(sender == opponentInputText || sender == boyfriendInputText || sender == girlfriendInputText || sender == displayNameInputText || sender == songsInputText) {
@@ -407,7 +405,7 @@ class WeekEditorState extends MusicBeatState
 
 				updateText();
 			}
-				
+
 			if(sender == weekFileInputText) {
 				weekFileName = weekFileInputText.text.trim();
 				reloadWeekThing();

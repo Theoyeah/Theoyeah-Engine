@@ -1582,21 +1582,21 @@ class PlayState extends MusicBeatState
 
 	public function removeShaderFromCamera(cam:String, effect:ShaderEffect) {
 		switch(cam.toLowerCase()) {
-			case 'camhud' | 'hud': 
+			case 'camhud' | 'hud':
 				camHUDShaders.remove(effect);
 				var newCamEffects:Array<BitmapFilter> = [];
 				for(i in camHUDShaders) {
 					newCamEffects.push(new ShaderFilter(i.shader));
 				}
 				camHUD.setFilters(newCamEffects);
-			case 'camother' | 'other': 
+			case 'camother' | 'other':
 				camOtherShaders.remove(effect);
 				var newCamEffects:Array<BitmapFilter> = [];
 				for (i in camOtherShaders) {
 					newCamEffects.push(new ShaderFilter(i.shader));
 				}
 				camOther.setFilters(newCamEffects);
-			default: 
+			default:
 				camGameShaders.remove(effect);
 				var newCamEffects:Array<BitmapFilter> = [];
 				for(i in camGameShaders) {
@@ -1608,15 +1608,15 @@ class PlayState extends MusicBeatState
 
 	public function clearShaderFromCamera(cam:String) {
 		switch(cam.toLowerCase()) {
-			case 'camhud' | 'hud': 
+			case 'camhud' | 'hud':
 				camHUDShaders = [];
 				var newCamEffects:Array<BitmapFilter> = [];
 				camHUD.setFilters(newCamEffects);
-			case 'camother' | 'other': 
+			case 'camother' | 'other':
 				camOtherShaders = [];
 				var newCamEffects:Array<BitmapFilter> = [];
 				camOther.setFilters(newCamEffects);
-			default: 
+			default:
 				camGameShaders = [];
 				var newCamEffects:Array<BitmapFilter> = [];
 				camGame.setFilters(newCamEffects);

@@ -35,7 +35,7 @@ class CoolUtil
 		return (m / snap);
 	}
 
-	public static function getDifficultyFilePath(num:Null<Int> = null)
+	public static function getDifficultyFilePath(?num:Int)
 	{
 		if (num == null)
 			num = PlayState.storyDifficulty;
