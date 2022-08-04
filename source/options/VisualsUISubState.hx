@@ -142,12 +142,18 @@ class VisualsUISubState extends BaseOptionsMenu
 
 		#if !mobile
 		var option:Option = new Option('FPS Counter',
-			'If unchecked, hides FPS Counter.',
+			'If unchecked, hides the FPS Counter.',
 			'showFPS',
 			'bool',
 			true);
 		addOption(option);
-		option.onChange = onChangeFPSCounter;
+		
+		var option:Option = new Option('RAM Counter',
+			'If unchecked, hides the RAM Counter.',
+			'showRAM',
+			'bool',
+			true);
+		addOption(option);
 		#end
 
 		#if CHECK_FOR_UPDATES
@@ -161,14 +167,4 @@ class VisualsUISubState extends BaseOptionsMenu
 
 		super();
 	}
-
-
-
-	#if !mobile
-	function onChangeFPSCounter()
-	{
-		if(Main.fpsVar != null)
-			Main.fpsVar.visible = ClientPrefs.showFPS;
-	}
-	#end
 }
