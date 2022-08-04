@@ -285,7 +285,6 @@ class FunkinLua {
 		set('fps', ClientPrefs.framerate);
 		set('anti-Aliasing', ClientPrefs.globalAntialiasing);
 		set('antiAliasing', ClientPrefs.globalAntialiasing);
-		set('antialiasing', ClientPrefs.globalAntialiasing);
 		set('ghostTapping', ClientPrefs.ghostTapping);
 		set('hideHud', ClientPrefs.hideHud);
 		set('timeBarType', ClientPrefs.timeBarType);
@@ -621,7 +620,7 @@ class FunkinLua {
 			return false;
 		});
 
-		Lua_helper.add_callback(lua, "addLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
+		Lua_helper.add_callback(lua, "addLuaScript", function(luaFile:String, ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
 			var cervix = luaFile + ".lua";
 			if(luaFile.endsWith('.lua')) cervix = luaFile;
 			var doPush = false;
@@ -662,8 +661,8 @@ class FunkinLua {
 			luaTrace('Script "$luaFile" ' + "doesn't exist!");
 		});
 
-		Lua_helper.add_callback(lua, "removeLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
-			var cervix = luaFile + ".lua";
+		Lua_helper.add_callback(lua, "removeLuaScript", function(luaFile:String, ignoreAlreadyRunning:Bool = false) { //would be dope asf. 
+			var cervix = '$luaFile.lua';
 			if(luaFile.endsWith('.lua')) cervix = luaFile;
 			var doPush = false;
 			#if MODS_ALLOWED
@@ -702,14 +701,14 @@ class FunkinLua {
 			luaTrace('Script "$luaFile" doesn' + "'t exist!");
 		});
 
-		Lua_helper.add_callback(lua, "luaSpriteExists", function(tag:String) {
- 			return (PlayState.instance.modchartSprites.exists(tag) || PlayState.instance.modchartSprites.exists(tag.toLowerCase()) || PlayState.instance.modchartSprites.exists(tag.toUpperCase()));
+		Lua_helper.add_callback(lua, "luaSpriteExists", function(tag:String, lower:Bool = true, upper:Bool = true) {
+ 			return (PlayState.instance.modchartSprites.exists(tag) || (PlayState.instance.modchartSprites.exists(tag.toLowerCase()) && lower) || (PlayState.instance.modchartSprites.exists(tag.toUpperCase()) && upper));
  		});
- 		Lua_helper.add_callback(lua, "luaTextExists", function(tag:String) {
- 			return PlayState.instance.modchartTexts.exists(tag);
+ 		Lua_helper.add_callback(lua, "luaTextExists", function(tag:String, lower:Bool = true, upper:Bool = true) {
+ 			return (PlayState.instance.modchartTexts.exists(tag) || (PlayState.instance.modchartTexts.exists(tag.toLowerCase()) && lower) || (PlayState.instance.modchartTexts.exists(tag.toUpperCase()) && upper));
  		});
- 		Lua_helper.add_callback(lua, "luaSoundExists", function(tag:String) {
- 			return PlayState.instance.modchartSounds.exists(tag);
+ 		Lua_helper.add_callback(lua, "luaSoundExists", function(tag:String, lower:Bool = true, upper:Bool = true) {
+ 			return (PlayState.instance.modchartSounds.exists(tag) || (PlayState.instance.modchartSounds.exists(tag.toLowerCase()) && lower) || (PlayState.instance.modchartSounds.exists(tag.toUpperCase()) && upper));
  		});
 
 		Lua_helper.add_callback(lua, "setHealthBarColors", function(leftHex:String, rightHex:String) {
@@ -767,7 +766,7 @@ class FunkinLua {
 			#end
 		});
 
-		Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
+		Lua_helper.add_callback(lua, "loadSong", function(?name:String, difficultyNum:Int = -1) {
 			if(name == null || name.length < 1)
 				name = PlayState.SONG.song;
 			if (difficultyNum == -1)
@@ -893,7 +892,7 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "getPropertyFromClass", function(classVar:String, variable:String) {
-		@:privateAccess
+			@:privateAccess
 			var killMe:Array<String> = variable.split('.');
 			if(killMe.length > 1) {
 				var coverMeInPiss:Dynamic = Reflect.getProperty(Type.resolveClass(classVar), killMe[0]);
@@ -1374,7 +1373,7 @@ class FunkinLua {
 			PlayState.instance.persistentUpdate = false;
 			PauseSubState.restartSong(skipTransition);
 		});
-		Lua_helper.add_callback(lua, "exitSong", function(skipTransition:Bool, songToPlay:String = 'freakyMenu') {
+		Lua_helper.add_callback(lua, "exitSong", function(skipTransition:Bool, songToPlay:String = 'freakyMenu', goToFreeplay:Int = 0 /* 0 for automatic, 1 for freeeplay, 2 for storymode */) {
 			if(skipTransition)
 			{
 				FlxTransitionableState.skipNextTransIn = true;
@@ -1386,10 +1385,17 @@ class FunkinLua {
 			if(FlxTransitionableState.skipNextTransIn)
 				CustomFadeTransition.nextCamera = null;
 
-			if(PlayState.isStoryMode)
-				MusicBeatState.switchState(new StoryMenuState());
-			else
-				MusicBeatState.switchState(new FreeplayState());
+			if(goToFreeplay == 0) {
+				if(PlayState.isStoryMode)
+					MusicBeatState.switchState(new StoryMenuState());
+				else
+					MusicBeatState.switchState(new FreeplayState());
+			} else {
+				if(goToFreeplay == 2)
+					MusicBeatState.switchState(new StoryMenuState());
+				else
+					MusicBeatState.switchState(new FreeplayState());
+			}
 
 			FlxG.sound.playMusic(Paths.music(songToPlay));
 			PlayState.changedDifficulty = false;
@@ -1464,12 +1470,15 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "setRatingPercent", function(value:Float) {
 			PlayState.instance.ratingPercent = value;
+			PlayState.instance.RecalculateRating();
 		});
 		Lua_helper.add_callback(lua, "setRatingName", function(value:String) {
 			PlayState.instance.ratingName = value;
+			PlayState.instance.RecalculateRating();
 		});
 		Lua_helper.add_callback(lua, "setRatingFC", function(value:String) {
 			PlayState.instance.ratingFC = value;
+			PlayState.instance.RecalculateRating();
 		});
 		Lua_helper.add_callback(lua, "getMouseX", function(camera:String) {
 			var cam:FlxCamera = cameraFromString(camera);
@@ -1528,7 +1537,7 @@ class FunkinLua {
 			}
 		});
 
-		Lua_helper.add_callback(lua, "makeLuaSprite", function(tag:String, image:String, x:Float, y:Float) {
+		Lua_helper.add_callback(lua, "makeLuaSprite", function(tag:String, image:String, x:Float, y:Float, antialiasing:Int = 0 /* 0 automatic, 1 is true, 2 is false */) {
 			/*
 			if(!FileSystem.exists(Paths.image(image))) {
 				luaTrace('The image "$image" doesnt exists');
@@ -1540,17 +1549,25 @@ class FunkinLua {
 			if(image != null && image.length > 0)
 				leSprite.loadGraphic(Paths.image(image));
 
-			leSprite.antialiasing = ClientPrefs.globalAntialiasing;
+			switch(antialiasing) {
+				case 0: leSprite.antialiasing = ClientPrefs.globalAntialiasing;
+				case 1: leSprite.antialiasing = true;
+				default: leSprite.antialiasing = false;
+			}
 			PlayState.instance.modchartSprites.set(tag, leSprite);
 			leSprite.active = true;
 		});
-		Lua_helper.add_callback(lua, "makeAnimatedLuaSprite", function(tag:String, image:String, x:Float, y:Float, ?spriteType:String = "sparrow") {
+		Lua_helper.add_callback(lua, "makeAnimatedLuaSprite", function(tag:String, image:String, x:Float, y:Float, ?spriteType:String = "sparrow", antialiasing:Int = 0) {
 			tag = tag.replace('.', '');
 			resetSpriteTag(tag);
 			var leSprite:ModchartSprite = new ModchartSprite(x, y);
 
 			loadFrames(leSprite, image, spriteType);
-			leSprite.antialiasing = ClientPrefs.globalAntialiasing;
+			switch(antialiasing) {
+				case 0: leSprite.antialiasing = ClientPrefs.globalAntialiasing;
+				case 1: leSprite.antialiasing = true;
+				default: leSprite.antialiasing = false;
+			}
 			PlayState.instance.modchartSprites.set(tag, leSprite);
 		});
 
@@ -1839,9 +1856,8 @@ class FunkinLua {
 			return false;
 		});
 		Lua_helper.add_callback(lua, "setBlendMode", function(obj:String, blend:String = '') {
-			var real = if(PlayState.instance.getLuaObject(obj) != null) PlayState.instance.getLuaObject(obj) else if(PlayState.instance.getLuaObject(obj.toLowerCase()) != null) PlayState.instance.getLuaObject(obj.toLowerCase()) else null;
-			if(real != null) {
-				real.blend = blendModeFromString(blend);
+			if(PlayState.instance.getLuaObject(obj) != null) {
+				PlayState.instance.getLuaObject(obj).blend = blendModeFromString(blend);
 				return true;
 			}
 
@@ -1984,8 +2000,10 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "playSound", function(sound:String, volume:Float = 1, ?tag:String = null) {
 			if(tag != null && tag.length > 0) {
 				tag = tag.replace('.', '');
-				if(PlayState.instance.modchartSounds.exists(tag))
+				var tagger:String = if(PlayState.instance.modchartSounds.exists(tag)) tag else tag.toLowerCase();
+				if(PlayState.instance.modchartSounds.exists(tagger))
 					PlayState.instance.modchartSounds.get(tag).stop();
+
 				PlayState.instance.modchartSounds.set(tag, FlxG.sound.play(Paths.sound(sound), volume, false, function() {
 					PlayState.instance.modchartSounds.remove(tag);
 					PlayState.instance.callOnLuas('onSoundFinished', [tag]);
@@ -1995,8 +2013,8 @@ class FunkinLua {
 			FlxG.sound.play(Paths.sound(sound), volume);
 		});
 		Lua_helper.add_callback(lua, "stopSound", function(tag:String = '') {
-			var blabla = if(PlayState.instance.modchartSounds.exists(tag)) tag else if(PlayState.instance.modchartSounds.exists(tag.toLowerCase())) tag.toLowerCase() else null;
-			if(tag != null && tag.length > 1 && blabla != null) {
+			var blabla = if(PlayState.instance.modchartSounds.exists(tag)) tag else tag.toLowerCase();
+			if(tag != null && tag.length > 1 && PlayState.instance.modchartSounds.exists(blabla)) {
 				PlayState.instance.modchartSounds.get(blabla).stop();
 				PlayState.instance.modchartSounds.remove(blabla);
 			}
@@ -2083,7 +2101,7 @@ class FunkinLua {
 			if (text5 == null) text5 = '';
 			luaTrace('' + text1 + text2 + text3 + text4 + text5, true, false);
 		});
-		Lua_helper.add_callback(lua, "debugPrintArray", function(text:Array<String>){ // better for arrays
+		Lua_helper.add_callback(lua, "debugPrintArray", function(text:Array<String>) { // better for arrays
 			var thisText:String = '';
 			for (i in 0...text.length) {
 				thisText += text[i];
@@ -2235,7 +2253,7 @@ class FunkinLua {
 			}
 		});
 
-		Lua_helper.add_callback(lua, "initSaveData", function(name:String, ?folder:String = 'theoyeahenginemods') {
+		Lua_helper.add_callback(lua, "initSaveData", function(name:String, folder:String = 'theoyeahenginemods') {
 			if(!PlayState.instance.modchartSaves.exists(name))
 			{
 				var save:FlxSave = new FlxSave();
@@ -2280,7 +2298,7 @@ class FunkinLua {
 
 			var path:String = Paths.modFolders(filename);
 			var papath:String = Paths.modFolders(filename.toLowerCase());
-			if(FileSystem.exists(path) || FileSystem.exists(papath))
+			if(FileSystem.exists(path) || (FileSystem.exists(papath) && !FileSystem.exists(path)))
 				return true;
 
 			return FileSystem.exists(Paths.getPath('assets/$filename', TEXT));
