@@ -101,9 +101,9 @@ class Highscore
 		FlxG.save.flush();
 	}
 
-	public static function formatSong(song:String, diff:Int):String
+	public static function formatSong(song:String, diff:Int, newSystem:Bool = true):String
 	{
-		return Paths.formatToSongPath(song) + CoolUtil.getDifficultyFilePath(diff);
+		return Paths.formatToSongPath(song, newSystem) + CoolUtil.getDifficultyFilePath(diff);
 	}
 
 	public static function getScore(song:String, diff:Int):Int

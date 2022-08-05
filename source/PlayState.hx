@@ -317,6 +317,7 @@ class PlayState extends MusicBeatState
 
 	// Less laggy controls
 	private var keysArray:Array<Dynamic>;
+	private var controlArray:Array<String>;
 
 	var precacheList:Map<String, String> = new Map<String, String>();
 
@@ -336,6 +337,13 @@ class PlayState extends MusicBeatState
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_down')),
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_up')),
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_right'))
+		];
+
+		controlArray = [
+			'NOTE_LEFT',
+			'NOTE_DOWN',
+			'NOTE_UP',
+			'NOTE_RIGHT'
 		];
 
 		//Ratings
@@ -392,13 +400,12 @@ class PlayState extends MusicBeatState
 		camOther.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camHUD);
-		FlxG.cameras.add(camOther);
+		FlxG.cameras.add(camHUD, false);
+		FlxG.cameras.add(camOther, false);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
-		FlxCamera.defaultCameras = [camGame];
+		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 		CustomFadeTransition.nextCamera = camOther;
-		//FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -4430,6 +4437,7 @@ class PlayState extends MusicBeatState
 		});
 	}
 
+	public var strumsBlocked:Array<Bool> = [];
 	private function onKeyPress(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
@@ -4454,7 +4462,7 @@ class PlayState extends MusicBeatState
 				var sortedNotesList:Array<Note> = [];
 				notes.forEachAlive(function(daNote:Note)
 				{
-					if (daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.isSustainNote && !daNote.blockHit)
+					if (strumsBlocked[daNote.noteData] != true && daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.isSustainNote && !daNote.blockHit)
 					{
 						if(daNote.noteData == key)
 						{
@@ -4564,30 +4572,19 @@ class PlayState extends MusicBeatState
 	private function keyShit():Void
 	{
 		// HOLDING
-		var up = controls.NOTE_UP;
-		var right = controls.NOTE_RIGHT;
-		var down = controls.NOTE_DOWN;
-		var left = controls.NOTE_LEFT;
-		var controlHoldArray:Array<Bool> = [left, down, up, right];
+		var parsedHoldArray:Array<Bool> = parseKeys();
 
-		// TO DO: Find a better way to handle controller inputs, this should work for now - MR. idk // well, this is better! -wither 
-		if(ClientPrefs.controllerMode)
+		// TO DO: Find a better way to handle controller inputs, this should work for now
+		if (ClientPrefs.controllerMode)
 		{
-			var lefted = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_left'));
-			var downed = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_down'));
-			var uped = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_up'));
-			var righted = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_right'));
-			if(controls.NOTE_LEFT_P) {
-				onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, lefted[0]));
-			}
-			if(controls.NOTE_DOWN_P) {
-				onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, downed[0]));
-			}
-			if(controls.NOTE_UP_P) {
-				onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, uped[0]));
-			}
-			if(controls.NOTE_RIGHT_P) {
-				onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, righted[0]));
+			var parsedArray:Array<Bool> = parseKeys('_P');
+			if (parsedArray.contains(true))
+			{
+				for (i in 0...parsedArray.length)
+				{
+					if (parsedArray[i] && strumsBlocked[i] != true)
+						onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[i][0]));
+				}
 			}
 		}
 
@@ -4598,47 +4595,62 @@ class PlayState extends MusicBeatState
 			notes.forEachAlive(function(daNote:Note)
 			{
 				// hold note functions
-				if (daNote.isSustainNote && controlHoldArray[daNote.noteData] && daNote.canBeHit 
-					&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
+				if (strumsBlocked[daNote.noteData] != true
+					&& daNote.isSustainNote
+					&& parsedHoldArray[daNote.noteData]
+					&& daNote.canBeHit
+					&& daNote.mustPress
+					&& !daNote.tooLate
+					&& !daNote.wasGoodHit
+					&& !daNote.blockHit)
+				{
 					goodNoteHit(daNote);
 				}
 			});
 
-			if (controlHoldArray.contains(true) && !endingSong) {
+			if (parsedHoldArray.contains(true) && !endingSong)
+			{
 				#if ACHIEVEMENTS_ALLOWED
 				var achieve:String = checkForAchievement(['oversinging']);
-				if (achieve != null) {
+				if (achieve != null)
+				{
 					startAchievement(achieve);
 				}
 				#end
 			}
-			else if (boyfriend.animation.curAnim != null && boyfriend.holdTimer > Conductor.stepCrochet * 0.0011 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
+			else if (boyfriend.animation.curAnim != null
+				&& boyfriend.holdTimer > Conductor.stepCrochet * 0.0011 * boyfriend.singDuration
+				&& boyfriend.animation.curAnim.name.startsWith('sing')
+				&& !boyfriend.animation.curAnim.name.endsWith('miss'))
 			{
 				boyfriend.dance();
-				//boyfriend.animation.curAnim.finish();
+				// boyfriend.animation.curAnim.finish();
 			}
 		}
 
-		// TO DO: Find a better way to handle controller inputs, this should work for now - MR IDK // well, this is better! -wither
-		if(ClientPrefs.controllerMode)
+		// TO DO: Find a better way to handle controller inputs, this should work for now
+		if (ClientPrefs.controllerMode || strumsBlocked.contains(true))
 		{
-			var lefted = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_left'));
-			var downed = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_down'));
-			var uped = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_up'));
-			var righted = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_right'));
-			if(controls.NOTE_LEFT_R) {
-				onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, lefted[0]));
-			}
-			if(controls.NOTE_DOWN_R) {
-				onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, downed[0]));
-			}
-			if(controls.NOTE_UP_R) {
-				onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, uped[0]));
-			}
-			if(controls.NOTE_RIGHT_R) {
-				onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, righted[0]));
+			var parsedArray:Array<Bool> = parseKeys('_R');
+			if (parsedArray.contains(true))
+			{
+				for (i in 0...parsedArray.length)
+				{
+					if (parsedArray[i] || strumsBlocked[i] == true)
+						onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
+				}
 			}
 		}
+	}
+
+	private function parseKeys(?suffix:String = ''):Array<Bool>
+	{
+		var ret:Array<Bool> = [];
+		for (i in 0...controlArray.length)
+		{
+			ret[i] = Reflect.getProperty(controls, controlArray[i] + suffix);
+		}
+		return ret;
 	}
 
 	function noteMiss(daNote:Note):Void { //You didn't hit the key and let it go offscreen, also used by Hurt Notes
@@ -4974,7 +4986,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function spawnNoteSplashOnNote(note:Note, animationsCount:Int = 3) {
+	public function spawnNoteSplashOnNote(note:Note, animationsCount:Int = 3) {
 		if(ClientPrefs.noteSplashes != 'None' && note != null) {
 			var strum:StrumNote = playerStrums.members[note.noteData];
 			if(strum != null)
@@ -5402,8 +5414,11 @@ class PlayState extends MusicBeatState
 			if(ret == FunkinLua.Function_StopLua && !ignoreStops)
 				break;
 
-			if(ret != FunkinLua.Function_Continue)
-				returnVal = ret;
+			// had to do this because there is a bug in haxe where Stop != Continue doesnt work
+			var bool:Bool = ret == FunkinLua.Function_Continue;
+			if(!bool) {
+				returnVal = cast ret;
+			}
 		}
 
 		for (i in 0...closeLuas.length) {
@@ -5602,7 +5617,7 @@ class PlayState extends MusicBeatState
 								}
 							}
 						case 'toastie':
-							if(/*ClientPrefs.framerate <= 60 &&*/ ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing && !ClientPrefs.imagesPersist) {
+							if(/*ClientPrefs.framerate <= 60 &&*/ ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing) {
 								unlock = true;
 							}
 						case 'debugger':
