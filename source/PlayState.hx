@@ -3923,19 +3923,26 @@ class PlayState extends MusicBeatState
 				if(Math.isNaN(val1)) val1 = 1;
 				if(Math.isNaN(val2)) val2 = 0;
 
-				var newValue:Float = #if CHEATING_ALLOWED SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed', 1) * val1 #else SONG.speed #end;
-
-				if(val2 <= 0)
-					songSpeed = newValue;
-				else
-				{
-					songSpeedTween = FlxTween.tween(this, {songSpeed: newValue}, val2, {ease: FlxEase.linear, onComplete:
-						function (twn:FlxTween)
-						{
-							songSpeedTween = null;
-						}
-					});
+				var newValue:Float = SONG.speed #if CHEATING_ALLOWED * ClientPrefs.getGameplaySetting('scrollspeed', 1) #end * val1;
+				switch(value3.trim()) {
+					case 'constant':
+						newValue = val1 #if CHEATING_ALLOWED * ClientPrefs.getGameplaySetting('scrollspeed', 1) #end;
 				}
+
+				if(songSpeed != newValue) {
+					if(val2 <= 0)
+						songSpeed = newValue;
+					else
+					{
+						songSpeedTween = FlxTween.tween(this, {songSpeed: newValue}, val2, {ease: FlxEase.linear, onComplete:
+							function (twn:FlxTween)
+							{
+								songSpeedTween = null;
+							}
+						});
+					}
+				}
+
 			case 'Set Property':
 				var killMe:Array<String> = value1.split('.');
 				if(killMe.length > 1)
