@@ -3659,7 +3659,7 @@ class PlayState extends MusicBeatState
 				var chars:Array<Character> = [boyfriend, gf, dad];
 				switch(lightId)
 				{
-					case 0:
+					case 0: // off
 						if(phillyGlowGradient.visible)
 						{
 							doFlash();
