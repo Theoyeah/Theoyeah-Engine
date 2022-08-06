@@ -4775,12 +4775,10 @@ class PlayState extends MusicBeatState
 
 	function opponentNoteHit(note:Note):Void
 	{
-		if(SONG.healthDrain) {
-			if(note.ignoreMinHealth) // take health if note.ignoreMinHealth is activated
-				health -= note.opponentHitTakeHealth;
-			else if(health > 0.1) // take health if health is more than 0.1
-				health -= note.opponentHitTakeHealth;
-		}
+		if(note.ignoreMinHealth) // take health if note.ignoreMinHealth is activated
+			health -= note.opponentHitTakeHealth;
+		else if(health > 0.1) // take health if health is more than 0.1
+			health -= note.opponentHitTakeHealth;
 
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 			camZooming = true;
