@@ -47,7 +47,7 @@ class Conductor
 	}
 	public static function getCrotchetAtTime(time:Float) {
  		var lastChange = getBPMFromSeconds(time);
- 		return lastChange.stepCrochet*4;
+ 		return lastChange.stepCrochet * 4;
  	}
 
  	public static function getBPMFromSeconds(time:Float) {
@@ -86,7 +86,7 @@ class Conductor
 	{
  		var step = beat * 4;
  		var lastChange = getBPMFromStep(step);
- 		return lastChange.songTime + ((step - lastChange.stepTime) / (lastChange.bpm / 60)/4) * 1000; // TODO: make less shit and take BPM into account PROPERLY
+ 		return lastChange.songTime + ((step - lastChange.stepTime) / (lastChange.bpm / 60) / 4) * 1000; // TODO: make less shit and take BPM into account PROPERLY
  	}
 
  	public static function getStep(time:Float)

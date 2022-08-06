@@ -2677,24 +2677,6 @@ class FunkinLua {
 		#end
 	}
 
-	// some fuckery fucks with linc_luajit
-	function getResult(l:State, result:Int):Any {
-		var ret:Any = null;
-
-		switch(Lua.type(l, result)) {
-			case Lua.LUA_TNIL:
-				ret = null;
-			case Lua.LUA_TBOOLEAN:
-				ret = Lua.toboolean(l, -1);
-			case Lua.LUA_TNUMBER:
-				ret = Lua.tonumber(l, -1);
-			case Lua.LUA_TSTRING:
-				ret = Lua.tostring(l, -1);
-		}
-
-		return ret;
-	}
-
 	#if hscript
 	public function initHaxeInterp()
 	{
@@ -3044,8 +3026,26 @@ class FunkinLua {
 	}
 
 	#if LUA_ALLOWED
-	function resultIsAllowed(leLua:State, ?leResult:Int) { //Makes it ignore warnings
-		var type:Int = Lua.type(leLua, leResult);
+	// some fuckery fucks with linc_luajit
+	function getResult(l:State, result:Int):Any {
+		var ret:Any = null;
+
+		switch(Lua.type(l, result)) {
+			case Lua.LUA_TNIL:
+				ret = null;
+			case Lua.LUA_TBOOLEAN:
+				ret = Lua.toboolean(l, -1);
+			case Lua.LUA_TNUMBER:
+				ret = Lua.tonumber(l, -1);
+			case Lua.LUA_TSTRING:
+				ret = Lua.tostring(l, -1);
+		}
+
+		return ret;
+	}
+
+	function resultIsAllowed(l:State, ?leResult:Int) { //Makes it ignore warnings
+		var type:Int = Lua.type(l, leResult);
 		return type >= Lua.LUA_TNIL && type < Lua.LUA_TTABLE && type != Lua.LUA_TLIGHTUSERDATA;
 	}
 

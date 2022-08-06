@@ -65,6 +65,7 @@ class ClientPrefs {
 		'botplay' => false,
 		'randomMode' => false,
 		'susheal' => true,
+		'windowalerts' => true,
 		'opponentplay' => false
 	];
 

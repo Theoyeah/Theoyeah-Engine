@@ -109,6 +109,7 @@ class Note extends FlxSprite
 	public var ratingDisabled:Bool = false;
 
 	public var texture(default, set):String = null;
+	public var animationsCount:Int = 3;
 
 	public var noAnimation:Bool = false;
 	public var noMissAnimation:Bool = false;
@@ -409,7 +410,7 @@ class Note extends FlxSprite
 				originalHeightForCalcs = height;
 				loadGraphic(Paths.image(notefile + 'ENDS'), true, Math.floor(width), Math.floor(height));
 			} else {
-				if(Paths.fileExists(notefile, IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
+				if(!Paths.fileExists(notefile, IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
 				loadGraphic(Paths.image(notefile));
 				width = width / 4;
 				height = height / 5;

@@ -269,9 +269,9 @@ class Paths
 		return sound;
 	}
 
-	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
+	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String, where:String = 'sounds')
 	{
-		return sound(key + FlxG.random.int(min, max), library);
+		return sound(key + FlxG.random.int(min, max), library, where);
 	}
 
 	inline static public function music(key:String = 'freakyMenu', ?library:String, where:String = 'music'):Sound
@@ -354,7 +354,11 @@ class Paths
 	inline static public function fileExists(key:String, type:AssetType, ignoreMods:Bool = false, ?library:String, prefix:String = '', suffix:String = ''):Bool
 	{
 		#if MODS_ALLOWED
-		if(FileSystem.exists(currentModKey(prefix + key + suffix)) || FileSystem.exists(mods(prefix + key + suffix)) || FileSystem.exists(currentModKey(prefix + key.toLowerCase() + suffix)) || FileSystem.exists(mods(prefix + key.toLowerCase() + suffix))) {
+		if(FileSystem.exists(currentModKey(prefix + key + suffix))
+			|| FileSystem.exists(mods(prefix + key + suffix))
+			|| FileSystem.exists(currentModKey(prefix + key.toLowerCase() + suffix))
+			|| FileSystem.exists(mods(prefix + key.toLowerCase() + suffix)))
+		{
 			return true;
 		}
 		#end

@@ -55,7 +55,7 @@ class FreeplayState extends MusicBeatState
 	{
 		//Paths.clearStoredMemory();
 		//Paths.clearUnusedMemory();
-		
+
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);
@@ -308,9 +308,9 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.UI_LEFT_P)
 			changeDiff(-1);
-		else if (controls.UI_RIGHT_P)
+		if (controls.UI_RIGHT_P)
 			changeDiff(1);
-		else if (upP || downP) changeDiff();
+		if (upP || downP) changeDiff();
 
 		if (controls.BACK)
 		{
@@ -322,13 +322,12 @@ class FreeplayState extends MusicBeatState
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
-		#if CHEATING_ALLOWED
-			if(ctrl)
-			{
-				persistentUpdate = false;
-				openSubState(new GameplayChangersSubstate());
-			}
-		else #end if(space)
+		if(ctrl)
+		{
+			persistentUpdate = false;
+			openSubState(new GameplayChangersSubstate());
+		}
+		else if(space)
 		{
 			if(instPlaying != curSelected)
 			{
