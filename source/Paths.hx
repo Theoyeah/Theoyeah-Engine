@@ -306,10 +306,10 @@ class Paths
 		#end
 	}
 
-	inline static public function image(key:String, ?library:String):FlxGraphic
+	inline static public function image(key:String, ?library:String, where:String = 'images'):FlxGraphic
 	{
 		// streamlined the assets process more
-		var returnAsset:FlxGraphic = returnGraphic(key, library);
+		var returnAsset:FlxGraphic = returnGraphic(key, library, where);
 		return returnAsset;
 	}
 
@@ -431,8 +431,9 @@ class Paths
 		#end
 	}
 
-	inline static public function formatToSongPath(path:String) {
-		return path.toLowerCase().replace(' ', '-');
+	inline static public function formatToSongPath(path:String, ?newSystem:Bool = true) {
+		if(!newSystem) return path.toLowerCase().replace(' ', '-');
+		return path.toLowerCase().replace(' ', '-').replace('.', '').replace('?', '').replace('!', '').replace('\\', '').replace('/', '');
 	}
 
 	// completely rewritten asset loading? fuck!

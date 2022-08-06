@@ -1,18 +1,19 @@
 package;
 
 import Conductor.BPMChangeEvent;
+import flixel.FlxBasic;
+import flixel.FlxCamera;
 import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.FlxState;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;
-import flixel.util.FlxTimer;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
-import flixel.FlxState;
-import flixel.FlxBasic;
+import flixel.util.FlxTimer;
 
 class MusicBeatState extends FlxUIState
 {
@@ -27,10 +28,13 @@ class MusicBeatState extends FlxUIState
 
 	private var controls(get, never):Controls;
 
+	public static var camBeat:FlxCamera;
+
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
 
 	override function create() {
+		camBeat = FlxG.camera;
 		var skip:Bool = FlxTransitionableState.skipNextTransOut;
 		super.create();
 

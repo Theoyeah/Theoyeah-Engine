@@ -87,12 +87,12 @@ class Song
 		this.bpm = bpm;
 	}
 
-	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
+	public static function loadFromJson(jsonInput:String, ?folder:String, ?newSystem:Bool = true):SwagSong
 	{
 		var rawJson = null;
 
-		var formattedFolder:String = Paths.formatToSongPath(folder);
-		var formattedSong:String = Paths.formatToSongPath(jsonInput);
+		var formattedFolder:String = Paths.formatToSongPath(folder, newSystem);
+		var formattedSong:String = Paths.formatToSongPath(jsonInput, newSystem);
 		#if MODS_ALLOWED
 		var moddyFile:String = Paths.modsJson(formattedFolder + '/' + formattedSong);
 		var otherModdyFile:String = Paths.modsJson(folder + '/' + jsonInput);
