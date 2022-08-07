@@ -183,6 +183,7 @@ class PlayState extends MusicBeatState
 	public var timeBar:FlxBar;
 
 	public var ratingsData:Array<Rating> = [];
+	public var marvelous:Int = 0;
 	public var sicks:Int = 0;
 	public var goods:Int = 0;
 	public var bads:Int = 0;
@@ -349,7 +350,12 @@ class PlayState extends MusicBeatState
 		];
 
 		//Ratings
-		ratingsData.push(new Rating('sick')); //default rating
+		ratingsData.push(new Rating('marvelous')); // default rating
+
+		var rating:Rating = new Rating('sick');
+			rating.score = 350;
+			rating.ratingMod = 0.9;
+		ratingsData.push(rating);
 
 		var rating:Rating = new Rating('good');
 			rating.ratingMod = 0.7;
@@ -1235,7 +1241,7 @@ class PlayState extends MusicBeatState
 			judgementCounter.scrollFactor.set();
 			judgementCounter.cameras = [camHUD];
 			judgementCounter.screenCenter(Y);
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n';
+			judgementCounter.text = 'Marvelous: ${marvelous}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n';
 			add(judgementCounter);
 		}
 
@@ -5551,7 +5557,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
 		if (ClientPrefs.crazycounter) {
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n;
+			judgementCounter.text = 'Marvelous: $marvelous\nSicks: $sicks\nGoods: $goods\nBads: $bads\nShits: $shits\n';//\nTotal hit: ${totals}\n;
 		}
 	}
 
