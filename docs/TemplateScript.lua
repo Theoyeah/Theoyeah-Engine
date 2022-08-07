@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 -- Lua stuff
 
 function onCreate()
@@ -113,7 +114,7 @@ end
 
 
 -- Other function hooks
-function onRecalculateRating()
+function onRecalculateRating(badHit)
 	-- return Function_Stop if you want to do your own rating calculation,
 	-- use setRatingPercent() to set the number on the calculation and setRatingString() to set the funny rating name
 	-- NOTE: THIS IS CALLED BEFORE THE CALCULATION!!!
@@ -130,11 +131,11 @@ end
 
 
 -- Event notes hooks
-function onEvent(name, value1, value2)
+function onEvent(name, value1, value2, value3)
 	-- event note triggered
 	-- triggerEvent() does not call this function!!
 
-	-- print('Event triggered: ', name, value1, value2);
+	-- print('Event triggered: ', name, value1, value2, value3);
 end
 
 function eventEarlyTrigger(name)

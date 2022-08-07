@@ -12,9 +12,10 @@ class NoteSplash extends FlxSprite
 	private var idleAnim:String;
 	private var textureLoaded:String = null;
 
-	public static function noteS():String { // from noteSplashes
+	public static function noteS(?skin:String):String { // from noteSplashes
 		var hola:String = 'noteSplashes';
-		switch(ClientPrefs.noteSplashes.toLowerCase()) {
+		var notesplash:String = if(skin == null) ClientPrefs.noteSplashes.toLowerCase() else skin.toLowerCase();
+		switch(notesplash) {
 			case 'original': hola = 'og';
 			case 'inverted' | 'red' | 'cyan' | 'green' | 'pink' | 'idk' | 'saturated': hola = ClientPrefs.noteSplashes.toLowerCase();
 		}

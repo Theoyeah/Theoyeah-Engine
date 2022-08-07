@@ -215,6 +215,7 @@ class FunkinLua {
 		set('seenCutscene', PlayState.seenCutscene);
 		set('deaths', PlayState.deathCounter);
 		set('blueBalled', PlayState.deathCounter);
+		set('allowHealthDrain', PlayState.allowHealthDrain);
 
 		// Camera poo
 		set('cameraX', 0);
@@ -1582,6 +1583,14 @@ class FunkinLua {
 			}
 			PlayState.instance.modchartSprites.set(tag, leSprite);
 		});
+		Lua_helper.add_callback(lua, "setLuaSpriteVisible", function(tag:String, state:Bool) {
+			tag = tag.replace('.', '');
+			tag = PlayState.instance.modchartSprites.exists(tag) ? tag : tag.toLowerCase();
+			if(PlayState.instance.modchartSprites.exists(tag)) {
+				var sprite:ModchartSprite = PlayState.instance.modchartSprites.get(tag);
+				sprite.visible = state;
+			}
+		});
 
 		Lua_helper.add_callback(lua, "makeGraphic", function(obj:String, width:Int, height:Int, color:String) {
 			var colorNum:Int = Std.parseInt(color);
@@ -2677,24 +2686,6 @@ class FunkinLua {
 		#end
 	}
 
-	// some fuckery fucks with linc_luajit
-	function getResult(l:State, result:Int):Any {
-		var ret:Any = null;
-
-		switch(Lua.type(l, result)) {
-			case Lua.LUA_TNIL:
-				ret = null;
-			case Lua.LUA_TBOOLEAN:
-				ret = Lua.toboolean(l, -1);
-			case Lua.LUA_TNUMBER:
-				ret = Lua.tonumber(l, -1);
-			case Lua.LUA_TSTRING:
-				ret = Lua.tostring(l, -1);
-		}
-
-		return ret;
-	}
-
 	#if hscript
 	public function initHaxeInterp()
 	{
@@ -3044,8 +3035,26 @@ class FunkinLua {
 	}
 
 	#if LUA_ALLOWED
-	function resultIsAllowed(leLua:State, ?leResult:Int) { //Makes it ignore warnings
-		var type:Int = Lua.type(leLua, leResult);
+	// some fuckery fucks with linc_luajit
+	function getResult(l:State, result:Int):Any {
+		var ret:Any = null;
+
+		switch(Lua.type(l, result)) {
+			case Lua.LUA_TNIL:
+				ret = null;
+			case Lua.LUA_TBOOLEAN:
+				ret = Lua.toboolean(l, -1);
+			case Lua.LUA_TNUMBER:
+				ret = Lua.tonumber(l, -1);
+			case Lua.LUA_TSTRING:
+				ret = Lua.tostring(l, -1);
+		}
+
+		return ret;
+	}
+
+	function resultIsAllowed(l:State, ?leResult:Int) { //Makes it ignore warnings
+		var type:Int = Lua.type(l, leResult);
 		return type >= Lua.LUA_TNIL && type < Lua.LUA_TTABLE && type != Lua.LUA_TLIGHTUSERDATA;
 	}
 

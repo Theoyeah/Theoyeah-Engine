@@ -70,7 +70,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		var option:GameplayOption = new GameplayOption('Health Gain Multiplier', 'healthgain', 'float', 1);
 		option.scrollSpeed = 2.5;
 		option.minValue = -3;
-		option.maxValue = #if CHEATING_ALLOWED 10 #else 1 #end;
+		option.maxValue = #if CHEATING_ALLOWED 7 #else 1 #end;
 		option.changeValue = 0.1;
 		option.displayFormat = '%vX';
 		optionsArray.push(option);
@@ -81,6 +81,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.maxValue = 5;
 		option.changeValue = 0.1;
 		option.displayFormat = '%vX';
+		optionsArray.push(option);
+
+		var option:GameplayOption = new GameplayOption('Windows Alerts', 'windowalerts', 'bool', true, null, true);
 		optionsArray.push(option);
 
 		var option:GameplayOption = new GameplayOption('Sustain Notes Heal', 'susheal', 'bool', true);

@@ -39,6 +39,7 @@ class Note extends FlxSprite
 	public var wasGoodHit:Bool = false;
 	public var ignoreNote:Bool = false;
 	public var hitByOpponent:Bool = false;
+	public var chartSound:String = "hitsound";
 	/**
 	 * How many health does the note take when the opponent hits this note
 	 */
@@ -109,6 +110,7 @@ class Note extends FlxSprite
 	public var ratingDisabled:Bool = false;
 
 	public var texture(default, set):String = null;
+	public var animationsCount:Int = 3;
 
 	public var noAnimation:Bool = false;
 	public var noMissAnimation:Bool = false;
@@ -178,7 +180,6 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					hitByOpponent = false;
 					if(isSustainNote) {
 						missHealth = 0.5;
 					} else {
@@ -192,9 +193,9 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					hitByOpponent = false;
 					hitCausesMiss = false;
 					hitHealth += 0.020;
+					chartSound = 'yay';
 
 				case 'Crash Note':
 					ignoreNote = mustPress;
@@ -203,7 +204,6 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					hitByOpponent = false;
 					hitCausesMiss = true;
 
 				case 'Window Note':
@@ -212,7 +212,6 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					hitByOpponent = false;
 					hitCausesMiss = true;
 
 				case 'Warning Note':
@@ -232,7 +231,6 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					hitByOpponent = false;
 					hitCausesMiss = true;
 
 				case 'Alt Animation':
@@ -409,7 +407,7 @@ class Note extends FlxSprite
 				originalHeightForCalcs = height;
 				loadGraphic(Paths.image(notefile + 'ENDS'), true, Math.floor(width), Math.floor(height));
 			} else {
-				if(Paths.fileExists(notefile, IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
+				if(!Paths.fileExists(notefile, IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
 				loadGraphic(Paths.image(notefile));
 				width = width / 4;
 				height = height / 5;
