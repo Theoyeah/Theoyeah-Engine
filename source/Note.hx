@@ -39,6 +39,7 @@ class Note extends FlxSprite
 	public var wasGoodHit:Bool = false;
 	public var ignoreNote:Bool = false;
 	public var hitByOpponent:Bool = false;
+	public var chartSound:String = "hitsound";
 	/**
 	 * How many health does the note take when the opponent hits this note
 	 */
@@ -196,6 +197,7 @@ class Note extends FlxSprite
 					hitByOpponent = false;
 					hitCausesMiss = false;
 					hitHealth += 0.020;
+					chartSound = 'yay';
 
 				case 'Crash Note':
 					ignoreNote = mustPress;

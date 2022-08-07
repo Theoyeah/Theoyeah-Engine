@@ -1680,7 +1680,7 @@ class PlayState extends MusicBeatState
 
 
 		var video:MP4Handler = new MP4Handler();
-		if( #if sys !FileSystem.exists(filepath) && FileSystem.exists(fifilepath)#else !OpenFlAssets.exists(filepath) && OpenFlAssets.exists(fifilepath)#end )
+		if( #if sys !FileSystem.exists(filepath) && FileSystem.exists(fifilepath) #else !OpenFlAssets.exists(filepath) && OpenFlAssets.exists(fifilepath) #end )
 			filepath = fifilepath; // specifies what file
 
 		video.playVideo(filepath);

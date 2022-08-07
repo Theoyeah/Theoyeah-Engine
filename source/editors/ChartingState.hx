@@ -2055,12 +2055,12 @@ class ChartingState extends MusicBeatState
 
 					if(!playedSound[data]) {
 						if((playSoundBf.checked && note.mustPress) || (playSoundDad.checked && !note.mustPress)) {
-							var soundToPlay = 'hitsound';
+							var soundToPlay = note.chartSound;
 							if(_song.player1 == 'gf') { //Easter egg
 								soundToPlay = 'GF_' + Std.string(data + 1);
 							}
 
-							FlxG.sound.play(Paths.sound(soundToPlay)).pan = note.noteData < 4? -0.3 : 0.3; //would be coolio
+							FlxG.sound.play(Paths.sound(soundToPlay)).pan = note.noteData < 4 ? -0.3 : 0.3; //would be coolio
 							playedSound[data] = true;
 						}
 
@@ -2484,14 +2484,13 @@ class ChartingState extends MusicBeatState
 		{
 			leftIcon.changeIcon(healthIconP1);
 			rightIcon.changeIcon(healthIconP2);
-			if (_song.notes[curSec].gfSection) leftIcon.changeIcon('gf');
 		}
 		else
 		{
 			leftIcon.changeIcon(healthIconP2);
 			rightIcon.changeIcon(healthIconP1);
-			if (_song.notes[curSec].gfSection) leftIcon.changeIcon('gf');
 		}
+		if (_song.notes[curSec].gfSection) leftIcon.changeIcon('gf');
 	}
 
 	function loadHealthIconFromCharacter(char:String) {
