@@ -180,7 +180,6 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					hitByOpponent = false;
 					if(isSustainNote) {
 						missHealth = 0.5;
 					} else {
@@ -194,7 +193,6 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					hitByOpponent = false;
 					hitCausesMiss = false;
 					hitHealth += 0.020;
 					chartSound = 'yay';
@@ -206,7 +204,6 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					hitByOpponent = false;
 					hitCausesMiss = true;
 
 				case 'Window Note':
@@ -215,7 +212,6 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					hitByOpponent = false;
 					hitCausesMiss = true;
 
 				case 'Warning Note':
@@ -235,7 +231,6 @@ class Note extends FlxSprite
 					colorSwap.hue = 0;
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
-					hitByOpponent = false;
 					hitCausesMiss = true;
 
 				case 'Alt Animation':

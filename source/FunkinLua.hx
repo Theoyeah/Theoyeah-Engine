@@ -215,6 +215,7 @@ class FunkinLua {
 		set('seenCutscene', PlayState.seenCutscene);
 		set('deaths', PlayState.deathCounter);
 		set('blueBalled', PlayState.deathCounter);
+		set('allowHealthDrain', PlayState.allowHealthDrain);
 
 		// Camera poo
 		set('cameraX', 0);
@@ -1581,6 +1582,14 @@ class FunkinLua {
 				default: leSprite.antialiasing = false;
 			}
 			PlayState.instance.modchartSprites.set(tag, leSprite);
+		});
+		Lua_helper.add_callback(lua, "setLuaSpriteVisible", function(tag:String, state:Bool) {
+			tag = tag.replace('.', '');
+			tag = PlayState.instance.modchartSprites.exists(tag) ? tag : tag.toLowerCase();
+			if(PlayState.instance.modchartSprites.exists(tag)) {
+				var sprite:ModchartSprite = PlayState.instance.modchartSprites.get(tag);
+				sprite.visible = state;
+			}
 		});
 
 		Lua_helper.add_callback(lua, "makeGraphic", function(obj:String, width:Int, height:Int, color:String) {

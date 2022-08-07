@@ -135,6 +135,7 @@ class PlayState extends MusicBeatState
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
+	public static var allowHealthDrain:Bool = true;
 
 	public var spawnTime:Float = 2000;
 
@@ -4782,10 +4783,12 @@ class PlayState extends MusicBeatState
 
 	function opponentNoteHit(note:Note):Void
 	{
-		if(note.ignoreMinHealth) // take health if note.ignoreMinHealth is activated
-			health -= note.opponentHitTakeHealth;
-		else if(health > 0.1) // take health if health is more than 0.1
-			health -= note.opponentHitTakeHealth;
+		if(allowHealthDrain) {
+			if(note.ignoreMinHealth) // take health if note.ignoreMinHealth is activated
+				health -= note.opponentHitTakeHealth;
+			else if(health > 0.1) // take health if health is more than 0.1
+				health -= note.opponentHitTakeHealth;
+		}
 
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 			camZooming = true;
@@ -4859,7 +4862,7 @@ class PlayState extends MusicBeatState
 
 			if (ClientPrefs.hitsoundVolume > 0 && !note.hitsoundDisabled)
 			{
-				FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
+				FlxG.sound.play(Paths.sound(note.chartSound), ClientPrefs.hitsoundVolume);
 			}
 
 			if(note.hitCausesMiss) {
@@ -4891,7 +4894,7 @@ class PlayState extends MusicBeatState
 						case 'Poisoned Note':
 							new FlxTimer().start(1.3, function(tmr:FlxTimer) //i dont know how this works
  							{
- 								health -= 0.05; 
+ 								health -= 0.05;
  							});
 							healthDrain = 0.10; // what does this means?
 
@@ -4900,10 +4903,6 @@ class PlayState extends MusicBeatState
 								boyfriend.playAnim('hurt', true);
 								boyfriend.specialAnim = true;
 							}
-
-						case 'Healthy Note':
-							FlxG.sound.play(Paths.sound('yay'), 1);
-
 					}
 				}
 
@@ -4915,6 +4914,11 @@ class PlayState extends MusicBeatState
 					note.destroy();
 				}
 				return;
+			} else {
+				switch(note.noteType) {
+					case 'Healthy Note':
+							FlxG.sound.play(Paths.sound('yay'), 1);
+				}
 			}
 
 			if (!note.isSustainNote)
@@ -4923,16 +4927,16 @@ class PlayState extends MusicBeatState
 				if(combo > 9999) combo = 9999;
 				popUpScore(note);
 				if(!susHeal) {
-					if(health < maxHealth)
-						health += note.hitHealth * healthGain;
-					else
+					health += note.hitHealth * healthGain;
+
+					if(health > maxHealth)
 						health = maxHealth;
 				}
 			}
 			if(susHeal) {
-				if(health < maxHealth)
-					health += note.hitHealth * healthGain;
-				else
+				health += note.hitHealth * healthGain;
+
+				if(health > maxHealth)
 					health = maxHealth;
 			}
 
