@@ -106,6 +106,7 @@ class AchievementsMenuState extends MusicBeatState
 			if(FlxG.keys.pressed.ALT) {
 				openSubState(new Prompt('This action will clear ALL the progress.\n\nProceed?', 0, function() {
 					FlxG.sound.play(Paths.sound('confirmMenu'));
+                                        FlxG.mouse.visible = true;
 					for (i in 0...achievementArray.length) {
 						achievementArray[i].forget();
 						grpOptions.members[i].changeText('?');
