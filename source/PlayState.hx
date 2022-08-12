@@ -5631,7 +5631,7 @@ class PlayState extends MusicBeatState
 				{
 					if (weekName.contains('week')) // simplified
 					{
-						if (achievementName == weekName + '_nomiss' && daDifficult)
+						if (achievementName == weekName + '_nomiss' && daDifficult && campaignMisses < 1)
 							unlock = true;
 					}
 					else
@@ -5639,59 +5639,46 @@ class PlayState extends MusicBeatState
 						switch (achievementName)
 						{
 							case 'ur_bad':
-								if (ratingPercent < 0.2 && !practiceMode)
-								{
+								if (ratingPercent < 0.2 && !practiceMode) {
 									unlock = true;
 								}
 							case 'ur_good':
-								if (ratingPercent >= 1 && !usedPractice)
-								{
+								if (ratingPercent >= 1 && !usedPractice) {
 									unlock = true;
 								}
 							case 'roadkill_enthusiast':
-								if (Achievements.henchmenDeath >= 100)
-								{
+								if (Achievements.henchmenDeath >= 100) {
 									unlock = true;
 								}
 							case 'oversinging':
-								if (boyfriend.holdTimer >= 10 && !usedPractice)
-								{
+								if (boyfriend.holdTimer >= 10 && !usedPractice) {
 									unlock = true;
 								}
 							case 'hype':
-								if (!boyfriendIdled && !usedPractice)
-								{
+								if (!boyfriendIdled && !usedPractice) {
 									unlock = true;
 								}
 							case 'two_keys':
-								if (!usedPractice)
-								{
+								if (!usedPractice) {
 									var howManyPresses:Int = 0;
-									for (j in 0...keysPressed.length)
-									{
-										if (keysPressed[j])
-											howManyPresses++;
+									for (j in 0...keysPressed.length) {
+										if (keysPressed[j]) howManyPresses++;
 									}
 
-									if (howManyPresses <= 2)
-									{
+									if (howManyPresses <= 2) {
 										unlock = true;
 									}
 								}
 							case 'toastie':
-								if (/*ClientPrefs.framerate <= 60 &&*/ ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing)
-								{
+								if (/*ClientPrefs.framerate <= 60 &&*/ ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing) {
 									unlock = true;
 								}
 							case 'debugger':
-								if (Paths.formatToSongPath(SONG.song) == 'test' && !usedPractice)
-								{
+								if (Paths.formatToSongPath(SONG.song) == 'test' && !usedPractice) {
 									unlock = true;
 								}
 							default:
-								if (achievementName.contains('nomiss')
-									&& achievementName.replace('_', '').replace('nomiss', '') == weekName)
-								{
+								if (achievementName.contains('nomiss') && achievementName.replace('_', '').replace('nomiss', '') == weekName) {
 									unlock = true;
 								}
 						}
