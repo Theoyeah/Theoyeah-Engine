@@ -174,16 +174,16 @@ class Achievements {
 		}
 
 		for (json in loadedAchievements) {
-			if(achievementsStuff.contains([json.name, json.description, json.icon, json.unlocksAfter, json.hidden/*, json.alpha*/])) continue; // skip this
+			if(achievementsStuff.contains([json.name, json.description, json.icon, json.unlocksAfter, json.hidden])) continue; // skip this
 			//trace(json);
 			var pushIt:Bool = true; // fixes duplication bug
-			for (i in achievementsStuff) {
-				if(achievementsStuff[i][0] == json.name || achievementsStuff[i][2] == json.icon || achievementsStuff.contains([json.name, json.description, json.icon, json.unlocksAfter, json.hidden/*, json.alpha*/])) {
+			for (thisAchievement in achievementsStuff) {
+				if(thisAchievement[0] == json.name || thisAchievement[2] == json.icon || achievementsStuff.contains([json.name, json.description, json.icon, json.unlocksAfter, json.hidden])) {
 					pushIt = false;
-					break;
+					break; // breaks the loop
 				}
 			}
-			if(pushIt) achievementsStuff.push([json.name, json.description, json.icon, json.unlocksAfter, json.hidden/*, json.alpha*/]);
+			if(pushIt) achievementsStuff.push([json.name, json.description, json.icon, json.unlocksAfter, json.hidden]);
 		}
 		#end
 	}
@@ -224,18 +224,15 @@ class AttachedAchievement extends FlxSprite {
 
 	public function forget() // from BeastlyGhost
  	{
- 		if (Achievements.isAchievementUnlocked(tag))
+ 		if (Achievements.isAchievementUnlocked(tag) && FlxG.save.data.achievementsMap)
  		{
- 			if (FlxG.save.data.achievementsMap != null)
- 			{
  				var savedStuff:Map<String, String> = FlxG.save.data.achievementsMap;
  				if (savedStuff.exists(tag))
  					savedStuff.remove(tag);
  				FlxG.save.data.achievementsMap = savedStuff;
  				loadGraphic(Paths.image('achievements/lockedachievement'));
- 			}
- 		}
- 	}
+		}
+	}
 
 	public function reloadAchievementImage() {
 		var imagePath = Paths.image('achievements/$tag');
