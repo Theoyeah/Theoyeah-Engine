@@ -597,7 +597,7 @@ class PlayState extends MusicBeatState
 				phillyStreet = new BGSprite('philly/street', -40, 50);
 				add(phillyStreet);
 
-			case 'limo': //Week 4
+			case 'limo': // Week 4
 				var skyBG:BGSprite = new BGSprite('limo/limoSunset', -120, -50, 0.1, 0.1);
 				add(skyBG);
 
@@ -1077,7 +1077,7 @@ class PlayState extends MusicBeatState
 		timeBar = new FlxBar(timeBarBG.x + 4, timeBarBG.y + 4, LEFT_TO_RIGHT, Std.int(timeBarBG.width - 8), Std.int(timeBarBG.height - 8), this,
 			'songPercent', 0, 1);
 		timeBar.scrollFactor.set();
-		timeBar.createFilledBar(0xFF000000, 0xFFFFFFFF);
+		timeBar.createFilledBar(FlxColor.BLACK, FlxColor.WHITE);
 		timeBar.numDivisions = 800; //How much lag this causes?? Should i tone it down to idk, 400 or 200?
 		timeBar.alpha = 0;
 		timeBar.visible = showTime;
@@ -3950,6 +3950,7 @@ class PlayState extends MusicBeatState
 							}
 							setOnLuas('gfName', gf.curCharacter);
 							setOnLuas('girlFriendName', gf.curCharacter);
+							setOnLuas('girlfriendName', gf.curCharacter);
 							setOnLuas('gfVersion', gf.curCharacter);
 							colors = false;
 						}
@@ -5339,7 +5340,6 @@ class PlayState extends MusicBeatState
 
 		lastStepHit = curStep;
 		setOnLuas('curStep', curStep);
-		setOnLuas('curstep', curStep);
 		callOnLuas('onStepHit', []);
 	}
 
@@ -5480,7 +5480,6 @@ class PlayState extends MusicBeatState
 		lastBeatHit = curBeat;
 
 		setOnLuas('curBeat', curBeat); //DAWGG?????
-		setOnLuas('curbeat', curBeat);
 		callOnLuas('onBeatHit', []);
 	}
 
@@ -5632,7 +5631,7 @@ class PlayState extends MusicBeatState
 	{
 		if(chartingMode) return null;
 
-		var usedPractice:Bool = (ClientPrefs.getGameplaySetting('practice', false) || ClientPrefs.getGameplaySetting('botplay', false));
+		var usedPractice:Bool = #if CHEATING_ALLOWED (ClientPrefs.getGameplaySetting('practice', false) || ClientPrefs.getGameplaySetting('botplay', false)) #else false #end;
 		var achievementsToCheck:Array<String> = achievesToCheck;
 		if (achievementsToCheck == null) {
 			achievementsToCheck = [];
