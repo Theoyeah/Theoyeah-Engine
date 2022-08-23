@@ -98,9 +98,10 @@ class ChartingState extends MusicBeatState
 		['Screen Shake', "Value 1: Camera shake\nValue 2: HUD shake\n\nEvery value works as the following example: \"1, 0.05\".\nThe first number (1) is the duration.\nThe second number (0.05) is the intensity."],
 		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
 		['Change Scroll Speed', "Value 1: Scroll Speed\nValue 2: Time it takes to change fully in seconds.\nValue3: Type, \"constant\" or \"multiplicative\""],
+		['Precache', 'Value 1: What needs to be precached\nValue 2: What type is: "Sound", "Music", "Image"\nPLEASE USE THIS WHEN USING CHANGE CHARACTER'],
 		['Set Property', "Value 1: Variable name\nValue 2: New value"],
 		['Change Icon', "Value 1: Character to change icon (Dad, BF)\nValue 2: Icon name"],
-		['Add Shader', "Value 1: Shader to add\nValue 2: Camera\nValue 3: The parameters to take in count\nGo to source to see the code"],
+		['Add Shader', "Value 1: Shader to add\nValue 2: Camera\nValue 3: The parameters to take in count\nGo to source to see the code\nand seeing what to do"],
 		['Kill Shaders', "Value 1: Camera\nClears all the shaders of the specified camera"]
 	];
 

@@ -437,7 +437,12 @@ class Paths
 
 	inline static public function formatToSongPath(path:String, ?newSystem:Bool = true) {
 		if(!newSystem) return path.toLowerCase().replace(' ', '-');
-		return path.toLowerCase().replace(' ', '-').replace('.', '').replace('?', '').replace('!', '').replace('\\', '').replace('/', '');
+
+		var invalidChars = ~/[ ~&\\;:<>#]/;
+		var hideChars = ~/[.,'"%?!]/;
+
+		var path = invalidChars.split(path).join("-");
+		return hideChars.split(path).join("").toLowerCase();
 	}
 
 	// completely rewritten asset loading? fuck!

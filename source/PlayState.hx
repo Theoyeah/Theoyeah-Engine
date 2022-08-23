@@ -1396,6 +1396,9 @@ class PlayState extends MusicBeatState
 		} else if(ClientPrefs.pauseMusic != 'None') {
 			precacheList.set(Paths.formatToSongPath(ClientPrefs.pauseMusic), 'music');
 		}
+
+		precacheList.set('alphabet', 'image');
+
 		#if desktop
 		// Updating Discord Rich Presence.
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -1412,7 +1415,9 @@ class PlayState extends MusicBeatState
 
 		super.create();
 
-		Paths.clearUnusedMemory();
+		cacheCountdown();
+		cachePopUpScore();
+
 		for (key => type in precacheList)
 		{
 			//trace('Key $key is type $type');
@@ -1426,6 +1431,9 @@ class PlayState extends MusicBeatState
 					Paths.music(key);
 			}
 		}
+
+		Paths.clearUnusedMemory();
+
 		CustomFadeTransition.nextCamera = camOther;
 	}
 
@@ -2154,6 +2162,24 @@ class PlayState extends MusicBeatState
 	public var countdownGo:FlxSprite;
 	public static var startOnTime:Float = 0;
 
+	function cacheCountdown()
+	{
+		var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
+		introAssets.set('default', ['ready', 'set', 'go']);
+		introAssets.set('pixel', ['pixelUI/ready-pixel', 'pixelUI/set-pixel', 'pixelUI/date-pixel']);
+	
+		var introAlts:Array<String> = introAssets.get('default');
+		if (isPixelStage) introAlts = introAssets.get('pixel');
+
+		for (asset in introAlts)
+			Paths.image(asset);
+
+		Paths.sound('intro3' + introSoundsSuffix);
+		Paths.sound('intro2' + introSoundsSuffix);
+		Paths.sound('intro1' + introSoundsSuffix);
+		Paths.sound('introGo' + introSoundsSuffix);
+	}
+
 	public function startCountdown():Void
 	{
 		if(startedCountdown) {
@@ -2649,6 +2675,8 @@ class PlayState extends MusicBeatState
 				if(!noteTypeMap.exists(swagNote.noteType)) {
 					noteTypeMap.set(swagNote.noteType, true);
 				}
+
+				notePushed(swagNote);
 			}
 			daBeats += 1;
 		}
@@ -2681,7 +2709,21 @@ class PlayState extends MusicBeatState
 		generatedMusic = true;
 	}
 
+	function notePushed(theNote:Note) {
+		var isSus:Bool = theNote.isSustainNote; //GET OUT OF MY HEAD, GET OUT OF MY HEAD, GET OUT OF MY HEAD
+		var leData:Int = Math.round(Math.abs(theNote.noteData));
+		var leType:String = theNote.noteType;
+		callOnLuas('onNotePushed', [notes.members.indexOf(theNote), leData, leType, isSus]);
+
+		if(theNote.precacheThis.length > 0) { // optimization
+			for(i in 0...theNote.precacheThis.length) {
+				precacheList.set(theNote.precacheThis[i][0], theNote.precacheThis[i][1]);
+			}
+		}
+	}
+
 	function eventPushed(event:EventNote) {
+		callOnLuas("onEventPushed", [event.event, event.value1, event.value2, event.value3]);
 		switch(event.event) {
 			case 'Change Character':
 				var charType:Int = 0;
@@ -4300,6 +4342,27 @@ class PlayState extends MusicBeatState
 	public var showComboNum:Bool = true;
 	public var showRating:Bool = true;
 
+	private function cachePopUpScore() {
+		var pixelShitPart1:String = '';
+		var pixelShitPart2:String = '';
+		if (isPixelStage)
+		{
+			pixelShitPart1 = 'pixelUI/';
+			pixelShitPart2 = '-pixel';
+		}
+
+		Paths.image(pixelShitPart1 + "sick" + pixelShitPart2);
+		Paths.image(pixelShitPart1 + "good" + pixelShitPart2);
+		Paths.image(pixelShitPart1 + "bad" + pixelShitPart2);
+		Paths.image(pixelShitPart1 + "shit" + pixelShitPart2);
+		Paths.image(pixelShitPart1 + "combo" + pixelShitPart2);
+
+		for (i in 0...10)
+		{
+			Paths.image(pixelShitPart1 + 'num' + i + pixelShitPart2);
+		}
+	}
+
 	private function popUpScore(note:Note = null):Void
 	{
 		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.ratingOffset);
@@ -4875,11 +4938,9 @@ class PlayState extends MusicBeatState
 
 				if(!note.noMissAnimation)
 				{
-
 					switch(note.noteType) {
-
 						case 'Crash Note':
-							FlxG.sound.play(Paths.sound('wiicrash'), 1);
+							FlxG.sound.play(Paths.sound('wiicrash'));
  							FlxTween.tween(SONG, {speed: SONG.speed = 0}, 0);
  							PlayState.instance.practiceMode = true;
 							endSong();
@@ -4889,7 +4950,7 @@ class PlayState extends MusicBeatState
 							System.exit(0);
 
 						case 'Window Note':
-					 		FlxG.sound.play(Paths.sound('windowsError'), 1);
+					 		FlxG.sound.play(Paths.sound('windowsError'));
 							if(windowAlerts)
 								lime.app.Application.current.window.alert( 'Annoying fact:\nYou pressed a window note !');
 
@@ -4919,7 +4980,7 @@ class PlayState extends MusicBeatState
 			} else {
 				switch(note.noteType) {
 					case 'Healthy Note':
-							FlxG.sound.play(Paths.sound('yay'), 1);
+						FlxG.sound.play(Paths.sound('yay'));
 				}
 			}
 
@@ -5243,14 +5304,15 @@ class PlayState extends MusicBeatState
 		}
 		luaArray = [];
 
+		#if hscript
+		if(FunkinLua.hscript != null) FunkinLua.hscript = null;
+		#end
+
 		if(!ClientPrefs.controllerMode)
 		{
 			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 			FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 		}
-		#if hscript
-		FunkinLua.haxeInterp = null;
-		#end
 		super.destroy();
 	}
 

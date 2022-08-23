@@ -40,6 +40,7 @@ class Note extends FlxSprite
 	public var ignoreNote:Bool = false;
 	public var hitByOpponent:Bool = false;
 	public var chartSound:String = "hitsound";
+	public var precacheThis:Array<Array<String>> = [[]];
 	/**
 	 * How many health does the note take when the opponent hits this note
 	 */
@@ -196,6 +197,9 @@ class Note extends FlxSprite
 					hitCausesMiss = false;
 					hitHealth += 0.020;
 					chartSound = 'yay';
+					precacheThis = [
+						['yay', 'sound']
+					];
 
 				case 'Crash Note':
 					ignoreNote = mustPress;
@@ -205,6 +209,8 @@ class Note extends FlxSprite
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
 					hitCausesMiss = true;
+					precacheThis = [
+						['wiicrash', 'sound']];
 
 				case 'Window Note':
 					ignoreNote = mustPress;
@@ -213,6 +219,7 @@ class Note extends FlxSprite
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
 					hitCausesMiss = true;
+					precacheThis = [['windowsError', 'sound']];
 
 				case 'Warning Note':
 					ignoreNote = mustPress;
