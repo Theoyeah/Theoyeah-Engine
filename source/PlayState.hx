@@ -136,6 +136,8 @@ class PlayState extends MusicBeatState
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 	public static var allowHealthDrain:Bool = true;
+	public static var event7:String;
+	public static var event7Value:String;
 
 	public var spawnTime:Float = 2000;
 
@@ -215,12 +217,27 @@ class PlayState extends MusicBeatState
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
 
+	var screwYouTxt:FlxText;
+	var watermarkTxt:FlxText;
+	var ghostTappersOff:Bool = false;
+	var heyStopTrying:Bool = false;
+
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
 	public var cameraSpeed:Float = 1;
+
+	public static var the3DWorldEffect:WiggleEffect;
+	public static var the3DWorldEffectWavy:WiggleEffect;
+	public static var wavyShader:Shaders.PulseEffect = new PulseEffect();
+	public static var activeWavy:Bool = false;
+
+	public static var screenshader:Shaders.PulseEffect = new PulseEffect();
+
+	var disableTheTripper:Bool = false;
+	var disableTheTripperAt:Int;
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 	var dialogueJson:DialogueFile = null;
@@ -1096,9 +1113,20 @@ class PlayState extends MusicBeatState
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
 
+
+		for (i in 0...playerStrums.length)
+			playerStrums.members[i].texture = SONG.playerArrowSkin; // YEAH!! I FUCKING FINALLY DID IT!!!
+
+
 		// startCountdown();
 
 		generateSong(SONG.song);
+		if(!SONG.ghostTappingAllowed && ClientPrefs.ghostTapping)
+		{
+			ClientPrefs.ghostTapping = false;
+			ghostTappersOff = true;
+		}
+
 		#if LUA_ALLOWED
 		for (notetype in noteTypeMap.keys())
 		{
@@ -1228,6 +1256,53 @@ class PlayState extends MusicBeatState
 		scoreTxt.visible = !ClientPrefs.noscore;
 		add(scoreTxt);
 
+		if(SONG.credit != null) {
+			watermarkTxt = new FlxText(10, FlxG.height - 28, 0, 'By ' + SONG.credit + ' - ' + SONG.song + " - [" + CoolUtil.difficultyString() + "] - Theoyeah Engine", 74);
+			watermarkTxt.scrollFactor.set();
+			watermarkTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			watermarkTxt.size = 18;
+			watermarkTxt.updateHitbox();
+			watermarkTxt.alpha = 0.6;
+			add(watermarkTxt);
+		}
+		else {
+			watermarkTxt = new FlxText(10, FlxG.height - 28, 0, SONG.song + " - [" + CoolUtil.difficultyString() + "] - Theoyeah Engine", 74);
+			watermarkTxt.scrollFactor.set();
+			watermarkTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			watermarkTxt.size = 18;
+			watermarkTxt.updateHitbox();
+			watermarkTxt.alpha = 0.6;
+			add(watermarkTxt);
+		}
+
+		if(SONG.screwYou != null)
+		{
+			screwYouTxt = new FlxText(10, FlxG.height - 28, 0, SONG.screwYou, 74);
+			screwYouTxt.scrollFactor.set();
+			screwYouTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			screwYouTxt.size = 18;
+			screwYouTxt.updateHitbox();
+			screwYouTxt.alpha = 0.6;
+			add(screwYouTxt);
+			watermarkTxt.y = FlxG.height - 50;
+			screwYouTxt.cameras = [camHUD];
+		}
+		else {
+			screwYouTxt = new FlxText(10, FlxG.height - 28, 0, null, 74);
+			screwYouTxt.scrollFactor.set();
+			screwYouTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			screwYouTxt.size = 18;
+			screwYouTxt.updateHitbox();
+			screwYouTxt.alpha = 0.6;
+			add(screwYouTxt);
+			screwYouTxt.cameras = [camHUD];
+		}
+		if(ClientPrefs.hideHud)
+		{
+			watermarkTxt.visible = false;
+			screwYouTxt.visible = false;
+		}
+
 		if(ClientPrefs.crazycounter) {
 			judgementCounter = new FlxText(20, 0, 0, '', 20);
 			judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -1236,7 +1311,7 @@ class PlayState extends MusicBeatState
 			judgementCounter.scrollFactor.set();
 			judgementCounter.cameras = [camHUD];
 			judgementCounter.screenCenter(Y);
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n';
+			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nTotal hit: ${totals}\nCombo: ${combo}\n';
 			add(judgementCounter);
 		}
 
@@ -1253,6 +1328,7 @@ class PlayState extends MusicBeatState
 
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
+		watermarkTxt.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
@@ -2994,10 +3070,33 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		callOnLuas('onUpdate', [elapsed]);
+
+		if(activeWavy)
+		{
+			wavyShader.update(elapsed);
+		}
+		the3DWorldEffect.update(elapsed);
+		the3DWorldEffectWavy.update(elapsed);
+		
+		if(disableTheTripperAt == curStep)
+		{
+			disableTheTripper = true;
+		}
+		if(isDead)
+		{
+			disableTheTripper = true;
+		}
+
+		FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
+		screenshader.update(elapsed);
+		if(disableTheTripper)
+		{
+			screenshader.shader.uampmul.value[0] -= (elapsed / 2);
+		}
+
 		if (FlxG.keys.justPressed.NINE)
 			iconP1.swapOldIcon();
-
-		callOnLuas('onUpdate', [elapsed]);
 
 		switch (curStage)
 		{
@@ -3156,7 +3255,7 @@ class PlayState extends MusicBeatState
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 
-		if (controls.PAUSE && startedCountdown && canPause)
+		if (controls.PAUSE && startedCountdown && canPause && !heyStopTrying)
 		{
 			var ret:Dynamic = callOnLuas('onPause', [], false);
 			if(ret != FunkinLua.Function_Stop) {
@@ -3164,8 +3263,39 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene)
-			openChartEditor();
+		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene) {
+			switch(event7)
+			{
+				case "---", null:
+					persistentUpdate = false;
+					paused = true;
+					cancelMusicFadeTween();
+					CustomFadeTransition.nextCamera = camOther;
+					MusicBeatState.switchState(new ChartingState());
+				case "Game Over":
+					health = 0;
+				case "Go to Song":
+					SONG = Song.loadFromJson(event7Value, event7Value);
+					MusicBeatState.resetState();
+				case "Close Game":
+					System.exit(0);
+				case "Play Video":
+					updateTime = false;
+					FlxG.sound.music.volume = 0;
+					vocals.volume = 0;
+					vocals.stop();
+					FlxG.sound.music.stop();
+					KillNotes();
+					heyStopTrying = true;
+
+					var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+					add(bg);
+					bg.cameras = [camHUD];
+					startVideo(event7Value);
+				default:
+					openChartEditor();
+			}
+		}
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
@@ -3329,7 +3459,7 @@ class PlayState extends MusicBeatState
 		FlxG.watch.addQuick("stepShit", curStep);
 
 		// RESET = Quick Game Over Screen
-		if (!ClientPrefs.noReset && controls.RESET && canReset && !inCutscene && startedCountdown && !endingSong)
+		if (!ClientPrefs.noReset && controls.RESET && canReset && !inCutscene && startedCountdown && !endingSong && !heyStopTrying)
 		{
 			health = 0;
 			trace("RESET = True");
@@ -4052,6 +4182,46 @@ class PlayState extends MusicBeatState
 				clearShaderFromCamera(value1.trim());
 			/*case 'Remove Shader':
 				removeShaderFromCamera(value1.trim(), value2);*/
+			case 'Rainbow Eyesore':
+					if(ClientPrefs.shaders) {
+						var timeRainbow:Int = Std.parseInt(value1);
+						var speedRainbow:Float = Std.parseFloat(value2);
+						disableTheTripper = false;
+						disableTheTripperAt = timeRainbow;
+						FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
+						screenshader.waveAmplitude = 1;
+						screenshader.waveFrequency = 2;
+						screenshader.waveSpeed = speedRainbow;
+						screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
+						screenshader.shader.uampmul.value[0] = 1;
+						screenshader.Enabled = true;
+					}
+			case 'Popup':
+				var title:String = (value1);
+				var message:String = (value2);
+				FlxG.sound.music.pause();
+				vocals.pause();
+
+				lime.app.Application.current.window.alert(message, title);
+				FlxG.sound.music.resume();
+				vocals.resume();
+			case 'Popup (No Pause)':
+				var title:String = (value1);
+				var message:String = (value2);
+
+				lime.app.Application.current.window.alert(message, title);
+			case '\"Screw you!\" Text Change':
+				var text:String = (value1);
+
+				screwYouTxt.text = text;
+				if(screwYouTxt.text == null || screwYouTxt.text == "")
+				{
+						watermarkTxt.y = FlxG.height - 28;
+				}
+				else
+				{
+						watermarkTxt.y = FlxG.height - 50;
+				}
 		}
 		callOnLuas('onEvent', [eventName, value1, value2, value3]);
 	}
@@ -5299,6 +5469,12 @@ class PlayState extends MusicBeatState
 
 
 	override function destroy() {
+		if (ghostTappersOff)
+		{
+			ClientPrefs.ghostTapping = true;
+			ghostTappersOff = false;
+		}
+
 		for (lua in luaArray) {
 			lua.call('onDestroy', []);
 			lua.stop();

@@ -26,7 +26,14 @@ typedef SwagSong =
 	var gfVersion:String;
 	var stage:String;
 
+	var credit:String;
+	var screwYou:String;
+	var ghostTappingAllowed:Bool;
+	var event7:String;
+	var event7Value:String;
+
 	var arrowSkin:String;
+	var playerArrowSkin:String;
 	var splashSkin:String;
 	var validScore:Bool;
 }
@@ -39,9 +46,13 @@ class Song
 	public var bpm:Float;
 	public var needsVoices:Bool = true;
 	public var arrowSkin:String;
+	public var playerArrowSkin:String;
 	public var splashSkin:String;
 	public var speed:Float = 1;
 	public var stage:String;
+	public var ghostTappingAllowed:Bool = true;
+	public var event7:String;
+	public var event7Value:String;
 
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
@@ -55,6 +66,7 @@ class Song
 			songJson.player3 = null;
 		}
 
+		if(songJson.playerArrowSkin == null && songJson.arrowSkin != null) songJson.playerArrowSkin = songJson.arrowSkin;
 		if(songJson.events == null)
 		{
 			songJson.events = [];
