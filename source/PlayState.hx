@@ -3266,12 +3266,6 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene) {
 			switch(event7)
 			{
-				case "---", null:
-					persistentUpdate = false;
-					paused = true;
-					cancelMusicFadeTween();
-					CustomFadeTransition.nextCamera = camOther;
-					MusicBeatState.switchState(new ChartingState());
 				case "Game Over":
 					health = 0;
 				case "Go to Song":
