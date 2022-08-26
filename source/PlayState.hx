@@ -136,8 +136,6 @@ class PlayState extends MusicBeatState
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 	public static var allowHealthDrain:Bool = true;
-	public static var event7:String;
-	public static var event7Value:String;
 
 	public var spawnTime:Float = 2000;
 
@@ -3264,12 +3262,12 @@ class PlayState extends MusicBeatState
 		}
 
 		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene) {
-			switch(event7)
+			switch(SONG.event7)
 			{
 				case "Game Over":
 					health = 0;
 				case "Go to Song":
-					SONG = Song.loadFromJson(event7Value, event7Value);
+					SONG = Song.loadFromJson(SONG.event7Value, SONG.event7Value);
 					MusicBeatState.resetState();
 				case "Close Game":
 					System.exit(0);
@@ -3285,7 +3283,7 @@ class PlayState extends MusicBeatState
 					var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
 					add(bg);
 					bg.cameras = [camHUD];
-					startVideo(event7Value);
+					startVideo(SONG.event7Value);
 				default:
 					openChartEditor();
 			}
@@ -5788,7 +5786,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
 		if (ClientPrefs.crazycounter) {
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n;
+			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nTotal hit: ${totals}\nCombo: ${combo}\n';
 		}
 	}
 

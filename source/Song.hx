@@ -51,8 +51,8 @@ class Song
 	public var speed:Float = 1;
 	public var stage:String;
 	public var ghostTappingAllowed:Bool = true;
-	public var event7:String;
-	public var event7Value:String;
+	public var event7:String = '';
+	public var event7Value:String = '';
 
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
@@ -66,7 +66,9 @@ class Song
 			songJson.player3 = null;
 		}
 
-		if(songJson.playerArrowSkin == null && songJson.arrowSkin != null) songJson.playerArrowSkin = songJson.arrowSkin;
+		if(songJson.playerArrowSkin == null && songJson.arrowSkin != null)
+			songJson.playerArrowSkin = songJson.arrowSkin;
+
 		if(songJson.events == null)
 		{
 			songJson.events = [];
