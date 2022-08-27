@@ -3262,30 +3262,32 @@ class PlayState extends MusicBeatState
 		}
 
 		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene) {
-			switch(SONG.event7)
-			{
-				case "Game Over":
-					health = 0;
-				case "Go to Song":
-					SONG = Song.loadFromJson(SONG.event7Value, SONG.event7Value);
-					MusicBeatState.resetState();
-				case "Close Game":
-					System.exit(0);
-				case "Play Video":
-					updateTime = false;
-					FlxG.sound.music.volume = 0;
-					vocals.volume = 0;
-					vocals.stop();
-					FlxG.sound.music.stop();
-					KillNotes();
-					heyStopTrying = true;
+			if(SONG.event7 != null) {
+				switch (SONG.event7)
+				{
+					case "Game Over":
+						health = 0;
+					case "Go to Song":
+						SONG = Song.loadFromJson(SONG.event7Value, SONG.event7Value);
+						MusicBeatState.resetState();
+					case "Close Game":
+						System.exit(0);
+					case "Play Video":
+						updateTime = false;
+						FlxG.sound.music.volume = 0;
+						vocals.volume = 0;
+						vocals.stop();
+						FlxG.sound.music.stop();
+						KillNotes();
+						heyStopTrying = true;
 
-					var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-					add(bg);
-					bg.cameras = [camHUD];
-					startVideo(SONG.event7Value);
-				default:
-					openChartEditor();
+						var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+						add(bg);
+						bg.cameras = [camHUD];
+						startVideo(SONG.event7Value);
+					default:
+						openChartEditor();
+				}
 			}
 		}
 
@@ -3387,7 +3389,7 @@ class PlayState extends MusicBeatState
 				iconP2.animation.curAnim.curFrame = 0;
 		}
 
-		if(FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene) {
+		if(FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene && !heyStopTrying) {
 			persistentUpdate = false;
 			paused = true;
 			cancelMusicFadeTween();
@@ -3597,7 +3599,7 @@ class PlayState extends MusicBeatState
 				// Kill extremely late notes and cause misses
 				if (Conductor.songPosition > noteKillOffset + daNote.strumTime)
 				{
-					if (daNote.mustPress && !cpuControlled &&!daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit)) {
+					if (daNote.mustPress && !cpuControlled && !daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit)) {
 						noteMiss(daNote);
 					}
 
