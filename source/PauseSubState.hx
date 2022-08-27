@@ -41,7 +41,7 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		super();
 
-		if((CoolUtil.difficulties.length < 2 || CoolUtil.defaultDifficulties.length < 2) && menuItemsOG.contais('Change Difficulty')) {
+		if((CoolUtil.difficulties.length < 2 || CoolUtil.defaultDifficulties.length < 2) && menuItemsOG.contains('Change Difficulty')) {
 			menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
 		}
 
