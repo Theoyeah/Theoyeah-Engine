@@ -123,6 +123,7 @@ class AchievementsMenuState extends MusicBeatState
 					FlxG.sound.play(Paths.sound('cancelMenu'));
 				}, false));
 			}
+			FlxG.mouse.visible = false;
  		}
 
 		if (controls.BACK) {
