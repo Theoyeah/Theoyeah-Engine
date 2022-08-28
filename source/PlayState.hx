@@ -4852,7 +4852,7 @@ class PlayState extends MusicBeatState
 		if(allowHealthDrain) {
 			if(note.ignoreMinHealth) // take health if note.ignoreMinHealth is activated
 				health -= note.opponentHitTakeHealth;
-			else if(health > 0.1) // take health if health is more than 0.1
+			else if(health > note.opponentHitTakeHealth + 0.1) // take health if health is more than a fucking value
 				health -= note.opponentHitTakeHealth;
 		}
 
@@ -4873,7 +4873,7 @@ class PlayState extends MusicBeatState
 
 			var char:Character = dad;
 			var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))] + altAnim;
-			var aValue:Float = 20
+			var aValue:Float = 20;
 			switch (Std.int(Math.abs(note.noteData)))
 			{
 				case 0:
@@ -5007,7 +5007,7 @@ class PlayState extends MusicBeatState
 
 			if(!note.noAnimation) {
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
-				var aValue:Float = 20
+				var aValue:Float = 20;
 				switch (Std.int(Math.abs(note.noteData)))
 				{
 					case 0:
