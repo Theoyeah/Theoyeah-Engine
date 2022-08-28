@@ -4873,20 +4873,21 @@ class PlayState extends MusicBeatState
 
 			var char:Character = dad;
 			var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))] + altAnim;
+			var aValue:Float = 20
 			switch (Std.int(Math.abs(note.noteData)))
 			{
 				case 0:
 					animToPlay = 'singLEFT';
-					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x -= 20;
+					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x -= aValue;
 				case 1:
 					animToPlay = 'singDOWN';
-					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y += 20;
+					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y += aValue;
 				case 2:
 					animToPlay = 'singUP';
-					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y -= 20;
+					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y -= aValue;
 				case 3:
 					animToPlay = 'singRIGHT';
-					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x += 20;
+					if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x += aValue;
 			}
 			var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))] + altAnim;
 			if(note.gfNote) {
@@ -5006,20 +5007,21 @@ class PlayState extends MusicBeatState
 
 			if(!note.noAnimation) {
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
+				var aValue:Float = 20
 				switch (Std.int(Math.abs(note.noteData)))
 				{
 					case 0:
 						animToPlay = 'singLEFT';
-						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x -= 20;
+						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x -= aValue;
 					case 1:
 						animToPlay = 'singDOWN';
-						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y += 20;
+						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y += aValue;
 					case 2:
 						animToPlay = 'singUP';
-						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y -= 20;
+						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.y -= aValue;
 					case 3:
 						animToPlay = 'singRIGHT';
-						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x += 20;
+						if(ClientPrefs.camfollow && !note.isSustainNote) camFollow.x += aValue;
 				}
 
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
