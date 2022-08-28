@@ -723,7 +723,7 @@ class TitleState extends MusicBeatState
 				case 7:
 					addMoreText('Wither362');
 					addMoreText('DEMOLITIONDON69');
-					addMoreText('BeastlyGhost')
+					addMoreText('BeastlyGhost');
 					coolguys.visible = true;
 				case 9:
 					deleteCoolText();
