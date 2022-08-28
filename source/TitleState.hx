@@ -80,7 +80,8 @@ class TitleState extends MusicBeatState
 
 	#if TITLE_SCREEN_EASTER_EGG
 	var easterEggKeys:Array<String> = [
-		'THEOYEAH', 'WITHER362', 'GABI', 'DEMOLITIONDON96' //May do it one day ?
+		'THEOYEAH', 'WITHER362', 'GABI', 'DEMOLITIONDON96', /* May do it one day ? */
+		'SHADOW', 'RIVER', 'SHUBS', 'BBPANZU'
 	];
 	var allowedKeys:String = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 	var easterEggKeysBuffer:String = '';
