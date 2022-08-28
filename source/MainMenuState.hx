@@ -27,7 +27,7 @@ using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var theoyeahEngineVersion:String = '4.0-beta.3'; //This is also used for Discord RPC
+	public static var theoyeahEngineVersion:String = '4.0-beta.2'; //This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -121,10 +121,10 @@ class MainMenuState extends MusicBeatState
 		for (i in 0...optionShit.length)
 		{
 			var offset:Float = 108 - (Math.max(optionShit.length, 4) - 4) * 80;
-			var menuItem:FlxSprite = new FlxSprite(0, (i * 140)  + offset);
+			var menuItem:FlxSprite = new FlxSprite(0, (i * 140) + offset);
 			menuItem.scale.x = scale;
 			menuItem.scale.y = scale;
-			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
+			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_${optionShit[i]}');
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
 			menuItem.animation.play('idle');
@@ -157,7 +157,7 @@ class MainMenuState extends MusicBeatState
 				ClientPrefs.saveSettings();
 			}
 		}
-		if (leDate.getDay() == 6 && leDate.getHours() >= 18) {
+		if (leDate.getDay() == 6 && leDate.getHours() >= 18) { // aquí en España, las 6:00 es simplemente la tarde, ya que cenamos a las 10:00 de la noche, y yo me duermo a la 1:00 de la mañana
 			var achieveID:Int = Achievements.getAchievementIndex('saturday_night_play');
 			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a Saturday night. WAIT BOOOOOO
 				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][2], true);
@@ -228,7 +228,7 @@ class MainMenuState extends MusicBeatState
 			{
 				if (optionShit[curSelected] == 'donate')
 				{
-					CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
+					CoolUtil.browserLoad(/*'https://ninja-muffin24.itch.io/funkin'*/ 'https://github.com/Theoyeah/Theoyeah-Engine');
 				}
 				else
 				{
@@ -274,7 +274,6 @@ class MainMenuState extends MusicBeatState
 							});
 						}
 					});
-				}
 			}
 			#if desktop
 			if(FlxG.keys.anyJustPressed(debugKeys))
@@ -288,10 +287,10 @@ class MainMenuState extends MusicBeatState
 
 		super.update(elapsed);
 
-		menuItems.forEach(function(spr:FlxSprite)
+		/*menuItems.forEach(function(spr:FlxSprite)
 		{
-			//spr.screenCenter(X);
-		});
+			spr.screenCenter(X);
+		});*/
 	}
 
 	function changeItem(huh:Int = 0)
