@@ -80,9 +80,9 @@ class TitleState extends MusicBeatState
 
 	#if TITLE_SCREEN_EASTER_EGG
 	var easterEggKeys:Array<String> = [
-		'SHADOW', 'RIVER', 'SHUBS', 'BBPANZU'
+		'THEOYEAH', 'WITHER362', 'GABI', 'DEMOLITIONDON96' //May do it one day ?
 	];
-	var allowedKeys:String = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	var allowedKeys:String = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 	var easterEggKeysBuffer:String = '';
 	#end
 
@@ -723,6 +723,7 @@ class TitleState extends MusicBeatState
 				case 7:
 					addMoreText('Wither362');
 					addMoreText('DEMOLITIONDON69');
+					addMoreText('BeastlyGhost')
 					coolguys.visible = true;
 				case 9:
 					deleteCoolText();
