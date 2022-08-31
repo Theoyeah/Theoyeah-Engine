@@ -2653,7 +2653,7 @@ class ChartingState extends MusicBeatState
 		// NEXT EVENTS
 		var startThing:Float = sectionStartTime(1);
 		var endThing:Float = sectionStartTime(2);
-		for (daDvent in _song.events)
+		for (daEvent in _song.events)
 		{
 			if(endThing > daEvent[0] && daEvent[0] >= startThing)
 			{
