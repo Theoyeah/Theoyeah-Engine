@@ -103,7 +103,6 @@ class ChartingState extends MusicBeatState
 		['Change Icon', "Value 1: Character to change icon (Dad, BF)\nValue 2: Icon name"],
 		['Add Shader', "Value 1: Shader to add\nValue 2: Camera\nValue 3: The parameters to take in count\nGo to source to see the code\nand seeing what to do"],
 		['Kill Shaders', "Value 1: Camera\nClears all the shaders of the specified camera"],
-		['Rainbow Eyesore', "Value 1: Step to end at\nValue 2: Speed"],
 		['Popup', "Value 1: Title\nValue 2: Message\nMakes a window popup with a message in it."],
 		['Popup (No Pause)', "Value 1: Title\nValue 2: Message\nSame as popup but without a pause."],
 		['\"Screw you!\" Text Change', "Value 1: Text\n\nChanges the \"Screw you!\" text."],

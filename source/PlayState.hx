@@ -218,7 +218,6 @@ class PlayState extends MusicBeatState
 	var screwYouTxt:FlxText;
 	var watermarkTxt:FlxText;
 	var ghostTappersOff:Bool = false;
-	var heyStopTrying:Bool = false;
 
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
@@ -227,15 +226,13 @@ class PlayState extends MusicBeatState
 	public var camOther:FlxCamera;
 	public var cameraSpeed:Float = 1;
 
-	public static var the3DWorldEffect:WiggleEffect;
+	/*public static var the3DWorldEffect:WiggleEffect;
 	public static var the3DWorldEffectWavy:WiggleEffect;
 	public static var wavyShader:Shaders.PulseEffect = new PulseEffect();
 	public static var activeWavy:Bool = false;
+	*/
 
-	public static var screenshader:Shaders.PulseEffect = new PulseEffect();
-
-	var disableTheTripper:Bool = false;
-	var disableTheTripperAt:Int;
+	//public static var screenshader:Shaders.PulseEffect = new PulseEffect();
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 	var dialogueJson:DialogueFile = null;
@@ -3070,28 +3067,15 @@ class PlayState extends MusicBeatState
 	{
 		callOnLuas('onUpdate', [elapsed]);
 
-		if(activeWavy)
+		/*if(activeWavy)
 		{
 			wavyShader.update(elapsed);
 		}
 		the3DWorldEffect.update(elapsed);
-		the3DWorldEffectWavy.update(elapsed);
-		
-		if(disableTheTripperAt == curStep)
-		{
-			disableTheTripper = true;
-		}
-		if(isDead)
-		{
-			disableTheTripper = true;
-		}
+		the3DWorldEffectWavy.update(elapsed);*/
 
-		FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
-		screenshader.update(elapsed);
-		if(disableTheTripper)
-		{
-			screenshader.shader.uampmul.value[0] -= (elapsed / 2);
-		}
+		/*FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
+		screenshader.update(elapsed);*/
 
 		if (FlxG.keys.justPressed.NINE)
 			iconP1.swapOldIcon();
@@ -3253,7 +3237,7 @@ class PlayState extends MusicBeatState
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 
-		if (controls.PAUSE && startedCountdown && canPause && !heyStopTrying)
+		if (controls.PAUSE && startedCountdown && canPause)
 		{
 			var ret:Dynamic = callOnLuas('onPause', [], false);
 			if(ret != FunkinLua.Function_Stop) {
@@ -3279,7 +3263,6 @@ class PlayState extends MusicBeatState
 						vocals.stop();
 						FlxG.sound.music.stop();
 						KillNotes();
-						heyStopTrying = true;
 
 						var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
 						add(bg);
@@ -3389,7 +3372,7 @@ class PlayState extends MusicBeatState
 				iconP2.animation.curAnim.curFrame = 0;
 		}
 
-		if(FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene && !heyStopTrying) {
+		if(FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene) {
 			persistentUpdate = false;
 			paused = true;
 			cancelMusicFadeTween();
@@ -3453,7 +3436,7 @@ class PlayState extends MusicBeatState
 		FlxG.watch.addQuick("stepShit", curStep);
 
 		// RESET = Quick Game Over Screen
-		if (!ClientPrefs.noReset && controls.RESET && canReset && !inCutscene && startedCountdown && !endingSong && !heyStopTrying)
+		if (!ClientPrefs.noReset && controls.RESET && canReset && !inCutscene && startedCountdown && !endingSong)
 		{
 			health = 0;
 			trace("RESET = True");
@@ -4176,7 +4159,7 @@ class PlayState extends MusicBeatState
 				clearShaderFromCamera(value1.trim());
 			/*case 'Remove Shader':
 				removeShaderFromCamera(value1.trim(), value2);*/
-			case 'Rainbow Eyesore':
+			/*case 'Rainbow Eyesore':
 					if(ClientPrefs.shaders) {
 						var timeRainbow:Int = Std.parseInt(value1);
 						var speedRainbow:Float = Std.parseFloat(value2);
@@ -4189,7 +4172,7 @@ class PlayState extends MusicBeatState
 						screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
 						screenshader.shader.uampmul.value[0] = 1;
 						screenshader.Enabled = true;
-					}
+					}*/
 			case 'Popup':
 				var title:String = (value1);
 				var message:String = (value2);
@@ -4210,11 +4193,11 @@ class PlayState extends MusicBeatState
 				screwYouTxt.text = text;
 				if(screwYouTxt.text == null || screwYouTxt.text == "")
 				{
-						watermarkTxt.y = FlxG.height - 28;
+					watermarkTxt.y = FlxG.height - 28;
 				}
 				else
 				{
-						watermarkTxt.y = FlxG.height - 50;
+					watermarkTxt.y = FlxG.height - 50;
 				}
 		}
 		callOnLuas('onEvent', [eventName, value1, value2, value3]);
