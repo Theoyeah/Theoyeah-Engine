@@ -351,24 +351,24 @@ class Paths
 		return assets('$where/$key');
 	}
 
-	inline static public function fileExists(key:String, type:AssetType, ignoreMods:Bool = false, ?library:String, prefix:String = '', suffix:String = ''):Bool
+	inline static public function fileExists(key:String, ?type:AssetType, ignoreMods:Bool = false, ?library:String, prefix:String = '', suffix:String = '', tryLowerCase:Bool = true):Bool
 	{
 		#if MODS_ALLOWED
 		if(FileSystem.exists(currentModKey(prefix + key + suffix))
 			|| FileSystem.exists(mods(prefix + key + suffix))
-			|| FileSystem.exists(currentModKey(prefix + key.toLowerCase() + suffix))
-			|| FileSystem.exists(mods(prefix + key.toLowerCase() + suffix)))
+			|| (FileSystem.exists(currentModKey(prefix + key.toLowerCase() + suffix)) && tryLowerCase)
+			|| (FileSystem.exists(mods(prefix + key.toLowerCase() + suffix)) && tryLowerCase))
 		{
 			return true;
 		}
 		#end
 
-		if(OpenFlAssets.exists(getPath(prefix + key + suffix, type)) || OpenFlAssets.exists(getPath(prefix + key.toLowerCase() + suffix, type))) {
+		if(OpenFlAssets.exists(getPath(prefix + key + suffix, type)) || (OpenFlAssets.exists(getPath(prefix + key.toLowerCase() + suffix, type)) && tryLowerCase)) {
 			return true;
 		}
 		return false;
 	}
-	inline static public function whereExists(key:String, type:AssetType, traceThings:Bool = false, whatValueToReturn:Int = 0, ignoreMods:Bool = false, ?library:String) {
+	inline static public function whereExists(key:String, ?type:AssetType, traceThings:Bool = false, whatValueToReturn:Int = 0, ignoreMods:Bool = false, ?library:String) {
 		var here:Array<Dynamic> = [];
 		var moreThanOne:Bool = false;
 		var isNull:Array<Dynamic> = [];
