@@ -106,7 +106,10 @@ class ChartingState extends MusicBeatState
 		['Popup', "Value 1: Title\nValue 2: Message\nMakes a window popup with a message in it."],
 		['Popup (No Pause)', "Value 1: Title\nValue 2: Message\nSame as popup but without a pause."],
 		['\"Screw you!\" Text Change', "Value 1: Text\n\nChanges the \"Screw you!\" text."],
-		['Random Text Change', "\n\n\nValue 1: Step to end at\nValue 2: List of words seperated with ^\nChanges the \"Screw you!\" text through\na list of words you put.\nChanges on a step hit."]
+		['Rainbow Eyesore', "Value 1: Step to end at\nValue 2: Speed"],
+		['Random Text Change', "\n\n\nValue 1: Step to end at\nValue 2: List of words seperated with ^\nChanges the \"Screw you!\" text through\na list of words you put.\nChanges on a step hit."],
+		['Activate Shaders', "Value 1: what shader activate, it can be a list"],
+		['Deactivate Shaders', "Value 1: shaders to deactivate, it can be a list"]
 	];
 
 	var _file:FileReference;

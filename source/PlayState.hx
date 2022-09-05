@@ -1,36 +1,47 @@
 package;
 
-import openfl.filters.ShaderFilter;
-import openfl.display.Shader;
-import flixel.graphics.FlxGraphic;
-#if desktop
-import Discord.DiscordClient;
-#end
+import Achievements;
+import Conductor.Rating;
+import DialogueBoxPsych;
+import FunkinLua;
+import Note.EventNote;
 import Section.SwagSection;
+import Shaders;
 import Song.SwagSong;
+import StageData;
 import WiggleEffect.WiggleEffectType;
+import animateatlas.AtlasFrameMaker;
+import editors.CharacterEditorState;
+import editors.ChartingState;
+import flash.system.System;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
-import Shaders;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxObject;
-import flixel.effects.particles.FlxEmitter;
-import flixel.effects.particles.FlxParticle;
-import lime.app.Application;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.FlxSubState;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.effects.FlxTrail;
 import flixel.addons.effects.FlxTrailArea;
-import animateatlas.AtlasFrameMaker;
 import flixel.addons.effects.chainable.FlxEffectSprite;
+import flixel.addons.effects.chainable.FlxGlitchEffect;
+import flixel.addons.effects.chainable.FlxOutlineEffect;
+import flixel.addons.effects.chainable.FlxRainbowEffect;
+import flixel.addons.effects.chainable.FlxShakeEffect;
+import flixel.addons.effects.chainable.FlxTrailEffect;
 import flixel.addons.effects.chainable.FlxWaveEffect;
+import flixel.addons.effects.chainable.IFlxEffect;
 import flixel.addons.transition.FlxTransitionableState;
+import flixel.effects.particles.FlxEmitter;
+import flixel.effects.particles.FlxParticle;
+import flixel.graphics.FlxGraphic;
 import flixel.graphics.atlas.FlxAtlas;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxSpriteGroup;
+import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
@@ -41,29 +52,24 @@ import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
+import flixel.util.FlxSave;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
 import haxe.Json;
+import lime.app.Application;
 import lime.utils.Assets;
-import flash.system.System;
 import openfl.Lib;
 import openfl.display.BlendMode;
+import openfl.display.Shader;
 import openfl.display.StageQuality;
-import openfl.filters.BitmapFilter;
-import openfl.utils.Assets as OpenFlAssets;
-import editors.ChartingState;
-import editors.CharacterEditorState;
-import flixel.group.FlxSpriteGroup;
-import flixel.input.keyboard.FlxKey;
-import Note.EventNote;
 import openfl.events.KeyboardEvent;
-import flixel.util.FlxSave;
-import Achievements;
-import StageData;
-import FunkinLua;
-import DialogueBoxPsych;
-import Conductor.Rating;
+import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
+import openfl.utils.Assets as OpenFlAssets;
+#if desktop
+import Discord.DiscordClient;
+#end
 #if sys
 import sys.FileSystem;
 #end
@@ -71,7 +77,6 @@ import sys.FileSystem;
 #if VIDEOS_ALLOWED
 import vlc.MP4Handler;
 #end
-
 
 using StringTools;
 
@@ -158,6 +163,7 @@ class PlayState extends MusicBeatState
 	public var camFollowPos:FlxObject;
 	private static var prevCamFollow:FlxPoint;
 	private static var prevCamFollowPos:FlxObject;
+	private static var resetSpriteCache:Bool = false;
 
 	public var strumLineNotes:FlxTypedGroup<StrumNote>;
 	public var opponentStrums:FlxTypedGroup<StrumNote>;
@@ -226,14 +232,6 @@ class PlayState extends MusicBeatState
 	public var camOther:FlxCamera;
 	public var cameraSpeed:Float = 1;
 
-	/*public static var the3DWorldEffect:WiggleEffect;
-	public static var the3DWorldEffectWavy:WiggleEffect;
-	public static var wavyShader:Shaders.PulseEffect = new PulseEffect();
-	public static var activeWavy:Bool = false;
-	*/
-
-	//public static var screenshader:Shaders.PulseEffect = new PulseEffect();
-
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 	var dialogueJson:DialogueFile = null;
 
@@ -265,6 +263,32 @@ class PlayState extends MusicBeatState
 	var grpLimoParticles:FlxTypedGroup<BGSprite>;
 	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
 	var fastCar:BGSprite;
+
+	public static var allowedShaders:Map<String, Bool> = [
+		'wavy' => false,
+		'flag' => false,
+		'pulse' => false,
+		'glitch' => false
+	];
+	/**
+	 * flag shader
+	 */
+	public static var the3DWorldEffect:WiggleEffect;
+	/**
+	 * wavy shader
+	 */
+	public static var the3DWorldEffectWavy:WiggleEffect;
+	public static var wavyShader:Shaders.PulseEffect = new PulseEffect();
+	var _glitch:FlxGlitchEffect;
+	var _effectSprite:FlxEffectSprite;
+
+	public static var activeWavy:Bool = false;
+	var wavyBGs:Array<String> = [];
+
+	public static var screenshader:Shaders.PulseEffect = new PulseEffect();
+
+	var disableTheTripper:Bool = false;
+	var disableTheTripperAt:Int;
 
 	var upperBoppers:BGSprite;
 	var bottomBoppers:BGSprite;
@@ -387,6 +411,10 @@ class PlayState extends MusicBeatState
 		{
 			keysPressed.push(false);
 		}
+
+		wavyBGs = CoolUtil.coolTextFile(Paths.txt('wavyBackgrounds'));
+
+		FlxG.save.data.playingNow = false; // wtf?
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -528,6 +556,60 @@ class PlayState extends MusicBeatState
 		boyfriendGroup = new FlxSpriteGroup(BF_X, BF_Y);
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
+
+		_glitch = new FlxGlitchEffect(10, 2, 0.1);
+		#if MODS_ALLOWED
+		Paths.destroyLoadedImages(resetSpriteCache);
+		#end
+		resetSpriteCache = false;
+
+		if(!curStage.toLowerCase().replace(' ', '').contains('noshader') && !curStage.toLowerCase().replace(' ', '').contains('noeyesores') && ClientPrefs.shaders) {
+			var wavy:Bool = false;
+			var flag:Bool = false;
+			var daStage:String = curStage.toLowerCase(); // im lazy lol
+			if(daStage.contains('3d')) {
+				wavy = true;
+				flag = true;
+			}
+
+			if(daStage.contains('wavy')) {
+				wavy = true;
+			}
+			if(daStage.contains('flag')) {
+				flag = true;
+			}
+			if(daStage.contains('pulse')) {
+				screenshader.waveAmplitude = 1;
+				screenshader.waveFrequency = 2;
+				screenshader.waveSpeed = 1;
+				screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
+				screenshader.shader.uampmul.value[0] = 0;
+
+				/*#if windows
+				screenshader.waveAmplitude = 1;
+       			screenshader.waveFrequency = 2;
+    			screenshader.waveSpeed = 1;
+    			screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
+				#end*/
+				allowedShaders.set('pulse', true);
+			}
+			if(flag) {
+				the3DWorldEffect = new WiggleEffect();
+				the3DWorldEffect.effectType = WiggleEffectType.FLAG;
+				the3DWorldEffect.waveAmplitude = 0.1;
+				the3DWorldEffect.waveFrequency = 5;
+				the3DWorldEffect.waveSpeed = 2.25;
+				allowedShaders.set('flag', true);
+			}
+			if(wavy) {
+				the3DWorldEffectWavy = new WiggleEffect();
+				the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
+				the3DWorldEffectWavy.waveAmplitude = 0.2;
+				the3DWorldEffectWavy.waveFrequency = 3;
+				the3DWorldEffectWavy.waveSpeed = 1.25;
+				allowedShaders.set('wavy', true);
+			}
+		}
 
 		switch (curStage.toLowerCase())
 		{
@@ -3067,15 +3149,31 @@ class PlayState extends MusicBeatState
 	{
 		callOnLuas('onUpdate', [elapsed]);
 
-		/*if(activeWavy)
+		if(activeWavy && allowedShaders.get('wavy'))
 		{
 			wavyShader.update(elapsed);
 		}
-		the3DWorldEffect.update(elapsed);
-		the3DWorldEffectWavy.update(elapsed);*/
+		if(allowedShaders.get('flag'))
+			the3DWorldEffect.update(elapsed);
 
-		/*FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
-		screenshader.update(elapsed);*/
+		if(allowedShaders.get('wavy'))
+			the3DWorldEffectWavy.update(elapsed);
+
+		if(disableTheTripperAt == curStep)
+		{
+			disableTheTripper = true;
+		}
+		if(isDead)
+		{
+			disableTheTripper = true;
+		}
+
+		FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
+		screenshader.update(elapsed);
+		if(disableTheTripper) // so, this disables shaders?
+		{
+			screenshader.shader.uampmul.value[0] -= (elapsed / 2);
+		}
 
 		if (FlxG.keys.justPressed.NINE)
 			iconP1.swapOldIcon();
@@ -4198,6 +4296,96 @@ class PlayState extends MusicBeatState
 				else
 				{
 					watermarkTxt.y = FlxG.height - 50;
+				}
+
+			case 'Rainbow Eyesore':
+				if(ClientPrefs.eyesores) {
+					var timeRainbow:Int = Std.parseInt(value1);
+					var speedRainbow:Float = Std.parseFloat(value2);
+					disableTheTripper = false;
+					disableTheTripperAt = timeRainbow;
+					FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
+					screenshader.waveAmplitude = 1;
+					screenshader.waveFrequency = 2;
+					screenshader.waveSpeed = speedRainbow;
+					screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
+					screenshader.shader.uampmul.value[0] = 1;
+					screenshader.Enabled = true;
+				}
+			case 'Activate Shader':
+				var daEffects = value1.replace(' ', '').toLowerCase().split(',');
+				if(daEffects.contains('flag') && !allowedShaders.get('flag')) {
+					the3DWorldEffect = new WiggleEffect();
+					the3DWorldEffect.effectType = WiggleEffectType.FLAG;
+					the3DWorldEffect.waveAmplitude = 0.1;
+					the3DWorldEffect.waveFrequency = 5;
+					the3DWorldEffect.waveSpeed = 2.25;
+					allowedShaders.set('flag', true);
+				}
+				if(daEffects.contains('pulse') && !allowedShaders.get('pulse')) {
+					screenshader.waveAmplitude = 1;
+					screenshader.waveFrequency = 2;
+					screenshader.waveSpeed = 1;
+					screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
+					screenshader.shader.uampmul.value[0] = 0;
+
+					/*#if windows
+					screenshader.waveAmplitude = 1;
+       				screenshader.waveFrequency = 2;
+    				screenshader.waveSpeed = 1;
+    				screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
+					#end*/
+					allowedShaders.set('pulse', true);
+				}
+				if(daEffects.contains('flag') && !allowedShaders.get('flag')) {
+					the3DWorldEffect = new WiggleEffect();
+					the3DWorldEffect.effectType = WiggleEffectType.FLAG;
+					the3DWorldEffect.waveAmplitude = 0.1;
+					the3DWorldEffect.waveFrequency = 5;
+					the3DWorldEffect.waveSpeed = 2.25;
+					allowedShaders.set('flag', true);
+				}
+				if(daEffects.contains('wavy') && !allowedShaders.get('wavy')) {
+					the3DWorldEffectWavy = new WiggleEffect();
+					the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
+					the3DWorldEffectWavy.waveAmplitude = 0.2;
+					the3DWorldEffectWavy.waveFrequency = 3;
+					the3DWorldEffectWavy.waveSpeed = 1.25;
+					allowedShaders.set('wavy', true);
+				}
+			case 'Deactivate Shader':
+				var daEffects = value1.replace(' ', '').toLowerCase().split(',');
+				if (daEffects.contains('flag') && allowedShaders.get('flag')) {
+					the3DWorldEffect = new WiggleEffect();
+					the3DWorldEffect.effectType = WiggleEffectType.FLAG;
+					the3DWorldEffect.waveAmplitude = 0;
+					the3DWorldEffect.waveFrequency = 0;
+					the3DWorldEffect.waveSpeed = 0;
+					allowedShaders.set('flag', false);
+				}
+				if (daEffects.contains('pulse') && allowedShaders.get('pulse')) {
+					screenshader.waveAmplitude = 0;
+					screenshader.waveFrequency = 0;
+					screenshader.waveSpeed = 0;
+					screenshader.shader.uTime.value[0] = 0;
+					screenshader.shader.uampmul.value[0] = 0;
+					allowedShaders.set('pulse', false);
+				}
+				if (daEffects.contains('flag') && allowedShaders.get('flag')) {
+					the3DWorldEffect = new WiggleEffect();
+					the3DWorldEffect.effectType = WiggleEffectType.FLAG;
+					the3DWorldEffect.waveAmplitude = 0;
+					the3DWorldEffect.waveFrequency = 0;
+					the3DWorldEffect.waveSpeed = 0;
+					allowedShaders.set('flag', false);
+				}
+				if (daEffects.contains('wavy') && allowedShaders.get('wavy')) {
+					the3DWorldEffectWavy = new WiggleEffect();
+					the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
+					the3DWorldEffectWavy.waveAmplitude = 0;
+					the3DWorldEffectWavy.waveFrequency = 0;
+					the3DWorldEffectWavy.waveSpeed = 0;
+					allowedShaders.set('wavy', false);
 				}
 		}
 		callOnLuas('onEvent', [eventName, value1, value2, value3]);
