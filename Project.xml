@@ -57,7 +57,7 @@
 	<define name="MKV_ALLOWED" if="VIDEOS_ALLOWED"/>
 	<define name="MUSIC_FOLDER_ALLOWED"/>
 	<define name="MORE_ZOOM" unless="web"/>
-	<define name="CRASH_HANDLER" if="desktop release" />
+	<define name="CRASH_HANDLER" if="desktop" />
 
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3"  unless="web"/>

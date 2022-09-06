@@ -790,7 +790,7 @@ class ChartingState extends MusicBeatState
 		{
 			if(check_notesSec.checked)
 			{
-					_song.notes[curSec].sectionNotes = [];
+				_song.notes[curSec].sectionNotes = [];
 			}
 
 			if(check_eventsSec.checked)

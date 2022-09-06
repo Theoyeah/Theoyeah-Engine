@@ -117,7 +117,7 @@ class Main extends Sprite
 
 		dateNow = dateNow.replace(" ", "_").replace(':', "'");
 
-		path = "./logs/crash/" + "TheoyeahEngine_" + dateNow + ".txt";
+		path = "./logs/crash/TheoyeahEngine_" + dateNow + ".txt";
 
 		var i:Int = 1;
 		for (stackItem in callStack)
