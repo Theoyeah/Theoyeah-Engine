@@ -69,6 +69,11 @@ class Song
 		if(songJson.playerArrowSkin == null && songJson.arrowSkin != null)
 			songJson.playerArrowSkin = songJson.arrowSkin;
 
+		if(songJson.event7 == null) songJson.event7 = '';
+		if(songJson.event7Value == null) songJson.event7Value = '';
+
+		if(songJson.ghostTappingAllowed == null) songJson.ghostTappingAllowed = true;
+
 		if(songJson.events == null)
 		{
 			songJson.events = [];
