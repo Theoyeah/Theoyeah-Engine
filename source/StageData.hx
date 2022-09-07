@@ -38,7 +38,7 @@ class StageData {
 		if(SONG.stage != null) {
 			stage = SONG.stage;
 		} else if(SONG.song != null) {
-			switch (SONG.song.toLowerCase().replace(' ', '-'))
+			switch (Paths.formatToSongPath(SONG.song.toLowerCase()))
 			{
 				case 'spookeez' | 'south' | 'monster':
 					stage = 'spooky';
@@ -71,6 +71,11 @@ class StageData {
 		}
 	}
 
+	public static function convertStage(stage:Dynamic) { // freaking errors everytime i load another song
+		if(stage.layerArray == null) stage.layerArray = [];
+
+		return stage;
+	}
 	public static function getStageFile(stage:String):StageFile {
 		var rawJson:String = null;
 		var path:String = Paths.getPreloadPath('stages/' + stage + '.json');
@@ -96,9 +101,9 @@ class StageData {
 		}
 		#end
 		else
-		{
 			return null;
-		}
-		return cast Json.parse(rawJson);
+		var daStage = cast Json.parse(rawJson);
+
+		return convertStage(daStage);
 	}
 }

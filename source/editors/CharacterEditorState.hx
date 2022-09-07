@@ -1125,15 +1125,15 @@ class CharacterEditorState extends MusicBeatState
 					FlxG.mouse.visible = false;
 					return;
 				}
-				/*if(changeSmth) {
-					openSubState(new Prompt('Take in mid that maybe you havent saved the character!\n\nProceed?', 0, function() {
+				if(changeSmth) {
+					openSubState(new Prompt("Take in mid that you haven't saved the character!\n\nProceed?", 0, function() {
 						fukDis();
-					}));
+					}, null));
 					return;
-				} else {*/
+				} else {
 					fukDis();
 					return;
-				//}
+				}
 			}
 
 			if (FlxG.keys.justPressed.R) {
@@ -1197,6 +1197,7 @@ class CharacterEditorState extends MusicBeatState
 					char.addOffset(char.animationsArray[curAnim].anim, char.animationsArray[curAnim].offsets[0], char.animationsArray[curAnim].offsets[1]);
 					ghostChar.addOffset(char.animationsArray[curAnim].anim, char.animationsArray[curAnim].offsets[0], char.animationsArray[curAnim].offsets[1]);
 					genBoyOffsets();
+					changeSmth = true;
 				}
 
 				var controlArray:Array<Bool> = [
@@ -1205,8 +1206,6 @@ class CharacterEditorState extends MusicBeatState
 					FlxG.keys.justPressed.UP,
 					FlxG.keys.justPressed.DOWN
 				];
-
-
 
 				for (i in 0...controlArray.length) {
 					if(controlArray[i]) {
