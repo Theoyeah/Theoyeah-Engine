@@ -76,8 +76,18 @@ class FreeplayState extends MusicBeatState
 
 			for (j in 0...leWeek.songs.length)
 			{
-				leSongs.push(leWeek.songs[j][0]);
-				leChars.push(leWeek.songs[j][1]);
+				switch(Paths.formatToSongPath(leWeek.songs[j][0])) {
+					case 'monster':
+						if(FlxG.save.data.songScores != null) {
+							if(FlxG.save.data.songScores.get(Paths.formatToSongPath(leWeek.songs[j][0])) != 0) {
+								leSongs.push(leWeek.songs[j][0]);
+								leChars.push(leWeek.songs[j][1]);
+							}
+						}
+					default:
+						leSongs.push(leWeek.songs[j][0]);
+						leChars.push(leWeek.songs[j][1]);
+				}
 			}
 
 			WeekData.setDirectoryFromWeek(leWeek);
