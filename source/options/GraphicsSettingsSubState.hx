@@ -92,6 +92,13 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		#end
 
+		var option:Option = new Option('Freeplay Rating',
+			"Allows freeplay rating from notes\nDeactivate to less lag on freeplay",
+			'freeplayRating',
+			'bool',
+			true);
+		addOption(option);
+
 		super();
 	}
 
