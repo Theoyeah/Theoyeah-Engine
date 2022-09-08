@@ -47,6 +47,7 @@ class ClientPrefs
 	//public static var multiplicativeValue:Float = 0;
 	public static var musicSelected:String = 'freakyMenu';
 	public static var autoPause:Bool = false;
+	public static var freeplayRating:Bool = true;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -120,6 +121,7 @@ class ClientPrefs
 
 	public static function saveSettings()
 	{
+		FlxG.save.data.freeplayRating = freeplayRating;
 		FlxG.save.data.noteSkin = noteSkin;
 		FlxG.save.data.winningIcon = winningIcon;
 		//FlxG.save.data.multiplicativeValue = multiplicativeValue;
@@ -182,6 +184,7 @@ class ClientPrefs
 
 	public static function loadPrefs()
 	{
+		if(FlxG.save.data.freeplayRating != null) freeplayRating = FlxG.save.data.freeplayRating;
 		if(FlxG.save.data.noteSkin != null)
 		{
 			noteSkin = FlxG.save.data.noteSkin;
