@@ -3672,7 +3672,7 @@ class PlayState extends MusicBeatState
 						gf.heyTimer = time;
 					}
 
-					if(curStage == 'mall' && bottomBoppers.contains('hey')) {
+					if(curStage == 'mall') {
 						bottomBoppers.animation.play('hey', true);
 						heyTimer = time;
 					}
@@ -4012,7 +4012,7 @@ class PlayState extends MusicBeatState
 						theFloatEffects.push(Std.parseFloat(effect));
 				}
 				var boolEffects:Array<String> = [];
-				for (effect in 0...theEffects.length) {
+				for (effect in theEffects) {
 					boolEffects.push(effect.toLowerCase().replace(' ', ''));
 				}
 				var camera:String = value2.trim();
