@@ -441,7 +441,8 @@ class FreeplayState extends MusicBeatState
 		diffText.text = '< ' + CoolUtil.difficultyString() + ' >';
 		var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 		var thing = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
-		diffCalcText.text = 'RATING: ' + DiffCalc.CalculateDiff(thing);
+		if(ClientPrefs.freeplayRating)
+			diffCalcText.text = 'RATING: ' + DiffCalc.CalculateDiff(thing);
 		positionHighscore();
 	}
 
