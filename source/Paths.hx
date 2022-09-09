@@ -456,10 +456,10 @@ class Paths
 	inline static public function formatToSongPath(path:String, ?newSystem:Bool = true) {
 		if(!newSystem) return path.toLowerCase().replace(' ', '-');
 
-		var invalidChars = ~/[ ~&\\;:<>#]/;
-		var hideChars = ~/[.,'"%?!]/;
+		var invalidChars:EReg = ~/[ ~&\\;:<>#]/;
+		var hideChars:EReg = ~/[.,'"%?!]/;
 
-		var path = invalidChars.split(path).join("-");
+		var path:String = invalidChars.split(path).join("-");
 		return hideChars.split(path).join("").toLowerCase();
 	}
 

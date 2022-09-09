@@ -1486,8 +1486,8 @@ class PlayState extends MusicBeatState
 						}
 					});
 					FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
-					if(gf != null && gf.animOffsets.exists('scared')) gf.playAnim('scared', true);
-					if(boyfriend.animOffsets.exists('scared')) boyfriend.playAnim('scared', true);
+					if(gf != null && gf.contains('scared')) gf.playAnim('scared', true);
+					if(boyfriend.contains('scared')) boyfriend.playAnim('scared', true);
 
 				case "winter-horrorland":
 					var blackScreen:FlxSprite = new FlxSprite().makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
@@ -1722,22 +1722,22 @@ class PlayState extends MusicBeatState
 				var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
 				camHUDShaders.push(effect);
 
-				for(i in camHUDShaders) {
-					newCamEffects.push(new ShaderFilter(i.shader));
+				for(shader in camHUDShaders) {
+					newCamEffects.push(new ShaderFilter(shader.shader));
 				}
 				camHUD.setFilters(newCamEffects);
 			case 'camother' | 'other':
 				camOtherShaders.push(effect);
 				var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
-				for(i in camOtherShaders) {
-					newCamEffects.push(new ShaderFilter(i.shader));
+				for(shader in camOtherShaders) {
+					newCamEffects.push(new ShaderFilter(shader.shader));
 				}
 				camOther.setFilters(newCamEffects);
 			case 'camgame' | 'game':
 				camGameShaders.push(effect);
 				var newCamEffects:Array<BitmapFilter> = []; // IT SHUTS HAXE UP IDK WHY BUT WHATEVER IDK WHY I CANT JUST ARRAY<SHADERFILTER>
-				for(i in camGameShaders) {
-					newCamEffects.push(new ShaderFilter(i.shader));
+				for(shader in camGameShaders) {
+					newCamEffects.push(new ShaderFilter(shader.shader));
 				}
 				camGame.setFilters(newCamEffects);
 			default:
@@ -2000,7 +2000,7 @@ class PlayState extends MusicBeatState
 			camHUD.visible = false;
 			//inCutscene = true; //this would stop the camera movement, oops
 
-        var cutscenetxt:FlxText;// Subtittles on Week 7 coming soon :eyes:
+		var cutscenetxt:FlxText;// Subtittles on Week 7 coming soon :eyes:
 		cutscenetxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, 32);
 		cutscenetxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.BLACK, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		cutscenetxt.visible = true;
@@ -2129,7 +2129,7 @@ class PlayState extends MusicBeatState
 
 				cutsceneHandler.timer(4, function()
 				{
-					if(gf.animOffsets.exists('sad')) {
+					if(gf.contains('sad')) {
 						gf.playAnim('sad', true);
 						gf.animation.finishCallback = function(name:String)
 						{
@@ -2240,7 +2240,7 @@ class PlayState extends MusicBeatState
 
 							boyfriendGroup.alpha = 1;
 							boyfriendCutscene.visible = false;
-							if(boyfriend.animOffsets.exists('bfCatch')) {
+							if(boyfriend.contains('bfCatch')) {
 								boyfriend.playAnim('bfCatch', true);
 								boyfriend.animation.finishCallback = function(name:String)
 								{
@@ -2565,7 +2565,7 @@ class PlayState extends MusicBeatState
 		if (ClientPrefs.kadetxt)
 		{
 			scoreTxt.text = 'Score: ' + songScore
-				+ ' |  Combo Breaks: ' + songMisses
+				+ ' | Combo Breaks: ' + songMisses
 				+ ' | Accuracy: ' + (ratingName != '?' ? Highscore.floorDecimal(ratingPercent * 100, 2) : 0.00) + '%'
 				+ ' | Rating: ' + ratingFC //peeps wanted no integer rating
 				//+ ' | Health: ' + Highscore.floorDecimal(healthBar.percent, 2) + '%'
@@ -3445,7 +3445,7 @@ class PlayState extends MusicBeatState
 			else
 				iconP1.animation.curAnim.curFrame = 0;
 		}
-		else
+		else if(iconP1.animation.frames == 2)
 		{
 			if (healthBar.percent < 20)
 				iconP1.animation.curAnim.curFrame = 1;
@@ -3462,7 +3462,7 @@ class PlayState extends MusicBeatState
 			else
 				iconP2.animation.curAnim.curFrame = 0;
 		}
-		else
+		else if(iconP2.animation.frames == 2)
 		{
 			if (healthBar.percent > 80)
 				iconP2.animation.curAnim.curFrame = 1;
@@ -3637,11 +3637,7 @@ class PlayState extends MusicBeatState
 					opponentNoteHit(daNote);
 
 				if(!daNote.blockHit && daNote.mustPress && cpuControlled && daNote.canBeHit) {
-					if(daNote.isSustainNote) {
-						if(daNote.canBeHit) {
-							goodNoteHit(daNote);
-						}
-					} else if(daNote.strumTime <= Conductor.songPosition || daNote.isSustainNote) {
+					if((daNote.isSustainNote && daNote.canBeHit) || (daNote.strumTime <= Conductor.songPosition || daNote.isSustainNote)) {
 						goodNoteHit(daNote);
 					}
 				}
@@ -3820,7 +3816,7 @@ class PlayState extends MusicBeatState
 		return pressed;
 	}
 
-	public function triggerEventNote(eventName:String, value1:String, value2:String, value3:String) {
+	public function triggerEventNote(eventName:String, value1:String = '', value2:String = '', value3:String = '') {
 		var theValue1:String = value1.toLowerCase().trim();
 		var theValue2:String = value2.toLowerCase().trim();
 		var theValue3:String = value3.toLowerCase().trim();
@@ -3871,11 +3867,11 @@ class PlayState extends MusicBeatState
 				if(Math.isNaN(time) || time <= 0) time = 0.6;
 
 				if(value != 0) {
-					if(dad.curCharacter.startsWith('gf') && dad.animOffsets.exists('cheer')) { //Tutorial GF is actually Dad! The GF is an imposter!! ding ding ding ding ding ding ding, dindinding, end my suffering
+					if(dad.curCharacter.startsWith('gf') && dad.contains('cheer')) { //Tutorial GF is actually Dad! The GF is an imposter!! ding ding ding ding ding ding ding, dindinding, end my suffering
 						dad.playAnim('cheer', true);
 						dad.specialAnim = true;
 						dad.heyTimer = time;
-					} else if (gf != null && gf.animOffsets.exists('cheer')) {
+					} else if (gf != null && gf.contains('cheer')) {
 						gf.playAnim('cheer', true);
 						gf.specialAnim = true;
 						gf.heyTimer = time;
@@ -3886,7 +3882,7 @@ class PlayState extends MusicBeatState
 						heyTimer = time;
 					}
 				}
-				if(value != 1 && boyfriend.animOffsets.exists('hey')) {
+				if(value != 1 && boyfriend.contains('hey')) {
 					boyfriend.playAnim('hey', true);
 					boyfriend.specialAnim = true;
 					boyfriend.heyTimer = time;
@@ -4216,13 +4212,13 @@ class PlayState extends MusicBeatState
 
 				var theEffects:Array<String> = value3.split(',');
 				var theFloatEffects:Array<Float> = [];
-				for (i in 0...theEffects.length) {
-					if(!Math.isNaN(Std.parseFloat(theEffects[i])))
-						theFloatEffects.push(Std.parseFloat(theEffects[i]));
+				for (effect in theEffects) {
+					if(!Math.isNaN(Std.parseFloat(effect)))
+						theFloatEffects.push(Std.parseFloat(effect));
 				}
 				var boolEffects:Array<String> = [];
-				for (i in 0...theEffects.length) {
-					boolEffects.push(theEffects[i].toLowerCase().replace(' ', ''));
+				for (effect in theEffects) {
+					boolEffects.push(effect.toLowerCase().replace(' ', ''));
 				}
 				var camera:String = value2.trim();
 				switch(theValue1.replace(' ', '')) {
@@ -4462,7 +4458,7 @@ class PlayState extends MusicBeatState
 	//Any way to do this without using a different function? kinda dumb
 	private function onSongComplete()
 	{
-		finishSong(false);
+		finishSong();
 	}
 	public function finishSong(?ignoreNoteOffset:Bool = false):Void
 	{

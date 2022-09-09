@@ -186,7 +186,7 @@ class StageEditorState extends MusicBeatState
 		FlxG.cameras.add(camTips);
 		FlxG.cameras.add(camGrid);
 
-		FlxCamera.defaultCameras = [camEditor];
+		FlxG.cameras.setDefaultDrawTarget(camEditor, true);
 
 		gf.cameras = [camPeople];
 		bf.cameras = [camPeople];
@@ -854,10 +854,10 @@ class StageEditorState extends MusicBeatState
 			directory: "",
 			defaultZoom: stageFile.defaultZoom,
 			isPixelStage: false,
+
 			boyfriend: stageFile.boyfriend,
 			girlfriend: stageFile.girlfriend,
 			opponent: stageFile.opponent,
-
 			hide_girlfriend: stageFile.hide_girlfriend,
 
 			camera_boyfriend: stageFile.camera_boyfriend,
@@ -886,8 +886,7 @@ class StageEditorState extends MusicBeatState
 			_file.addEventListener(Event.CANCEL, onSaveCancel);
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 			_file.save("function onCreate()\n" + luaStages.join("\n") + "\n" + luaScrollFactors.join("\n") + "\n" + luaFlipY.join("\n") + "\n"
-				+ luaFlipX.join("\n") + "\n" + luaAdded.join("\n") + "\n" + "end",
-				dirinputtext.text + ".lua");
+				+ luaFlipX.join("\n") + "\n" + luaAdded.join("\n") + "\n" + "end", dirinputtext.text + ".lua");
 		}
 	}
 

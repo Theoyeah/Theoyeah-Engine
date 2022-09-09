@@ -58,6 +58,7 @@ class CharacterEditorState extends MusicBeatState
 	var goToPlayState:Bool = true;
 	var camFollow:FlxObject;
 
+	var changeSmth:Bool = false;
 	public function new(daAnim:String = 'spooky', goToPlayState:Bool = true)
 	{
 		super();
@@ -1045,12 +1046,11 @@ class CharacterEditorState extends MusicBeatState
 		var directories:Array<String> = [Paths.mods('characters/'), Paths.mods(Paths.currentModDirectory + '/characters/'), Paths.getPreloadPath('characters/')];
 		for(mod in Paths.getGlobalMods())
  			directories.push(Paths.mods(mod + '/characters/'));
-		for (i in 0...directories.length) {
-			var directory:String = directories[i];
+		for (directory in directories) {
 			if(FileSystem.exists(directory)) {
 				for (file in FileSystem.readDirectory(directory)) {
 					var path = haxe.io.Path.join([directory, file]);
-					if (!sys.FileSystem.isDirectory(path) && file.endsWith('.json')) {
+					if (!FileSystem.isDirectory(path) && file.endsWith('.json')) {
 						var charToCheck:String = file.substr(0, file.length - 5);
 						if(!charsLoaded.exists(charToCheck)) {
 							characterList.push(charToCheck);
@@ -1115,7 +1115,7 @@ class CharacterEditorState extends MusicBeatState
 
 		if(!charDropDown.dropPanel.visible) {
 			if (FlxG.keys.justPressed.ESCAPE) {
-				//openSubState(new Prompt('Take in mid that maybe you havent saved the character!\n\nProceed?', 0, function() {
+				function fukDis() {
 					if(goToPlayState) {
 						MusicBeatState.switchState(new PlayState());
 					} else {
@@ -1124,7 +1124,16 @@ class CharacterEditorState extends MusicBeatState
 					}
 					FlxG.mouse.visible = false;
 					return;
-				//}));
+				}
+				if(changeSmth) {
+					openSubState(new Prompt("Take in mid that you haven't saved the character!\n\nProceed?", 0, function() {
+						fukDis();
+					}, null));
+					return;
+				} else {
+					fukDis();
+					return;
+				}
 			}
 
 			if (FlxG.keys.justPressed.R) {
@@ -1188,14 +1197,19 @@ class CharacterEditorState extends MusicBeatState
 					char.addOffset(char.animationsArray[curAnim].anim, char.animationsArray[curAnim].offsets[0], char.animationsArray[curAnim].offsets[1]);
 					ghostChar.addOffset(char.animationsArray[curAnim].anim, char.animationsArray[curAnim].offsets[0], char.animationsArray[curAnim].offsets[1]);
 					genBoyOffsets();
+					changeSmth = true;
 				}
 
-				var controlArray:Array<Bool> = [FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT, FlxG.keys.justPressed.UP, FlxG.keys.justPressed.DOWN];
-
-
+				var controlArray:Array<Bool> = [
+					FlxG.keys.justPressed.LEFT,
+					FlxG.keys.justPressed.RIGHT,
+					FlxG.keys.justPressed.UP,
+					FlxG.keys.justPressed.DOWN
+				];
 
 				for (i in 0...controlArray.length) {
 					if(controlArray[i]) {
+						changeSmth = true;
 						var holdShift = FlxG.keys.pressed.SHIFT;
 						var multiplier = 1;
 						if (holdShift)
@@ -1246,7 +1260,7 @@ class CharacterEditorState extends MusicBeatState
 				lastPosition.set(CoolUtil.boundTo(FlxG.mouse.getScreenPosition().x, 0, FlxG.width), CoolUtil.boundTo(FlxG.mouse.getScreenPosition().y, 0, FlxG.height));
 			}
 		}
-		else
+		else if(!FlxG.mouse.visible) // less lag
 		{
 			FlxG.mouse.visible = true;
 		}
@@ -1286,6 +1300,7 @@ class CharacterEditorState extends MusicBeatState
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		_file = null;
 		FlxG.log.notice("Successfully saved file.");
+		changeSmth = false;
 	}
 
 	/**
