@@ -103,6 +103,7 @@ class AchievementsMenuState extends MusicBeatState
 		}
 
 		if(controls.RESET) {
+			FlxG.mouse.visible = true;
 			if(FlxG.keys.pressed.ALT) {
 				openSubState(new Prompt('This action will clear ALL the progress.\n\nProceed?', 0, function() {
 					FlxG.sound.play(Paths.sound('confirmMenu'));
@@ -122,6 +123,7 @@ class AchievementsMenuState extends MusicBeatState
 					FlxG.sound.play(Paths.sound('cancelMenu'));
 				}, false));
 			}
+			FlxG.mouse.visible = false;
  		}
 
 		if (controls.BACK) {

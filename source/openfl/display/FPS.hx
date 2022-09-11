@@ -87,14 +87,24 @@ class FPS extends TextField
 
 		if (currentCount != cacheCount /*&& visible*/)
 		{
-			text = "FPS: " + currentFPS;
+			text = ''; // setup text
+			
+			if(Main.fpsVar != null && text != null && text != '')
+			{
+				Main.fpsVar.visible = true;
+			}
+			
+			if (ClientPrefs.showFPS)
+				text += "FPS: " + currentFPS;
 
 			#if openfl
 			memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
 			// memoryMegas = Math.round(System.totalMemory / 1024 / 1024 * 100)/100;
 			if (memoryMegas > memoryTotal)
 				memoryTotal = memoryMegas;
-			text += "\nRAM: " + memoryMegas + "mb" + " / " + memoryTotal + 'mb';
+			
+			if (ClientPrefs.showRAM)
+				text += "\nRAM: " + memoryMegas + "mb" + " / " + memoryTotal + "mb";
 			#end
 
 			textColor = 0xFFFFFFFF;

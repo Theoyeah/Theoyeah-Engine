@@ -36,12 +36,12 @@ class PauseSubState extends MusicBeatSubstate
 
 
 	public static var toOptions:Bool = false;
-	
+
 	public function new(x:Float, y:Float)
 	{
 		super();
 
-		if(CoolUtil.difficulties.length < 2 || CoolUtil.defaultDifficulties.length < 2) {
+		if((CoolUtil.difficulties.length < 2 || CoolUtil.defaultDifficulties.length < 2) && menuItemsOG.contains('Change Difficulty')) {
 			menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
 		}
 
@@ -272,26 +272,34 @@ class PauseSubState extends MusicBeatSubstate
 					MusicBeatState.switchState(new options.OptionsState());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				case "Exit to menu":
-					PlayState.deathCounter = 0;
-					PlayState.seenCutscene = false;
-
-					WeekData.loadTheFirstEnabledMod();
-					if(PlayState.isStoryMode) {
-						MusicBeatState.switchState(new StoryMenuState());
-					} else {
-						MusicBeatState.switchState(new FreeplayState());
-					}
-					Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
-					PlayState.cancelMusicFadeTween();
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
-					PlayState.changedDifficulty = false;
-					PlayState.chartingMode = false;
-					// PlayState.instance.cpuControlled = false;
-					// PlayState.instance.practiceMode = false;
+					openSubState(new Prompt('This action will exit the current progress.\n\nProceed?', 0, function() {
+						FlxG.sound.play(Paths.sound('confirmMenu'));
+						exitMenu();
+					}, function() {
+						FlxG.sound.play(Paths.sound('cancelMenu'));
+					}, false));
 			}
 		}
 	}
 
+	function exitMenu() {
+		PlayState.deathCounter = 0;
+		PlayState.seenCutscene = false;
+
+		WeekData.loadTheFirstEnabledMod();
+		if(PlayState.isStoryMode) {
+			MusicBeatState.switchState(new StoryMenuState());
+		} else {
+			MusicBeatState.switchState(new FreeplayState());
+		}
+		Application.current.window.title = "Friday Night Funkin': Theoyeah Engine";
+		PlayState.cancelMusicFadeTween();
+		FlxG.sound.playMusic(Paths.music('freakyMenu'));
+		PlayState.changedDifficulty = false;
+		PlayState.chartingMode = false;
+		// PlayState.instance.cpuControlled = false;
+		// PlayState.instance.practiceMode = false;
+	}
 	function deleteSkipTimeText()
 	{
 		if(skipTimeText != null)
