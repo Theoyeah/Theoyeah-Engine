@@ -74,6 +74,7 @@ class ClientPrefs {
 	public static var sickWindow:Int = 45;
 	public static var goodWindow:Int = 90;
 	public static var badWindow:Int = 135;
+	public static var marvelousWindow:Int = 25;
 	public static var safeFrames:Float = 10;
 	public static var instantRespawn:Bool = false;
 
@@ -307,6 +308,9 @@ class ClientPrefs {
 		if(FlxG.save.data.badWindow != null) {
 			badWindow = FlxG.save.data.badWindow;
 		}
+		if(FlxG.save.data.marvelousWindow != null)
+			marvelousWindow = FlxG.save.data.marvelousWindow;
+
 		if(FlxG.save.data.autoPause != null) {
 			autoPause = FlxG.save.data.autoPause;
 		}
