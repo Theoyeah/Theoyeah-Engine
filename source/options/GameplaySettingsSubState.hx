@@ -88,7 +88,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
-        var option:Option = new Option('Hide Opponent Notes',
+		var option:Option = new Option('Hide Opponent Notes',
 			'If checked, opponent notes get hidden.',
 			'opponentStrums',
 			'bool',
@@ -104,6 +104,17 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 20;
 		option.minValue = -30;
 		option.maxValue = 30;
+		addOption(option);
+
+		var option:Option = new Option('Sick! Hit Window',
+			'Changes the amount of time you have\nfor hitting a "Marvelous" in milliseconds.',
+			'marvelousWindow',
+			'int',
+			25);
+		option.displayFormat = '%vms';
+		option.scrollSpeed = 15;
+		option.minValue = 10;
+		option.maxValue = 20;
 		addOption(option);
 
 		var option:Option = new Option('Sick! Hit Window',
