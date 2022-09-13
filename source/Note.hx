@@ -110,7 +110,7 @@ class Note extends FlxSprite
 	public var ratingDisabled:Bool = false;
 
 	public var texture(default, set):String = null;
-	public var oldTexture:(default, get):String = null;
+	public var oldTexture(default, get):String = null;
 	public var animationsCount:Int = 3;
 
 	public var noAnimation:Bool = false;
@@ -276,9 +276,6 @@ class Note extends FlxSprite
 		if (prevNote == null)
 			prevNote = this;
 
-		if(PlayState.instance.randomMode)
-			noteData = FlxG.random.int(0, 3);
-
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
 		this.inEditor = inEditor;
@@ -426,7 +423,7 @@ class Note extends FlxSprite
 		}
 		updateHitbox();
 
-		if(animName != null)
+		if(animName != null && animName.length > 0)
 			animation.play(animName, true);
 
 		if(inEditor) {
