@@ -40,7 +40,7 @@ class Note extends FlxSprite
 	public var ignoreNote:Bool = false;
 	public var hitByOpponent:Bool = false;
 	public var chartSound:String = "hitsound";
-	public var precacheThis:Array<Array<String>> = [[]];
+	public var precacheThis:Array<Array<String>> = [[]]; // for less lag
 	/**
 	 * How many health does the note take when the opponent hits this note
 	 */
@@ -95,7 +95,7 @@ class Note extends FlxSprite
 	public var multAlpha:Float = 1;
 	public var multSpeed(default, set):Float = 1;
 
-	public var copyX:Bool = true;
+	public var copyX:Bool = true; // hmm, Mind Games?
 	public var copyY:Bool = true;
 	public var copyAngle:Bool = true;
 	public var copyAlpha:Bool = true;
@@ -110,6 +110,7 @@ class Note extends FlxSprite
 	public var ratingDisabled:Bool = false;
 
 	public var texture(default, set):String = null;
+	public var oldTexture:(default, get):String = null;
 	public var animationsCount:Int = 3;
 
 	public var noAnimation:Bool = false;
@@ -140,8 +141,18 @@ class Note extends FlxSprite
 		if(texture != value) {
 			reloadNote('', value);
 		}
+		oldTexture = texture;
 		texture = value;
 		return value;
+	}
+	private function get_oldTexture():String {
+		if(oldTexture == null || oldTexture.length < 0) {
+			oldTexture = texture;
+		}
+		return oldTexture;
+	}
+	public static function setOldTexture() {
+		texture = oldTexture;
 	}
 
 	private function set_noteType(value:String):String {
