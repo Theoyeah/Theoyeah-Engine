@@ -4009,7 +4009,7 @@ class PlayState extends MusicBeatState
 			case 'Add Shader':
 				if(!ClientPrefs.shaders) return;
 
-				var theEffects:Array<String> = value3.split(',');
+				var theEffects:Array<String> = value3.replace(' ', '').split(',');
 				var theFloatEffects:Array<Float> = [];
 				for (effect in theEffects) {
 					if(!Math.isNaN(Std.parseFloat(effect)))
@@ -4352,11 +4352,10 @@ class PlayState extends MusicBeatState
 			pixelShitPart2 = '-pixel';
 		}
 
-		Paths.image(pixelShitPart1 + "sick" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "good" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "bad" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "shit" + pixelShitPart2);
-		Paths.image(pixelShitPart1 + "combo" + pixelShitPart2);
+		var things:Array<String> = ['sick', 'good', 'bad', 'shit', 'combo'];
+		for (precache in things) {
+			Paths.image(pixelShitPart1 + precache + pixelShitPart2);
+		}
 
 		for (i in 0...10)
 		{
@@ -4812,8 +4811,7 @@ class PlayState extends MusicBeatState
 				doDeathCheck(true);
 			}
 
-
-			if (combo > 5 && gf != null && gf.animOffsets.exists('sad'))
+			if (combo > 5 && gf != null && gf.contains('sad'))
 			{
 				gf.playAnim('sad');
 			}
@@ -4839,7 +4837,7 @@ class PlayState extends MusicBeatState
 			});
 			*/
 
-			if(boyfriend.hasMissAnimations && boyfriend.animOffsets.exists(singAnimations[Std.int(Math.abs(direction))] + 'miss')) {
+			if(boyfriend.hasMissAnimations && boyfriend.contains(singAnimations[Std.int(Math.abs(direction))] + 'miss')) {
 				boyfriend.playAnim(singAnimations[Std.int(Math.abs(direction))] + 'miss', true);
 			}
 			vocals.volume = 0;
@@ -4894,7 +4892,7 @@ class PlayState extends MusicBeatState
 				char = gf;
 			}
 
-			if(char != null && char.animOffsets.exists(animToPlay))
+			if(char != null && char.contains(animToPlay))
 			{
 				char.playAnim(animToPlay, true);
 				char.holdTimer = 0;
@@ -5025,31 +5023,25 @@ class PlayState extends MusicBeatState
 				}
 
 				var animToPlay:String = singAnimations[Std.int(Math.abs(note.noteData))];
+				var char:Character = boyfriend;
+				if(note.gfNote)
+					char = gf;
 
-				if(note.gfNote) 
+				if(char != null && char.contains(animToPlay + note.animSuffix)) 
 				{
-					if(gf != null && gf.animOffsets.exists(animToPlay + note.animSuffix)) {
-						gf.playAnim(animToPlay + note.animSuffix, true);
-						gf.holdTimer = 0;
-					}
-				}
-				else
-				{
-					if(boyfriend.animOffsets.exists(animToPlay + note.animSuffix)) {
-						boyfriend.playAnim(animToPlay + note.animSuffix, true);
-						boyfriend.holdTimer = 0;
-					}
+					char.playAnim(animToPlay + note.animSuffix, true);
+					char.holdTimer = 0;
 				}
 
 				if(note.noteType == 'Hey!') {
-					if(boyfriend.animOffsets.exists('hey')) {
+					if(boyfriend.contains('hey')) {
 						boyfriend.playAnim('hey', true);
 						boyfriend.specialAnim = true;
 						boyfriend.heyTimer = 0.6;
 					}
 
-					if(gf != null && (gf.animOffsets.exists('cheer') || gf.animOffsets.exists('hey'))) {
-						if(gf.animOffsets.exists('cheer')) gf.playAnim('cheer', true);
+					if(gf != null && (gf.contains('cheer') || gf.contains('hey'))) {
+						if(gf.contains('cheer')) gf.playAnim('cheer', true);
 						else gf.playAnim('hey', true);
 
 						gf.specialAnim = true;
@@ -5167,7 +5159,7 @@ class PlayState extends MusicBeatState
 		if (trainSound.time >= 4700)
 		{
 			startedMoving = true;
-			if (gf != null && gf.animOffsets.exists('hairBlow'))
+			if (gf != null && gf.contains('hairBlow'))
 			{
 				gf.playAnim('hairBlow');
 				gf.specialAnim = true;
@@ -5194,7 +5186,7 @@ class PlayState extends MusicBeatState
 
 	function trainReset():Void
 	{
-		if(gf != null && gf.animOffsets.exists('hairFall'))
+		if(gf != null && gf.contains('hairFall'))
 		{
 			gf.danced = false; //Sets head to the correct position once the animation ends
 			gf.playAnim('hairFall');
