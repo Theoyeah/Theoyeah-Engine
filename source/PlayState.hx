@@ -3391,7 +3391,7 @@ class PlayState extends MusicBeatState
 				strumAngle += daNote.offsetAngle;
 				strumAlpha *= daNote.multAlpha;
 
-				if (strumScroll) //Downscroll
+				if (strumScroll) //Downscroll FUCK! THIS IS THE NOTES CUSTOM SCROLL SPEED!!
 				{
 					//daNote.y = (strumY + 0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed);
 					daNote.distance = (0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed * daNote.multSpeed);
