@@ -93,7 +93,7 @@ class Note extends FlxSprite
 	public var offsetY:Float = 0;
 	public var offsetAngle:Float = 0;
 	public var multAlpha:Float = 1;
-	public var multSpeed(default, set):Float = 1;
+	public var multSpeed(default, set):Float = 1; // multiplicative
 
 	public var copyX:Bool = true; // hmm, Mind Games?
 	public var copyY:Bool = true;
