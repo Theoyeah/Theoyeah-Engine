@@ -3394,12 +3394,12 @@ class PlayState extends MusicBeatState
 				if (strumScroll) //Downscroll FUCK! THIS IS THE NOTES CUSTOM SCROLL SPEED!!
 				{
 					//daNote.y = (strumY + 0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed);
-					daNote.distance = (0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed * daNote.multSpeed);
+					daNote.distance = (0.45 * (Conductor.songPosition - daNote.strumTime) * (songSpeed * daNote.scrollMult) * daNote.multSpeed);
 				}
 				else //Upscroll
 				{
 					//daNote.y = (strumY - 0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed);
-					daNote.distance = (-0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed * daNote.multSpeed);
+					daNote.distance = (-0.45 * (Conductor.songPosition - daNote.strumTime) * (songSpeed * daNote.scrollMult) * daNote.multSpeed); // multSpeed changes the size, scrollMult doesnt
 				}
 
 				var angleDir = strumDirection * Math.PI / 180;
