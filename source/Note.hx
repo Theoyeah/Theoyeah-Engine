@@ -93,7 +93,7 @@ class Note extends FlxSprite
 	public var offsetY:Float = 0;
 	public var offsetAngle:Float = 0;
 	public var multAlpha:Float = 1;
-	public var multSpeed(default, set):Float = 1; // multiplicative
+	public var multSpeed(default, set):Float = 1;
 
 	public var copyX:Bool = true; // hmm, Mind Games?
 	public var copyY:Bool = true;
@@ -116,6 +116,7 @@ class Note extends FlxSprite
 	public var noMissAnimation:Bool = false;
 	public var hitCausesMiss:Bool = false;
 	public var distance:Float = 2000; //plan on doing scroll directions soon -bb
+	public var scrollMult:Float = 1;
 
 	public var hitsoundDisabled:Bool = false;
 
@@ -238,6 +239,12 @@ class Note extends FlxSprite
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
 					hitCausesMiss = true;
+
+				case 'Slow Note':
+					scrollMult = 0.56;
+
+				case 'Fast Note':
+					scrollMult = 1.56;
 
 				case 'Alt Animation':
 					animSuffix = '-alt';
