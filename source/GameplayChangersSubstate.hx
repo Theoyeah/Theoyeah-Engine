@@ -144,7 +144,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptions.add(optionText);
 
-			if(optionsArray[i].type.toLowerCase() == 'bool') {
+			if(optionsArray[i].type == 'bool') {
 				var checkbox:CheckboxThingie = new CheckboxThingie(optionText.x - 105, optionText.y, optionsArray[i].getValue() == true);
 				checkbox.sprTracker = optionText;
 				checkbox.offsetY = -60;
@@ -189,7 +189,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		if(nextAccept <= 0)
 		{
 			var usesCheckbox = true;
-			if(curOption.type.toLowerCase() != 'bool')
+			if(curOption.type != 'bool')
 			{
 				usesCheckbox = false;
 			}
@@ -220,18 +220,18 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 						if(holdTime > 0.5 || pressed) {
 							if(pressed) {
 								var add:Dynamic = null;
-								if(curOption.type.toLowerCase() != 'string') {
+								if(curOption.type != 'string') {
 									add = controls.UI_LEFT ? -curOption.changeValue : curOption.changeValue;
 								}
 
-								switch(curOption.type.toLowerCase())
+								switch(curOption.type)
 								{
 									case 'int' | 'float' | 'percent':
 										holdValue = curOption.getValue() + add;
 										if(holdValue < curOption.minValue) holdValue = curOption.minValue;
 										else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
 
-										switch(curOption.type.toLowerCase())
+										switch(curOption.type)
 										{
 											case 'int':
 												holdValue = Math.round(holdValue);
@@ -280,7 +280,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 								updateTextFrom(curOption);
 								curOption.change();
 								FlxG.sound.play(Paths.sound('scrollMenu'));
-							} else if(curOption.type.toLowerCase() != 'string') {
+							} else if(curOption.type != 'string') {
 								holdValue += curOption.scrollSpeed * elapsed * (controls.UI_LEFT ? -1 : 1);
 								if(holdValue < curOption.minValue) holdValue = curOption.minValue;
 								else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
@@ -298,7 +298,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 							}
 						}
 
-						if(curOption.type.toLowerCase() != 'string') {
+						if(curOption.type != 'string') {
 							holdTime += elapsed;
 						}
 					#if NO_CHEATING
@@ -319,9 +319,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 				{
 					var leOption:GameplayOption = optionsArray[i];
 					leOption.setValue(leOption.defaultValue);
-					if(leOption.type.toLowerCase() != 'bool')
+					if(leOption.type != 'bool')
 					{
-						if(leOption.type.toLowerCase() == 'string')
+						if(leOption.type == 'string')
 						{
 							leOption.curOption = leOption.options.indexOf(leOption.getValue());
 						}
@@ -434,7 +434,7 @@ class GameplayOption
 	{
 		this.name = name;
 		this.variable = variable;
-		this.type = type;
+		this.type = type.toLowerCase();
 		this.defaultValue = defaultValue;
 		this.options = options;
 		this.isCheat = isCheat;
