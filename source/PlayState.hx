@@ -278,14 +278,14 @@ class PlayState extends MusicBeatState
 	 * wavy shader
 	 */
 	public static var the3DWorldEffectWavy:WiggleEffect;
-	public static var wavyShader:Shaders.PulseEffect;
+	public static var wavyShader:Shaders.PulseEffect = new PulseEffect();
 	var _glitch:FlxGlitchEffect;
 	var _effectSprite:FlxEffectSprite;
 
 	public static var activeWavy:Bool = false;
 	var wavyBGs:Array<String> = [];
 
-	public static var screenshader:Shaders.PulseEffect;
+	public static var screenshader:Shaders.PulseEffect = new PulseEffect();
 
 	var disableTheTripper:Bool = false;
 	var disableTheTripperAt:Int;
@@ -579,7 +579,6 @@ class PlayState extends MusicBeatState
 				flag = true;
 			}
 			if(daStage.contains('pulse')) {
-				screenshader = new PulseEffect();
 				screenshader.waveAmplitude = 1;
 				screenshader.waveFrequency = 2;
 				screenshader.waveSpeed = 1;
@@ -603,7 +602,6 @@ class PlayState extends MusicBeatState
 				allowedShaders.set('flag', true);
 			}
 			if(wavy) {
-				wavyShader = new PulseEffect();
 				the3DWorldEffectWavy = new WiggleEffect();
 				the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
 				the3DWorldEffectWavy.waveAmplitude = 0.2;
