@@ -1799,10 +1799,18 @@ class ChartingState extends MusicBeatState
 			}
 
 			if(FlxG.keys.anyJustPressed(ClientPrefs.copyKey(ClientPrefs.keyBinds.get('zoom-'))) && curZoom > 0) {
-				--curZoom;
+				var shit:Int = 1;
+				if(FlxG.keys.pressed.SHIFT && curZoom > 3) {
+					shit = 3;
+				}
+				curZoom -= shit;
 				updateZoom();
 			}
 			if(FlxG.keys.anyJustPressed(ClientPrefs.copyKey(ClientPrefs.keyBinds.get('zoom+'))) && curZoom < zoomList.length-1) {
+				var shit:Int = 1;
+				if(FlxG.keys.pressed.SHIFT && curZoom < zoomList.length-4) {
+					shit = 3;
+				}
 				curZoom++;
 				updateZoom();
 			}
@@ -1854,7 +1862,7 @@ class ChartingState extends MusicBeatState
 			{
 				FlxG.sound.music.pause();
 				if (!mouseQuant)
-					FlxG.sound.music.time -= (FlxG.mouse.wheel * Conductor.stepCrochet*0.8);
+					FlxG.sound.music.time -= (FlxG.mouse.wheel * Conductor.stepCrochet * 0.8);
 				else
 				{
 					var time:Float = FlxG.sound.music.time;
@@ -1930,7 +1938,7 @@ class ChartingState extends MusicBeatState
 				style = 3;
 			}
 
-			var conductorTime = Conductor.songPosition; //+ sectionStartTime();Conductor.songPosition / Conductor.stepCrochet;
+			var conductorTime = Conductor.songPosition; //+ sectionStartTime(); Conductor.songPosition / Conductor.stepCrochet;
 
 
 

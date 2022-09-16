@@ -40,7 +40,7 @@ class Note extends FlxSprite
 	public var ignoreNote:Bool = false;
 	public var hitByOpponent:Bool = false;
 	public var chartSound:String = "hitsound";
-	public var precacheThis:Array<Array<String>> = [[]];
+	public var precacheThis:Array<Array<String>> = [[]]; // for less lag
 	/**
 	 * How many health does the note take when the opponent hits this note
 	 */
@@ -95,7 +95,7 @@ class Note extends FlxSprite
 	public var multAlpha:Float = 1;
 	public var multSpeed(default, set):Float = 1;
 
-	public var copyX:Bool = true;
+	public var copyX:Bool = true; // hmm, Mind Games?
 	public var copyY:Bool = true;
 	public var copyAngle:Bool = true;
 	public var copyAlpha:Bool = true;
@@ -265,9 +265,6 @@ class Note extends FlxSprite
 		if (prevNote == null)
 			prevNote = this;
 
-		if(PlayState.instance.randomMode)
-			noteData = FlxG.random.int(0, 3);
-
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
 		this.inEditor = inEditor;
@@ -415,7 +412,7 @@ class Note extends FlxSprite
 		}
 		updateHitbox();
 
-		if(animName != null)
+		if(animName != null && animName.length > 0)
 			animation.play(animName, true);
 
 		if(inEditor) {

@@ -2862,16 +2862,20 @@ class PlayState extends MusicBeatState
 		generatedMusic = true;
 	}
 
+	var pushedNotes:Array<String> = [];
 	function notePushed(theNote:Note) {
-		var isSus:Bool = theNote.isSustainNote; //GET OUT OF MY HEAD, GET OUT OF MY HEAD, GET OUT OF MY HEAD
-		var leData:Int = Math.round(Math.abs(theNote.noteData));
-		var leType:String = theNote.noteType;
-		callOnLuas('onNotePushed', [notes.members.indexOf(theNote), leData, leType, isSus]);
+		if(!pushedNotes.contains(theNote.noteType)) {
+			var isSus:Bool = theNote.isSustainNote; //GET OUT OF MY HEAD, GET OUT OF MY HEAD, GET OUT OF MY HEAD
+			var leData:Int = Math.round(Math.abs(theNote.noteData));
+			var leType:String = theNote.noteType;
+			callOnLuas('onNotePushed', [notes.members.indexOf(theNote), leData, leType, isSus]);
 
-		if(theNote.precacheThis.length > 0) { // optimization
-			for(i in 0...theNote.precacheThis.length) {
-				precacheList.set(theNote.precacheThis[i][0], theNote.precacheThis[i][1]);
+			if(theNote.precacheThis.length > 0) { // optimization
+				for (i in 0...theNote.precacheThis.length) {
+					precacheList.set(theNote.precacheThis[i][0], theNote.precacheThis[i][1]);
+				}
 			}
+			pushedNotes.push(leType);
 		}
 	}
 
