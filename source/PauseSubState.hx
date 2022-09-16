@@ -272,12 +272,7 @@ class PauseSubState extends MusicBeatSubstate
 					MusicBeatState.switchState(new options.OptionsState());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				case "Exit to menu":
-					openSubState(new Prompt('This action will exit the current progress.\n\nProceed?', 0, function() {
-						FlxG.sound.play(Paths.sound('confirmMenu'));
-						exitMenu();
-					}, function() {
-						FlxG.sound.play(Paths.sound('cancelMenu'));
-					}, false));
+					exitMenu();
 			}
 		}
 	}
