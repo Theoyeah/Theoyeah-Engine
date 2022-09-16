@@ -121,6 +121,7 @@ class ClientPrefs
 
 	public static function saveSettings()
 	{
+		FlxG.save.data.eyesores = eyesores;
 		FlxG.save.data.noteSkin = noteSkin;
 		FlxG.save.data.winningIcon = winningIcon;
 		//FlxG.save.data.multiplicativeValue = multiplicativeValue;
@@ -183,6 +184,7 @@ class ClientPrefs
 
 	public static function loadPrefs()
 	{
+		if(FlxG.save.data.eyesores != null) eyesores = FlxG.save.data.eyesores;
 		if(FlxG.save.data.noteSkin != null)
 		{
 			noteSkin = FlxG.save.data.noteSkin;
