@@ -278,14 +278,14 @@ class PlayState extends MusicBeatState
 	 * wavy shader
 	 */
 	public static var the3DWorldEffectWavy:WiggleEffect;
-	public static var wavyShader:Shaders.PulseEffect = new PulseEffect();
+	public static var wavyShader:Shaders.PulseEffect = new Shaders.PulseEffect();
 	var _glitch:FlxGlitchEffect;
 	var _effectSprite:FlxEffectSprite;
 
 	public static var activeWavy:Bool = false;
 	var wavyBGs:Array<String> = [];
 
-	public static var screenshader:Shaders.PulseEffect = new PulseEffect();
+	public static var screenshader:Shaders.PulseEffect = new Shaders.PulseEffect();
 
 	var disableTheTripper:Bool = false;
 	var disableTheTripperAt:Int;
@@ -413,6 +413,8 @@ class PlayState extends MusicBeatState
 		}
 
 		wavyBGs = CoolUtil.coolTextFile(Paths.txt('wavyBackgrounds'));
+		/*wavyShader = new PulseEffect();
+		screenshader = new PulseEffect();*/
 
 		FlxG.save.data.playingNow = false; // wtf?
 
@@ -461,9 +463,9 @@ class PlayState extends MusicBeatState
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
 
-		#if desktop
 		storyDifficultyText = CoolUtil.difficulties[storyDifficulty];
 
+		#if desktop
 		// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
 		if (isStoryMode)
 		{
@@ -557,7 +559,6 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 
-		_glitch = new FlxGlitchEffect(10, 2, 0.1);
 		#if MODS_ALLOWED
 		Paths.destroyLoadedImages(resetSpriteCache);
 		#end
@@ -567,15 +568,11 @@ class PlayState extends MusicBeatState
 			var wavy:Bool = false;
 			var flag:Bool = false;
 			var daStage:String = curStage.toLowerCase(); // im lazy lol
-			if(daStage.contains('3d')) {
-				wavy = true;
-				flag = true;
-			}
 
-			if(daStage.contains('wavy')) {
+			if(daStage.contains('wavy') || daStage.contains('3d')) {
 				wavy = true;
 			}
-			if(daStage.contains('flag')) {
+			if(daStage.contains('flag') || daStage.contains('3d')) {
 				flag = true;
 			}
 			if(daStage.contains('pulse')) {
@@ -584,13 +581,6 @@ class PlayState extends MusicBeatState
 				screenshader.waveSpeed = 1;
 				screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
 				screenshader.shader.uampmul.value[0] = 0;
-
-				/*#if windows
-				screenshader.waveAmplitude = 1;
-       			screenshader.waveFrequency = 2;
-    			screenshader.waveSpeed = 1;
-    			screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
-				#end*/
 				allowedShaders.set('pulse', true);
 			}
 			if(flag) {
@@ -602,12 +592,16 @@ class PlayState extends MusicBeatState
 				allowedShaders.set('flag', true);
 			}
 			if(wavy) {
+				wavyShader = new PulseEffect();
 				the3DWorldEffectWavy = new WiggleEffect();
 				the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
 				the3DWorldEffectWavy.waveAmplitude = 0.2;
 				the3DWorldEffectWavy.waveFrequency = 3;
 				the3DWorldEffectWavy.waveSpeed = 1.25;
 				allowedShaders.set('wavy', true);
+			}
+			if(daStage.contains('glitch')) {
+				_glitch = new FlxGlitchEffect(10, 2, 0.1);
 			}
 		}
 
@@ -3160,8 +3154,9 @@ class PlayState extends MusicBeatState
 		if(allowedShaders.get('flag'))
 			the3DWorldEffect.update(elapsed);
 
-		if(allowedShaders.get('wavy'))
+		if(allowedShaders.get('wavy')) {
 			the3DWorldEffectWavy.update(elapsed);
+		}
 
 		if(disableTheTripperAt == curStep)
 		{

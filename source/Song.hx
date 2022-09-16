@@ -46,7 +46,7 @@ class Song
 	public var bpm:Float;
 	public var needsVoices:Bool = true;
 	public var arrowSkin:String;
-	public var playerArrowSkin:String;
+	public var playerArrowSkin:String = '';
 	public var splashSkin:String;
 	public var speed:Float = 1;
 	public var stage:String;
@@ -73,9 +73,11 @@ class Song
 
 		if(songJson.event7 == null) songJson.event7 = '';
 		if(songJson.event7Value == null) songJson.event7Value = '';
-
+		if(songJson.credit == null) songJson.credit = '';
+		if(songJson.screwYou == null) songJson.screwYou = '';
 		if(songJson.ghostTappingAllowed == null) songJson.ghostTappingAllowed = true;
 
+		/*
 		if(songJson.player1 == null && songJson.boyfriend != null) {
 			songJson.player1 = songJson.boyfriend;
 			songJson.boyfriend = null;
@@ -88,6 +90,7 @@ class Song
 			songJson.player2 = songJson.opponent;
 			songJson.opponent = null;
 		}
+		*/
 
 		if(songJson.events == null)
 		{
