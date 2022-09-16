@@ -53,6 +53,8 @@ class Song
 	public var ghostTappingAllowed:Bool = true;
 	public var event7:String = '';
 	public var event7Value:String = '';
+	public var credit:String = '';
+	public var screwYou:String = '';
 
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
