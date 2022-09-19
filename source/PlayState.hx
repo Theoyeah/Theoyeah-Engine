@@ -1185,10 +1185,6 @@ class PlayState extends MusicBeatState
 		playerStrums = new FlxTypedGroup<StrumNote>();
 
 
-		for (i in 0...playerStrums.length-1)
-			playerStrums.members[i].texture = SONG.playerArrowSkin; // YEAH!! I FUCKING FINALLY DID IT!!!
-
-
 		// startCountdown();
 
 		generateSong(SONG.song);
@@ -2331,6 +2327,7 @@ class PlayState extends MusicBeatState
 			for (i in 0...playerStrums.length) {
 				setOnLuas('defaultPlayerStrumX' + i, playerStrums.members[i].x);
 				setOnLuas('defaultPlayerStrumY' + i, playerStrums.members[i].y);
+				playerStrums.members[i].texture = SONG.playerArrowSkin; // YEAH!! I FUCKING FINALLY DID IT!!!
 			}
 			for (i in 0...opponentStrums.length) {
 				setOnLuas('defaultOpponentStrumX' + i, opponentStrums.members[i].x);
