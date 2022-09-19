@@ -3393,12 +3393,12 @@ class PlayState extends MusicBeatState
 
 				if (strumScroll) //Downscroll FUCK! THIS IS THE NOTES CUSTOM SCROLL SPEED!!
 				{
-					//daNote.y = (strumY + 0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed);
+					daNote.y = (strumY + 0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed);
 					daNote.distance = (0.45 * (Conductor.songPosition - daNote.strumTime) * (songSpeed * daNote.scrollMult) * daNote.multSpeed);
 				}
 				else //Upscroll
 				{
-					//daNote.y = (strumY - 0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed);
+					daNote.y = (strumY - 0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed);
 					daNote.distance = (-0.45 * (Conductor.songPosition - daNote.strumTime) * (songSpeed * daNote.scrollMult) * daNote.multSpeed); // multSpeed changes the size, scrollMult doesnt
 				}
 
@@ -3492,7 +3492,7 @@ class PlayState extends MusicBeatState
 
 		#if debug
 		if(!endingSong && !startingSong) {
-			if (FlxG.keys.justPressed.ONE) {
+			if (FlxG.keys.justPressed.ONE) { // finish song :O
 				KillNotes();
 				FlxG.sound.music.onComplete();
 			}
@@ -3615,7 +3615,7 @@ class PlayState extends MusicBeatState
 		return pressed;
 	}
 
-	public function triggerEventNote(eventName:String, value1:String = '', value2:String = '', value3:String = '') {
+	public function triggerEventNote(eventName:String = '', value1:String = '', value2:String = '', value3:String = '') {
 		var theValue1:String = value1.toLowerCase().trim();
 		var theValue2:String = value2.toLowerCase().trim();
 		var theValue3:String = value3.toLowerCase().trim();
