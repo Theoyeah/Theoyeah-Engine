@@ -2998,10 +2998,15 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		callOnLuas('onUpdate', [elapsed]);
+
+		#if !debug
+		if(cpuControlled && !botplayTxt.visible)
+			botplayTxt.visible = true; // NO MORE FAKE VIDEOS!!
+		#end
+
 		if (FlxG.keys.justPressed.NINE)
 			iconP1.swapOldIcon();
-
-		callOnLuas('onUpdate', [elapsed]);
 
 		switch (curStage)
 		{
