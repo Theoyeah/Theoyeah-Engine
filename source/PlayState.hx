@@ -1185,7 +1185,7 @@ class PlayState extends MusicBeatState
 		playerStrums = new FlxTypedGroup<StrumNote>();
 
 
-		for (i in 0...playerStrums.length)
+		for (i in 0...playerStrums.length-1)
 			playerStrums.members[i].texture = SONG.playerArrowSkin; // YEAH!! I FUCKING FINALLY DID IT!!!
 
 
@@ -1329,45 +1329,32 @@ class PlayState extends MusicBeatState
 
 		if(SONG.credit != null) {
 			watermarkTxt = new FlxText(10, FlxG.height - 28, 0, 'By ' + SONG.credit + ' - ' + SONG.song + " - [" + CoolUtil.difficultyString() + "] - Theoyeah Engine", 74);
-			watermarkTxt.scrollFactor.set();
-			watermarkTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			watermarkTxt.size = 18;
-			watermarkTxt.updateHitbox();
-			watermarkTxt.alpha = 0.6;
-			add(watermarkTxt);
 		}
 		else {
 			watermarkTxt = new FlxText(10, FlxG.height - 28, 0, SONG.song + " - [" + CoolUtil.difficultyString() + "] - Theoyeah Engine", 74);
-			watermarkTxt.scrollFactor.set();
-			watermarkTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			watermarkTxt.size = 18;
-			watermarkTxt.updateHitbox();
-			watermarkTxt.alpha = 0.6;
-			add(watermarkTxt);
 		}
+		watermarkTxt.scrollFactor.set();
+		watermarkTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		watermarkTxt.size = 18;
+		watermarkTxt.updateHitbox();
+		watermarkTxt.alpha = 0.6;
+		add(watermarkTxt);
 
 		if(SONG.screwYou != null)
 		{
 			screwYouTxt = new FlxText(10, FlxG.height - 28, 0, SONG.screwYou, 74);
-			screwYouTxt.scrollFactor.set();
-			screwYouTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			screwYouTxt.size = 18;
-			screwYouTxt.updateHitbox();
-			screwYouTxt.alpha = 0.6;
-			add(screwYouTxt);
-			watermarkTxt.y = FlxG.height - 50;
-			screwYouTxt.cameras = [camHUD];
 		}
 		else {
 			screwYouTxt = new FlxText(10, FlxG.height - 28, 0, null, 74);
-			screwYouTxt.scrollFactor.set();
-			screwYouTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			screwYouTxt.size = 18;
-			screwYouTxt.updateHitbox();
-			screwYouTxt.alpha = 0.6;
-			add(screwYouTxt);
-			screwYouTxt.cameras = [camHUD];
 		}
+		screwYouTxt.scrollFactor.set();
+		screwYouTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		screwYouTxt.size = 18;
+		screwYouTxt.updateHitbox();
+		screwYouTxt.alpha = 0.6;
+		add(screwYouTxt);
+		screwYouTxt.cameras = [camHUD];
+
 		if(ClientPrefs.hideHud)
 		{
 			watermarkTxt.visible = false;
