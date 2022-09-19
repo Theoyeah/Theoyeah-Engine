@@ -11,7 +11,7 @@
 
 
 
-# Theoyeah Engine
+# Theoyeah Engine (but for dave and bambi)
 
 Hello, here a (again) new edited version psych engine!
 I will try to add things that Shadow Mario will never do
@@ -20,6 +20,7 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 
 # What it adds
 
+- Strident Engine things (thanks [**@Joalor64GH**](https://github.com/Joalor64GH)
 - Value 3 for events!
 - NOTESKIN SELECYOR OH YEAHHH (by @Beastlyghost)
 - New Logo
