@@ -88,34 +88,7 @@ class ModsMenuState extends MusicBeatState
 		noModsTxt.screenCenter();
 		visibleWhenNoMods.push(noModsTxt);
 
-		var path:String = 'modsList.txt';
-		if(FileSystem.exists(path))
-		{
-			var leMods:Array<String> = CoolUtil.coolTextFile(path);
-			for (i in 0...leMods.length)
-			{
-				if(leMods.length > 1 && leMods[0].length > 0) {
-					var modSplit:Array<String> = leMods[i].split('|');
-					if(!Paths.ignoreModFolders.contains(modSplit[0].toLowerCase()))
-					{
-						addToModsList([modSplit[0], (modSplit[1] == '1')]);
-						//trace(modSplit[1]);
-					}
-				}
-			}
-		}
-
-		// FIND MOD FOLDERS
-		var boolshit = true;
-		if (FileSystem.exists("modsList.txt")) {
-			for (folder in Paths.getModDirectories())
-			{
-				if(!Paths.ignoreModFolders.contains(folder))
-				{
-					addToModsList([folder, true]); //i like it false by default. -bb //Well, i like it True! -Shadow
-				}
-			}
-		}
+		pushMods();
 		saveTxt();
 
 		selector = new AttachedSprite();
@@ -378,7 +351,45 @@ class ModsMenuState extends MusicBeatState
 		super.create();
 	}
 
-	/*function getIntArray(max:Int):Array<Int>{
+	function pushMods():Array<Array<Dynamic>> {
+		var path:String = 'modsList.txt';
+		var modsAdded:Array<Array<Dynamic>> = [[]];
+		if(FileSystem.exists(path))
+		{
+			var leMods:Array<String> = CoolUtil.coolTextFile(path);
+			for (aMod in leMods)
+			{
+				if(leMods.length > 1 && leMods[0].length > 0) {
+					var modSplit:Array<String> = aMod.split('|');
+					if(!Paths.ignoreModFolders.contains(modSplit[0].toLowerCase()))
+					{
+						var thing = [modSplit[0], (modSplit[1] == '1')];
+						addToModsList(thing);
+						modsAdded.push(thing);
+						//trace(modSplit[1]);
+					}
+				}
+			}
+		}
+
+		// FIND MOD FOLDERS
+		//var boolshit = true;
+		if (FileSystem.exists(path)) {
+			for (folder in Paths.getModDirectories())
+			{
+				if(!Paths.ignoreModFolders.contains(folder))
+				{
+					addToModsList([folder, true]); //i like it false by default. -bb //Well, i like it True! -Shadow
+				}
+			}
+		}
+
+		if(modsAdded.length <= 0) {
+			pushMods();
+		}
+		return modsAdded;
+	}
+	/*function getIntArray(max:Int):Array<Int> {
 		var arr:Array<Int> = [];
 		for (i in 0...max) {
 			arr.push(i);
@@ -734,11 +745,11 @@ class ModMetadata
 			var rawJson:String = File.getContent(path);
 			if(rawJson != null && rawJson.length > 0) {
 				var stuff:Dynamic = Json.parse(rawJson);
-					//using reflects cuz for some odd reason my haxe hates the stuff.var shit
-					var colors:Array<Int> = Reflect.getProperty(stuff, "color");
-					var description:String = Reflect.getProperty(stuff, "description");
-					var name:String = Reflect.getProperty(stuff, "name");
-					var restart:Bool = Reflect.getProperty(stuff, "restart");
+				//using reflects cuz for some odd reason my haxe hates the stuff.var shit
+				var colors:Array<Int> = Reflect.getProperty(stuff, "color");
+				var description:String = Reflect.getProperty(stuff, "description");
+				var name:String = Reflect.getProperty(stuff, "name");
+				var restart:Bool = Reflect.getProperty(stuff, "restart");
 
 				if(name != null && name.length > 0)
 				{
@@ -762,19 +773,6 @@ class ModMetadata
 				}
 
 				this.restart = restart;
-				/*
-				if(stuff.name != null && stuff.name.length > 0)
-				{
-					this.name = stuff.name;
-				}
-				if(stuff.description != null && stuff.description.length > 0)
-				{
-					this.description = stuff.description;
-				}
-				if(stuff.color != null && stuff.color.length > 2)
-				{
-					this.color = FlxColor.fromRGB(stuff.color[0], stuff.color[1], stuff.color[2]);
-				}*/
 			}
 		}
 	}
