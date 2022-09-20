@@ -363,7 +363,7 @@ class ModsMenuState extends MusicBeatState
 					var modSplit:Array<String> = aMod.split('|');
 					if(!Paths.ignoreModFolders.contains(modSplit[0].toLowerCase()))
 					{
-						var thing = [modSplit[0], (modSplit[1] == '1')];
+						var thing:Array<Dynamic> = [modSplit[0], (modSplit[1] == '1')];
 						addToModsList(thing);
 						modsAdded.push(thing);
 						//trace(modSplit[1]);
