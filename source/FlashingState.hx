@@ -25,7 +25,7 @@ class FlashingState extends MusicBeatState
 
 		warnText = new FlxText(0, 0, FlxG.width,
 			"Hey, watch out!\n
-			This Mod contains some flashing lights!\n
+			This Mod contains some flashing lights and shaders!\n
 			Go to Options to disable them.\n
 			You've been warned!",
 			32);
