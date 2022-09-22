@@ -2709,16 +2709,20 @@ class PlayState extends MusicBeatState
 		generatedMusic = true;
 	}
 
+	var pushedNotes:Array<String> = [];
 	function notePushed(theNote:Note) {
-		var isSus:Bool = theNote.isSustainNote; //GET OUT OF MY HEAD, GET OUT OF MY HEAD, GET OUT OF MY HEAD
-		var leData:Int = Math.round(Math.abs(theNote.noteData));
-		var leType:String = theNote.noteType;
-		callOnLuas('onNotePushed', [notes.members.indexOf(theNote), leData, leType, isSus]);
+		if(!pushedNotes.contains(theNote.noteType)) {
+			var isSus:Bool = theNote.isSustainNote; //GET OUT OF MY HEAD, GET OUT OF MY HEAD, GET OUT OF MY HEAD
+			var leData:Int = Math.round(Math.abs(theNote.noteData));
+			var leType:String = theNote.noteType;
+			callOnLuas('onNotePushed', [notes.members.indexOf(theNote), leData, leType, isSus]);
 
-		if(theNote.precacheThis.length > 0) { // optimization
-			for(i in 0...theNote.precacheThis.length) {
-				precacheList.set(theNote.precacheThis[i][0], theNote.precacheThis[i][1]);
+			if(theNote.precacheThis.length > 0) { // optimization
+				for (i in 0...theNote.precacheThis.length) {
+					precacheList.set(theNote.precacheThis[i][0], theNote.precacheThis[i][1]);
+				}
 			}
+			pushedNotes.push(leType);
 		}
 	}
 
@@ -2994,10 +2998,15 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		callOnLuas('onUpdate', [elapsed]);
+
+		#if !debug
+		if(cpuControlled && !botplayTxt.visible)
+			botplayTxt.visible = true; // NO MORE FAKE VIDEOS!!
+		#end
+
 		if (FlxG.keys.justPressed.NINE)
 			iconP1.swapOldIcon();
-
-		callOnLuas('onUpdate', [elapsed]);
 
 		switch (curStage)
 		{
@@ -3240,7 +3249,7 @@ class PlayState extends MusicBeatState
 			else
 				iconP1.animation.curAnim.curFrame = 0;
 		}
-		else
+		else if(iconP1.animation.frames == 2)
 		{
 			if (healthBar.percent < 20)
 				iconP1.animation.curAnim.curFrame = 1;
@@ -3257,7 +3266,7 @@ class PlayState extends MusicBeatState
 			else
 				iconP2.animation.curAnim.curFrame = 0;
 		}
-		else
+		else if(iconP2.animation.frames == 2)
 		{
 			if (healthBar.percent > 80)
 				iconP2.animation.curAnim.curFrame = 1;

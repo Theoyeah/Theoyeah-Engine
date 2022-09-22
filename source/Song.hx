@@ -55,6 +55,18 @@ class Song
 			songJson.player3 = null;
 		}
 
+		if(songJson.player1 == null && songJson.boyfriend != null) {
+			songJson.player1 = songJson.boyfriend;
+			songJson.boyfriend = null;
+		}
+		if(songJson.player1 == null && songJson.bf != null) {
+			songJson.player1 = songJson.bf;
+			songJson.bf = null;
+		}
+		if(songJson.player2 == null && songJson.opponent != null) {
+			songJson.player2 = songJson.opponent;
+			songJson.opponent = null;
+		}
 		if(songJson.events == null)
 		{
 			songJson.events = [];
