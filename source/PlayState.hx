@@ -561,9 +561,6 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 
-		#if MODS_ALLOWED
-		Paths.destroyLoadedImages(resetSpriteCache);
-		#end
 		resetSpriteCache = false;
 
 		if(!curStage.toLowerCase().replace(' ', '').contains('noshader') && !curStage.toLowerCase().replace(' ', '').contains('noeyesores') && ClientPrefs.shaders) {
