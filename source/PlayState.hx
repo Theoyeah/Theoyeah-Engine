@@ -3142,21 +3142,22 @@ class PlayState extends MusicBeatState
 			the3DWorldEffectWavy.update(elapsed);
 		}
 
-		if(disableTheTripperAt == curStep)
-		{
-			disableTheTripper = true;
-		}
-		if(isDead)
+		if(disableTheTripperAt == curStep || isDead)
 		{
 			disableTheTripper = true;
 		}
 
-		FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
-		screenshader.update(elapsed);
 		if(disableTheTripper) // so, this disables shaders?
 		{
 			screenshader.shader.uampmul.value[0] -= (elapsed / 2);
+		} else {
+		FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
+		screenshader.update(elapsed);
 		}
+
+		if(cpuControlled && !botplayTxt.visible)
+			botplayTxt.visible = true; // NO MORE FAKE VIDEOS!!
+
 
 		if (FlxG.keys.justPressed.NINE)
 			iconP1.swapOldIcon();

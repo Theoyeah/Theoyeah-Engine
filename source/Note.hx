@@ -373,14 +373,14 @@ class Note extends FlxSprite
 		if(PlayState.isPixelStage) {
 			var notefile:String = 'pixelUI/$blahblah';
 			if(isSustainNote) {
-				if(!Paths.fileExists(notefile + 'ENDS', IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
+				//if(!Paths.fileExists(notefile + 'ENDS', IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
 				loadGraphic(Paths.image(notefile + 'ENDS'));
 				width = width / 4;
 				height = height / 2;
 				originalHeightForCalcs = height;
 				loadGraphic(Paths.image(notefile + 'ENDS'), true, Math.floor(width), Math.floor(height));
 			} else {
-				if(!Paths.fileExists(notefile, IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
+				//if(!Paths.fileExists(notefile, IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
 				loadGraphic(Paths.image(notefile));
 				width = width / 4;
 				height = height / 5;
