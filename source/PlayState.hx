@@ -6,10 +6,11 @@ import DialogueBoxPsych;
 import FunkinLua;
 import Note.EventNote;
 import Section.SwagSection;
+import Shaders;
 import Shaders.PulseEffect;
-import Shaders.*;
 import Song.SwagSong;
 import StageData;
+import WiggleEffect;
 import WiggleEffect.WiggleEffectType;
 import animateatlas.AtlasFrameMaker;
 import editors.CharacterEditorState;
@@ -222,10 +223,6 @@ class PlayState extends MusicBeatState
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
 
-	var screwYouTxt:FlxText;
-	var watermarkTxt:FlxText;
-	var ghostTappersOff:Bool = false;
-
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
@@ -264,6 +261,10 @@ class PlayState extends MusicBeatState
 	var grpLimoParticles:FlxTypedGroup<BGSprite>;
 	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
 	var fastCar:BGSprite;
+
+	var screwYouTxt:FlxText;
+	var watermarkTxt:FlxText;
+	var ghostTappersOff:Bool = false;
 
 	public static var allowedShaders:Map<String, Bool> = [
 		'wavy' => false,
