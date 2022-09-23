@@ -77,7 +77,7 @@ class FreeplayState extends MusicBeatState
 			for (j in 0...leWeek.songs.length)
 			{
 				switch(Paths.formatToSongPath(leWeek.songs[j][0])) {
-					case 'monster':
+					case 'monster': // secret songs code
 						if(FlxG.save.data.songScores != null) {
 							if(FlxG.save.data.songScores.get(Paths.formatToSongPath(leWeek.songs[j][0])) != 0) {
 								leSongs.push(leWeek.songs[j][0]);
@@ -329,7 +329,7 @@ class FreeplayState extends MusicBeatState
 			changeDiff(1);
 		if (upP || downP) changeDiff();
 
-		if (controls.BACK)
+		if (controls.BACK && !accepted)
 		{
 			persistentUpdate = false;
 			if(colorTween != null) {
@@ -346,6 +346,7 @@ class FreeplayState extends MusicBeatState
 		}
 		else if(space)
 		{
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.3);
 			if(instPlaying != curSelected)
 			{
 				#if PRELOAD_ALL
@@ -369,7 +370,7 @@ class FreeplayState extends MusicBeatState
 				#end
 			}
 		}
-		else if (accepted)
+		else if (accepted && !controls.BACK)
 		{
 			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
@@ -394,11 +395,11 @@ class FreeplayState extends MusicBeatState
 				colorTween.cancel();
 			}
 
-			if (FlxG.keys.pressed.SHIFT) {
+			#if debug
+			if (FlxG.keys.pressed.SHIFT)
 				LoadingState.loadAndSwitchState(new ChartingState());
-			} else {
+			else #end
 				LoadingState.loadAndSwitchState(new PlayState());
-			}
 
 			FlxG.sound.music.volume = 0;
 
