@@ -28,6 +28,7 @@ class ClientPrefs
 	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 	public static var imagesPersist:Bool = false;
 	public static var ghostTapping:Bool = true;
+	public static var discord:Bool = true;
 	public static var timeBarType:String = 'Time Left';
 	public static var scoreZoom:Bool = true;
 	public static var noReset:Bool = false;
@@ -120,6 +121,7 @@ class ClientPrefs
 
 	public static function saveSettings()
 	{
+		FlxG.save.data.discord = discord;
 		FlxG.save.data.noteSkin = noteSkin;
 		FlxG.save.data.winningIcon = winningIcon;
 		//FlxG.save.data.multiplicativeValue = multiplicativeValue;
@@ -182,6 +184,7 @@ class ClientPrefs
 
 	public static function loadPrefs()
 	{
+		if(FlxG.save.data.discord != null) discord = FlxG.save.data.discord;
 		if(FlxG.save.data.noteSkin != null)
 		{
 			noteSkin = FlxG.save.data.noteSkin;
