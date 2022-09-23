@@ -295,9 +295,21 @@ class StoryMenuState extends MusicBeatState
 
 			// We can't use Dynamic Array .copy() because that crashes HTML5, here's a workaround.
 			var songArray:Array<String> = [];
-			var leWeek:Array<Dynamic> = loadedWeeks[curWeek].songs;
-			for (i in 0...leWeek.length) {
-				songArray.push(leWeek[i][0]);
+			var leSongs:Array<Dynamic> = loadedWeeks[curWeek].songs;
+			for (i in 0...leSongs.length) {
+				var pushIt:Bool = true;
+				switch(leSongs[i][0]) {
+					case 'monster': // secret songs code
+						if(FlxG.save.data.songScores != null) {
+							if(FlxG.save.data.songScores.get(Paths.formatToSongPath(leSongs[i][0])) != 0) {
+								pushIt = true;
+							} else
+								pushIt = false;
+						} else
+							pushIt = false;
+				}
+				if(pushIt)
+					songArray.push(leSongs[i][0]);
 			}
 
 			// Nevermind that's stupid lmao
