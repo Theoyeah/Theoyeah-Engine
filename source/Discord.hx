@@ -17,38 +17,43 @@ class DiscordClient
 	public static var isInitialized:Bool = false;
 	public function new()
 	{
-		trace("Discord Client starting...");
-		DiscordRpc.start({
-			clientID: "863222024192262205",
-			onReady: onReady,
-			onError: onError,
-			onDisconnected: onDisconnected
-		});
-		trace("Discord Client started.");
+		if(ClientPrefs.discord) {
+			trace("Discord Client starting...");
+			DiscordRpc.start({
+				clientID: "863222024192262205",
+				onReady: onReady,
+				onError: onError,
+				onDisconnected: onDisconnected
+			});
+			trace("Discord Client started.");
 
-		while (true)
-		{
-			DiscordRpc.process();
-			sleep(2);
-			//trace("Discord Client Update");
+			while (true)
+			{
+				DiscordRpc.process();
+				sleep(2);
+				//trace("Discord Client Update");
+			}
+
+			DiscordRpc.shutdown();
 		}
-
-		DiscordRpc.shutdown();
 	}
 
 	public static function shutdown()
 	{
-		DiscordRpc.shutdown();
+		if(ClientPrefs.discord)
+			DiscordRpc.shutdown();
 	}
 
 	static function onReady()
 	{
-		DiscordRpc.presence({
-			details: "In the Menus",
-			state: null,
-			largeImageKey: 'icon',
-			largeImageText: "Theoyeah Engine"
-		});
+		if(ClientPrefs.discord) {
+			DiscordRpc.presence({
+				details: "In the Menus",
+				state: null,
+				largeImageKey: 'icon',
+				largeImageText: "Theoyeah Engine"
+			});
+		}
 	}
 
 	static function onError(_code:Int, _message:String)
@@ -63,35 +68,39 @@ class DiscordClient
 
 	public static function initialize()
 	{
-		var DiscordDaemon = sys.thread.Thread.create(() ->
-		{
-			new DiscordClient();
-		});
-		trace("Discord Client initialized");
-		isInitialized = true;
+		if(ClientPrefs.discord) {
+			var DiscordDaemon = sys.thread.Thread.create(() ->
+			{
+				new DiscordClient();
+			});
+			trace("Discord Client initialized");
+			isInitialized = true;
+		}
 	}
 
 	public static function changePresence(details:String, ?state:String, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float)
 	{
-		var startTimestamp:Float = if(hasStartTimestamp) Date.now().getTime() else 0;
+		if(ClientPrefs.discord) {
+			var startTimestamp:Float = if(hasStartTimestamp) Date.now().getTime() else 0;
 
-		if (endTimestamp > 0)
-		{
-			endTimestamp = startTimestamp + endTimestamp;
+			if (endTimestamp > 0)
+			{
+				endTimestamp = startTimestamp + endTimestamp;
+			}
+
+			DiscordRpc.presence({
+				details: details,
+				state: state,
+				largeImageKey: 'icon',
+				largeImageText: "Engine Version: " + MainMenuState.theoyeahEngineVersion,
+				smallImageKey: smallImageKey,
+				// Obtained times are in milliseconds so they are divided so Discord can use it
+				startTimestamp: Std.int(startTimestamp / 1000),
+				endTimestamp: Std.int(endTimestamp / 1000)
+			});
+
+			//trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');
 		}
-
-		DiscordRpc.presence({
-			details: details,
-			state: state,
-			largeImageKey: 'icon',
-			largeImageText: "Engine Version: " + MainMenuState.theoyeahEngineVersion,
-			smallImageKey : smallImageKey,
-			// Obtained times are in milliseconds so they are divided so Discord can use it
-			startTimestamp : Std.int(startTimestamp / 1000),
-            endTimestamp : Std.int(endTimestamp / 1000)
-		});
-
-		//trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');
 	}
 
 	#if LUA_ALLOWED
