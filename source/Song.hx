@@ -60,6 +60,9 @@ class Song
 	public var player2:String = 'dad';
 	public var gfVersion:String = 'gf';
 
+	private function shit(thing:Dynamic):Bool { // sería mejor un String, pero, bah! Qué más da!
+		return (thing.length < 1 || thing == null);
+	}
 	private static function onLoadJson(songJson:Dynamic) // Convert old charts to newest format
 	{
 		if(songJson.gfVersion == null && songJson.player3 != null)
@@ -68,13 +71,13 @@ class Song
 			songJson.player3 = null;
 		}
 
-		if(songJson.playerArrowSkin == null && songJson.arrowSkin != null)
+		if(shit(songJson.playerArrowSkin) && !shit(songJson.arrowSkin))
 			songJson.playerArrowSkin = songJson.arrowSkin;
 
-		if(songJson.event7 == null) songJson.event7 = '';
-		if(songJson.event7Value == null) songJson.event7Value = '';
-		if(songJson.credit == null) songJson.credit = '';
-		if(songJson.screwYou == null) songJson.screwYou = '';
+		if(shit(songJson.event7)) songJson.event7 = '';
+		if(shit(songJson.event7Value)) songJson.event7Value = '';
+		if(shit(songJson.credit)) songJson.credit = '';
+		if(shit(songJson.screwYou)) songJson.screwYou = '';
 		if(songJson.ghostTappingAllowed == null) songJson.ghostTappingAllowed = true;
 
 		/*
