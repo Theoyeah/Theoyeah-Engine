@@ -60,7 +60,7 @@ class Song
 	public var player2:String = 'dad';
 	public var gfVersion:String = 'gf';
 
-	private function shit(thing:Dynamic):Bool { // sería mejor un String, pero, bah! Qué más da!
+	private static function shit(thing:Dynamic):Bool { // sería mejor un String, pero, bah! Qué más da!
 		return (thing.length < 1 || thing == null);
 	}
 	private static function onLoadJson(songJson:Dynamic) // Convert old charts to newest format
