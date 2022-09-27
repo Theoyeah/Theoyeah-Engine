@@ -5570,7 +5570,7 @@ class PlayState extends MusicBeatState
 		else if(ClientPrefs.lightPlayerStrum)
 			spr = playerStrums.members[id];
 		else
-			light = false
+			light = false;
 
 		if(spr != null && !light) {
 			spr.playAnim('confirm', true);
