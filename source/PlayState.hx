@@ -3130,16 +3130,16 @@ class PlayState extends MusicBeatState
 	{
 		callOnLuas('onUpdate', [elapsed]);
 
-		if(activeWavy && allowedShaders.get('wavy'))
+		if(activeWavy && allowedShaders.get('wavy') && ClientPrefs.shaders)
 		{
 			wavyShader.update(elapsed);
 		}
-		if(allowedShaders.get('flag'))
+		/*if(allowedShaders.get('flag'))
 			the3DWorldEffect.update(elapsed);
 
 		if(allowedShaders.get('wavy')) {
 			the3DWorldEffectWavy.update(elapsed);
-		}
+		}*/
 
 		if(disableTheTripperAt == curStep || isDead)
 		{
@@ -3149,10 +3149,10 @@ class PlayState extends MusicBeatState
 		if(disableTheTripper) // so, this disables shaders?
 		{
 			screenshader.shader.uampmul.value[0] -= (elapsed / 2);
-		} else {
-		FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
-		screenshader.update(elapsed);
-		}
+		}/* else {
+			FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
+			screenshader.update(elapsed);
+		}*/
 
 		if(cpuControlled && !botplayTxt.visible)
 			botplayTxt.visible = true; // NO MORE FAKE VIDEOS!!
