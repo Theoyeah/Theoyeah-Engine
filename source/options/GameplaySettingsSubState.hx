@@ -88,6 +88,20 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Light Player Strum',
+			"If unchecked, your strum will not light when pressing\na note.",
+			'lightPlayerStrum',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option('Light Opponent Strum',
+			"If unchecked, the opponent strum will not light when pressing\na note.",
+			'lightCpuStrum',
+			'bool',
+			true);
+		addOption(option);
+
         var option:Option = new Option('Hide Opponent Notes',
 			'If checked, opponent notes get hidden.',
 			'opponentStrums',
