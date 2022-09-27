@@ -94,7 +94,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool',
 			false);
 		addOption(option);
-	
+
 		var option:Option = new Option('Rating Offset',
 			'Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.',
 			'ratingOffset',
@@ -106,7 +106,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 30;
 		addOption(option);
 
-		var option:Option = new Option('Sick! Hit Window',
+		var option:Option = new Option('Marvelous! Hit Window',
 			'Changes the amount of time you have\nfor hitting a "Marvelous" in milliseconds.',
 			'marvelousWindow',
 			'int',
