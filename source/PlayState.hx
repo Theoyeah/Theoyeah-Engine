@@ -4236,23 +4236,13 @@ class PlayState extends MusicBeatState
 				clearShaderFromCamera(value1.trim());
 			/*case 'Remove Shader':
 				removeShaderFromCamera(value1.trim(), value2);*/
-			/*case 'Rainbow Eyesore':
-					if(ClientPrefs.shaders) {
-						var timeRainbow:Int = Std.parseInt(value1);
-						var speedRainbow:Float = Std.parseFloat(value2);
-						disableTheTripper = false;
-						disableTheTripperAt = timeRainbow;
-						FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
-						screenshader.waveAmplitude = 1;
-						screenshader.waveFrequency = 2;
-						screenshader.waveSpeed = speedRainbow;
-						screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
-						screenshader.shader.uampmul.value[0] = 1;
-						screenshader.Enabled = true;
-					}*/
+			case 'Move Window':
+				lime.app.Application.current.window.move(Std.parseInt(theValue1), Std.parseInt(theValue2));
+			/*case 'Minimize Window':
+				lime.app.Application.current.window.minimized = Std.bool(theValue1);*/
 			case 'Popup':
-				var title:String = (value1);
-				var message:String = (value2);
+				var title:String = value1;
+				var message:String = value2;
 				FlxG.sound.music.pause();
 				vocals.pause();
 
@@ -4260,12 +4250,12 @@ class PlayState extends MusicBeatState
 				FlxG.sound.music.resume();
 				vocals.resume();
 			case 'Popup (No Pause)':
-				var title:String = (value1);
-				var message:String = (value2);
+				var title:String = value1;
+				var message:String = value2;
 
 				lime.app.Application.current.window.alert(message, title);
-			case '\"Screw you!\" Text Change':
-				var text:String = (value1);
+			case '"Screw you!" Text Change':
+				var text:String = value1;
 
 				screwYouTxt.text = text;
 				if(screwYouTxt.text == null || screwYouTxt.text == "")
@@ -4278,9 +4268,9 @@ class PlayState extends MusicBeatState
 				}
 
 			case 'Rainbow Eyesore':
-				if(ClientPrefs.eyesores) {
-					var timeRainbow:Int = Std.parseInt(value1);
-					var speedRainbow:Float = Std.parseFloat(value2);
+				if(ClientPrefs.eyesores && allowedShaders.get('pulse')) {
+					var timeRainbow:Int = Std.parseInt(theValue1);
+					var speedRainbow:Float = Std.parseFloat(theValue2);
 					disableTheTripper = false;
 					disableTheTripperAt = timeRainbow;
 					FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
@@ -4302,27 +4292,13 @@ class PlayState extends MusicBeatState
 					allowedShaders.set('flag', true);
 				}
 				if(daEffects.contains('pulse') && !allowedShaders.get('pulse')) {
+					screenshader = new PulseEffect();
 					screenshader.waveAmplitude = 1;
 					screenshader.waveFrequency = 2;
 					screenshader.waveSpeed = 1;
 					screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
 					screenshader.shader.uampmul.value[0] = 0;
-
-					/*#if windows
-					screenshader.waveAmplitude = 1;
-       				screenshader.waveFrequency = 2;
-    				screenshader.waveSpeed = 1;
-    				screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
-					#end*/
 					allowedShaders.set('pulse', true);
-				}
-				if(daEffects.contains('flag') && !allowedShaders.get('flag')) {
-					the3DWorldEffect = new WiggleEffect();
-					the3DWorldEffect.effectType = WiggleEffectType.FLAG;
-					the3DWorldEffect.waveAmplitude = 0.1;
-					the3DWorldEffect.waveFrequency = 5;
-					the3DWorldEffect.waveSpeed = 2.25;
-					allowedShaders.set('flag', true);
 				}
 				if(daEffects.contains('wavy') && !allowedShaders.get('wavy')) {
 					the3DWorldEffectWavy = new WiggleEffect();
@@ -4335,8 +4311,6 @@ class PlayState extends MusicBeatState
 			case 'Deactivate Shader':
 				var daEffects = value1.replace(' ', '').toLowerCase().split(',');
 				if (daEffects.contains('flag') && allowedShaders.get('flag')) {
-					the3DWorldEffect = new WiggleEffect();
-					the3DWorldEffect.effectType = WiggleEffectType.FLAG;
 					the3DWorldEffect.waveAmplitude = 0;
 					the3DWorldEffect.waveFrequency = 0;
 					the3DWorldEffect.waveSpeed = 0;
@@ -4350,17 +4324,7 @@ class PlayState extends MusicBeatState
 					screenshader.shader.uampmul.value[0] = 0;
 					allowedShaders.set('pulse', false);
 				}
-				if (daEffects.contains('flag') && allowedShaders.get('flag')) {
-					the3DWorldEffect = new WiggleEffect();
-					the3DWorldEffect.effectType = WiggleEffectType.FLAG;
-					the3DWorldEffect.waveAmplitude = 0;
-					the3DWorldEffect.waveFrequency = 0;
-					the3DWorldEffect.waveSpeed = 0;
-					allowedShaders.set('flag', false);
-				}
 				if (daEffects.contains('wavy') && allowedShaders.get('wavy')) {
-					the3DWorldEffectWavy = new WiggleEffect();
-					the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
 					the3DWorldEffectWavy.waveAmplitude = 0;
 					the3DWorldEffectWavy.waveFrequency = 0;
 					the3DWorldEffectWavy.waveSpeed = 0;
