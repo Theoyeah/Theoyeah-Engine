@@ -3154,6 +3154,9 @@ class PlayState extends MusicBeatState
 			screenshader.update(elapsed);
 		}*/
 
+		for (shader in shaderUpdates) {
+			shader(elapsed);
+		}
 		if(cpuControlled && !botplayTxt.visible)
 			botplayTxt.visible = true; // NO MORE FAKE VIDEOS!!
 
@@ -4236,10 +4239,25 @@ class PlayState extends MusicBeatState
 				clearShaderFromCamera(value1.trim());
 			/*case 'Remove Shader':
 				removeShaderFromCamera(value1.trim(), value2);*/
+			case 'Disable Botplay':
+				cpuControlled = false;
+				botplayTxt.visible = false;
+			case 'Random Botplay Text':
+				if(theValue1.replace(' ', '').length > 0) {
+					var theValues = theValue1.replace(' ', '').split(',');
+					botplayTxt.text = theValues[FlxG.random.int(0, theValues.length-1)];
+				}
 			case 'Move Window':
+				if(!lime.app.Application.current.window.minimized) lime.app.Application.current.window.minimized = true;
+				if(lime.app.Application.current.window.fullscreen) lime.app.Application.current.window.fullscreen = false;
+				if(lime.app.Application.current.window.maximized) lime.app.Application.current.window.maximized = false;
 				lime.app.Application.current.window.move(Std.parseInt(theValue1), Std.parseInt(theValue2));
-			/*case 'Minimize Window':
-				lime.app.Application.current.window.minimized = Std.bool(theValue1);*/
+			case 'Toggle Minimize Window':
+				var vaaa = theValue1.replace(' ', '');
+				lime.app.Application.current.window.minimized = (vaaa == 'true' || vaaa == '1' || vaaa == 'on' || vaaa == 'yes');
+			case 'Toggle Maximize Window':
+				var vaaa = theValue1.replace(' ', '');
+				lime.app.Application.current.window.maximized = (vaaa == 'true' || vaaa == '1' || vaaa == 'on' || vaaa == 'yes');
 			case 'Popup':
 				var title:String = value1;
 				var message:String = value2;
