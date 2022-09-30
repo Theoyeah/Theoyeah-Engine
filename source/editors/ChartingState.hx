@@ -262,7 +262,7 @@ class ChartingState extends MusicBeatState
 				ghostTappingAllowed: true,
 				validScore: false,
 				event7: '',
-				event7Value: ''
+				event7Value: '',
 				validScore: false,
 				autoZoom: true  // The default value would be better if stays as true, Nex decided so but if you want you can change it (not recommended tho)
 			};
@@ -2046,7 +2046,6 @@ class ChartingState extends MusicBeatState
 
 						if(controlArray.contains(true))
 						{
-
 							for (i in 0...controlArray.length)
 							{
 								if(controlArray[i] && curSelectedNote[i] == i)
