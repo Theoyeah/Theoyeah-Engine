@@ -260,7 +260,6 @@ class ChartingState extends MusicBeatState
 				screwYou: '',
 				credit: '',
 				ghostTappingAllowed: true,
-				validScore: false,
 				event7: '',
 				event7Value: '',
 				validScore: false,
