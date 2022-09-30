@@ -20,6 +20,17 @@ class WiggleEffect
 	public var waveFrequency(default, set):Float = 0;
 	public var waveAmplitude(default, set):Float = 0;
 
+	public static function fromString(s:String):WiggleEffectType {
+		var effect:WiggleEffectType = DREAMY;
+		switch(s.toLowerCase().trim().replace(' ', '').replace('_', '').replace('-', '')) {
+			case 'wavy': effect = WAVY;
+			case 'heatwavehorizontal': effect = HEAT_WAVE_HORIZONTAL;
+			case 'heatwavevertical': effect = HEAT_WAVE_VERTICAL;
+			case 'flag': effect = FLAG;
+		}
+		return effect
+	}
+
 	public function new(waveSpeed:Float = 0, waveFrequency:Float = 0, waveAmplitude:Float = 0):Void
 	{
 		if(this.waveSpeed != waveSpeed)
@@ -39,27 +50,34 @@ class WiggleEffect
 
 	public function setValue(value:Float):Void
 	{
-		shader.uTime.value[0] = value;
+		if(shader.uTime.value[0] != value)
+			shader.uTime.value[0] = value;
 	}
 
 	function set_effectType(v:WiggleEffectType):WiggleEffectType
 	{
-		effectType = v;
-		shader.effectType.value = [WiggleEffectType.getConstructors().indexOf(Std.string(v))];
+		if(effectType != v) {
+			effectType = v;
+			shader.effectType.value = [WiggleEffectType.getConstructors().indexOf(Std.string(v))];
+		}
 		return v;
 	}
 
 	function set_waveSpeed(v:Float):Float
 	{
-		waveSpeed = v;
-		shader.uSpeed.value = [waveSpeed];
+		if(waveSpeed != v) {
+			waveSpeed = v;
+			shader.uSpeed.value = [waveSpeed];
+		}
 		return v;
 	}
 
 	function set_waveFrequency(v:Float):Float
 	{
-		waveFrequency = v;
-		shader.uFrequency.value = [waveFrequency];
+		if(waveFrequency != v) {
+			waveFrequency = v;
+			shader.uFrequency.value = [waveFrequency];
+		}
 		return v;
 	}
 
@@ -109,7 +127,7 @@ class WiggleShader extends FlxShader
 			if (effectType == EFFECT_TYPE_DREAMY) 
 			{
 				float offsetX = sin(pt.y * uFrequency + uTime * uSpeed) * uWaveAmplitude;
-                pt.x += offsetX; // * (pt.y - 1.0); // <- Uncomment to stop bottom part of the screen from moving
+                		pt.x += offsetX; // * (pt.y - 1.0); // <- Uncomment to stop bottom part of the screen from moving
 			}
 			else if (effectType == EFFECT_TYPE_WAVY) 
 			{
