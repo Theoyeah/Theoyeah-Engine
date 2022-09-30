@@ -263,6 +263,8 @@ class ChartingState extends MusicBeatState
 				validScore: false,
 				event7: '',
 				event7Value: ''
+				validScore: false,
+				autoZoom: true  // The default value would be better if stays as true, Nex decided so but if you want you can change it (not recommended tho)
 			};
 			addSection();
 			PlayState.SONG = _song;
@@ -648,6 +650,13 @@ class ChartingState extends MusicBeatState
 		creditInputText = new FlxUIInputText(10, 200 + 90, 125, _song.credit, 8);
 		blockPressWhileTypingOn.push(creditInputText);
 
+		var checkAutoZoom = new FlxUICheckBox(player2DropDown.x + 140, (player2DropDown.y + gfVersionDropDown.y) / 2, null, null, "Auto-Zoom on Beat", 100);
+ 		checkAutoZoom.checked = _song.autoZoom;
+ 		checkAutoZoom.callback = function()
+ 		{
+ 			_song.autoZoom = checkAutoZoom.checked;
+ 		}
+
 		screwYouInputText = new FlxUIInputText(creditInputText.x + 140, creditInputText.y, 125, _song.screwYou, 8);
 		blockPressWhileTypingOn.push(screwYouInputText);
 
@@ -669,6 +678,7 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(stepperSpeed);
 		tab_group_song.add(creditInputText);
 		tab_group_song.add(screwYouInputText);
+		tab_group_song.add(checkAutoZoom);
 		tab_group_song.add(new FlxText(stepperBPM.x, stepperBPM.y - 15, 0, 'Song BPM:'));
 		tab_group_song.add(new FlxText(stepperBPM.x + 100, stepperBPM.y - 15, 0, 'Song Offset:'));
 		tab_group_song.add(new FlxText(stepperSpeed.x, stepperSpeed.y - 15, 0, 'Song Speed:'));

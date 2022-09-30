@@ -94,57 +94,61 @@ class Paths
 	];
 	/// haya I love you for the base cache dump I took to the max
 	public static function clearUnusedMemory() {
-		// clear non local assets in the tracked assets list
-		for (key in currentTrackedAssets.keys()) {
-			// if it is not currently contained within the used local assets
-			if (!localTrackedAssets.contains(key) 
-				&& !dumpExclusions.contains(key)) {
-				// get rid of it
-				var obj = currentTrackedAssets.get(key);
-				@:privateAccess
-				if (obj != null) {
-					openfl.Assets.cache.removeBitmapData(key);
-					FlxG.bitmap._cache.remove(key);
-					obj.destroy();
-					currentTrackedAssets.remove(key);
+		if(!ClientPrefs.imagesPersist) { // maybe i add it in the future
+			// clear non local assets in the tracked assets list
+			for (key in currentTrackedAssets.keys()) {
+				// if it is not currently contained within the used local assets
+				if (!localTrackedAssets.contains(key) && !dumpExclusions.contains(key)) {
+					// get rid of it
+					var obj = currentTrackedAssets.get(key);
+					@:privateAccess
+					if (obj != null) {
+						openfl.Assets.cache.removeBitmapData(key);
+						FlxG.bitmap._cache.remove(key);
+						obj.destroy();
+						currentTrackedAssets.remove(key);
+					}
 				}
 			}
+			// run the garbage collector for good measure lmfao
+			System.gc();
 		}
-		// run the garbage collector for good measure lmfao
-		System.gc();
 	}
 
 	// define the locally tracked assets
 	public static var localTrackedAssets:Array<String> = [];
 	public static function clearStoredMemory(?cleanUnused:Bool = false) {
-		// clear anything not in the tracked assets list
-		@:privateAccess
-		for (key in FlxG.bitmap._cache.keys())
-		{
-			var obj = FlxG.bitmap._cache.get(key);
-			if (obj != null && !currentTrackedAssets.exists(key)) {
-				#if PRELOAD_ALL
-				openfl.Assets.cache.clear("songs");
-				#end
-				FlxG.bitmap._cache.remove(key);
-				obj.destroy();
+		if(!ClientPrefs.imagesPersist) {
+			// clear anything not in the tracked assets list
+			@:privateAccess
+			for (key in FlxG.bitmap._cache.keys())
+			{
+				var obj = FlxG.bitmap._cache.get(key);
+				if (obj != null && !currentTrackedAssets.exists(key)) {
+					#if PRELOAD_ALL
+					openfl.Assets.cache.clear("songs");
+					#end
+						FlxG.bitmap._cache.remove(key);
+					obj.destroy();
+				}
 			}
+		//}
+		//if(!ClientPrefs.soundsPersist) {
+			// clear all sounds that are cached
+			for (key in currentTrackedSounds.keys()) {
+				if (!localTrackedAssets.contains(key) 
+				    && !dumpExclusions.contains(key) && key != null) {
+					//trace('test: ' + dumpExclusions, key);
+					Assets.cache.clear(key);
+					currentTrackedSounds.remove(key);
+				}
+			}	
+			// flags everything to be cleared out next unused memory clear
+			localTrackedAssets = [];
+			#if PRELOAD_ALL
+			openfl.Assets.cache.clear("songs");
+			#end
 		}
-
-		// clear all sounds that are cached
-		for (key in currentTrackedSounds.keys()) {
-			if (!localTrackedAssets.contains(key) 
-			&& !dumpExclusions.contains(key) && key != null) {
-				//trace('test: ' + dumpExclusions, key);
-				Assets.cache.clear(key);
-				currentTrackedSounds.remove(key);
-			}
-		}	
-		// flags everything to be cleared out next unused memory clear
-		localTrackedAssets = [];
-		#if PRELOAD_ALL
-		openfl.Assets.cache.clear("songs");
-		#end
 	}
 
 	static public var currentModDirectory:String = '';
