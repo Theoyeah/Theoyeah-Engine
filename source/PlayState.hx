@@ -266,6 +266,12 @@ class PlayState extends MusicBeatState
 	var watermarkTxt:FlxText;
 	var ghostTappersOff:Bool = false;
 
+	public static var initiedShaders:Map<String, Bool> = [
+		'wavy' => false,
+		'flag' => false,
+		'pulse' => false,
+		'glitch' => false
+	];
 	public static var allowedShaders:Map<String, Bool> = [
 		'wavy' => false,
 		'flag' => false,
@@ -581,6 +587,7 @@ class PlayState extends MusicBeatState
 				screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
 				screenshader.shader.uampmul.value[0] = 0;
 				allowedShaders.set('pulse', true);
+				initiedShaders.set('pulse', true);
 			}
 			if(flag) {
 				the3DWorldEffect = new WiggleEffect();
@@ -589,6 +596,7 @@ class PlayState extends MusicBeatState
 				the3DWorldEffect.waveFrequency = 5;
 				the3DWorldEffect.waveSpeed = 2.25;
 				allowedShaders.set('flag', true);
+				initiedShaders.set('flag', true);
 			}
 			if(wavy) {
 				wavyShader = new PulseEffect();
@@ -598,9 +606,12 @@ class PlayState extends MusicBeatState
 				the3DWorldEffectWavy.waveFrequency = 3;
 				the3DWorldEffectWavy.waveSpeed = 1.25;
 				allowedShaders.set('wavy', true);
+				initiedShaders.set('wavy', true);
 			}
 			if(daStage.contains('glitch')) {
 				_glitch = new FlxGlitchEffect(10, 2, 0.1);
+				allowedShaders.set('glitch', true);
+				initiedShaders.set('glitch', true);
 			}
 		}
 
@@ -4207,7 +4218,7 @@ class PlayState extends MusicBeatState
 					boolEffects.push(effect.toLowerCase().replace(' ', ''));
 				}
 				var camera:String = value2.trim();
-				switch(theValue1.replace(' ', '')) {
+				switch(theValue1.replace(' ', '').replace('_', '').replace('-', '')) {
 					case 'chromaticeffect':
 						addShaderToCamera(camera, new ChromaticAberrationEffect(Std.parseFloat(theEffects[0])));
 					case 'scanlineeffect':
@@ -4302,15 +4313,21 @@ class PlayState extends MusicBeatState
 			case 'Activate Shader':
 				var daEffects = value1.replace(' ', '').toLowerCase().split(',');
 				if(daEffects.contains('flag') && !allowedShaders.get('flag')) {
-					the3DWorldEffect = new WiggleEffect();
-					the3DWorldEffect.effectType = WiggleEffectType.FLAG;
+					if(!initiedShaders.get('flag')) {
+						the3DWorldEffect = new WiggleEffect();
+						the3DWorldEffect.effectType = WiggleEffectType.FLAG;
+						initiedShaders.set('flag', true);
+					}
 					the3DWorldEffect.waveAmplitude = 0.1;
 					the3DWorldEffect.waveFrequency = 5;
 					the3DWorldEffect.waveSpeed = 2.25;
 					allowedShaders.set('flag', true);
 				}
 				if(daEffects.contains('pulse') && !allowedShaders.get('pulse')) {
-					screenshader = new PulseEffect();
+					if(!initiedShaders.get('pulse')) {
+						screenshader = new PulseEffect();
+						initiedShaders.set('pulse', true);
+					}
 					screenshader.waveAmplitude = 1;
 					screenshader.waveFrequency = 2;
 					screenshader.waveSpeed = 1;
@@ -4319,8 +4336,11 @@ class PlayState extends MusicBeatState
 					allowedShaders.set('pulse', true);
 				}
 				if(daEffects.contains('wavy') && !allowedShaders.get('wavy')) {
-					the3DWorldEffectWavy = new WiggleEffect();
-					the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
+					if(!initiedShaders.get('wavy')) {
+						the3DWorldEffectWavy = new WiggleEffect();
+						the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
+						initiedShaders.set('wavy', true);
+					}
 					the3DWorldEffectWavy.waveAmplitude = 0.2;
 					the3DWorldEffectWavy.waveFrequency = 3;
 					the3DWorldEffectWavy.waveSpeed = 1.25;
