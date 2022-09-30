@@ -3,6 +3,8 @@ package;
 // STOLEN FROM HAXEFLIXEL DEMO LOL
 import flixel.system.FlxAssets.FlxShader;
 
+using StringTools;
+
 enum WiggleEffectType
 {
 	DREAMY;
