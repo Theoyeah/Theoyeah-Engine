@@ -1705,7 +1705,7 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	function startAndEnd()
+	function startAndEnd() // this is useful lol
 	{
 		if(endingSong)
 			endSong();
@@ -1727,16 +1727,9 @@ class PlayState extends MusicBeatState
 			precacheList.set('dialogueClose', 'sound');
 			psychDialogue = new DialogueBoxPsych(dialogueFile, song);
 			psychDialogue.scrollFactor.set();
-			if(endingSong) {
-				psychDialogue.finishThing = function() {
-					psychDialogue = null;
-					endSong();
-				}
-			} else {
-				psychDialogue.finishThing = function() {
-					psychDialogue = null;
-					startCountdown();
-				}
+			psychDialogue.finishThing = function() {
+				psychDialogue = null;
+				startAndEnd();
 			}
 			psychDialogue.nextDialogueThing = startNextDialogue;
 			psychDialogue.skipDialogueThing = skipDialogue;
@@ -1744,11 +1737,7 @@ class PlayState extends MusicBeatState
 			add(psychDialogue);
 		} else {
 			FlxG.log.warn('Your dialogue file is badly formatted!');
-			if(endingSong) {
-				endSong();
-			} else {
-				startCountdown();
-			}
+			startAndEnd();
 		}
 	}
 
@@ -2254,13 +2243,10 @@ class PlayState extends MusicBeatState
 				var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 				introAssets.set('default', ['ready', 'set', 'go']);
 				introAssets.set('pixel', ['pixelUI/ready-pixel', 'pixelUI/set-pixel', 'pixelUI/date-pixel']);
+				//introAssets.set('futuristic', ['futuristicUI/ready-future', 'futuristicUI/set-future', 'futuristicUI/letsGo-future']); // maybe someday?
 
-				var introAlts:Array<String> = introAssets.get('default');
-				var antialias:Bool = ClientPrefs.globalAntialiasing;
-				if(isPixelStage) {
-					introAlts = introAssets.get('pixel');
-					antialias = false;
-				}
+				var introAlts:Array<String> = introAssets.get(isPixelStage ? 'pixel' : 'default');
+				var antialias:Bool = isPixelStage ? false : ClientPrefs.globalAntialiasing;
 
 				// head bopping for bg characters on Mall
 				if(curStage == 'mall') {
@@ -2838,8 +2824,8 @@ class PlayState extends MusicBeatState
 			var targetAlpha:Float = 1;
 			if (player < 1)
 			{
-				if(ClientPrefs.opponentStrums) targetAlpha = 0;
-				else if(ClientPrefs.middleScroll) targetAlpha = 0;
+				if(ClientPrefs.opponentStrums
+				   || ClientPrefs.middleScroll) targetAlpha = 0;
 			}
 
 			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
@@ -4001,8 +3987,8 @@ class PlayState extends MusicBeatState
 				else
 					Reflect.setProperty(this, value1, value2);
 			case 'Change Icon':
-				var icon = value2;
-				if(!value2.startsWith('icon-'))
+				var icon = value2.trim();
+				if(!icon.startsWith('icon-'))
 					icon = 'icon-$value2';
 				switch(theValue1) {
 					case 'dad' | 'opponent' | 'daddy' | 'dady' | 'left':
@@ -4074,16 +4060,8 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
-		if (!SONG.notes[curSection].mustHitSection)
-		{
-			moveCamera(true);
-			callOnLuas('onMoveCamera', ['dad']);
-		}
-		else
-		{
-			moveCamera(false);
-			callOnLuas('onMoveCamera', ['boyfriend']);
-		}
+		moveCamera(!SONG.notes[curSection].mustHitSection);
+		callOnLuas('onMoveCamera', [SONG.notes[curSection].mustHitSection ? 'boyfriend' : 'dad']);
 	}
 
 	var cameraTwn:FlxTween;
@@ -4124,7 +4102,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function snapCamFollowToPos(x:Float, y:Float) {
+	function snapCamFollowToPos(x:Float = 0, y:Float = 0) {
 		camFollow.set(x, y);
 		camFollowPos.setPosition(x, y);
 	}
