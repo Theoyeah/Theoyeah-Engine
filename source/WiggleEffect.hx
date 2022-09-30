@@ -28,7 +28,7 @@ class WiggleEffect
 			case 'heatwavevertical': effect = HEAT_WAVE_VERTICAL;
 			case 'flag': effect = FLAG;
 		}
-		return effect
+		return effect;
 	}
 
 	public function new(waveSpeed:Float = 0, waveFrequency:Float = 0, waveAmplitude:Float = 0):Void
@@ -83,8 +83,10 @@ class WiggleEffect
 
 	function set_waveAmplitude(v:Float):Float
 	{
-		waveAmplitude = v;
-		shader.uWaveAmplitude.value = [waveAmplitude];
+		if(waveAmplitude != v) {
+			waveAmplitude = v;
+			shader.uWaveAmplitude.value = [waveAmplitude];
+		}
 		return v;
 	}
 }
