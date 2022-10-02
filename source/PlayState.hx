@@ -5563,19 +5563,21 @@ class PlayState extends MusicBeatState
 	}
 
 	function StrumPlayAnim(isDad:Bool, id:Int, time:Float) {
+		if(!ClientPrefs.lightCpuStrum && !ClientPrefs.lightPlayerStrum) return;
+
 		var spr:StrumNote = null;
 		var light:Bool = true;
 		if(isDad) {
 			if(ClientPrefs.lightCpuStrum)
 				spr = strumLineNotes.members[id];
 			else
-				light = false
+				return;
 		}
 		else {
 			if(ClientPrefs.lightPlayerStrum)
 				spr = playerStrums.members[id];
 			else
-				light = false;
+				return;
 		}
 
 		if(spr != null && light) {
