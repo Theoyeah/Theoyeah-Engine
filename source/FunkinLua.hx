@@ -223,6 +223,7 @@ class FunkinLua {
 		set('deaths', PlayState.deathCounter);
 		set('blueBalled', PlayState.deathCounter);
 		set('allowHealthDrain', PlayState.allowHealthDrain);
+		set('curStage', PlayState.SONG.stage);
 
 		// Camera poo
 		set('cameraX', 0);
@@ -257,6 +258,12 @@ class FunkinLua {
 		set('healthGainMult', PlayState.instance.healthGain);
 		set('healthLossMult', PlayState.instance.healthLoss);
 		set('instakillOnMiss', PlayState.instance.instakillOnMiss);
+		set('playbackRate', PlayState.instance.playbackRate);
+		set('randomMode', PlayState.instance.randomMode);
+		set('sustainNotesHealt', PlayState.instance.susHeal);
+		set('susNotesHealt', PlayState.instance.susHeal);
+		set('sustainHealt', PlayState.instance.susHeal);
+		set('susHealt', PlayState.instance.susHeal);
 		set('botPlay', PlayState.instance.cpuControlled);
 		set('practice', PlayState.instance.practiceMode);
 
@@ -1723,8 +1730,6 @@ class FunkinLua {
 						{
 							luaObj.offset.set(daOffset[0], daOffset[1]);
 						}
-						else
-							luaObj.offset.set(0, 0);
 					}
 				}
 				return true;

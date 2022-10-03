@@ -36,8 +36,10 @@ class ClientPrefs
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
 	public static var checkForUpdates:Bool = true;
+	public static var comboStacking = true;
 	public static var introbg:Bool = false;
 	public static var longhealthbar:Bool = true;
+	public static var resumeTime:Float = 3;
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
 	public static var shaders:Bool = true;
@@ -161,6 +163,7 @@ class ClientPrefs
 		FlxG.save.data.achievementsMap = Achievements.achievementsMap;
 		FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
 		FlxG.save.data.checkForUpdates = checkForUpdates;
+		FlxG.save.data.comboStacking = comboStacking;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
 		FlxG.save.data.sickWindow = sickWindow;
@@ -185,6 +188,10 @@ class ClientPrefs
 	public static function loadPrefs()
 	{
 		if(FlxG.save.data.eyesores != null) eyesores = FlxG.save.data.eyesores;
+
+		if (FlxG.save.data.comboStacking != null)
+			comboStacking = FlxG.save.data.comboStacking;
+
 		if(FlxG.save.data.noteSkin != null)
 		{
 			noteSkin = FlxG.save.data.noteSkin;
