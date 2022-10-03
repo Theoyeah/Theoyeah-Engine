@@ -2613,8 +2613,6 @@ class PlayState extends MusicBeatState
 			{
 				var daStrumTime:Float = songNotes[0];
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
-				
-				if(randomMode) daNoteData = FlxG.random.int(0, 3);
 
 				var gottaHitNote:Bool = section.mustHitSection;
 
@@ -2622,6 +2620,8 @@ class PlayState extends MusicBeatState
 				{
 					gottaHitNote = !section.mustHitSection;
 				}
+
+				if(randomMode) daNoteData = FlxG.random.int(0, 3);
 
 				var oldNote:Note;
 				if (unspawnNotes.length > 0)
