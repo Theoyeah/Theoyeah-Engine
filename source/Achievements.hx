@@ -57,8 +57,7 @@ class Achievements {
 	/**
 	 * Gets filled when loading achievements
 	 */
-	public static var achievementsStuff:Array<Dynamic> = [
-	];
+	public static var achievementsStuff:Array<Dynamic> = [];
 
 	public static var achievementsMap:Map<String, Bool> = new Map<String, Bool>();
 	public static var loadedAchievements:Map<String, AchievementFile> = new Map<String, AchievementFile>();
@@ -71,10 +70,8 @@ class Achievements {
 	}
 
 	public static function isAchievementUnlocked(name:String) {
-		if(achievementsMap.length > 0) {
-			if(achievementsMap.exists(name)) {
-				return achievementsMap.get(name);
-			}
+		if(achievementsMap.exists(name)) {
+			return achievementsMap.get(name);
 		}
 		return false;
 	}
