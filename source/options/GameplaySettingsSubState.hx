@@ -78,8 +78,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'How many seconds should the resume button\nwait when clicked?',
 			'resumeTime',
 			'float',
-			1);
-		option.scrollSpeed = 2;
+			3);
+		option.scrollSpeed = 5;
 		option.minValue = 0.5;
 		option.maxValue = 100;
 		option.changeValue = 0.1;
@@ -100,7 +100,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
-        var option:Option = new Option('Hide Opponent Notes',
+		var option:Option = new Option('Hide Opponent Notes',
 			'If checked, opponent notes get hidden.',
 			'opponentStrums',
 			'bool',
