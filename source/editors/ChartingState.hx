@@ -242,13 +242,14 @@ class ChartingState extends MusicBeatState
 				bpm: 150.0,
 				needsVoices: true,
 				arrowSkin: '',
-				splashSkin: 'noteSplashes',//idk it would crash if i didn't
+				splashSkin: 'noteSplashes', //idk it would crash if i didn't
 				player1: 'bf',
 				player2: 'dad',
 				gfVersion: 'gf',
 				speed: 1,
 				stage: 'stage',
-				validScore: false
+				validScore: false,
+				autoZoom: true  // The default value would be better if stays as true, Nex decided so but if you want you can change it (not recommended tho)
 			};
 			addSection();
 			PlayState.SONG = _song;
@@ -619,12 +620,21 @@ class ChartingState extends MusicBeatState
 		stageDropDown.selectedLabel = _song.stage;
 		blockPressWhileScrolling.push(stageDropDown);
 
+		var checkAutoZoom = new FlxUICheckBox(player2DropDown.x + 140, (player2DropDown.y + gfVersionDropDown.y) / 2, null, null, "Auto-Zoom on Beat", 100);
+ 		checkAutoZoom.checked = _song.autoZoom;
+ 		checkAutoZoom.callback = function()
+ 		{
+ 			_song.autoZoom = checkAutoZoom.checked;
+ 		};
+
 		var skin = PlayState.SONG.arrowSkin;
 		if(skin == null) skin = '';
 		noteSkinInputText = new FlxUIInputText(player2DropDown.x, player2DropDown.y + 50, 150, skin, 8);
 		blockPressWhileTypingOn.push(noteSkinInputText);
 
-		noteSplashesInputText = new FlxUIInputText(noteSkinInputText.x, noteSkinInputText.y + 35, 150, _song.splashSkin, 8);
+		var splash = PlayState.SONG.splashSkin;
+		if(splash == null || splash.length < 1) splash = _song.splashSkin;
+		noteSplashesInputText = new FlxUIInputText(noteSkinInputText.x, noteSkinInputText.y + 35, 150, splash, 8);
 		blockPressWhileTypingOn.push(noteSplashesInputText);
 
 		var reloadNotesButton:FlxButton = new FlxButton(noteSplashesInputText.x + 5, noteSplashesInputText.y + 20, 'Change Notes', function() {
@@ -649,6 +659,7 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(stepperSpeed);
 		tab_group_song.add(reloadNotesButton);
 		tab_group_song.add(noteSkinInputText);
+		tab_group_song.add(checkAutoZoom);
 		tab_group_song.add(noteSplashesInputText);
 		tab_group_song.add(new FlxText(stepperBPM.x, stepperBPM.y - 15, 0, 'Song BPM:'));
 		tab_group_song.add(new FlxText(stepperBPM.x + 100, stepperBPM.y - 15, 0, 'Song Offset:'));
@@ -1061,7 +1072,7 @@ class ChartingState extends MusicBeatState
 		eventPushedMap = null;
 		#end
 
-		descText = new FlxText(20, 200, 0, eventStuff[0][0]);
+		descText = new FlxText(20, 225, 0, eventStuff[0][0]);
 
 		var leEvents:Array<String> = [];
 		for (i in 0...eventStuff.length) {
@@ -1743,10 +1754,18 @@ class ChartingState extends MusicBeatState
 			}
 
 			if(FlxG.keys.anyJustPressed(ClientPrefs.copyKey(ClientPrefs.keyBinds.get('zoom-'))) && curZoom > 0) {
-				--curZoom;
+				var shit:Int = 1;
+				if(FlxG.keys.pressed.SHIFT && curZoom > 3) {
+					shit = 3;
+				}
+				curZoom -= shit;
 				updateZoom();
 			}
 			if(FlxG.keys.anyJustPressed(ClientPrefs.copyKey(ClientPrefs.keyBinds.get('zoom+'))) && curZoom < zoomList.length-1) {
+				var shit:Int = 1;
+				if(FlxG.keys.pressed.SHIFT && curZoom < zoomList.length-4) {
+					shit = 3;
+				}
 				curZoom++;
 				updateZoom();
 			}
@@ -1798,7 +1817,7 @@ class ChartingState extends MusicBeatState
 			{
 				FlxG.sound.music.pause();
 				if (!mouseQuant)
-					FlxG.sound.music.time -= (FlxG.mouse.wheel * Conductor.stepCrochet*0.8);
+					FlxG.sound.music.time -= (FlxG.mouse.wheel * Conductor.stepCrochet * 0.8);
 				else
 				{
 					var time:Float = FlxG.sound.music.time;
@@ -1874,7 +1893,7 @@ class ChartingState extends MusicBeatState
 				style = 3;
 			}
 
-			var conductorTime = Conductor.songPosition; //+ sectionStartTime();Conductor.songPosition / Conductor.stepCrochet;
+			var conductorTime = Conductor.songPosition; //+ sectionStartTime(); Conductor.songPosition / Conductor.stepCrochet;
 
 
 

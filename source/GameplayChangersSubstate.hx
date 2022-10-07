@@ -59,13 +59,14 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		}
 		optionsArray.push(option);
 
-		/*var option:GameplayOption = new GameplayOption('Playback Rate', 'songspeed', 'float', 1);
+		var option:GameplayOption = new GameplayOption('Playback Rate', 'songspeed', 'float', 1);
 		option.scrollSpeed = 1;
 		option.minValue = 0.5;
-		option.maxValue = 2.5;
-		option.changeValue = 0.1;
+		option.maxValue = 3.0;
+		option.changeValue = 0.05;
 		option.displayFormat = '%vX';
-		optionsArray.push(option);*/
+		option.decimals = 2;
+		optionsArray.push(option);
 
 		var option:GameplayOption = new GameplayOption('Health Gain Multiplier', 'healthgain', 'float', 1);
 		option.scrollSpeed = 2.5;
@@ -144,7 +145,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 			optionText.targetY = i;
 			grpOptions.add(optionText);
 
-			if(optionsArray[i].type.toLowerCase() == 'bool') {
+			if(optionsArray[i].type == 'bool') {
 				var checkbox:CheckboxThingie = new CheckboxThingie(optionText.x - 105, optionText.y, optionsArray[i].getValue() == true);
 				checkbox.sprTracker = optionText;
 				checkbox.offsetY = -60;
@@ -189,7 +190,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		if(nextAccept <= 0)
 		{
 			var usesCheckbox = true;
-			if(curOption.type.toLowerCase() != 'bool')
+			if(curOption.type != 'bool')
 			{
 				usesCheckbox = false;
 			}
@@ -220,18 +221,18 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 						if(holdTime > 0.5 || pressed) {
 							if(pressed) {
 								var add:Dynamic = null;
-								if(curOption.type.toLowerCase() != 'string') {
+								if(curOption.type != 'string') {
 									add = controls.UI_LEFT ? -curOption.changeValue : curOption.changeValue;
 								}
 
-								switch(curOption.type.toLowerCase())
+								switch(curOption.type)
 								{
 									case 'int' | 'float' | 'percent':
 										holdValue = curOption.getValue() + add;
 										if(holdValue < curOption.minValue) holdValue = curOption.minValue;
 										else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
 
-										switch(curOption.type.toLowerCase())
+										switch(curOption.type)
 										{
 											case 'int':
 												holdValue = Math.round(holdValue);
@@ -280,10 +281,8 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 								updateTextFrom(curOption);
 								curOption.change();
 								FlxG.sound.play(Paths.sound('scrollMenu'));
-							} else if(curOption.type.toLowerCase() != 'string') {
-								holdValue += curOption.scrollSpeed * elapsed * (controls.UI_LEFT ? -1 : 1);
-								if(holdValue < curOption.minValue) holdValue = curOption.minValue;
-								else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
+							} else if(curOption.type != 'string') {
+								holdValue = Math.max(curOption.minValue, Math.min(curOption.maxValue, holdValue + curOption.scrollSpeed * elapsed * (controls.UI_LEFT ? -1 : 1)));
 
 								switch(curOption.type)
 								{
@@ -291,14 +290,15 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 										curOption.setValue(Math.round(holdValue));
 
 									case 'float' | 'percent':
-										curOption.setValue(FlxMath.roundDecimal(holdValue, curOption.decimals));
+										var blah:Float = Math.max(curOption.minValue, Math.min(curOption.maxValue, holdValue + curOption.changeValue - (holdValue % curOption.changeValue)));
+										curOption.setValue(FlxMath.roundDecimal(blah, curOption.decimals));
 								}
 								updateTextFrom(curOption);
 								curOption.change();
 							}
 						}
 
-						if(curOption.type.toLowerCase() != 'string') {
+						if(curOption.type != 'string') {
 							holdTime += elapsed;
 						}
 					#if NO_CHEATING
@@ -319,9 +319,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 				{
 					var leOption:GameplayOption = optionsArray[i];
 					leOption.setValue(leOption.defaultValue);
-					if(leOption.type.toLowerCase() != 'bool')
+					if(leOption.type != 'bool')
 					{
-						if(leOption.type.toLowerCase() == 'string')
+						if(leOption.type == 'string')
 						{
 							leOption.curOption = leOption.options.indexOf(leOption.getValue());
 						}
@@ -434,7 +434,7 @@ class GameplayOption
 	{
 		this.name = name;
 		this.variable = variable;
-		this.type = type;
+		this.type = type.toLowerCase();
 		this.defaultValue = defaultValue;
 		this.options = options;
 		this.isCheat = isCheat;

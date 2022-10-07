@@ -95,16 +95,16 @@ class FunkinLua {
 		lol();
 		#end
 	}
-	public function getLuaObjectPlay(obj:String) {
-		var object:Null<String> = if(PlayState.instance.getLuaObject(obj, false) != null) obj else if(PlayState.instance.getLuaObject(obj.toLowerCase(), false) != null) obj.toLowerCase() else null;
+	public function getLuaObjectPlay(obj:String):String {
+		var object:String = if(PlayState.instance.getLuaObject(obj, false) != null) obj else obj.toLowerCase();
 		return object;
 	}
 	public function getPropertyReflect(obj:String) {
 		var pussy:FlxSprite = if(Reflect.getProperty(getInstance(), obj) != null) Reflect.getProperty(getInstance(), obj) else Reflect.getProperty(getInstance(), obj.toLowerCase());
 		return pussy;
 	}
-	public function getModchartSpriteExists(tag) {
-		var tagger:Null<String> = if(PlayState.instance.modchartSprites.exists(tag)) tag else if(PlayState.instance.modchartSprites.exists(tag.toLowerCase())) tag.toLowerCase() else null;
+	public function getModchartSpriteExists(tag):String {
+		var tagger:String = if(PlayState.instance.modchartSprites.exists(tag)) tag else tag.toLowerCase();
 		return tagger;
 	}
 	/**
@@ -113,8 +113,7 @@ class FunkinLua {
 	 * @param type 
 	 * @param other 
 	 */
-	public function controlsStuff(name:String, ?type:String) {
-		if(type == null) type = '';
+	public function controlsStuff(name:String, type:String = ''):Bool {
 		var key:Bool = false;
 		var as:String = name.toLowerCase().replace('-', '').replace('_', '').replace('"', '').replace("'", '');
 		switch(as) {
@@ -224,6 +223,7 @@ class FunkinLua {
 		set('deaths', PlayState.deathCounter);
 		set('blueBalled', PlayState.deathCounter);
 		set('allowHealthDrain', PlayState.allowHealthDrain);
+		set('curStage', PlayState.SONG.stage);
 
 		// Camera poo
 		set('cameraX', 0);
@@ -258,6 +258,12 @@ class FunkinLua {
 		set('healthGainMult', PlayState.instance.healthGain);
 		set('healthLossMult', PlayState.instance.healthLoss);
 		set('instakillOnMiss', PlayState.instance.instakillOnMiss);
+		set('playbackRate', PlayState.instance.playbackRate);
+		set('randomMode', PlayState.instance.randomMode);
+		set('sustainNotesHealt', PlayState.instance.susHeal);
+		set('susNotesHealt', PlayState.instance.susHeal);
+		set('sustainHealt', PlayState.instance.susHeal);
+		set('susHealt', PlayState.instance.susHeal);
 		set('botPlay', PlayState.instance.cpuControlled);
 		set('practice', PlayState.instance.practiceMode);
 
@@ -307,7 +313,7 @@ class FunkinLua {
 		set('healthBarAlpha', ClientPrefs.healthBarAlpha);
 		set('noResetButton', ClientPrefs.noReset);
 		set('lowQuality', ClientPrefs.lowQuality);
-		set('winningIcons', ClientPrefs.winningIcon); //unused
+		//set('winningIcons', ClientPrefs.winningIcon); //unused
 		set('crazyCounter', ClientPrefs.crazycounter);
 		set('judgementCounter', ClientPrefs.crazycounter);
 		set('camFollow', ClientPrefs.camfollow);
@@ -319,7 +325,7 @@ class FunkinLua {
 		set('noteSplashes', ClientPrefs.noteSplashes);
 
 		// other things
-		set('mouseVisible', FlxG.mouse.visible);
+		//set('mouseVisible', FlxG.mouse.visible);
 		set('scriptName', scriptName);
 		set('currentModDirectory', Paths.currentModDirectory);
 		set('cheatingAllowed', #if CHEATING_ALLOWED true #else false #end);
@@ -1502,7 +1508,7 @@ class FunkinLua {
 			PlayState.instance.moveCamera(isDad);
 			return isDad;
 		});
-		Lua_helper.add_callback(lua, "cameraShake", function(camera:String, intensity:Float, duration:Float) {
+		Lua_helper.add_callback(lua, "cameraShake", function(camera:String, intensity:Float = 0.03, duration:Float = 0.05) {
 			cameraFromString(camera).shake(intensity, duration);
 		});
 
@@ -1724,8 +1730,6 @@ class FunkinLua {
 						{
 							luaObj.offset.set(daOffset[0], daOffset[1]);
 						}
-						else
-							luaObj.offset.set(0, 0);
 					}
 				}
 				return true;
