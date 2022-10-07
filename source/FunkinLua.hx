@@ -3091,7 +3091,7 @@ class FunkinLua {
 		return PlayState.instance.modchartTexts.exists(name) ? PlayState.instance.modchartTexts.get(name) : PlayState.instance.modchartTexts.exists(name.toLowerCase()) ? PlayState.instance.modchartTexts.get(name.toLowerCase()) : Reflect.getProperty(PlayState.instance, name);
 	}
 
-	
+	#if (LUA_ALLOWED && MODS_ALLOWED)
 	function initLuaShader(name:String, ?glslVersion:Int = 120)
 	{
 		if (PlayState.instance.runtimeShaders.exists(name))
@@ -3141,6 +3141,7 @@ class FunkinLua {
 		luaTrace('initLuaShader: Missing shader $name .frag AND .vert files!', false, false, FlxColor.RED);
 		return false;
 	}
+	#end
 
 	function getGroupStuff(leArray:Dynamic, variable:String) {
 		var killMe:Array<String> = variable.split('.');
