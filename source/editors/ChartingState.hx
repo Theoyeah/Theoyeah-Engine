@@ -73,6 +73,9 @@ class ChartingState extends MusicBeatState
 		'Healthy Note',
 		'Poisoned Note',
 		'Crash Note', //so we can actually test it -DEMOLITIONDON96 // Wait, that released right ? -Theoyeah // Wait, what do you mean? -Wither362
+		'Slow Note',
+		'Fast Note',
+		'Inverse Scroll Note',
 		'GF Sing',
 		'No Animation'
 	];

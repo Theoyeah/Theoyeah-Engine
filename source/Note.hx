@@ -116,6 +116,7 @@ class Note extends FlxSprite
 	public var noMissAnimation:Bool = false;
 	public var hitCausesMiss:Bool = false;
 	public var distance:Float = 2000; //plan on doing scroll directions soon -bb
+	public var scrollMult:Float = 1;
 
 	public var hitsoundDisabled:Bool = false;
 
@@ -196,9 +197,7 @@ class Note extends FlxSprite
 					hitCausesMiss = false;
 					hitHealth += 0.020;
 					chartSound = 'yay';
-					precacheThis = [
-						['yay', 'sound']
-					];
+					precacheThis = [['yay', 'sound']];
 
 				case 'Crash Note':
 					ignoreNote = mustPress;
@@ -208,8 +207,7 @@ class Note extends FlxSprite
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
 					hitCausesMiss = true;
-					precacheThis = [
-						['wiicrash', 'sound']];
+					precacheThis = [['wiicrash', 'sound']];
 
 				case 'Window Note':
 					ignoreNote = mustPress;
@@ -238,6 +236,15 @@ class Note extends FlxSprite
 					colorSwap.saturation = 0;
 					colorSwap.brightness = 0;
 					hitCausesMiss = true;
+
+				case 'Slow Note': // just a normal note :trollface:
+					scrollMult = 0.56;
+
+				case 'Fast Note':
+					scrollMult = 1.56;
+
+				case 'Inverse Scroll Note':
+					scrollMult = -1;
 
 				case 'Alt Animation':
 					animSuffix = '-alt';
