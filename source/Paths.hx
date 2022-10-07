@@ -38,6 +38,7 @@ class Paths
 		'music',
 		'sounds',
 		'shaders',
+		'old_shaders',
 		'videos',
 		'images',
 		'stages',
@@ -217,12 +218,12 @@ class Paths
 		return getPath('$where/$key.json', TEXT, library);
 	}
 
-	// shaders
-	inline static public function shaderFragment(key:String, ?library:String, where:String = 'shaders')
+	// _old_ shaders
+	inline static public function shaderFragment(key:String, ?library:String, where:String = 'oldShaders')
 	{
 		return getPath('$where/$key.frag', TEXT, library);
 	}
-	inline static public function shaderVertex(key:String, ?library:String, where:String = 'shaders')
+	inline static public function shaderVertex(key:String, ?library:String, where:String = 'oldShaders')
 	{
 		return getPath('$where/$key.vert', TEXT, library);
 	}
