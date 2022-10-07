@@ -11,7 +11,7 @@ class NotesPromptSubState extends MusicBeatSubstate
 
 	var curSelected = 0;
 
-	var selectText:Alphabet;
+	var selectText:OldAlphabet;
 
 	override function create()
 	{
