@@ -18,6 +18,9 @@ I will try to add things that Shadow Mario will never do
 
 Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take that in mind!
 
+### IMPORTANT FOR MODS:
+If you want to go to the mods list to organizate them, you'll have to go to the main menu, press seven (7), and select the last option, it will go to the mod list, if there isn't any mods, try going back and trying it again.
+
 # What it adds
 
 - Strident Engine things (thanks [**@Joalor64GH**](https://github.com/Joalor64GH)
