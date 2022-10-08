@@ -3,20 +3,19 @@ package;
 import Achievements;
 import Conductor.Rating;
 import DialogueBoxPsych;
-#if desktop
-import Discord.DiscordClient;
-#end
 import FunkinLua;
 import Note.EventNote;
 import Section.SwagSection;
-import Shaders;
 import Shaders.PulseEffect;
+import Shaders;
 import Song.SwagSong;
 import StageData;
-import WiggleEffect;
+import StageData;
 import WiggleEffect.WiggleEffectType;
+import WiggleEffect;
 import animateatlas.AtlasFrameMaker;
 import editors.CharacterEditorState;
+import editors.ChartingState;
 import editors.ChartingState;
 import flash.system.System;
 import flixel.FlxBasic;
@@ -70,21 +69,13 @@ import openfl.display.Shader;
 import openfl.display.StageQuality;
 import openfl.events.KeyboardEvent;
 import openfl.filters.BitmapFilter;
-import openfl.filters.ShaderFilter;
 import openfl.utils.Assets as OpenFlAssets;
-import editors.ChartingState;
-import editors.CharacterEditorState;
-import flixel.group.FlxSpriteGroup;
-import flixel.input.keyboard.FlxKey;
-import Note.EventNote;
-import openfl.events.KeyboardEvent;
-import flixel.util.FlxSave;
-import StageData;
-import FunkinLua;
-import DialogueBoxPsych;
-import Conductor.Rating;
 
-#if !flash 
+#if desktop
+import Discord.DiscordClient;
+#end
+
+#if !flash
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 #end
@@ -605,6 +596,7 @@ class PlayState extends MusicBeatState
 
 		resetSpriteCache = false;
 
+		#if !flash
 		if(!curStage.toLowerCase().replace(' ', '').contains('noshader') && !curStage.toLowerCase().replace(' ', '').contains('noeyesores') && ClientPrefs.shaders) {
 			var wavy:Bool = false;
 			var flag:Bool = false;
@@ -622,8 +614,18 @@ class PlayState extends MusicBeatState
 				screenshader.waveSpeed = 1;
 				screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
 				screenshader.shader.uampmul.value[0] = 0;
+				screenshader.Enabled = true;
 				allowedShaders.set('pulse', true);
 				initiedShaders.set('pulse', true);
+			}
+			if(daStage.contains('newPulse')) {
+				var pullse:PulseEffect = new PulseEffect();
+				pullse.waveAmplitude = 1;
+				pullse.waveFrequency = 2;
+				pullse.waveSpeed = 1;
+				pullse.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
+				pullse.shader.uampmul.value[0] = 0;
+				addShaderToCamera('game', pullse);
 			}
 			if(flag) {
 				the3DWorldEffect = new WiggleEffect();
@@ -650,6 +652,7 @@ class PlayState extends MusicBeatState
 				initiedShaders.set('glitch', true);
 			}
 		}
+		#end
 
 		switch (curStage.toLowerCase())
 		{
@@ -1822,6 +1825,12 @@ class PlayState extends MusicBeatState
 	}
 
 
+	#if !flash
+	/**
+	 * Adds the `effect` shader to the param `cam`
+	 * @param cam it can be `camHud`, `hud`, `camOther`, `other`, `camGame`, `game`
+	 * @param effect 
+	 */
 	public function addShaderToCamera(cam:String, effect:ShaderEffect) {//STOLE FROM ANDROMEDA AND PSYCH ENGINE 0.5.1 WITH SHADERS
 		if(!ClientPrefs.shaders) return;
 
@@ -1859,33 +1868,40 @@ class PlayState extends MusicBeatState
 				}
 		}
 	}
-
+	/**
+	 * removes the `effect` shader to the param `cam`
+	 * @param cam it can be `camHud`, `hud`, `camOther`, `other`, `camGame`, `game`
+	 * @param effect 
+	 */
 	public function removeShaderFromCamera(cam:String, effect:ShaderEffect) {
 		switch(cam.toLowerCase()) {
 			case 'camhud' | 'hud':
 				camHUDShaders.remove(effect);
 				var newCamEffects:Array<BitmapFilter> = [];
-				for(i in camHUDShaders) {
-					newCamEffects.push(new ShaderFilter(i.shader));
+				for(shader in camHUDShaders) {
+					newCamEffects.push(new ShaderFilter(shader.shader));
 				}
 				camHUD.setFilters(newCamEffects);
 			case 'camother' | 'other':
 				camOtherShaders.remove(effect);
 				var newCamEffects:Array<BitmapFilter> = [];
-				for (i in camOtherShaders) {
-					newCamEffects.push(new ShaderFilter(i.shader));
+				for (shader in camOtherShaders) {
+					newCamEffects.push(new ShaderFilter(shader.shader));
 				}
 				camOther.setFilters(newCamEffects);
 			default:
 				camGameShaders.remove(effect);
 				var newCamEffects:Array<BitmapFilter> = [];
-				for(i in camGameShaders) {
-					newCamEffects.push(new ShaderFilter(i.shader));
+				for(shader in camGameShaders) {
+					newCamEffects.push(new ShaderFilter(shader.shader));
 				}
 				camGame.setFilters(newCamEffects);
 		}
 	}
-
+	/**
+	 * Clears the effects of the param `cam`
+	 * @param cam it can be `camHud`, `hud`, `camOther`, `other`, `camGame`, `game`
+	 */
 	public function clearShaderFromCamera(cam:String) {
 		switch(cam.toLowerCase()) {
 			case 'camhud' | 'hud':
@@ -1902,6 +1918,14 @@ class PlayState extends MusicBeatState
 				camGame.setFilters(newCamEffects);
 		}
 	}
+	#else
+	public function addshaderToCamera(a:Dynamic, b:Dynamic)
+		return;
+	public function removeShaderToCamera(a:Dynamic, b:Dynamic)
+		return;
+	public function clearShaderFromCamera(a:Dynamic, b:Dynamic)
+		return;
+	#end
 
  	public function getLuaObject(tag:String, text:Bool = true, tryLowerCase:Bool = true, tryUpperCase:Bool = true):FlxSprite {
  		if(modchartSprites.exists(tag)) return modchartSprites.get(tag);
@@ -1919,7 +1943,6 @@ class PlayState extends MusicBeatState
  			if(text && modchartTexts.exists(tag.toUpperCase())) return modchartTexts.get(tag.toUpperCase());
 			if(variables.exists(tag.toUpperCase())) return variables.get(tag.toUpperCase());
 		}
- 		
 
  		return null;
  	}
@@ -4458,6 +4481,7 @@ class PlayState extends MusicBeatState
 				}
 
 			case 'Rainbow Eyesore':
+				#if !flash
 				if(ClientPrefs.eyesores && allowedShaders.get('pulse')) {
 					var timeRainbow:Int = Std.parseInt(theValue1);
 					var speedRainbow:Float = Std.parseFloat(theValue2);
@@ -4471,7 +4495,9 @@ class PlayState extends MusicBeatState
 					screenshader.shader.uampmul.value[0] = 1;
 					screenshader.Enabled = true;
 				}
+				#end
 			case 'Activate Shader':
+				#if !flash
 				var daEffects = value1.replace(' ', '').toLowerCase().split(',');
 				if(daEffects.contains('flag') && !allowedShaders.get('flag')) {
 					if(!initiedShaders.get('flag')) {
@@ -4507,7 +4533,9 @@ class PlayState extends MusicBeatState
 					the3DWorldEffectWavy.waveSpeed = 1.25;
 					allowedShaders.set('wavy', true);
 				}
+				#end
 			case 'Deactivate Shader':
+				#if !flash
 				var daEffects = value1.replace(' ', '').toLowerCase().split(',');
 				if (daEffects.contains('flag') && allowedShaders.get('flag')) {
 					the3DWorldEffect.waveAmplitude = 0;
@@ -4529,6 +4557,7 @@ class PlayState extends MusicBeatState
 					the3DWorldEffectWavy.waveSpeed = 0;
 					allowedShaders.set('wavy', false);
 				}
+				#end
 		}
 		callOnLuas('onEvent', [eventName, value1, value2, value3]);
 	}
