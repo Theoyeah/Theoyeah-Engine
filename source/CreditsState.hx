@@ -91,6 +91,8 @@ class CreditsState extends MusicBeatState
 			['Magnumsrt',					'',					'Creator of stage editor',														''],
 			['BeastlyGhost',        		'ghost',     		'Creator of v0.3 FPS Counter (Base Game)\n(Memory used), and other GOD things',	'https://twitter.com/Fan_de_RPG',								'b0ceff'],
 			['Not Tony',        			'tony.',     		'Fixed Camera Follow\nand more shit lmaooo',									'https://gamebanana.com/mods/389840',							'A0522D'], //yoooooooo this FNF mod fire https://gamebanana.com/mods/390634
+			['AverageDaveLover65',				'average',	'FONT ON FPS AND OTHER SHIT',						'https://www.youtube.com/channel/UC0uBA3_m5U5BNnbUcCisgsQ',						'33FF00'], //ME
+
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',				'shadowmario',		'Main Programmer of Psych Engine',												'https://twitter.com/Shadow_Mario_',							'444444'],
