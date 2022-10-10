@@ -1012,16 +1012,7 @@ class FlxInputText extends FlxText
 		if (Value == 0)
 			return 0;
 
-		if (Value > 1)
-		{
-			textField.wordWrap = true;
-			textField.multiline = true;
-		}
-		else
-		{
-			textField.wordWrap = false;
-			textField.multiline = false;
-		}
+		textField.wordWrap = textField.multiline = Value > 1;
 
 		lines = Value;
 		calcFrame();
