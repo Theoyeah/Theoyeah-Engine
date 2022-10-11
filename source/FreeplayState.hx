@@ -471,6 +471,9 @@ class FreeplayState extends MusicBeatState
 				diffCalcText.text = 'RATING: ' + DiffCalc.CalculateDiff(thing);
 		} else
 			trace('epic fail looking for song json lol');
+		#else
+		diffCalcText.text = 'RATING: undefined';
+		#end
 		positionHighscore();
 	}
 
