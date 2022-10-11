@@ -135,16 +135,7 @@ class FreeplayState extends MusicBeatState
 			var maxWidth = 980;
 			if (songText.width > maxWidth)
 			{
-				var textScale:Float = (980 / songText.width);
-				songText.scale.x = textScale;
-				for (letter in songText.lettersArray)
-				{
-					letter.x *= textScale;
-					letter.offset.x *= textScale;
-				}
-				//songText.updateHitbox();
-				//trace(songs[i].songName + ' new scale: ' + textScale);
-				//songText.scaleX = maxWidth / songText.width;
+				songText.scaleX = maxWidth / songText.width;
 			}
 			songText.snapToPosition();
 
