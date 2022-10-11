@@ -448,7 +448,8 @@ class FreeplayState extends MusicBeatState
 		diffText.text = '< ' + CoolUtil.difficultyString() + ' >';
 		var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 
-		// copied from Song.hx lol,
+		// copied from Song.hx lol, but edited
+		var canReload:Bool = false;
 		var jsonInput = songs[curSelected].songName.toLowerCase();
 		var formattedFolder:String = Paths.formatToSongPath(poop);
 		var formattedSong:String = Paths.formatToSongPath(jsonInput);
@@ -456,18 +457,20 @@ class FreeplayState extends MusicBeatState
 		var moddyFile:String = Paths.modsJson(formattedFolder + '/' + formattedSong);
 		var otherModdyFile:String = Paths.modsJson(poop + '/' + jsonInput);
 		if(FileSystem.exists(moddyFile)) {
-			rawJson = File.getContent(moddyFile).trim();
+			canReload = true;
+			//rawJson = File.getContent(moddyFile).trim();
 		} else if(FileSystem.exists(otherModdyFile)) {
-			rawJson = File.getContent(otherModdyFile).trim();
+			canReload = true;
+			//rawJson = File.getContent(otherModdyFile).trim();
 		}
 		#end
 		#if sys
-		if(FileSystem.exists(Paths.json(formattedFolder + '/' + formattedSong))) {
+		if(FileSystem.exists(Paths.json(formattedFolder + '/' + formattedSong)) || canReload) {
 			var thing = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
 			if(ClientPrefs.freeplayRating)
 				diffCalcText.text = 'RATING: ' + DiffCalc.CalculateDiff(thing);
 		} else
-			trace('epic fail looking for song json');
+			trace('epic fail looking for song json lol');
 		positionHighscore();
 	}
 
