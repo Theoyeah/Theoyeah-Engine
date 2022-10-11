@@ -29,6 +29,7 @@ typedef SwagSong =
 	var arrowSkin:String;
 	var splashSkin:String;
 	var validScore:Bool;
+	var autoZoom:Bool;
 }
 
 class Song
@@ -38,6 +39,7 @@ class Song
 	public var events:Array<Dynamic>;
 	public var bpm:Float;
 	public var needsVoices:Bool = true;
+	public var autoZoom:Bool = true;
 	public var arrowSkin:String;
 	public var splashSkin:String;
 	public var speed:Float = 1;
@@ -55,14 +57,16 @@ class Song
 			songJson.player3 = null;
 		}
 
-		if(songJson.player1 == null && songJson.boyfriend != null) {
-			songJson.player1 = songJson.boyfriend;
-			songJson.boyfriend = null;
+		if(songJson.player1 == null) {
+			if(songJson.boyfriend != null) {
+				songJson.player1 = songJson.boyfriend;
+				songJson.boyfriend = null;
+			} else if(songJson.bf != null) {
+				songJson.player1 = songJson.bf;
+				songJson.bf = null;
+			}
 		}
-		if(songJson.player1 == null && songJson.bf != null) {
-			songJson.player1 = songJson.bf;
-			songJson.bf = null;
-		}
+		
 		if(songJson.player2 == null && songJson.opponent != null) {
 			songJson.player2 = songJson.opponent;
 			songJson.opponent = null;
@@ -90,6 +94,7 @@ class Song
 				}
 			}
 		}
+		if(songJson.autoZoom == null) songJson.autoZoom = true; // Easier for everyone lol
 	}
 
 	public function new(song, notes, bpm)

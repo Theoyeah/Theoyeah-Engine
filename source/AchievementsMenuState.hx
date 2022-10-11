@@ -60,13 +60,12 @@ class AchievementsMenuState extends MusicBeatState
 				continue;
 			}
 			var achieveName:String = Achievements.achievementsStuff[achievementIndex[i]][2];
-			var optionText:Alphabet = new Alphabet(0, (100 * i) + 210,
+			var optionText:Alphabet = new Alphabet(280, 300,
 				Achievements.isAchievementUnlocked(achieveName) ? Achievements.achievementsStuff[achievementIndex[i]][0] : '?',
-				false, false);
+				false);
 			optionText.isMenuItem = true;
-			optionText.x += 280;
-			optionText.xAdd = 200;
-			optionText.targetY = i;
+			optionText.targetY = i - curSelected;
+			optionText.snapToPosition();
 			grpOptions.add(optionText);
 
 			var icon:AttachedAchievement = new AttachedAchievement(optionText.x - 105, optionText.y, achieveName);
@@ -109,7 +108,7 @@ class AchievementsMenuState extends MusicBeatState
 					FlxG.sound.play(Paths.sound('confirmMenu'));
 					for (i in 0...achievementArray.length) {
 						achievementArray[i].forget();
-						grpOptions.members[i].changeText('?');
+						grpOptions.members[i].text = '?';
 					}
 				}, function() {
 					FlxG.sound.play(Paths.sound('confirmMenu'));
@@ -118,7 +117,7 @@ class AchievementsMenuState extends MusicBeatState
 				openSubState(new Prompt('This action will clear the progress of the selected achievement.\n\nProceed?', 0, function() {
 					FlxG.sound.play(Paths.sound('confirmMenu'));
 					achievementArray[curSelected].forget();
-					grpOptions.members[curSelected].changeText('?');
+					grpOptions.members[curSelected].text = '?';
 				}, function() {
 					FlxG.sound.play(Paths.sound('cancelMenu'));
 				}, false));
