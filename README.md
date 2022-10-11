@@ -21,6 +21,8 @@ Look at the [`Project.xml`](Project.xml) file to deactivate some things! Take th
 ### IMPORTANT FOR MODS:
 If you want to go to the mods list to organizate them, you'll have to go to the main menu, press seven (7), and select the last option, it will go to the mod list, if there isn't any mods, try going back and trying it again.
 
+# ALL THE FORKS/MODS THAT USE THIS ENGINE SHOULD CREDITS US, IF ITS NOT LIKE THAT, WE WILL ***"REPORT"*** THAT MOD OR FORK.
+
 # What it adds
 
 - Value 3 for events!
