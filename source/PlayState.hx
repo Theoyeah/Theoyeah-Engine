@@ -222,7 +222,7 @@ class PlayState extends MusicBeatState
 	public var healthGain:Float = 1;
 	public var healthLoss:Float = 1;
 	public var instakillOnMiss:Bool = false;
-	public var cpuControlled(get, set):Bool = false;
+	public var cpuControlled(default, set):Bool = false;
 	public var practiceMode:Bool = false;
 	public var randomMode:Bool = false;
 	public var susHeal:Bool = true; // GET OUT OF MY HEAD!!!
@@ -1590,12 +1590,12 @@ class PlayState extends MusicBeatState
 				botplayTxt.visible = v;
 		return cpuControlled = v;
 	}
-	function get_cpuControlled():Bool {
+	/*function get_cpuControlled():Bool {
 		if(botplayTxt != null)
 			if(botplayTxt.visible != cpuControlled)
 				botplayTxt.visible = cpuControlled;
 		return cpuControlled;
-	}
+	}*/
 
 	public function addTextToDebug(text:String, color:FlxColor = FlxColor.WHITE) {
 		#if LUA_ALLOWED
