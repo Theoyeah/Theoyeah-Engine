@@ -61,7 +61,7 @@ jobs:
         with:
           name: linux
           path: "export/release/linux/bin"
-          # retention-days: 5
+          retention-days: 5
   Windows:
     runs-on: windows-latest
 
@@ -104,7 +104,7 @@ jobs:
         with:
           name: windows
           path: export/release/windows/bin
-          # retention-days: 5
+          retention-days: 5
   Mac:
     runs-on: macos-latest
 
@@ -146,7 +146,7 @@ jobs:
         with:
           name: mac
           path: export/release/macos/bin
-          # retention-days: 5
+          retention-days: 5
   Html5:
     runs-on: windows-latest
 
@@ -189,7 +189,7 @@ jobs:
         with:
           name: html5
           path: export/release/html5/bin
-          # retention-days: 5
+          retention-days: 5
   Windows32:
     runs-on: windows-latest
 
@@ -232,5 +232,5 @@ jobs:
         with:
           name: windows x32
           path: export/release/windows/bin
-          # retention-days: 5
+          retention-days: 5
 
