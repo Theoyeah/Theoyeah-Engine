@@ -13,8 +13,8 @@ import Song;
 
 using StringTools;
 
-typedef StageFile = {
-	var name:String;
+typedef StageFile ={
+	var ?name:String;
 	var directory:String;
 	var defaultZoom:Float;
 	var isPixelStage:Bool;
@@ -73,10 +73,11 @@ class StageData {
 
 	public static function convertStage(stage:Dynamic) { // freaking errors everytime i load another song
 		if(stage.layerArray == null) stage.layerArray = [];
+		if(stage.name == null) stage.name = '';
 
 		return stage;
 	}
-	public static function getStageFile(stage:String):StageFile {
+	public static function getStageFile(stage:String = 'stage'):StageFile {
 		var rawJson:String = null;
 		var path:String = Paths.getPreloadPath('stages/' + stage + '.json');
 		var papath:String = Paths.getPreloadPath('stages/' + stage.toLowerCase() + '.json');

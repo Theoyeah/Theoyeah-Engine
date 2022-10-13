@@ -272,12 +272,7 @@ class PauseSubState extends MusicBeatSubstate
 					MusicBeatState.switchState(new options.OptionsState());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				case "Exit to menu":
-					openSubState(new Prompt('This action will exit the current progress.\n\nProceed?', 0, function() {
-						FlxG.sound.play(Paths.sound('confirmMenu'));
-						exitMenu();
-					}, function() {
-						FlxG.sound.play(Paths.sound('cancelMenu'));
-					}, false));
+					exitMenu();
 			}
 		}
 	}
@@ -383,7 +378,7 @@ class PauseSubState extends MusicBeatSubstate
 		}
 
 		for (i in 0...menuItems.length) {
-			var item = new Alphabet(0, 70 * i + 30, menuItems[i], true, false);
+			var item = new Alphabet(90, 320, menuItems[i], true);
 			item.isMenuItem = true;
 			item.targetY = i;
 			grpMenuShit.add(item);
