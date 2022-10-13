@@ -1585,10 +1585,16 @@ class PlayState extends MusicBeatState
 	}
 
 	function set_cpuControlled(v:Bool):Bool { // no more fake videos
-		return cpuControlled = botplayTxt.visible = v;
+		if(botplayTxt != null)
+			if(botplayTxt.visible != v)
+				botplayTxt.visible = v;
+		return cpuControlled = v;
 	}
 	function get_cpuControlled():Bool {
-		return botplayTxt.visible = cpuControlled;
+		if(botplayTxt != null)
+			if(botplayTxt.visible != cpuControlled)
+				botplayTxt.visible = cpuControlled;
+		return cpuControlled;
 	}
 
 	public function addTextToDebug(text:String, color:FlxColor = FlxColor.WHITE) {
