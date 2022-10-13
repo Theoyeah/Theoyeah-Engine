@@ -222,7 +222,7 @@ class PlayState extends MusicBeatState
 	public var healthGain:Float = 1;
 	public var healthLoss:Float = 1;
 	public var instakillOnMiss:Bool = false;
-	public var cpuControlled:Bool = false;
+	public var cpuControlled(get, set):Bool = false;
 	public var practiceMode:Bool = false;
 	public var randomMode:Bool = false;
 	public var susHeal:Bool = true; // GET OUT OF MY HEAD!!!
@@ -230,6 +230,8 @@ class PlayState extends MusicBeatState
 
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
+	//public var practiceSine:Float = 0;
+	//public var practiceTxt:FlxText; // planing on doing it
 
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
@@ -341,11 +343,11 @@ class PlayState extends MusicBeatState
 	var precacheList:Map<String, String> = new Map<String, String>();
 
 	
-	// stores the last judgement object
+	/** stores the last judgement object */
 	public static var lastRating:FlxSprite;
-	// stores the last combo sprite object
+	/** stores the last combo sprite object */
 	public static var lastCombo:FlxSprite;
-	// stores the last combo score objects in an array
+	/** stores the last combo score objects in an array */
 	public static var lastScore:Array<FlxSprite> = [];
 
 	override public function create()
@@ -1574,12 +1576,19 @@ class PlayState extends MusicBeatState
 		if(generatedMusic)
 		{
 			var ratio:Float = value / songSpeed; //funny word huh
-			for (note in notes) note.resizeByRatio(ratio);
+			for (note in notes) note.resizeByRatio(ratio); // why?! just why!?
 			for (note in unspawnNotes) note.resizeByRatio(ratio);
 		}
 		songSpeed = value;
 		noteKillOffset = 350 / songSpeed;
 		return value;
+	}
+
+	function set_cpuControlled(v:Bool):Bool { // no more fake videos
+		return cpuControlled = botplayTxt.visible = v;
+	}
+	function get_cpuControlled():Bool {
+		return botplayTxt.visible = cpuControlled;
 	}
 
 	public function addTextToDebug(text:String, color:FlxColor = FlxColor.WHITE) {
