@@ -35,6 +35,8 @@ class MasterEditorMenu extends MusicBeatState
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
 
+	public static var chartToMaster:Bool = false;
+
 	private var curSelected = 0;
 	private var curDirectory = 0;
 	private var directoryTxt:FlxText;
@@ -133,9 +135,10 @@ class MasterEditorMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
 				case 'Chart Editor': //felt it would be cool maybe
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
+					chartToMaster = true;
 				case 'Stage Editor':
 					LoadingState.loadAndSwitchState(new StageEditorState(), false);
-				#if (!html5 && MODS_ALLOWED)
+				#if MODS_ALLOWED
 				case 'Mod Manager':
 					LoadingState.loadAndSwitchState(new editors.ModsMenuState(), false);		   
 				#end
