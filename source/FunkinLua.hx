@@ -3372,6 +3372,7 @@ class FunkinLua {
 
 		return v;
 		#end
+		return "Unknown Error :'(";
  	}
 
 	var lastCalledFunction:String = '';
