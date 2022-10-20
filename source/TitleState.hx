@@ -189,6 +189,7 @@ class TitleState extends MusicBeatState
 		}
 		#end
 
+		if(FlxG.save.data.firstInitied == null) FlxG.save.data.firstInitied = false;
 		if(!initialized)
 		{
 			if(FlxG.save.data != null && FlxG.save.data.fullscreen)
@@ -507,7 +508,7 @@ class TitleState extends MusicBeatState
 			Conductor.songPosition = FlxG.sound.music.time;
 		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
-		var pressedEnter:Bool = (FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed);
+		var pressedEnter:Bool = ((FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed) && FlxG.save.data.firstInitied);
 
 		#if mobile
 		for (touch in FlxG.touches.list)
@@ -789,6 +790,9 @@ class TitleState extends MusicBeatState
 	{
 		if (!skippedIntro)
 		{
+			if(!FlxG.save.data.firstInitied || FlxG.save.data.firstInitied == null)
+				FlxG.save.data.firstInitied = true; // now you can skip the intro!
+
 			//deleteCoolText();
 			if (playJingle) //Ignore deez
 			{
