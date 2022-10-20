@@ -60,7 +60,6 @@ import openfl.display.Shader;
 import openfl.display.StageQuality;
 import openfl.events.KeyboardEvent;
 import openfl.filters.BitmapFilter;
-import openfl.filters.ShaderFilter;
 import openfl.utils.Assets as OpenFlAssets;
 
 #if desktop
