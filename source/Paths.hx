@@ -48,6 +48,8 @@ class Paths
 		'achievements',
 		'noteskins'
 	];
+	public static var customImagesLoaded:Map<String, Bool> = new Map();
+	public static var customSoundsLoaded:Map<String, Sound> = new Map();
 	#end
 
 	public static function getIsBlankString(s:String, space:Bool = false) {
@@ -67,6 +69,22 @@ class Paths
 	public static function excludeAsset(key:String) {
 		if (!dumpExclusions.contains(key))
 			dumpExclusions.push(key);
+	}
+
+	public static function destroyLoadedImages(ignoreCheck:Bool = false) {
+		#if MODS_ALLOWED
+		if(!ignoreCheck && ClientPrefs.imagesPersist) return; //If there's 20+ images loaded, do a cleanup just for preventing a crash
+
+		for (key in customImagesLoaded.keys()) {
+			var graphic:FlxGraphic = FlxG.bitmap.get(key);
+			if(graphic != null) {
+				graphic.bitmap.dispose();
+				graphic.destroy();
+				FlxG.bitmap.removeByKey(key);
+			}
+		}
+		Paths.customImagesLoaded.clear();
+		#end
 	}
 
 	public static var dumpExclusions:Array<String> =

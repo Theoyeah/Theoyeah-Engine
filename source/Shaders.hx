@@ -1059,7 +1059,7 @@ class PulseEffect extends Effect
 	public var waveAmplitude(default, set):Float = 0;
 	public var Enabled(default, set):Bool = false;
 
-	public function new(waveSpeed:Float, waveFrequency:Float, waveAmplitude:Float):Void
+	public function new(waveSpeed:Float = 0, waveFrequency:Float = 0, waveAmplitude:Float = 0):Void
 	{
 		this.waveSpeed = waveSpeed;
 		this.waveFrequency = waveFrequency;
