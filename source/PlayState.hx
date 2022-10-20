@@ -454,10 +454,8 @@ class PlayState extends MusicBeatState
 		}
 
 		wavyBGs = CoolUtil.coolTextFile(Paths.txt('wavyBackgrounds'));
-		/*wavyShader = new PulseEffect();
-		screenshader = new PulseEffect();*/
-
-		FlxG.save.data.playingNow = false; // wtf?
+		wavyShader = new PulseEffect();
+		screenshader = new PulseEffect();
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -615,6 +613,7 @@ class PlayState extends MusicBeatState
 				flag = true;
 			}
 			if(daStage.contains('pulse')) {
+				trace('using pulse effect...');
 				screenshader.waveAmplitude = 1;
 				screenshader.waveFrequency = 2;
 				screenshader.waveSpeed = 1;
@@ -625,6 +624,7 @@ class PlayState extends MusicBeatState
 				initiedShaders.set('pulse', true);
 			}
 			if(daStage.contains('newPulse')) {
+				trace('using pulse effect...');
 				var pullse:PulseEffect = new PulseEffect();
 				pullse.waveAmplitude = 1;
 				pullse.waveFrequency = 2;
@@ -634,6 +634,7 @@ class PlayState extends MusicBeatState
 				addShaderToCamera('game', pullse);
 			}
 			if(flag) {
+				trace('using wiggle effect...');
 				the3DWorldEffect = new WiggleEffect();
 				the3DWorldEffect.effectType = WiggleEffectType.FLAG;
 				the3DWorldEffect.waveAmplitude = 0.1;
@@ -643,6 +644,7 @@ class PlayState extends MusicBeatState
 				initiedShaders.set('flag', true);
 			}
 			if(wavy) {
+				trace('using pulse effect, and wiggle effect...');
 				wavyShader = new PulseEffect();
 				the3DWorldEffectWavy = new WiggleEffect();
 				the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
@@ -653,6 +655,7 @@ class PlayState extends MusicBeatState
 				initiedShaders.set('wavy', true);
 			}
 			if(daStage.contains('glitch')) {
+				trace('using glitch effect...');
 				_glitch = new FlxGlitchEffect(10, 2, 0.1);
 				allowedShaders.set('glitch', true);
 				initiedShaders.set('glitch', true);
@@ -1329,7 +1332,7 @@ class PlayState extends MusicBeatState
 		watermarkTxt.alpha = 0.6;
 		add(watermarkTxt);
 
-		if(SONG.screwYou != null)
+		if(SONG.screwYou != null && SONG.screwYou.length > 1)
 		{
 			screwYouTxt = new FlxText(10, FlxG.height - 28, 0, SONG.screwYou, 74);
 		}
@@ -1361,7 +1364,6 @@ class PlayState extends MusicBeatState
 			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nTotal hit: ${totals}\nCombo: ${combo}\n';
 			add(judgementCounter);
 		}
-
 
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "CHEATING MODE", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -1630,7 +1632,7 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	public function initLuaShader(name:String, ?glslVersion:Int = 120)
+	public function initLuaShader(name:String, glslVersion:Int = 120)
 	{
 		if(!ClientPrefs.shaders) return false;
 
@@ -1956,7 +1958,7 @@ class PlayState extends MusicBeatState
  		return null;
  	}
 
-	function startCharacterPos(char:Character, ?gfCheck:Bool = false) {
+	function startCharacterPos(char:Character, gfCheck:Bool = false) {
 		if(gfCheck && char.curCharacter.startsWith('gf')) { //IF DAD IS GIRLFRIEND, HE GOES TO HER POSITION
 			char.setPosition(GF_X, GF_Y);
 			char.scrollFactor.set(0.95, 0.95);
@@ -1966,7 +1968,7 @@ class PlayState extends MusicBeatState
 		char.y += char.positionArray[1];
 	}
 
-	public function startVideo(name:String, ?ignoreMkv:Bool = false):Void {
+	public function startVideo(name:String, ignoreMkv:Bool = false):Void {
 		#if VIDEOS_ALLOWED
 		inCutscene = true;
 
@@ -2016,7 +2018,9 @@ class PlayState extends MusicBeatState
 
 	var dialogueCount:Int = 0;
 	public var psychDialogue:DialogueBoxPsych;
-	//You don't have to add a song, just saying. You can just do "startDialogue(dialogueJson);" and it should work
+	/**
+	 * You don't have to add a song, just saying. You can just do `startDialogue(dialogueJson);` and it should work
+	 */
 	public function startDialogue(dialogueFile:DialogueFile, ?song:String = null):Void
 	{
 		// TO DO: Make this more flexible, maybe?
@@ -2502,7 +2506,6 @@ class PlayState extends MusicBeatState
 
 			var swagCounter:Int = 0;
 
-
 			if(startOnTime < 0) startOnTime = 0;
 
 			if (startOnTime > 0) {
@@ -2736,7 +2739,8 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.pause();
 		vocals.pause();
 
-		FlxG.sound.music.time = time;
+		if(FlxG.sound.music.time != time)
+			FlxG.sound.music.time = time;
 		FlxG.sound.music.pitch = playbackRate;
 		FlxG.sound.music.play();
 
@@ -2819,12 +2823,16 @@ class PlayState extends MusicBeatState
 		#if CHEATING_ALLOWED
 		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype', 'multiplicative');
 
-		switch(songSpeedType)
+		switch(songSpeedType.replace(' ', '').replace('-', ''))
 		{
 			case "multiplicative":
 				songSpeed = SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed', 1);
 			case "constant":
 				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed', 1);
+			case 'inversedmultiplicative':
+				songSpeed = -SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed', 1);
+			case 'inversedconstant':
+				songSpeed = -ClientPrefs.getGameplaySetting('scrollspeed', 1);
 		}
 		#else
 		songSpeed = SONG.speed;
@@ -3129,7 +3137,8 @@ class PlayState extends MusicBeatState
 			if (player < 1)
 			{
 				if(ClientPrefs.opponentStrums
-				   || ClientPrefs.middleScroll) targetAlpha = 0;
+				   || ClientPrefs.middleScroll)
+					targetAlpha = 0;
 			}
 
 			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
@@ -3313,10 +3322,10 @@ class PlayState extends MusicBeatState
 		if(disableTheTripper) // so, this disables shaders?
 		{
 			screenshader.shader.uampmul.value[0] -= (elapsed / 2);
-		}/* else {
+		} else {
 			FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
 			screenshader.update(elapsed);
-		}*/
+		}
 
 		for (shader in shaderUpdates) {
 			shader(elapsed);
@@ -3477,9 +3486,9 @@ class PlayState extends MusicBeatState
 		setOnLuas('curDecStep', curDecStep);
  		setOnLuas('curDecBeat', curDecBeat);
 
-		#if NO_CHEATING
+
 		botplayTxt.visible = cpuControlled;
-		#end
+
 		if(botplayTxt.visible) {
 			botplaySine += 180 * elapsed;
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
@@ -3519,7 +3528,8 @@ class PlayState extends MusicBeatState
 					default:
 						openChartEditor();
 				}
-			}
+			} else
+				openChartEditor();
 		}
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
@@ -3627,7 +3637,7 @@ class PlayState extends MusicBeatState
 			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
 		}
 
-		
+
 		if (startedCountdown)
 		{
 			Conductor.songPosition += FlxG.elapsed * 1000 * playbackRate;
@@ -4352,7 +4362,7 @@ class PlayState extends MusicBeatState
 				if(bgGirls != null) bgGirls.swapDanceType();
 			case 'Change Scroll Speed':
 				#if CHEATING_ALLOWED
-				if (songSpeedType == "constant")
+				if (songSpeedType == 'constant')
 					return;
 				#end
 				var val1:Float = Std.parseFloat(value1);
@@ -4452,9 +4462,12 @@ class PlayState extends MusicBeatState
 					botplayTxt.text = theValues[FlxG.random.int(0, theValues.length-1)];
 				}
 			case 'Move Window':
-				if(!lime.app.Application.current.window.minimized) lime.app.Application.current.window.minimized = true;
-				if(lime.app.Application.current.window.fullscreen) lime.app.Application.current.window.fullscreen = false;
-				if(lime.app.Application.current.window.maximized) lime.app.Application.current.window.maximized = false;
+				if(!lime.app.Application.current.window.minimized)
+					lime.app.Application.current.window.minimized = true;
+				if(lime.app.Application.current.window.fullscreen)
+					lime.app.Application.current.window.fullscreen = false;
+				if(lime.app.Application.current.window.maximized)
+					lime.app.Application.current.window.maximized = false;
 				lime.app.Application.current.window.move(Std.parseInt(theValue1), Std.parseInt(theValue2));
 			case 'Toggle Minimize Window':
 				var vaaa = theValue1.replace(' ', '');
@@ -4476,7 +4489,7 @@ class PlayState extends MusicBeatState
 				var message:String = value2;
 
 				lime.app.Application.current.window.alert(message, title);
-			case '"Screw you!" Text Change':
+			case '"Screw you!" Text Change' | 'Screw you! Text Change':
 				var text:String = value1;
 
 				screwYouTxt.text = text;
@@ -4504,16 +4517,20 @@ class PlayState extends MusicBeatState
 					screenshader.shader.uampmul.value[0] = 1;
 					screenshader.Enabled = true;
 				}
+				#else
+				trace('unsuported platform!');
 				#end
 			case 'Activate Shader':
 				#if !flash
 				var daEffects = value1.replace(' ', '').toLowerCase().split(',');
 				if(daEffects.contains('flag') && !allowedShaders.get('flag')) {
 					if(!initiedShaders.get('flag')) {
+						trace('using wiggle effect type flag...');
 						the3DWorldEffect = new WiggleEffect();
 						the3DWorldEffect.effectType = WiggleEffectType.FLAG;
 						initiedShaders.set('flag', true);
 					}
+					trace('activating wiggle effect type flag...');
 					the3DWorldEffect.waveAmplitude = 0.1;
 					the3DWorldEffect.waveFrequency = 5;
 					the3DWorldEffect.waveSpeed = 2.25;
@@ -4521,51 +4538,65 @@ class PlayState extends MusicBeatState
 				}
 				if(daEffects.contains('pulse') && !allowedShaders.get('pulse')) {
 					if(!initiedShaders.get('pulse')) {
+						trace('using pulse effect...');
 						screenshader = new PulseEffect();
 						initiedShaders.set('pulse', true);
 					}
+					trace('activating pulse effect...');
+					FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
 					screenshader.waveAmplitude = 1;
 					screenshader.waveFrequency = 2;
 					screenshader.waveSpeed = 1;
 					screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
 					screenshader.shader.uampmul.value[0] = 0;
+					screenshader.Enabled = true;
 					allowedShaders.set('pulse', true);
 				}
 				if(daEffects.contains('wavy') && !allowedShaders.get('wavy')) {
 					if(!initiedShaders.get('wavy')) {
+						trace('using wiggle effect type wavy...');
 						the3DWorldEffectWavy = new WiggleEffect();
 						the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
 						initiedShaders.set('wavy', true);
 					}
+					trace('activating wiggle effect type wavy...');
 					the3DWorldEffectWavy.waveAmplitude = 0.2;
 					the3DWorldEffectWavy.waveFrequency = 3;
 					the3DWorldEffectWavy.waveSpeed = 1.25;
 					allowedShaders.set('wavy', true);
 				}
+				#else
+				trace('unsuported platform!');
 				#end
 			case 'Deactivate Shader':
 				#if !flash
 				var daEffects = value1.replace(' ', '').toLowerCase().split(',');
 				if (daEffects.contains('flag') && allowedShaders.get('flag')) {
+					trace('deactivated wiggle effect type flag...');
 					the3DWorldEffect.waveAmplitude = 0;
 					the3DWorldEffect.waveFrequency = 0;
 					the3DWorldEffect.waveSpeed = 0;
 					allowedShaders.set('flag', false);
 				}
 				if (daEffects.contains('pulse') && allowedShaders.get('pulse')) {
+					trace('deactivating pulse effect...');
 					screenshader.waveAmplitude = 0;
 					screenshader.waveFrequency = 0;
 					screenshader.waveSpeed = 0;
 					screenshader.shader.uTime.value[0] = 0;
 					screenshader.shader.uampmul.value[0] = 0;
+					screenshader.Enabled = false;
 					allowedShaders.set('pulse', false);
 				}
 				if (daEffects.contains('wavy') && allowedShaders.get('wavy')) {
+					trace('deactivating wiggle effect type wavy...');
 					the3DWorldEffectWavy.waveAmplitude = 0;
 					the3DWorldEffectWavy.waveFrequency = 0;
 					the3DWorldEffectWavy.waveSpeed = 0;
 					allowedShaders.set('wavy', false);
 				}
+				#else
+				trace('unsuported platform!');
 				#end
 		}
 		callOnLuas('onEvent', [eventName, value1, value2, value3]);
@@ -4631,9 +4662,9 @@ class PlayState extends MusicBeatState
 		camFollowPos.setPosition(x, y);
 	}
 
-	public function finishSong(?ignoreNoteOffset:Bool = false):Void
+	public function finishSong(ignoreNoteOffset:Bool = false):Void
 	{
-		var finishCallback:Void->Void = endSong; //In case you want to change it in a specific song.
+		var finishCallback:Void->Void = endSong; // In case you want to change it in a specific song.
 
 		updateTime = false;
 		FlxG.sound.music.volume = 0;
