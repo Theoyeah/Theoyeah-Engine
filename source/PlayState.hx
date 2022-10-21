@@ -231,14 +231,16 @@ class PlayState extends MusicBeatState
 	public static var chartingMode:Bool = false;
 
 
-	public static var screenshader:Shaders.PulseEffect = new PulseEffect();
-	public static var lazychartshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
-	public static var blockedShader:BlockedGlitchEffect;
-	public var dither:DitherEffect = new DitherEffect();
 	//Shaders
 	public var camGameShaders:Array<ShaderEffect> = [];
 	public var camHUDShaders:Array<ShaderEffect> = [];
 	public var camOtherShaders:Array<ShaderEffect> = [];
+	#if SHADERS_ENABLED
+	public static var screenshader:Shaders.PulseEffect = new PulseEffect();
+	public static var lazychartshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
+	public static var blockedShader:BlockedGlitchEffect;
+	public var dither:DitherEffect = new DitherEffect();
+	#end
 
 	//Gameplay settings
 	public var healthGain:Float = 1;
@@ -318,7 +320,7 @@ class PlayState extends MusicBeatState
 	 */
 	public static var the3DWorldEffectWavy:WiggleEffect;
 	public static var wavyShader:Shaders.PulseEffect = new Shaders.PulseEffect();
-	var _glitch:FlxGlitchEffect;
+	public static var _glitch:FlxGlitchEffect;
 	var _effectSprite:FlxEffectSprite;
 
 	public static var activeWavy:Bool = false;
@@ -412,6 +414,9 @@ class PlayState extends MusicBeatState
 
 		// for lua
 		instance = this;
+
+		resetShaders();
+		initiedShaders.set('pulse', true);
 
 		debugKeysChart = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 		debugKeysCharacter = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_2'));
@@ -605,6 +610,11 @@ class PlayState extends MusicBeatState
 
 		resetSpriteCache = false;
 
+		screenshader.waveAmplitude = 0.5;
+		screenshader.waveFrequency = 1;
+		screenshader.waveSpeed = 1;
+		screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
+
 		#if !flash
 		if(!curStage.toLowerCase().replace(' ', '').contains('noshader') && !curStage.toLowerCase().replace(' ', '').contains('noeyesores') && ClientPrefs.shaders) {
 			var wavy:Bool = false;
@@ -619,11 +629,13 @@ class PlayState extends MusicBeatState
 			}
 			if(daStage.contains('pulse')) {
 				trace('using pulse effect...');
+				/*
 				screenshader.waveAmplitude = 1;
 				screenshader.waveFrequency = 2;
 				screenshader.waveSpeed = 1;
 				screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
 				screenshader.shader.uampmul.value[0] = 0;
+				*/
 				screenshader.Enabled = true;
 				allowedShaders.set('pulse', true);
 				initiedShaders.set('pulse', true);
@@ -1616,6 +1628,12 @@ class PlayState extends MusicBeatState
 		CustomFadeTransition.nextCamera = camOther;
 	}
 
+	public static function resetShaders() {
+		if(screenshader != null) {
+			screenshader.shader.uampmul.value[0] = 0;
+			screenshader.Enabled = false;
+		}
+	}
 	#if (!flash && sys)
 	public var runtimeShaders:Map<String, Array<String>> = new Map<String, Array<String>>();
 	public function createRuntimeShader(name:String):FlxRuntimeShader
@@ -3308,6 +3326,10 @@ class PlayState extends MusicBeatState
 	{
 		callOnLuas('onUpdate', [elapsed]);
 
+		#if SHADERS_ENABLED
+		FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
+		#end
+
 		if(activeWavy && allowedShaders.get('wavy') && ClientPrefs.shaders)
 		{
 			wavyShader.update(elapsed);
@@ -4549,11 +4571,13 @@ class PlayState extends MusicBeatState
 					}
 					trace('activating pulse effect...');
 					FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
+					/*
 					screenshader.waveAmplitude = 1;
 					screenshader.waveFrequency = 2;
 					screenshader.waveSpeed = 1;
 					screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
 					screenshader.shader.uampmul.value[0] = 0;
+					*/
 					screenshader.Enabled = true;
 					allowedShaders.set('pulse', true);
 				}
@@ -4585,11 +4609,13 @@ class PlayState extends MusicBeatState
 				}
 				if (daEffects.contains('pulse') && allowedShaders.get('pulse')) {
 					trace('deactivating pulse effect...');
+					/*
 					screenshader.waveAmplitude = 0;
 					screenshader.waveFrequency = 0;
 					screenshader.waveSpeed = 0;
 					screenshader.shader.uTime.value[0] = 0;
 					screenshader.shader.uampmul.value[0] = 0;
+					*/
 					screenshader.Enabled = false;
 					allowedShaders.set('pulse', false);
 				}
