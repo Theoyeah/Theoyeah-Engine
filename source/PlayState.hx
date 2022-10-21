@@ -10,17 +10,8 @@ import Shaders.PulseEffect;
 import Shaders;
 import Song.SwagSong;
 import StageData;
-import StageData;
 import WiggleEffect.WiggleEffectType;
 import WiggleEffect;
-import animateatlas.AtlasFrameMaker;
-import editors.CharacterEditorState;
-import editors.ChartingState;
-import editors.ChartingState;
-import Shaders;
-import Song.SwagSong;
-import StageData;
-import WiggleEffect.WiggleEffectType;
 import animateatlas.AtlasFrameMaker;
 import editors.CharacterEditorState;
 import editors.ChartingState;
@@ -79,6 +70,7 @@ import openfl.events.KeyboardEvent;
 import openfl.filters.BitmapFilter;
 import openfl.utils.Assets as OpenFlAssets;
 
+using StringTools;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -97,7 +89,6 @@ import sys.io.File;
 import vlc.MP4Handler;
 #end
 
-using StringTools;
 
 class PlayState extends MusicBeatState
 {
@@ -238,7 +229,7 @@ class PlayState extends MusicBeatState
 	#if SHADERS_ENABLED
 	public static var screenshader:Shaders.PulseEffect = new PulseEffect();
 	public static var lazychartshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
-	public static var blockedShader:BlockedGlitchEffect;
+	//public static var blockedShader:BlockedGlitchEffect;
 	public var dither:DitherEffect = new DitherEffect();
 	#end
 
@@ -325,8 +316,6 @@ class PlayState extends MusicBeatState
 
 	public static var activeWavy:Bool = false;
 	var wavyBGs:Array<String> = [];
-
-	public static var screenshader:Shaders.PulseEffect = new Shaders.PulseEffect();
 
 	var disableTheTripper:Bool = false;
 	var disableTheTripperAt:Int;
@@ -4459,8 +4448,8 @@ class PlayState extends MusicBeatState
 						addShaderToCamera(camera, new TiltshiftEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1])));
 					case 'vcreffect':
 						addShaderToCamera(camera, new VCRDistortionEffect(Std.parseFloat(theEffects[0]), boolEffects[1] == "true", boolEffects[2] == "true", boolEffects[3] == "true"));
-					case 'fuckindaveandbambi1' | 'glitcheffect':
-						addShaderToCamera(camera, new GlitchEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1]), Std.parseFloat(theEffects[2])));
+					/*case 'fuckindaveandbambi1' | 'glitcheffect':
+						addShaderToCamera(camera, new GlitchEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1]), Std.parseFloat(theEffects[2])));*/
 					case 'fuckindaveandbambi2' | 'pulseeffect':
 						addShaderToCamera(camera, new PulseEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1]), Std.parseFloat(theEffects[2])));
 					case 'fuckindaveandbambi3' | 'distortbgeffect':

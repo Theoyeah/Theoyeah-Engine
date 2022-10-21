@@ -29,6 +29,7 @@ class CreditsState extends MusicBeatState
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private var iconArray:Array<AttachedSprite> = [];
 	private var creditsStuff:Array<Array<String>> = [];
+	//var socialButtons:Array<SocialButton> = new Array<SocialButton>();
 
 	var bg:FlxSprite;
 	var descText:FlxText;
@@ -94,6 +95,16 @@ class CreditsState extends MusicBeatState
 			['tposejank',					'',					'New Alphabet support',															''],
 			['Raltyro', 					'', 				'Some code used\nCreator of Charting State log\nAnd more!', 					''],
 			['Meme Hoovy', 					'', 				'No deprecation warnings ;)', 													'https://github.com/MemeHoovy'],
+			[''],
+			['Strident Code'],
+			['Delta',						'delta',			'Owner of the Strident Crisis Engine',											'https://www.youtube.com/c/Delta1248',							'FF00C6FF'], //light blue
+			[''],
+			['Dave And Bambi'],
+			['MoldyGH', 					'',					'Developer',																	'https://twitter.com/moldy_gh'],
+			['MissingTextureMan101',		'',					'Developer',																	'https://twitter.com/OfficialMTM101'],
+			['rapparep lol',				'',					'Developer',																	'https://twitter.com/rappareplol'],
+			['TheBuilderXD',				'',					'Developer',																	'https://twitter.com/TheBuilderXD'],
+			['Erizur'],
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',				'shadowmario',		'Main Programmer of Psych Engine',												'https://twitter.com/Shadow_Mario_',							'444444'],
@@ -347,3 +358,14 @@ class CreditsState extends MusicBeatState
 		return creditsStuff[num].length <= 1;
 	}
 }
+/*class SocialButton
+{
+	public var graphics:Array<FlxSprite>;
+	public var socialMedia:Social;
+
+	public function new(graphics:Array<FlxSprite>, socialMedia:Social)
+	{
+		this.graphics = graphics;
+		this.socialMedia = socialMedia;
+	}
+}*/
