@@ -20,6 +20,7 @@ class OutdatedState extends MusicBeatState
 	{
 		super.create();
 
+		Application.current.window.
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 
@@ -41,7 +42,7 @@ class OutdatedState extends MusicBeatState
 		if(!leftState) {
 			if (controls.ACCEPT) {
 				leftState = true;
-				CoolUtil.browserLoad("https://github.com/Theoyeah/Theoyeah-Engine/releases");
+				CoolUtil.browserLoad("https://github.com/Wither362/Theoyeah-Engine-DaveAndBambi/releases");
 			}
 			else if(controls.BACK) {
 				leftState = true;
