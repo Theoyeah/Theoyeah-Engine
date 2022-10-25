@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxFrame;
 import flixel.util.FlxDestroyUtil.IFlxDestroyable;
+//import haxe.Exception;
 
 class FlxAnimationController implements IFlxDestroyable
 {
@@ -230,7 +231,9 @@ class FlxAnimationController implements IFlxDestroyable
 		{
 			_animations.remove(Name);
 			anim.destroy();
-		}
+		} /*else {
+			throw new Exception('no animation found');
+		}*/
 	}
 
 	/**
@@ -248,6 +251,7 @@ class FlxAnimationController implements IFlxDestroyable
 		{
 			// anim must already exist
 			FlxG.log.warn("No animation called \"" + Name + "\"");
+			// throw new Exception('No animations found');
 			return;
 		}
 
@@ -304,6 +308,7 @@ class FlxAnimationController implements IFlxDestroyable
 		if (anim == null)
 		{
 			FlxG.log.warn("No animation called \"" + Name + "\"");
+			// throw new Exception('no animations');
 			return;
 		}
 
@@ -360,6 +365,7 @@ class FlxAnimationController implements IFlxDestroyable
 		if (anim == null)
 		{
 			FlxG.log.warn("No animation called \"" + Name + "\"");
+			// throw new Exception('no animations');
 			return;
 		}
 
@@ -500,6 +506,7 @@ class FlxAnimationController implements IFlxDestroyable
 		if (anim == null)
 		{
 			FlxG.log.warn("No animation called \"" + Name + "\"");
+			// throw new Exception('no animations');
 			return;
 		}
 
@@ -540,6 +547,7 @@ class FlxAnimationController implements IFlxDestroyable
 		if (AnimName == null || _animations.get(AnimName) == null)
 		{
 			FlxG.log.warn("No animation called \"" + AnimName + "\"");
+			// throw new Exception('no animation found');
 			return;
 		}
 
