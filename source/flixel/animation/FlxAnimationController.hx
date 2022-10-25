@@ -4,7 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxFrame;
 import flixel.util.FlxDestroyUtil.IFlxDestroyable;
-//import haxe.Exception;
+//import flash.errors.Error;;
 
 class FlxAnimationController implements IFlxDestroyable
 {
@@ -232,7 +232,7 @@ class FlxAnimationController implements IFlxDestroyable
 			_animations.remove(Name);
 			anim.destroy();
 		} /*else {
-			throw new Exception('no animation found');
+			throw new Error('no animation found');
 		}*/
 	}
 
@@ -251,7 +251,7 @@ class FlxAnimationController implements IFlxDestroyable
 		{
 			// anim must already exist
 			FlxG.log.warn("No animation called \"" + Name + "\"");
-			// throw new Exception('No animations found');
+			// throw new Error('No animations found');
 			return;
 		}
 
@@ -308,7 +308,7 @@ class FlxAnimationController implements IFlxDestroyable
 		if (anim == null)
 		{
 			FlxG.log.warn("No animation called \"" + Name + "\"");
-			// throw new Exception('no animations');
+			// throw new Error('no animations');
 			return;
 		}
 
@@ -365,7 +365,7 @@ class FlxAnimationController implements IFlxDestroyable
 		if (anim == null)
 		{
 			FlxG.log.warn("No animation called \"" + Name + "\"");
-			// throw new Exception('no animations');
+			// throw new Error('no animations');
 			return;
 		}
 
@@ -423,6 +423,7 @@ class FlxAnimationController implements IFlxDestroyable
 		if (anim == null)
 		{
 			FlxG.log.warn("No animation called \"" + Name + "\"");
+			// throw new Error('no animation');
 			return;
 		}
 
@@ -506,7 +507,7 @@ class FlxAnimationController implements IFlxDestroyable
 		if (anim == null)
 		{
 			FlxG.log.warn("No animation called \"" + Name + "\"");
-			// throw new Exception('no animations');
+			// throw new Error('no animations');
 			return;
 		}
 
@@ -547,7 +548,7 @@ class FlxAnimationController implements IFlxDestroyable
 		if (AnimName == null || _animations.get(AnimName) == null)
 		{
 			FlxG.log.warn("No animation called \"" + AnimName + "\"");
-			// throw new Exception('no animation found');
+			// throw new Error('no animation found');
 			return;
 		}
 
