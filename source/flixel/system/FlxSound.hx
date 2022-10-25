@@ -1,5 +1,6 @@
 package flixel.system;
 
+// import flash.errors.Error;
 import flash.events.Event;
 import flash.events.IEventDispatcher;
 import flash.media.Sound;
@@ -356,8 +357,10 @@ class FlxSound extends FlxBasic
 		{
 			if (Assets.exists(EmbeddedSound, AssetType.SOUND) || Assets.exists(EmbeddedSound, AssetType.MUSIC))
 				_sound = Assets.getSound(EmbeddedSound);
-			else
+			else {
 				FlxG.log.error('Could not find a Sound asset with an ID of \'$EmbeddedSound\'.');
+				// throw new Error('not founded');
+			}
 		}
 
 		// NOTE: can't pull ID3 info from embedded sound currently
@@ -468,8 +471,10 @@ class FlxSound extends FlxBasic
 	 */
 	public function play(ForceRestart:Bool = false, StartTime:Float = 0.0, ?EndTime:Float):FlxSound
 	{
-		if (!exists)
+		if (!exists) {
+			// throw new Error('no exists');
 			return this;
+		}
 
 		if (ForceRestart)
 			cleanup(false, true);
@@ -741,8 +746,10 @@ class FlxSound extends FlxBasic
 
 	function set_volume(Volume:Float):Float
 	{
-		_volume = FlxMath.bound(Volume, 0, 1);
-		updateTransform();
+		//if(_volume != FlxMath.bound(Volume, 0, 1)) {
+			_volume = FlxMath.bound(Volume, 0, 1);
+			updateTransform();
+		//}
 		return Volume;
 	}
 
