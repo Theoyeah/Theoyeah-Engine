@@ -2967,7 +2967,7 @@ class FunkinLua {
 				PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));
 
 		});
-		/*Lua_helper.add_callback(lua, "addGlitchEffectSprite", function(tag:String) {
+		/*Lua_helper.add_callback(lua, "addGlitchEffect", function(tag:String) {
 			if(PlayState.instance.modchartSprites.exists(tag)) {
 				var stuff:ModchartSprite = PlayState.instance.modchartSprites.get(tag);
 				stuff.shader = PlayState.instance.the3DWorldEffect.shader;
