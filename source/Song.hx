@@ -26,7 +26,14 @@ typedef SwagSong =
 	var gfVersion:String;
 	var stage:String;
 
+	var credit:String;
+	var screwYou:String;
+	var ghostTappingAllowed:Bool;
+	var event7:String;
+	var event7Value:String;
+
 	var arrowSkin:String;
+	var playerArrowSkin:String;
 	var splashSkin:String;
 	var validScore:Bool;
 	var autoZoom:Bool;
@@ -41,14 +48,23 @@ class Song
 	public var needsVoices:Bool = true;
 	public var autoZoom:Bool = true;
 	public var arrowSkin:String;
+	public var playerArrowSkin:String = '';
 	public var splashSkin:String;
 	public var speed:Float = 1;
 	public var stage:String;
+	public var ghostTappingAllowed:Bool = true;
+	public var event7:String = '';
+	public var event7Value:String = '';
+	public var credit:String = '';
+	public var screwYou:String = '';
 
 	public var player1:String = 'bf';
 	public var player2:String = 'dad';
 	public var gfVersion:String = 'gf';
 
+	private static function shit(thing:Dynamic):Bool { // sería mejor un String, pero, bah! Qué más da!
+		return (thing.length < 1 || thing == null);
+	}
 	private static function onLoadJson(songJson:Dynamic) // Convert old charts to newest format
 	{
 		if(songJson.gfVersion == null && songJson.player3 != null)
@@ -57,6 +73,16 @@ class Song
 			songJson.player3 = null;
 		}
 
+		if(shit(songJson.playerArrowSkin) && !shit(songJson.arrowSkin))
+			songJson.playerArrowSkin = songJson.arrowSkin;
+
+		if(shit(songJson.event7)) songJson.event7 = '';
+		if(shit(songJson.event7Value)) songJson.event7Value = '';
+		if(shit(songJson.credit)) songJson.credit = '';
+		if(shit(songJson.screwYou)) songJson.screwYou = '';
+		if(songJson.ghostTappingAllowed == null) songJson.ghostTappingAllowed = true;
+
+		/*
 		if(songJson.player1 == null) {
 			if(songJson.boyfriend != null) {
 				songJson.player1 = songJson.boyfriend;
@@ -66,11 +92,12 @@ class Song
 				songJson.bf = null;
 			}
 		}
-		
 		if(songJson.player2 == null && songJson.opponent != null) {
 			songJson.player2 = songJson.opponent;
 			songJson.opponent = null;
 		}
+		*/
+
 		if(songJson.events == null)
 		{
 			songJson.events = [];

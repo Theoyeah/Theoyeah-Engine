@@ -7,11 +7,9 @@
 [![GitHub all releases downloaded](https://img.shields.io/github/downloads/Theoyeah/Theoyeah-Engine/total?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/releases) [![GitHub issues](https://img.shields.io/github/issues/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/Theoyeah/Theoyeah-Engine)](https://github.com/Theoyeah/Theoyeah-Engine/pulls) []() []()
 [![GitHub LICENSE](https://img.shields.io/github/license/Theoyeah/Theoyeah-Engine?style=flat-square)](https://github.com/Theoyeah/Theoyeah-Engine/blob/main/LICENSE) ![GitHub repo size](https://img.shields.io/github/repo-size/Theoyeah/Theoyeah-Engine)  ![Supported platforms](https://img.shields.io/badge/supported%20platforms-windows%2C%20macOS%2C%20linux%2C%20html5-red)
 
-If you're looking for the Dave And Bambi _(original version [**here**](https://github.com/MoldyGH/VsDave), **[Dave Engine here](https://github.com/Erizur/FNF-DaveEngine)**)_ version, go here: [Theoyeah Dave And Bambi Engine ***(BETA)***](https://github.com/Wither362/Theoyeah-Engine-DaveAndBambi).
 
 
-
-# Theoyeah Engine
+# Theoyeah Engine (but for dave and bambi)
 
 Hello, here a (again) new edited version psych engine!
 I will try to add things that Shadow Mario will never do
@@ -25,6 +23,7 @@ If you want to go to the mods list to organizate them, you'll have to go to the 
 
 # What it adds
 
+- Strident Engine things (thanks [**@Joalor64GH**](https://github.com/Joalor64GH)
 - Value 3 for events!
 - NOTESKIN SELECYOR OH YEAHHH (by @Beastlyghost)
 - New Logo

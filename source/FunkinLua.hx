@@ -2948,8 +2948,8 @@ class FunkinLua {
 
 		});
 		Lua_helper.add_callback(lua, "fuckinDaveAndBambi1", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
-			if (ClientPrefs.shaders)
-				PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));
+			/*if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));*/
 
 		});
 		Lua_helper.add_callback(lua, "fuckinDaveAndBambi2", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
@@ -2963,10 +2963,16 @@ class FunkinLua {
 
 		});
 		Lua_helper.add_callback(lua, "glitchEffect", function(camera:String,waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
-			if (ClientPrefs.shaders)
-				PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));
+			/*if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed, waveFrq, waveAmp));*/
 
 		});
+		/*Lua_helper.add_callback(lua, "addGlitchEffect", function(tag:String) {
+			if(PlayState.instance.modchartSprites.exists(tag)) {
+				var stuff:ModchartSprite = PlayState.instance.modchartSprites.get(tag);
+				stuff.shader = PlayState.instance.the3DWorldEffect.shader;
+			}
+		});*/
 		Lua_helper.add_callback(lua, "pulseEffect", function(camera:String, waveSpeed:Float = 0.1, waveFrq:Float = 0.1, waveAmp:Float = 0.1) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new PulseEffect(waveSpeed, waveFrq, waveAmp));

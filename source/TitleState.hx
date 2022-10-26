@@ -144,7 +144,7 @@ class TitleState extends MusicBeatState
 		#if CHECK_FOR_UPDATES
 		if(ClientPrefs.checkForUpdates && !closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/Theoyeah/Theoyeah-Engine/main/gitVersion.txt");
+			var http = new haxe.Http("https://raw.githubusercontent.com/Wither362/Theoyeah-Engine-DaveAndBambi/main/gitVersion.txt");
 			
 			http.onData = function (data:String)
 			{
