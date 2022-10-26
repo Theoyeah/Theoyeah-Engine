@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': DAB Theoyeah Engine" file="TheoyeahEngine" packageName="com.shadowmario.psychengine" package="com.shadowmario.psychengine" main="Main" version="4.0-beta.2" company="Theoyeah" />
+	<app title="Friday Night Funkin': Theoyeah Engine" file="TheoyeahEngine" packageName="com.shadowmario.psychengine" package="com.shadowmario.psychengine" main="Main" version="4.0-beta.2" company="Theoyeah" />
 
 	<!-- NOTE TO SELF: DISABLE THIS IF ISSUES ARE FOUND -->
 	<haxedef name="LINC_LUA_RELATIVE_DYNAMIC_LIB"/> <!-- stable luas PUT AFTER FIRST LINE WITH APP NAME AND ETC -->
@@ -44,7 +44,6 @@
 	<define name="VIDEOS_ALLOWED" if="web || windows" unless="32bits"/>
 	<define name="CHEATING_ALLOWED"/>
 	<define name="NO_CHEATING" unless="CHEATING_ALLOWED"/>
-	<define name="SHADERS_ENABLED" />
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE WATERMARKS/DEV NAMES ON TITLE SCREEN -->
 	<define name="TITLE_SCREEN_EASTER_EGG" if="officialBuild"/> <!-- DELETE THE if="officialBuild" for enabling this on an unofficial build -->
 	<define name="MP3_ALLOWED"/>
