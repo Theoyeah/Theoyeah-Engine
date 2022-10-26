@@ -43,7 +43,6 @@ class ClientPrefs
 	public static var noscore:Bool = false;
 	public static var kadetxt:Bool = false;
 	public static var shaders:Bool = true;
-	public static var eyesores:Bool = true;
 	public static var winningIcon:Bool = true;
 	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
@@ -123,7 +122,6 @@ class ClientPrefs
 
 	public static function saveSettings()
 	{
-		FlxG.save.data.eyesores = eyesores;
 		FlxG.save.data.noteSkin = noteSkin;
 		FlxG.save.data.winningIcon = winningIcon;
 		//FlxG.save.data.multiplicativeValue = multiplicativeValue;
@@ -187,8 +185,6 @@ class ClientPrefs
 
 	public static function loadPrefs()
 	{
-		if(FlxG.save.data.eyesores != null) eyesores = FlxG.save.data.eyesores;
-
 		if (FlxG.save.data.comboStacking != null)
 			comboStacking = FlxG.save.data.comboStacking;
 
