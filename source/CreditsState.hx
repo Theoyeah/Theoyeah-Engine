@@ -29,7 +29,6 @@ class CreditsState extends MusicBeatState
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private var iconArray:Array<AttachedSprite> = [];
 	private var creditsStuff:Array<Array<String>> = [];
-	//var socialButtons:Array<SocialButton> = new Array<SocialButton>();
 
 	var bg:FlxSprite;
 	var descText:FlxText;
@@ -348,14 +347,3 @@ class CreditsState extends MusicBeatState
 		return creditsStuff[num].length <= 1;
 	}
 }
-/*class SocialButton
-{
-	public var graphics:Array<FlxSprite>;
-	public var socialMedia:Social;
-
-	public function new(graphics:Array<FlxSprite>, socialMedia:Social)
-	{
-		this.graphics = graphics;
-		this.socialMedia = socialMedia;
-	}
-}*/

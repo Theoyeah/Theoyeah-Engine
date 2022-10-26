@@ -83,13 +83,6 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
-		var option:Option = new Option('Eyesores',
-			'If checked, you can use eyesores to customize your gameplay!',
-			'eyesores',
-			'bool',
-			true);
-		addOption(option);
-
 		#if !html5
 		var option:Option = new Option('Auto Pause',
 			'If enabled, will pause when the app is unfocused.',

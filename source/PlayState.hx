@@ -6,12 +6,10 @@ import DialogueBoxPsych;
 import FunkinLua;
 import Note.EventNote;
 import Section.SwagSection;
-import Shaders.PulseEffect;
 import Shaders;
 import Song.SwagSong;
 import StageData;
 import WiggleEffect.WiggleEffectType;
-import WiggleEffect;
 import animateatlas.AtlasFrameMaker;
 import editors.CharacterEditorState;
 import editors.ChartingState;
@@ -28,13 +26,7 @@ import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.effects.FlxTrail;
 import flixel.addons.effects.FlxTrailArea;
 import flixel.addons.effects.chainable.FlxEffectSprite;
-import flixel.addons.effects.chainable.FlxGlitchEffect;
-import flixel.addons.effects.chainable.FlxOutlineEffect;
-import flixel.addons.effects.chainable.FlxRainbowEffect;
-import flixel.addons.effects.chainable.FlxShakeEffect;
-import flixel.addons.effects.chainable.FlxTrailEffect;
 import flixel.addons.effects.chainable.FlxWaveEffect;
-import flixel.addons.effects.chainable.IFlxEffect;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.animation.FlxAnimationController;
 import flixel.effects.particles.FlxEmitter;
@@ -70,12 +62,10 @@ import openfl.events.KeyboardEvent;
 import openfl.filters.BitmapFilter;
 import openfl.utils.Assets as OpenFlAssets;
 
-using StringTools;
 #if desktop
 import Discord.DiscordClient;
 #end
-
-#if !flash
+#if !flash 
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 #end
@@ -89,6 +79,7 @@ import sys.io.File;
 import vlc.MP4Handler;
 #end
 
+using StringTools;
 
 class PlayState extends MusicBeatState
 {
@@ -181,7 +172,6 @@ class PlayState extends MusicBeatState
 	public var camFollowPos:FlxObject;
 	private static var prevCamFollow:FlxPoint;
 	private static var prevCamFollowPos:FlxObject;
-	private static var resetSpriteCache:Bool = false;
 
 	public var strumLineNotes:FlxTypedGroup<StrumNote>;
 	public var opponentStrums:FlxTypedGroup<StrumNote>;
@@ -221,17 +211,10 @@ class PlayState extends MusicBeatState
 	public static var changedDifficulty:Bool = false;
 	public static var chartingMode:Bool = false;
 
-
 	//Shaders
 	public var camGameShaders:Array<ShaderEffect> = [];
 	public var camHUDShaders:Array<ShaderEffect> = [];
 	public var camOtherShaders:Array<ShaderEffect> = [];
-	#if SHADERS_ENABLED
-	public static var screenshader:Shaders.PulseEffect = new PulseEffect();
-	public static var lazychartshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
-	//public static var blockedShader:BlockedGlitchEffect;
-	public var dither:DitherEffect = new DitherEffect();
-	#end
 
 	//Gameplay settings
 	public var healthGain:Float = 1;
@@ -285,40 +268,6 @@ class PlayState extends MusicBeatState
 	var grpLimoParticles:FlxTypedGroup<BGSprite>;
 	var grpLimoDancers:FlxTypedGroup<BackgroundDancer>;
 	var fastCar:BGSprite;
-
-	var screwYouTxt:FlxText;
-	var watermarkTxt:FlxText;
-	var ghostTappersOff:Bool = false;
-
-	public static var initiedShaders:Map<String, Bool> = [
-		'wavy' => false,
-		'flag' => false,
-		'pulse' => false,
-		'glitch' => false
-	];
-	public static var allowedShaders:Map<String, Bool> = [
-		'wavy' => false,
-		'flag' => false,
-		'pulse' => false,
-		'glitch' => false
-	];
-	/**
-	 * flag shader
-	 */
-	public static var the3DWorldEffect:WiggleEffect;
-	/**
-	 * wavy shader
-	 */
-	public static var the3DWorldEffectWavy:WiggleEffect;
-	public static var wavyShader:Shaders.PulseEffect = new Shaders.PulseEffect();
-	public static var _glitch:FlxGlitchEffect;
-	var _effectSprite:FlxEffectSprite;
-
-	public static var activeWavy:Bool = false;
-	var wavyBGs:Array<String> = [];
-
-	var disableTheTripper:Bool = false;
-	var disableTheTripperAt:Int;
 
 	var upperBoppers:BGSprite;
 	var bottomBoppers:BGSprite;
@@ -404,9 +353,6 @@ class PlayState extends MusicBeatState
 		// for lua
 		instance = this;
 
-		resetShaders();
-		initiedShaders.set('pulse', true);
-
 		debugKeysChart = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 		debugKeysCharacter = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_2'));
 		PauseSubState.songName = null; //Reset to default
@@ -451,10 +397,6 @@ class PlayState extends MusicBeatState
 		{
 			keysPressed.push(false);
 		}
-
-		wavyBGs = CoolUtil.coolTextFile(Paths.txt('wavyBackgrounds'));
-		wavyShader = new PulseEffect();
-		screenshader = new PulseEffect();
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -501,9 +443,9 @@ class PlayState extends MusicBeatState
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
 
+		#if desktop
 		storyDifficultyText = CoolUtil.difficulties[storyDifficulty];
 
-		#if desktop
 		// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
 		if (isStoryMode)
 		{
@@ -596,78 +538,6 @@ class PlayState extends MusicBeatState
 		boyfriendGroup = new FlxSpriteGroup(BF_X, BF_Y);
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
-
-		resetSpriteCache = false;
-
-		screenshader.waveAmplitude = 0.5;
-		screenshader.waveFrequency = 1;
-		screenshader.waveSpeed = 1;
-		screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
-
-		#if !flash
-		if(!curStage.toLowerCase().replace(' ', '').contains('noshader') && !curStage.toLowerCase().replace(' ', '').contains('noeyesores') && ClientPrefs.shaders) {
-			var wavy:Bool = false;
-			var flag:Bool = false;
-			var daStage:String = curStage.toLowerCase(); // im lazy lol
-
-			if(daStage.contains('wavy') || daStage.contains('3d')) {
-				wavy = true;
-			}
-			if(daStage.contains('flag') || daStage.contains('3d')) {
-				flag = true;
-			}
-			if(daStage.contains('pulse')) {
-				trace('using pulse effect...');
-				/*
-				screenshader.waveAmplitude = 1;
-				screenshader.waveFrequency = 2;
-				screenshader.waveSpeed = 1;
-				screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
-				screenshader.shader.uampmul.value[0] = 0;
-				*/
-				screenshader.Enabled = true;
-				allowedShaders.set('pulse', true);
-				initiedShaders.set('pulse', true);
-			}
-			if(daStage.contains('newPulse')) {
-				trace('using pulse effect...');
-				var pullse:PulseEffect = new PulseEffect();
-				pullse.waveAmplitude = 1;
-				pullse.waveFrequency = 2;
-				pullse.waveSpeed = 1;
-				pullse.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
-				pullse.shader.uampmul.value[0] = 0;
-				addShaderToCamera('game', pullse);
-			}
-			if(flag) {
-				trace('using wiggle effect...');
-				the3DWorldEffect = new WiggleEffect();
-				the3DWorldEffect.effectType = WiggleEffectType.FLAG;
-				the3DWorldEffect.waveAmplitude = 0.1;
-				the3DWorldEffect.waveFrequency = 5;
-				the3DWorldEffect.waveSpeed = 2.25;
-				allowedShaders.set('flag', true);
-				initiedShaders.set('flag', true);
-			}
-			if(wavy) {
-				trace('using pulse effect, and wiggle effect...');
-				wavyShader = new PulseEffect();
-				the3DWorldEffectWavy = new WiggleEffect();
-				the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
-				the3DWorldEffectWavy.waveAmplitude = 0.2;
-				the3DWorldEffectWavy.waveFrequency = 3;
-				the3DWorldEffectWavy.waveSpeed = 1.25;
-				allowedShaders.set('wavy', true);
-				initiedShaders.set('wavy', true);
-			}
-			if(daStage.contains('glitch')) {
-				trace('using glitch effect...');
-				_glitch = new FlxGlitchEffect(10, 2, 0.1);
-				allowedShaders.set('glitch', true);
-				initiedShaders.set('glitch', true);
-			}
-		}
-		#end
 
 		switch (curStage.toLowerCase())
 		{
@@ -1244,15 +1114,7 @@ class PlayState extends MusicBeatState
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
 
-
-		// startCountdown();
-
 		generateSong(SONG.song);
-		if(!SONG.ghostTappingAllowed && ClientPrefs.ghostTapping)
-		{
-			ClientPrefs.ghostTapping = false;
-			ghostTappersOff = true;
-		}
 
 		camFollow = new FlxPoint();
 		camFollowPos = new FlxObject(0, 0, 1, 1);
@@ -1325,40 +1187,6 @@ class PlayState extends MusicBeatState
 		scoreTxt.visible = !ClientPrefs.noscore;
 		add(scoreTxt);
 
-		if(SONG.credit != null) {
-			watermarkTxt = new FlxText(10, FlxG.height - 28, 0, 'By ' + SONG.credit + ' - ' + SONG.song + " - [" + CoolUtil.difficultyString() + "] - Theoyeah Engine", 74);
-		}
-		else {
-			watermarkTxt = new FlxText(10, FlxG.height - 28, 0, SONG.song + " - [" + CoolUtil.difficultyString() + "] - Theoyeah Engine", 74);
-		}
-		watermarkTxt.scrollFactor.set();
-		watermarkTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		watermarkTxt.size = 18;
-		watermarkTxt.updateHitbox();
-		watermarkTxt.alpha = 0.6;
-		add(watermarkTxt);
-
-		if(SONG.screwYou != null && SONG.screwYou.length > 1)
-		{
-			screwYouTxt = new FlxText(10, FlxG.height - 28, 0, SONG.screwYou, 74);
-		}
-		else {
-			screwYouTxt = new FlxText(10, FlxG.height - 28, 0, null, 74);
-		}
-		screwYouTxt.scrollFactor.set();
-		screwYouTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		screwYouTxt.size = 18;
-		screwYouTxt.updateHitbox();
-		screwYouTxt.alpha = 0.6;
-		add(screwYouTxt);
-		screwYouTxt.cameras = [camHUD];
-
-		if(ClientPrefs.hideHud)
-		{
-			watermarkTxt.visible = false;
-			screwYouTxt.visible = false;
-		}
-
 		if(ClientPrefs.crazycounter) {
 			judgementCounter = new FlxText(20, 0, 0, '', 20);
 			judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -1367,9 +1195,10 @@ class PlayState extends MusicBeatState
 			judgementCounter.scrollFactor.set();
 			judgementCounter.cameras = [camHUD];
 			judgementCounter.screenCenter(Y);
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nTotal hit: ${totals}\nCombo: ${combo}\n';
+			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n';
 			add(judgementCounter);
 		}
+
 
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "CHEATING MODE", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -1383,7 +1212,6 @@ class PlayState extends MusicBeatState
 
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
-		watermarkTxt.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
@@ -1617,12 +1445,6 @@ class PlayState extends MusicBeatState
 		CustomFadeTransition.nextCamera = camOther;
 	}
 
-	public static function resetShaders() {
-		if(screenshader != null) {
-			screenshader.shader.uampmul.value[0] = 0;
-			screenshader.Enabled = false;
-		}
-	}
 	#if (!flash && sys)
 	public var runtimeShaders:Map<String, Array<String>> = new Map<String, Array<String>>();
 	public function createRuntimeShader(name:String):FlxRuntimeShader
@@ -1644,7 +1466,7 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	public function initLuaShader(name:String, glslVersion:Int = 120)
+	public function initLuaShader(name:String, ?glslVersion:Int = 120)
 	{
 		if(!ClientPrefs.shaders) return false;
 
@@ -1848,12 +1670,6 @@ class PlayState extends MusicBeatState
 	}
 
 
-	#if !flash
-	/**
-	 * Adds the `effect` shader to the param `cam`
-	 * @param cam it can be `camHud`, `hud`, `camOther`, `other`, `camGame`, `game`
-	 * @param effect 
-	 */
 	public function addShaderToCamera(cam:String, effect:ShaderEffect) {//STOLE FROM ANDROMEDA AND PSYCH ENGINE 0.5.1 WITH SHADERS
 		if(!ClientPrefs.shaders) return;
 
@@ -1891,40 +1707,33 @@ class PlayState extends MusicBeatState
 				}
 		}
 	}
-	/**
-	 * removes the `effect` shader to the param `cam`
-	 * @param cam it can be `camHud`, `hud`, `camOther`, `other`, `camGame`, `game`
-	 * @param effect 
-	 */
+
 	public function removeShaderFromCamera(cam:String, effect:ShaderEffect) {
 		switch(cam.toLowerCase()) {
 			case 'camhud' | 'hud':
 				camHUDShaders.remove(effect);
 				var newCamEffects:Array<BitmapFilter> = [];
-				for(shader in camHUDShaders) {
-					newCamEffects.push(new ShaderFilter(shader.shader));
+				for(i in camHUDShaders) {
+					newCamEffects.push(new ShaderFilter(i.shader));
 				}
 				camHUD.setFilters(newCamEffects);
 			case 'camother' | 'other':
 				camOtherShaders.remove(effect);
 				var newCamEffects:Array<BitmapFilter> = [];
-				for (shader in camOtherShaders) {
-					newCamEffects.push(new ShaderFilter(shader.shader));
+				for (i in camOtherShaders) {
+					newCamEffects.push(new ShaderFilter(i.shader));
 				}
 				camOther.setFilters(newCamEffects);
 			default:
 				camGameShaders.remove(effect);
 				var newCamEffects:Array<BitmapFilter> = [];
-				for(shader in camGameShaders) {
-					newCamEffects.push(new ShaderFilter(shader.shader));
+				for(i in camGameShaders) {
+					newCamEffects.push(new ShaderFilter(i.shader));
 				}
 				camGame.setFilters(newCamEffects);
 		}
 	}
-	/**
-	 * Clears the effects of the param `cam`
-	 * @param cam it can be `camHud`, `hud`, `camOther`, `other`, `camGame`, `game`
-	 */
+
 	public function clearShaderFromCamera(cam:String) {
 		switch(cam.toLowerCase()) {
 			case 'camhud' | 'hud':
@@ -1941,14 +1750,6 @@ class PlayState extends MusicBeatState
 				camGame.setFilters(newCamEffects);
 		}
 	}
-	#else
-	public function addshaderToCamera(a:Dynamic, b:Dynamic)
-		return;
-	public function removeShaderToCamera(a:Dynamic, b:Dynamic)
-		return;
-	public function clearShaderFromCamera(a:Dynamic, b:Dynamic)
-		return;
-	#end
 
  	public function getLuaObject(tag:String, text:Bool = true, tryLowerCase:Bool = true, tryUpperCase:Bool = true):FlxSprite {
  		if(modchartSprites.exists(tag)) return modchartSprites.get(tag);
@@ -1966,11 +1767,12 @@ class PlayState extends MusicBeatState
  			if(text && modchartTexts.exists(tag.toUpperCase())) return modchartTexts.get(tag.toUpperCase());
 			if(variables.exists(tag.toUpperCase())) return variables.get(tag.toUpperCase());
 		}
+ 		
 
  		return null;
  	}
 
-	function startCharacterPos(char:Character, gfCheck:Bool = false) {
+	function startCharacterPos(char:Character, ?gfCheck:Bool = false) {
 		if(gfCheck && char.curCharacter.startsWith('gf')) { //IF DAD IS GIRLFRIEND, HE GOES TO HER POSITION
 			char.setPosition(GF_X, GF_Y);
 			char.scrollFactor.set(0.95, 0.95);
@@ -1980,7 +1782,7 @@ class PlayState extends MusicBeatState
 		char.y += char.positionArray[1];
 	}
 
-	public function startVideo(name:String, ignoreMkv:Bool = false):Void {
+	public function startVideo(name:String, ?ignoreMkv:Bool = false):Void {
 		#if VIDEOS_ALLOWED
 		inCutscene = true;
 
@@ -2030,9 +1832,7 @@ class PlayState extends MusicBeatState
 
 	var dialogueCount:Int = 0;
 	public var psychDialogue:DialogueBoxPsych;
-	/**
-	 * You don't have to add a song, just saying. You can just do `startDialogue(dialogueJson);` and it should work
-	 */
+	//You don't have to add a song, just saying. You can just do "startDialogue(dialogueJson);" and it should work
 	public function startDialogue(dialogueFile:DialogueFile, ?song:String = null):Void
 	{
 		// TO DO: Make this more flexible, maybe?
@@ -2503,7 +2303,6 @@ class PlayState extends MusicBeatState
 			for (i in 0...playerStrums.length) {
 				setOnLuas('defaultPlayerStrumX' + i, playerStrums.members[i].x);
 				setOnLuas('defaultPlayerStrumY' + i, playerStrums.members[i].y);
-				playerStrums.members[i].texture = SONG.playerArrowSkin; // YEAH!! I FUCKING FINALLY DID IT!!!
 			}
 			for (i in 0...opponentStrums.length) {
 				setOnLuas('defaultOpponentStrumX' + i, opponentStrums.members[i].x);
@@ -2517,6 +2316,7 @@ class PlayState extends MusicBeatState
 			callOnLuas('onCountdownStarted', []);
 
 			var swagCounter:Int = 0;
+
 
 			if(startOnTime < 0) startOnTime = 0;
 
@@ -2751,8 +2551,7 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.pause();
 		vocals.pause();
 
-		if(FlxG.sound.music.time != time)
-			FlxG.sound.music.time = time;
+		FlxG.sound.music.time = time;
 		FlxG.sound.music.pitch = playbackRate;
 		FlxG.sound.music.play();
 
@@ -2835,16 +2634,12 @@ class PlayState extends MusicBeatState
 		#if CHEATING_ALLOWED
 		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype', 'multiplicative');
 
-		switch(songSpeedType.replace(' ', '').replace('-', ''))
+		switch(songSpeedType)
 		{
 			case "multiplicative":
 				songSpeed = SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed', 1);
 			case "constant":
 				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed', 1);
-			case 'inversedmultiplicative':
-				songSpeed = -SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed', 1);
-			case 'inversedconstant':
-				songSpeed = -ClientPrefs.getGameplaySetting('scrollspeed', 1);
 		}
 		#else
 		songSpeed = SONG.speed;
@@ -3149,8 +2944,7 @@ class PlayState extends MusicBeatState
 			if (player < 1)
 			{
 				if(ClientPrefs.opponentStrums
-				   || ClientPrefs.middleScroll)
-					targetAlpha = 0;
+				   || ClientPrefs.middleScroll) targetAlpha = 0;
 			}
 
 			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
@@ -3315,40 +3109,10 @@ class PlayState extends MusicBeatState
 	{
 		callOnLuas('onUpdate', [elapsed]);
 
-		#if SHADERS_ENABLED
-		FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
-		#end
-
-		if(activeWavy && allowedShaders.get('wavy') && ClientPrefs.shaders)
-		{
-			wavyShader.update(elapsed);
-		}
-		/*if(allowedShaders.get('flag'))
-			the3DWorldEffect.update(elapsed);
-
-		if(allowedShaders.get('wavy')) {
-			the3DWorldEffectWavy.update(elapsed);
-		}*/
-
-		if(disableTheTripperAt == curStep || isDead)
-		{
-			disableTheTripper = true;
-		}
-
-		if(disableTheTripper) // so, this disables shaders?
-		{
-			screenshader.shader.uampmul.value[0] -= (elapsed / 2);
-		} else {
-			FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
-			screenshader.update(elapsed);
-		}
-
-		for (shader in shaderUpdates) {
-			shader(elapsed);
-		}
+		#if !debug
 		if(cpuControlled && !botplayTxt.visible)
 			botplayTxt.visible = true; // NO MORE FAKE VIDEOS!!
-
+		#end
 
 		if (FlxG.keys.justPressed.NINE)
 			iconP1.swapOldIcon();
@@ -3502,9 +3266,9 @@ class PlayState extends MusicBeatState
 		setOnLuas('curDecStep', curDecStep);
  		setOnLuas('curDecBeat', curDecBeat);
 
-
+		#if NO_CHEATING
 		botplayTxt.visible = cpuControlled;
-
+		#end
 		if(botplayTxt.visible) {
 			botplaySine += 180 * elapsed;
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
@@ -3518,35 +3282,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene) {
-			if(SONG.event7 != null) {
-				switch (SONG.event7)
-				{
-					case "Game Over":
-						health = 0;
-					case "Go to Song":
-						SONG = Song.loadFromJson(SONG.event7Value, SONG.event7Value);
-						MusicBeatState.resetState();
-					case "Close Game":
-						System.exit(0);
-					case "Play Video":
-						updateTime = false;
-						FlxG.sound.music.volume = 0;
-						vocals.volume = 0;
-						vocals.stop();
-						FlxG.sound.music.stop();
-						KillNotes();
-
-						var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-						add(bg);
-						bg.cameras = [camHUD];
-						startVideo(SONG.event7Value);
-					default:
-						openChartEditor();
-				}
-			} else
-				openChartEditor();
-		}
+		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene)
+			openChartEditor();
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
@@ -3653,7 +3390,7 @@ class PlayState extends MusicBeatState
 			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
 		}
 
-
+		
 		if (startedCountdown)
 		{
 			Conductor.songPosition += FlxG.elapsed * 1000 * playbackRate;
@@ -4378,7 +4115,7 @@ class PlayState extends MusicBeatState
 				if(bgGirls != null) bgGirls.swapDanceType();
 			case 'Change Scroll Speed':
 				#if CHEATING_ALLOWED
-				if (songSpeedType == 'constant')
+				if (songSpeedType == "constant")
 					return;
 				#end
 				var val1:Float = Std.parseFloat(value1);
@@ -4437,7 +4174,7 @@ class PlayState extends MusicBeatState
 					boolEffects.push(effect.toLowerCase().replace(' ', ''));
 				}
 				var camera:String = value2.trim();
-				switch(theValue1.replace(' ', '').replace('_', '').replace('-', '')) {
+				switch(theValue1.replace(' ', '')) {
 					case 'chromaticeffect':
 						addShaderToCamera(camera, new ChromaticAberrationEffect(Std.parseFloat(theEffects[0])));
 					case 'scanlineeffect':
@@ -4448,8 +4185,8 @@ class PlayState extends MusicBeatState
 						addShaderToCamera(camera, new TiltshiftEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1])));
 					case 'vcreffect':
 						addShaderToCamera(camera, new VCRDistortionEffect(Std.parseFloat(theEffects[0]), boolEffects[1] == "true", boolEffects[2] == "true", boolEffects[3] == "true"));
-					/*case 'fuckindaveandbambi1' | 'glitcheffect':
-						addShaderToCamera(camera, new GlitchEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1]), Std.parseFloat(theEffects[2])));*/
+					case 'fuckindaveandbambi1' | 'glitcheffect':
+						addShaderToCamera(camera, new GlitchEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1]), Std.parseFloat(theEffects[2])));
 					case 'fuckindaveandbambi2' | 'pulseeffect':
 						addShaderToCamera(camera, new PulseEffect(Std.parseFloat(theEffects[0]), Std.parseFloat(theEffects[1]), Std.parseFloat(theEffects[2])));
 					case 'fuckindaveandbambi3' | 'distortbgeffect':
@@ -4469,155 +4206,6 @@ class PlayState extends MusicBeatState
 				clearShaderFromCamera(value1.trim());
 			/*case 'Remove Shader':
 				removeShaderFromCamera(value1.trim(), value2);*/
-			case 'Disable Botplay':
-				cpuControlled = false;
-				botplayTxt.visible = false;
-			case 'Random Botplay Text':
-				if(theValue1.replace(' ', '').length > 0) {
-					var theValues = theValue1.replace(' ', '').split(',');
-					botplayTxt.text = theValues[FlxG.random.int(0, theValues.length-1)];
-				}
-			case 'Move Window':
-				if(!lime.app.Application.current.window.minimized)
-					lime.app.Application.current.window.minimized = true;
-				if(lime.app.Application.current.window.fullscreen)
-					lime.app.Application.current.window.fullscreen = false;
-				if(lime.app.Application.current.window.maximized)
-					lime.app.Application.current.window.maximized = false;
-				lime.app.Application.current.window.move(Std.parseInt(theValue1), Std.parseInt(theValue2));
-			case 'Toggle Minimize Window':
-				var vaaa = theValue1.replace(' ', '');
-				lime.app.Application.current.window.minimized = (vaaa == 'true' || vaaa == '1' || vaaa == 'on' || vaaa == 'yes');
-			case 'Toggle Maximize Window':
-				var vaaa = theValue1.replace(' ', '');
-				lime.app.Application.current.window.maximized = (vaaa == 'true' || vaaa == '1' || vaaa == 'on' || vaaa == 'yes');
-			case 'Popup':
-				var title:String = value1;
-				var message:String = value2;
-				FlxG.sound.music.pause();
-				vocals.pause();
-
-				lime.app.Application.current.window.alert(message, title);
-				FlxG.sound.music.resume();
-				vocals.resume();
-			case 'Popup (No Pause)':
-				var title:String = value1;
-				var message:String = value2;
-
-				lime.app.Application.current.window.alert(message, title);
-			case '"Screw you!" Text Change' | 'Screw you! Text Change':
-				var text:String = value1;
-
-				screwYouTxt.text = text;
-				if(screwYouTxt.text == null || screwYouTxt.text == "")
-				{
-					watermarkTxt.y = FlxG.height - 28;
-				}
-				else
-				{
-					watermarkTxt.y = FlxG.height - 50;
-				}
-
-			case 'Rainbow Eyesore':
-				#if !flash
-				if(ClientPrefs.eyesores && allowedShaders.get('pulse')) {
-					var timeRainbow:Int = Std.parseInt(theValue1);
-					var speedRainbow:Float = Std.parseFloat(theValue2);
-					disableTheTripper = false;
-					disableTheTripperAt = timeRainbow;
-					FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
-					screenshader.waveAmplitude = 1;
-					screenshader.waveFrequency = 2;
-					screenshader.waveSpeed = speedRainbow;
-					screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
-					screenshader.shader.uampmul.value[0] = 1;
-					screenshader.Enabled = true;
-				}
-				#else
-				trace('unsuported platform!');
-				#end
-			case 'Activate Shader':
-				#if !flash
-				var daEffects = value1.replace(' ', '').toLowerCase().split(',');
-				if(daEffects.contains('flag') && !allowedShaders.get('flag')) {
-					if(!initiedShaders.get('flag')) {
-						trace('using wiggle effect type flag...');
-						the3DWorldEffect = new WiggleEffect();
-						the3DWorldEffect.effectType = WiggleEffectType.FLAG;
-						initiedShaders.set('flag', true);
-					}
-					trace('activating wiggle effect type flag...');
-					the3DWorldEffect.waveAmplitude = 0.1;
-					the3DWorldEffect.waveFrequency = 5;
-					the3DWorldEffect.waveSpeed = 2.25;
-					allowedShaders.set('flag', true);
-				}
-				if(daEffects.contains('pulse') && !allowedShaders.get('pulse')) {
-					if(!initiedShaders.get('pulse')) {
-						trace('using pulse effect...');
-						screenshader = new PulseEffect();
-						initiedShaders.set('pulse', true);
-					}
-					trace('activating pulse effect...');
-					FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]);
-					/*
-					screenshader.waveAmplitude = 1;
-					screenshader.waveFrequency = 2;
-					screenshader.waveSpeed = 1;
-					screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
-					screenshader.shader.uampmul.value[0] = 0;
-					*/
-					screenshader.Enabled = true;
-					allowedShaders.set('pulse', true);
-				}
-				if(daEffects.contains('wavy') && !allowedShaders.get('wavy')) {
-					if(!initiedShaders.get('wavy')) {
-						trace('using wiggle effect type wavy...');
-						the3DWorldEffectWavy = new WiggleEffect();
-						the3DWorldEffectWavy.effectType = WiggleEffectType.WAVY;
-						initiedShaders.set('wavy', true);
-					}
-					trace('activating wiggle effect type wavy...');
-					the3DWorldEffectWavy.waveAmplitude = 0.2;
-					the3DWorldEffectWavy.waveFrequency = 3;
-					the3DWorldEffectWavy.waveSpeed = 1.25;
-					allowedShaders.set('wavy', true);
-				}
-				#else
-				trace('unsuported platform!');
-				#end
-			case 'Deactivate Shader':
-				#if !flash
-				var daEffects = value1.replace(' ', '').toLowerCase().split(',');
-				if (daEffects.contains('flag') && allowedShaders.get('flag')) {
-					trace('deactivated wiggle effect type flag...');
-					the3DWorldEffect.waveAmplitude = 0;
-					the3DWorldEffect.waveFrequency = 0;
-					the3DWorldEffect.waveSpeed = 0;
-					allowedShaders.set('flag', false);
-				}
-				if (daEffects.contains('pulse') && allowedShaders.get('pulse')) {
-					trace('deactivating pulse effect...');
-					/*
-					screenshader.waveAmplitude = 0;
-					screenshader.waveFrequency = 0;
-					screenshader.waveSpeed = 0;
-					screenshader.shader.uTime.value[0] = 0;
-					screenshader.shader.uampmul.value[0] = 0;
-					*/
-					screenshader.Enabled = false;
-					allowedShaders.set('pulse', false);
-				}
-				if (daEffects.contains('wavy') && allowedShaders.get('wavy')) {
-					trace('deactivating wiggle effect type wavy...');
-					the3DWorldEffectWavy.waveAmplitude = 0;
-					the3DWorldEffectWavy.waveFrequency = 0;
-					the3DWorldEffectWavy.waveSpeed = 0;
-					allowedShaders.set('wavy', false);
-				}
-				#else
-				trace('unsuported platform!');
-				#end
 		}
 		callOnLuas('onEvent', [eventName, value1, value2, value3]);
 	}
@@ -4682,9 +4270,9 @@ class PlayState extends MusicBeatState
 		camFollowPos.setPosition(x, y);
 	}
 
-	public function finishSong(ignoreNoteOffset:Bool = false):Void
+	public function finishSong(?ignoreNoteOffset:Bool = false):Void
 	{
-		var finishCallback:Void->Void = endSong; // In case you want to change it in a specific song.
+		var finishCallback:Void->Void = endSong; //In case you want to change it in a specific song.
 
 		updateTime = false;
 		FlxG.sound.music.volume = 0;
@@ -5854,12 +5442,6 @@ class PlayState extends MusicBeatState
 
 
 	override function destroy() {
-		if (ghostTappersOff)
-		{
-			ClientPrefs.ghostTapping = true;
-			ghostTappersOff = false;
-		}
-
 		for (lua in luaArray) {
 			lua.call('onDestroy', []);
 			lua.stop();
@@ -6181,7 +5763,7 @@ class PlayState extends MusicBeatState
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
 		if (ClientPrefs.crazycounter) {
-			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nTotal hit: ${totals}\nCombo: ${combo}\n';
+			judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\n';//\nTotal hit: ${totals}\n;
 		}
 	}
 
