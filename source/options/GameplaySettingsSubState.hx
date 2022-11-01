@@ -74,7 +74,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
-		var option:Option = new Option('Resume Time',
+		/*var option:Option = new Option('Resume Time',
 			'How many seconds should the resume button\nwait when clicked?',
 			'resumeTime',
 			'float',
@@ -84,7 +84,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 100;
 		option.changeValue = 0.1;
 		option.displayFormat = "%vsec";
-		addOption(option);
+		addOption(option);*/
 
 		var option:Option = new Option('Disable Reset Button',
 			"If checked, pressing Reset won't do anything.",
