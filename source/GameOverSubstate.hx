@@ -92,13 +92,6 @@ class GameOverSubstate extends MusicBeatSubstate
 			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 		}
 
-		if (ClientPrefs.instantRespawn)
-		{
-			trace('game over skipped');
-			WeekData.loadTheFirstEnabledMod();
-			LoadingState.loadAndSwitchState(new PlayState(), true);
-		}
-
 		if (controls.ACCEPT)
 			endBullshit();
 
