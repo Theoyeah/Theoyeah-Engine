@@ -1342,8 +1342,8 @@ class PlayState extends MusicBeatState
 						}
 					});
 					FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
-					if(gf != null && gf.contains('scared')) gf.playAnim('scared', true);
-					if(boyfriend.contains('scared')) boyfriend.playAnim('scared', true);
+					if(gf != null) gf.playAnim('scared', true);
+					boyfriend.playAnim('scared', true);
 
 				case "winter-horrorland":
 					var blackScreen:FlxSprite = new FlxSprite().makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
@@ -3017,41 +3017,49 @@ class PlayState extends MusicBeatState
 	{
 		if (paused)
 		{
-			new FlxTimer().start(ClientPrefs.resumeTime, function(tmr:FlxTimer) {
-				if (FlxG.sound.music != null && !startingSong)
-					resyncVocals();
-	
-				if (startTimer != null && !startTimer.finished)
-					startTimer.active = true;
-				if (finishTimer != null && !finishTimer.finished)
-					finishTimer.active = true;
-				if (songSpeedTween != null)
-					songSpeedTween.active = true;
-	
-				if(carTimer != null) carTimer.active = true;
-	
-				var chars:Array<Character> = [boyfriend, gf, dad];
-				for (char in chars) {
-					if(char != null && char.colorTween != null)
-						char.colorTween.active = true;
-				}
-	
-				for (tween in modchartTweens) {
-					tween.active = true;
-				}
-				for (timer in modchartTimers) {
-					timer.active = true;
-				}
-				paused = false;
-				callOnLuas('onResume', []);
-	
-				#if desktop
-				if (startTimer != null && startTimer.finished)
-					DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
-				else
-					DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
-				#end
-			});
+			if (FlxG.sound.music != null && !startingSong)
+				resyncVocals();
+
+			if (startTimer != null && !startTimer.finished)
+				startTimer.active = true;
+			if (finishTimer != null && !finishTimer.finished)
+				finishTimer.active = true;
+			if (songSpeedTween != null)
+				songSpeedTween.active = true;
+
+			if (carTimer != null)
+				carTimer.active = true;
+
+			var chars:Array<Character> = [boyfriend, gf, dad];
+			for (char in chars)
+			{
+				if (char != null && char.colorTween != null)
+					char.colorTween.active = true;
+			}
+
+			for (tween in modchartTweens)
+			{
+				tween.active = true;
+			}
+			for (timer in modchartTimers)
+			{
+				timer.active = true;
+			}
+			paused = false;
+			callOnLuas('onResume', []);
+
+			#if desktop
+			if (startTimer != null && startTimer.finished)
+				DiscordClient.changePresence(detailsText, SONG.song
+					+ " ("
+					+ storyDifficultyText
+					+ ")", iconP2.getCharacter(), true,
+					songLength
+					- Conductor.songPosition
+					- ClientPrefs.noteOffset);
+			else
+				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+			#end
 		}
 
 		super.closeSubState();
@@ -3390,7 +3398,6 @@ class PlayState extends MusicBeatState
 			MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
 		}
 
-		
 		if (startedCountdown)
 		{
 			Conductor.songPosition += FlxG.elapsed * 1000 * playbackRate;
@@ -5037,7 +5044,7 @@ class PlayState extends MusicBeatState
 				char = gf;
 			}
 
-			if(char != null && char.contains(animToPlay))
+			if(char != null)
 			{
 				char.playAnim(animToPlay, true);
 				char.holdTimer = 0;
@@ -5171,29 +5178,24 @@ class PlayState extends MusicBeatState
 
 				if(note.gfNote) 
 				{
-					if(gf != null && gf.contains(animToPlay + note.animSuffix)) {
+					if(gf != null) {
 						gf.playAnim(animToPlay + note.animSuffix, true);
 						gf.holdTimer = 0;
 					}
 				}
 				else
 				{
-					if(boyfriend.contains(animToPlay + note.animSuffix)) {
-						boyfriend.playAnim(animToPlay + note.animSuffix, true);
-						boyfriend.holdTimer = 0;
-					}
+					boyfriend.playAnim(animToPlay + note.animSuffix, true);
+					boyfriend.holdTimer = 0;
 				}
 
 				if(note.noteType == 'Hey!') {
-					if(boyfriend.contains('hey')) {
 						boyfriend.playAnim('hey', true);
 						boyfriend.specialAnim = true;
 						boyfriend.heyTimer = 0.6;
-					}
 
-					if(gf != null && (gf.contains('cheer') || gf.contains('hey'))) {
-						if(gf.contains('cheer')) gf.playAnim('cheer', true);
-						else gf.playAnim('hey', true);
+					if(gf != null && gf.animOffsets.exists('cheer')) {
+						gf.playAnim('cheer', true);
 
 						gf.specialAnim = true;
 						gf.heyTimer = 0.6;

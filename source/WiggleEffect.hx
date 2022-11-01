@@ -42,7 +42,6 @@ class WiggleEffect
 		if(this.waveAmplitude != waveAmplitude)
 			this.waveAmplitude = waveAmplitude;
 		shader.uTime.value = [0];
-		PlayState.instance.shaderUpdates.push(update);
 	}
 
 	public function update(elapsed:Float):Void
