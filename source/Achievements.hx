@@ -51,14 +51,13 @@ class Achievements {
 		["Just the Two of Us",				"Finish a Song pressing only two keys.",			'two_keys',				null,			false],
 		["Toaster Gamer",				"Have you tried to run the game on a toaster?",			'toastie',				null,			false],
 		["Debugger",					"Beat the \"Test\" Stage from the Chart Editor.",		'debugger',				null,			true],
-		["Not Freaky on a Friday Night",		"Play on a Saturday... Night ?",				'saturday_night_play',			null,			true]
+		["Not Freaky on a Friday Night",		"Play on a Saturday... Night?",				'saturday_night_play',			null,			true]
 	];
 
 	/**
 	 * Gets filled when loading achievements
 	 */
-	public static var achievementsStuff:Array<Dynamic> = [
-	];
+	public static var achievementsStuff:Array<Dynamic> = [];
 
 	public static var achievementsMap:Map<String, Bool> = new Map<String, Bool>();
 	public static var loadedAchievements:Map<String, AchievementFile> = new Map<String, AchievementFile>();
@@ -103,7 +102,7 @@ class Achievements {
 			}
 		}
 	}
-	public static function reloadAchievements() { //Achievements in game are hardcoded, no need to make a folder for them 
+	public static function reloadAchievements() { //Achievements in game are hardcoded, no need to make a folder for them -Wither: suck my balls!
 		loadedAchievements.clear();
 
 		#if MODS_ALLOWED //Based on WeekData.hx
@@ -147,8 +146,7 @@ class Achievements {
 
 			//trace(directory);
 			if (FileSystem.exists(directory)) {
-
-				var listOfAchievements:Array<String> = CoolUtil.coolTextFile(directory + 'achievementList.txt');
+				var listOfAchievements:Array<String> = CoolUtil.coolTextFile((directory.endsWith('/') ? directory : directory + '/') + 'achievementList.txt');
 
 				for (achievement in listOfAchievements) {
 					var path:String = directory + achievement + '.json';
@@ -226,11 +224,11 @@ class AttachedAchievement extends FlxSprite {
  	{
  		if (Achievements.isAchievementUnlocked(tag) && FlxG.save.data.achievementsMap)
  		{
- 				var savedStuff:Map<String, String> = FlxG.save.data.achievementsMap;
- 				if (savedStuff.exists(tag))
- 					savedStuff.remove(tag);
- 				FlxG.save.data.achievementsMap = savedStuff;
- 				loadGraphic(Paths.image('achievements/lockedachievement'));
+ 			var savedStuff:Map<String, String> = FlxG.save.data.achievementsMap;
+ 			if (savedStuff.exists(tag))
+ 				savedStuff.remove(tag);
+ 			FlxG.save.data.achievementsMap = savedStuff;
+ 			loadGraphic(Paths.image('achievements/lockedachievement'));
 		}
 	}
 

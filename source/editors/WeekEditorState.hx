@@ -258,7 +258,7 @@ class WeekEditorState extends MusicBeatState
 		
 		tab_group.add(new FlxText(weekBeforeInputText.x, weekBeforeInputText.y - 28, 0, 'Week File name of the Week you have\nto finish for Unlocking:'));
 		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y - 20, 0, 'Difficulties:'));
-		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y + 20, 0, 'Default difficulties are "Easy, Normal, Hard, \nFucked, Erect" without quotes.'));
+		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y + 20, 0, 'Default difficulties are "Easy, Normal, Hard, FUCKED" without quotes.')); // Erect for week 8, but for now, not
 		tab_group.add(weekBeforeInputText);
 		tab_group.add(difficultiesInputText);
 		tab_group.add(hiddenUntilUnlockCheckbox);
@@ -514,7 +514,7 @@ class WeekEditorState extends MusicBeatState
 	}
 
 	/**
-	 * Called when the save file dialog is cancelled.
+	 * Called when the save file is cancelled.
 	 */
 	private static function onLoadCancel(_):Void
 	{
@@ -559,7 +559,7 @@ class WeekEditorState extends MusicBeatState
 	}
 
 	/**
-	 * Called when the save file dialog is cancelled.
+	 * Called when the save file is cancelled.
 	 */
 	private static function onSaveCancel(_):Void
 	{
@@ -610,10 +610,11 @@ class WeekEditorFreeplayState extends MusicBeatState
 
 		for (i in 0...weekFile.songs.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, weekFile.songs[i][0], true, false);
+			var songText:Alphabet = new Alphabet(90, 320, weekFile.songs[i][0], true);
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpSongs.add(songText);
+			songText.snapToPosition();
 
 			var icon:HealthIcon = new HealthIcon(weekFile.songs[i][1]);
 			icon.sprTracker = songText;

@@ -74,6 +74,18 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
+		/*var option:Option = new Option('Resume Time',
+			'How many seconds should the resume button\nwait when clicked?',
+			'resumeTime',
+			'float',
+			3);
+		option.scrollSpeed = 5;
+		option.minValue = 0.5;
+		option.maxValue = 100;
+		option.changeValue = 0.1;
+		option.displayFormat = "%vsec";
+		addOption(option);*/
+
 		var option:Option = new Option('Disable Reset Button',
 			"If checked, pressing Reset won't do anything.",
 			'noReset',
@@ -102,7 +114,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			true);
 		addOption(option);
 
-        var option:Option = new Option('Hide Opponent Notes',
+		var option:Option = new Option('Hide Opponent Notes',
 			'If checked, opponent notes get hidden.',
 			'opponentStrums',
 			'bool',

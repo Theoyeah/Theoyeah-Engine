@@ -283,7 +283,7 @@ class Note extends FlxSprite
 			shader = colorSwap.shader;
 
 			x += swagWidth * (noteData);
-			if(!isSustainNote && noteData > -1 && noteData < 4) { //Doing this 'if' check to fix the warnings on Senpai songs
+			if(!isSustainNote && noteData < 4) { //Doing this 'if' check to fix the warnings on Senpai songs
 				var animToPlay:String = '';
 				animToPlay = colArray[noteData % 4];
 				animation.play(animToPlay + 'Scroll');
@@ -373,14 +373,14 @@ class Note extends FlxSprite
 		if(PlayState.isPixelStage) {
 			var notefile:String = 'pixelUI/$blahblah';
 			if(isSustainNote) {
-				//if(!Paths.fileExists(notefile + 'ENDS', IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
+				//if(!Paths.fileExists('images/' + notefile + 'ENDS', IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
 				loadGraphic(Paths.image(notefile + 'ENDS'));
 				width = width / 4;
 				height = height / 2;
 				originalHeightForCalcs = height;
 				loadGraphic(Paths.image(notefile + 'ENDS'), true, Math.floor(width), Math.floor(height));
 			} else {
-				//if(!Paths.fileExists(notefile, IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
+				//if(!Paths.fileExists('images/' + notefile, IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
 				loadGraphic(Paths.image(notefile));
 				width = width / 4;
 				height = height / 5;
