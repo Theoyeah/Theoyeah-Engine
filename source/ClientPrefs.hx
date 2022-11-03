@@ -188,6 +188,7 @@ class ClientPrefs
 	{
 		if (FlxG.save.data.comboStacking != null)
 			comboStacking = FlxG.save.data.comboStacking;
+
 		if(FlxG.save.data.noteSkin != null)
 		{
 			noteSkin = FlxG.save.data.noteSkin;

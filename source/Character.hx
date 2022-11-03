@@ -299,7 +299,7 @@ class Character extends FlxSprite
 					holdTimer += elapsed;
 				}
 
-				if (holdTimer >= Conductor.stepCrochet * (0.0011 / (FlxG.sound.music != null ? FlxG.sound.music.pitch : 1)) * singDuration)
+				if (holdTimer >= Conductor.stepCrochet * (0.0011 * (FlxG.sound.music != null ? FlxG.sound.music.pitch : 1)) * singDuration)
 				{
 					dance();
 					holdTimer = 0;
@@ -341,8 +341,8 @@ class Character extends FlxSprite
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
 		specialAnim = false;
-		if(contains(AnimName))
-			animation.play(AnimName, Force, Reversed, Frame);
+
+		animation.play(AnimName, Force, Reversed, Frame);
 
 		var daOffset = animOffsets.get(AnimName);
 		if (animOffsets.exists(AnimName))
