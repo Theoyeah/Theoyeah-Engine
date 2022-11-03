@@ -130,8 +130,8 @@ class Character extends FlxSprite
 				var modTxtToFind:String = Paths.modsTxt(json.image);
 				var txtToFind:String = Paths.getPath('images/' + json.image + '.txt', TEXT);
 
-				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
-				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
+				//var modTextureToFind:String = Paths.modFolders('images/' + json.image);
+				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType());
 
 				if (FileSystem.exists(modTxtToFind) || FileSystem.exists(txtToFind) || Assets.exists(txtToFind))
 				#else
@@ -277,7 +277,7 @@ class Character extends FlxSprite
 				specialAnim = false;
 				dance();
 			}
-			switch(curCharacter)
+			switch(curCharacter) // characters that "play" notes
 			{
 				case 'pico-speaker':
 					if(animationNotes.length > 0 && Conductor.songPosition > animationNotes[0][0])
@@ -333,7 +333,7 @@ class Character extends FlxSprite
 					playAnim('danceLeft' + idleSuffix);
 			}
 			else if(animation.getByName('idle' + idleSuffix) != null) {
-					playAnim('idle' + idleSuffix);
+				playAnim('idle' + idleSuffix);
 			}
 		}
 	}
@@ -372,7 +372,7 @@ class Character extends FlxSprite
 
 	function loadMappedAnims():Void
 	{
-		var noteData:Array<SwagSection> = Song.loadFromJson('picospeaker', Paths.formatToSongPath(PlayState.SONG.song)).notes;
+		var noteData:Array<SwagSection> = Song.loadFromJson(curCharacter.replace('-', ''), Paths.formatToSongPath(PlayState.SONG.song)).notes;
 		for (section in noteData) {
 			for (songNotes in section.sectionNotes) {
 				animationNotes.push(songNotes);
@@ -391,7 +391,7 @@ class Character extends FlxSprite
 	private var settingCharacterUp:Bool = true;
 	public function recalculateDanceIdle() {
 		var lastDanceIdle:Bool = danceIdle;
-		danceIdle = (animation.getByName('danceLeft' + idleSuffix) != null && animation.getByName('danceRight' + idleSuffix) != null);
+		danceIdle = ((animation.getByName('danceLeft' + idleSuffix) != null && animation.getByName('danceRight' + idleSuffix) != null));
 
 		if(settingCharacterUp)
 		{
