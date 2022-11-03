@@ -107,6 +107,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 
 	#if desktop
 	function onChangeDiscord() {
+		ClientPrefs.saveSettings();
 		//MusicBeatState.switchState(new TitleState());
 		TitleState.initialized = false;
 		TitleState.closedState = false;
@@ -134,7 +135,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 
 	function onChangeFramerate()
 	{
-		if(ClientPrefs.framerate > FlxG.drawFramerate)
+		if(ClientPrefs.framerate > FlxG.drawFramerate) // bro, why?
 		{
 			FlxG.updateFramerate = ClientPrefs.framerate;
 			FlxG.drawFramerate = ClientPrefs.framerate;
