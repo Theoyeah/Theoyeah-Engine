@@ -186,7 +186,7 @@ class PlayState extends MusicBeatState
 
 	public var gfSpeed:Int = 1;
 	public var health:Float = 1;
-	public var maxHealth:Float = 2;
+	public var maxHealth(default, set):Float = 2;
 	public var combo:Int = 0;
 
 	private var healthBarBG:AttachedSprite;
@@ -827,7 +827,7 @@ class PlayState extends MusicBeatState
 					add(buildings);
 				}
 
-				var ruins:BGSprite = new BGSprite('tankRuins',-200,0,.35,.35);
+				var ruins:BGSprite = new BGSprite('tankRuins', -200, 0, .35, .35);
 				ruins.setGraphicSize(Std.int(1.1 * ruins.width));
 				ruins.updateHitbox();
 				add(ruins);
@@ -1199,7 +1199,6 @@ class PlayState extends MusicBeatState
 			add(judgementCounter);
 		}
 
-
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "CHEATING MODE", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
@@ -1539,6 +1538,12 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	function set_maxHealth(value:Float):Float {
+		maxHealth = value;
+		reloadHealth();
+		return maxHealth;
+	}
+
 	function set_playbackRate(value:Float):Float
 	{
 		if(generatedMusic)
@@ -1767,12 +1772,12 @@ class PlayState extends MusicBeatState
  			if(text && modchartTexts.exists(tag.toUpperCase())) return modchartTexts.get(tag.toUpperCase());
 			if(variables.exists(tag.toUpperCase())) return variables.get(tag.toUpperCase());
 		}
- 		
+ 
 
  		return null;
  	}
 
-	function startCharacterPos(char:Character, ?gfCheck:Bool = false) {
+	function startCharacterPos(char:Character, gfCheck:Bool = false) {
 		if(gfCheck && char.curCharacter.startsWith('gf')) { //IF DAD IS GIRLFRIEND, HE GOES TO HER POSITION
 			char.setPosition(GF_X, GF_Y);
 			char.scrollFactor.set(0.95, 0.95);
@@ -1782,7 +1787,7 @@ class PlayState extends MusicBeatState
 		char.y += char.positionArray[1];
 	}
 
-	public function startVideo(name:String, ?ignoreMkv:Bool = false):Void {
+	public function startVideo(name:String, ignoreMkv:Bool = false):Void {
 		#if VIDEOS_ALLOWED
 		inCutscene = true;
 
@@ -2944,7 +2949,8 @@ class PlayState extends MusicBeatState
 			if (player < 1)
 			{
 				if(ClientPrefs.opponentStrums
-				   || ClientPrefs.middleScroll) targetAlpha = 0;
+				   || ClientPrefs.middleScroll)
+					targetAlpha = 0;
 			}
 
 			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
@@ -2958,9 +2964,11 @@ class PlayState extends MusicBeatState
 			else
 				babyArrow.alpha = targetAlpha;
 
-			if (player == 1) {
+			if (player == 1)
+			{
 				playerStrums.add(babyArrow);
-			} else
+			}
+			else
 			{
 				if(ClientPrefs.middleScroll)
 				{
@@ -3049,7 +3057,7 @@ class PlayState extends MusicBeatState
 			callOnLuas('onResume', []);
 
 			#if desktop
-			if (startTimer != null && startTimer.finished)
+			if (startTimer != null && startTimer.finished) {
 				DiscordClient.changePresence(detailsText, SONG.song
 					+ " ("
 					+ storyDifficultyText
@@ -3057,6 +3065,7 @@ class PlayState extends MusicBeatState
 					songLength
 					- Conductor.songPosition
 					- ClientPrefs.noteOffset);
+			}
 			else
 				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 			#end
