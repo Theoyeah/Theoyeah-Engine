@@ -38,6 +38,7 @@ class Paths
 		'music',
 		'sounds',
 		'shaders',
+		'old_shaders',
 		'videos',
 		'images',
 		'stages',
@@ -47,6 +48,8 @@ class Paths
 		'achievements',
 		'noteskins'
 	];
+	public static var customImagesLoaded:Map<String, Bool> = new Map();
+	public static var customSoundsLoaded:Map<String, Sound> = new Map();
 	#end
 
 	public static function getIsBlankString(s:String, space:Bool = false) {
@@ -66,6 +69,22 @@ class Paths
 	public static function excludeAsset(key:String) {
 		if (!dumpExclusions.contains(key))
 			dumpExclusions.push(key);
+	}
+
+	public static function destroyLoadedImages(ignoreCheck:Bool = false) {
+		#if MODS_ALLOWED
+		if(!ignoreCheck && ClientPrefs.imagesPersist) return; //If there's 20+ images loaded, do a cleanup just for preventing a crash
+
+		for (key in customImagesLoaded.keys()) {
+			var graphic:FlxGraphic = FlxG.bitmap.get(key);
+			if(graphic != null) {
+				graphic.bitmap.dispose();
+				graphic.destroy();
+				FlxG.bitmap.removeByKey(key);
+			}
+		}
+		Paths.customImagesLoaded.clear();
+		#end
 	}
 
 	public static var dumpExclusions:Array<String> =
@@ -217,12 +236,12 @@ class Paths
 		return getPath('$where/$key.json', TEXT, library);
 	}
 
-	// shaders
-	inline static public function shaderFragment(key:String, ?library:String, where:String = 'shaders')
+	// _old_ shaders
+	inline static public function shaderFragment(key:String, ?library:String, where:String = 'oldShaders')
 	{
 		return getPath('$where/$key.frag', TEXT, library);
 	}
-	inline static public function shaderVertex(key:String, ?library:String, where:String = 'shaders')
+	inline static public function shaderVertex(key:String, ?library:String, where:String = 'oldShaders')
 	{
 		return getPath('$where/$key.vert', TEXT, library);
 	}

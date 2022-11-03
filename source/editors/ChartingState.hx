@@ -16,6 +16,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
+import flixel.addons.ui.FlxUISlider;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
@@ -78,7 +79,7 @@ class ChartingState extends MusicBeatState
 	];
 	private var noteTypeIntMap:Map<Int, String> = new Map<Int, String>();
 	private var noteTypeMap:Map<String, Null<Int>> = new Map<String, Null<Int>>();
-	public var ignoreWarnings = false;
+	public var ignoreWarnings:Bool = false;
 	var undos = [];
 	var redos = [];
 	var eventStuff:Array<Dynamic> =
@@ -147,8 +148,8 @@ class ChartingState extends MusicBeatState
 
 	var daquantspot = 0;
 	var curEventSelected:Int = 0;
-	var curUndoIndex = 0;
-	var curRedoIndex = 0;
+	var curUndoIndex:Int = 0;
+	var curRedoIndex:Int = 0;
 	var _song:SwagSong;
 	/*
 	 * WILL BE THE CURRENT / LAST PLACED NOTE
@@ -156,6 +157,7 @@ class ChartingState extends MusicBeatState
 	var curSelectedNote:Array<Dynamic> = null;
 
 	var tempBpm:Float = 0;
+	var playbackSpeed:Float = 1;
 
 	var vocals:FlxSound = null;
 
@@ -239,13 +241,14 @@ class ChartingState extends MusicBeatState
 				bpm: 150.0,
 				needsVoices: true,
 				arrowSkin: '',
-				splashSkin: 'noteSplashes',//idk it would crash if i didn't
+				splashSkin: 'noteSplashes', //idk it would crash if i didn't
 				player1: 'bf',
 				player2: 'dad',
 				gfVersion: 'gf',
 				speed: 1,
 				stage: 'stage',
-				validScore: false
+				validScore: false,
+				autoZoom: true  // The default value would be better if stays as true, Nex decided so but if you want you can change it (not recommended tho)
 			};
 			addSection();
 			PlayState.SONG = _song;
@@ -366,6 +369,8 @@ class ChartingState extends MusicBeatState
 		\nA/D - Go to the previous/next section
 		\nLeft/Right - Change Snap
 		\nUp/Down - Change Conductor's Strum Time with Snapping
+		\nLeft Bracket / Right Bracket - Change Song Playback Rate (SHIFT to go Faster)
+		\nALT + Left Bracket / Right Bracket - Reset Song Playback Rate
 		\nHold Shift to move 4x faster
 		\nHold Control and click on an arrow to select it
 		\n" + keyBonds["zoom+"][0].toString() + "/" + keyBonds["zoom-"][0].toString() + " - Zoom in/out
@@ -432,6 +437,7 @@ class ChartingState extends MusicBeatState
 	var noteSkinInputText:FlxUIInputText;
 	var noteSplashesInputText:FlxUIInputText;
 	var stageDropDown:FlxUIDropDownMenuCustom;
+	var sliderRate:FlxUISlider;
 	function addSongUI():Void
 	{
 		UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
@@ -616,12 +622,21 @@ class ChartingState extends MusicBeatState
 		stageDropDown.selectedLabel = _song.stage;
 		blockPressWhileScrolling.push(stageDropDown);
 
+		var checkAutoZoom = new FlxUICheckBox(player2DropDown.x + 140, (player2DropDown.y + gfVersionDropDown.y) / 2, null, null, "Auto-Zoom on Beat", 100);
+ 		checkAutoZoom.checked = _song.autoZoom;
+ 		checkAutoZoom.callback = function()
+ 		{
+ 			_song.autoZoom = checkAutoZoom.checked;
+ 		};
+
 		var skin = PlayState.SONG.arrowSkin;
 		if(skin == null) skin = '';
 		noteSkinInputText = new FlxUIInputText(player2DropDown.x, player2DropDown.y + 50, 150, skin, 8);
 		blockPressWhileTypingOn.push(noteSkinInputText);
 
-		noteSplashesInputText = new FlxUIInputText(noteSkinInputText.x, noteSkinInputText.y + 35, 150, _song.splashSkin, 8);
+		var splash = PlayState.SONG.splashSkin;
+		if(splash == null || splash.length < 1) splash = _song.splashSkin;
+		noteSplashesInputText = new FlxUIInputText(noteSkinInputText.x, noteSkinInputText.y + 35, 150, splash, 8);
 		blockPressWhileTypingOn.push(noteSplashesInputText);
 
 		var reloadNotesButton:FlxButton = new FlxButton(noteSplashesInputText.x + 5, noteSplashesInputText.y + 20, 'Change Notes', function() {
@@ -646,6 +661,7 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(stepperSpeed);
 		tab_group_song.add(reloadNotesButton);
 		tab_group_song.add(noteSkinInputText);
+		tab_group_song.add(checkAutoZoom);
 		tab_group_song.add(noteSplashesInputText);
 		tab_group_song.add(new FlxText(stepperBPM.x, stepperBPM.y - 15, 0, 'Song BPM:'));
 		tab_group_song.add(new FlxText(stepperBPM.x + 100, stepperBPM.y - 15, 0, 'Song Offset:'));
@@ -1345,6 +1361,10 @@ class ChartingState extends MusicBeatState
 		voicesVolume.name = 'voices_volume';
 		blockPressWhileTypingOnStepper.push(voicesVolume);
 
+		sliderRate = new FlxUISlider(this, 'playbackSpeed', 120, 120, 0.5, 3, 150, null, 5, FlxColor.WHITE, FlxColor.BLACK);
+		sliderRate.nameLabel.text = 'Playback Rate';
+		tab_group_chart.add(sliderRate); // some BeastlyGhost here. Thanks Gabi!
+
 		tab_group_chart.add(new FlxText(metronomeStepper.x, metronomeStepper.y - 15, 0, 'BPM:'));
 		tab_group_chart.add(new FlxText(metronomeOffsetStepper.x, metronomeOffsetStepper.y - 15, 0, 'Offset (ms):'));
 		tab_group_chart.add(new FlxText(instVolume.x, instVolume.y - 15, 0, 'Inst Volume'));
@@ -1488,11 +1508,9 @@ class ChartingState extends MusicBeatState
 			}
 			if (wname == 'note_susLength')
 			{
-				if(curSelectedNote != null && curSelectedNote[1] > -1) {
+				if(curSelectedNote != null && curSelectedNote[2] != null) {
 					curSelectedNote[2] = nums.value;
 					updateGrid();
-				} else {
-					sender.value = 0;
 				}
 			}
 			if (wname == 'section_bpm')
@@ -1516,16 +1534,25 @@ class ChartingState extends MusicBeatState
 			else if(curSelectedNote != null)
 			{
 				if(sender == value1InputText) {
-					curSelectedNote[1][curEventSelected][1] = value1InputText.text;
-					updateGrid();
+					if(curSelectedNote[1][curEventSelected] != null)
+					{
+						curSelectedNote[1][curEventSelected][1] = value1InputText.text;
+						updateGrid();
+					}
 				}
 				else if(sender == value2InputText) {
-					curSelectedNote[1][curEventSelected][2] = value2InputText.text;
-					updateGrid();
+					if(curSelectedNote[1][curEventSelected] != null)
+					{
+						curSelectedNote[1][curEventSelected][2] = value1InputText.text;
+						updateGrid();
+					}
 				}
 				else if(sender == value3InputText) {
-					curSelectedNote[1][curEventSelected][3] = value3InputText.text;
-					updateGrid();
+					if(curSelectedNote[1][curEventSelected] != null)
+					{
+						curSelectedNote[1][curEventSelected][3] = value1InputText.text;
+						updateGrid();
+					}
 				}
 				else if(sender == strumTimeInputText) {
 					var value:Float = Std.parseFloat(strumTimeInputText.text);
@@ -1533,6 +1560,14 @@ class ChartingState extends MusicBeatState
 					curSelectedNote[0] = value;
 					updateGrid();
 				}
+			}
+		}
+		else if (id == FlxUISlider.CHANGE_EVENT && (sender is FlxUISlider))
+		{
+			switch (sender)
+			{
+				case 'playbackSpeed':
+					playbackSpeed = Std.int(sliderRate.value);
 			}
 		}
 
@@ -1730,13 +1765,20 @@ class ChartingState extends MusicBeatState
 
 
 			if (FlxG.keys.justPressed.BACKSPACE) {
-				//PlayState.instance.chartingMode = false;
-				//if(onMasterEditor) {
-					MusicBeatState.switchState(new editors.MasterEditorMenu());
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
-				//}
-				FlxG.mouse.visible = false;
-				return;
+				var mustReturn:Bool = false;
+				openSubState(new Prompt("You haven't saved your progress\n\nProceed?", 0, function() {
+					PlayState.chartingMode = false;
+					if(MasterEditorMenu.chartToMaster) {
+						MasterEditorMenu.chartToMaster = false;
+						MusicBeatState.switchState(new editors.MasterEditorMenu());
+						FlxG.sound.playMusic(Paths.music('freakyMenu'));
+					} else {
+						MusicBeatState.switchState(new FreeplayState());
+					}
+					FlxG.mouse.visible = false;
+					mustReturn = true;
+				}, null, ignoreWarnings));
+				if(mustReturn) return;
 			}
 
 			if(FlxG.keys.anyJustPressed(ClientPrefs.copyKey(ClientPrefs.keyBinds.get('zoom-'))) && curZoom > 0) {
@@ -1791,7 +1833,7 @@ class ChartingState extends MusicBeatState
 				}
 			}
 
-			if (FlxG.keys.justPressed.R)
+			if (!FlxG.keys.pressed.ALT && FlxG.keys.justPressed.R)
 			{
 				if (FlxG.keys.pressed.SHIFT)
 					resetSection(true);
@@ -1880,8 +1922,6 @@ class ChartingState extends MusicBeatState
 			}
 
 			var conductorTime = Conductor.songPosition; //+ sectionStartTime(); Conductor.songPosition / Conductor.stepCrochet;
-
-
 
 			if(!blockInput) {
 				if(FlxG.keys.justPressed.RIGHT) {
@@ -2027,6 +2067,31 @@ class ChartingState extends MusicBeatState
 			strumLineNotes.members[i].y = strumLine.y;
 			strumLineNotes.members[i].alpha = FlxG.sound.music.playing ? 1 : 0.35;
 		}
+
+		// PLAYBACK SPEED CONTROLS //
+		var holdingShift = FlxG.keys.pressed.SHIFT;
+		var holdingLB = FlxG.keys.pressed.LBRACKET;
+		var holdingRB = FlxG.keys.pressed.RBRACKET;
+		var pressedLB = FlxG.keys.justPressed.LBRACKET;
+		var pressedRB = FlxG.keys.justPressed.RBRACKET;
+
+		if (!holdingShift && pressedLB || holdingShift && holdingLB)
+			playbackSpeed -= 0.01;
+		if (!holdingShift && pressedRB || holdingShift && holdingRB)
+			playbackSpeed += 0.01;
+		if (FlxG.keys.pressed.ALT && (pressedLB || pressedRB || holdingLB || holdingRB))
+			playbackSpeed = 1;
+		//
+
+		if (playbackSpeed <= 0.5)
+			playbackSpeed = 0.5;
+		if (playbackSpeed >= 3)
+			playbackSpeed = 3;
+
+		if(FlxG.sound.music.pitch != playbackSpeed)
+			FlxG.sound.music.pitch = playbackSpeed;
+		if(vocals.pitch != playbackSpeed)
+			vocals.pitch = playbackSpeed;
 
 		bpmTxt.text =
 			Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2)) + " / " + Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2)) +
@@ -2785,11 +2850,12 @@ class ChartingState extends MusicBeatState
 				{
 					curSelectedNote = daEvent;
 					curEventSelected = Std.int(curSelectedNote[1].length) - 1;
-					changeEventSelected();
+					
 					break;
 				}
 			}
 		}
+		changeEventSelected();
 
 		updateGrid();
 		updateNoteUI();
@@ -2865,7 +2931,7 @@ class ChartingState extends MusicBeatState
 
 	private function addNote(strum:Null<Float> = null, data:Null<Int> = null, type:Null<Int> = null, returnValue:Bool = false)
 	{
-		var noteStrum = getStrumTime(dummyArrow.y, false) + sectionStartTime();
+		var noteStrum = getStrumTime(dummyArrow.y * (getSectionBeats() / 4), false) + sectionStartTime();
 		var noteData = Math.floor((FlxG.mouse.x - GRID_SIZE) / GRID_SIZE);
 		var noteSus = 0;
 		var daAlt = false;
@@ -2894,8 +2960,8 @@ class ChartingState extends MusicBeatState
 				_song.events.push([noteStrum, [[event, text1, text2, text3]]]);
 				curSelectedNote = _song.events[_song.events.length - 1];
 				curEventSelected = 0;
-				changeEventSelected();
 			}
+			changeEventSelected();
 
 			if (FlxG.keys.pressed.CONTROL && noteData > -1)
 			{

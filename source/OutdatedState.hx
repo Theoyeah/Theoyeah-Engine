@@ -20,6 +20,7 @@ class OutdatedState extends MusicBeatState
 	{
 		super.create();
 
+		//Application.current.window.
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 

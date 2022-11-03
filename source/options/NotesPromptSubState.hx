@@ -11,7 +11,7 @@ class NotesPromptSubState extends MusicBeatSubstate
 
 	var curSelected = 0;
 
-	var selectText:Alphabet;
+	var selectText:OldAlphabet;
 
 	override function create()
 	{
@@ -30,7 +30,7 @@ class NotesPromptSubState extends MusicBeatSubstate
 		infoText.screenCenter(X);
 		add(infoText);
 
-		selectText = new Alphabet(0, 0, '< ' + noteSkins[curSelected] + ' >');
+		selectText = new OldAlphabet(0, 0, '< ' + noteSkins[curSelected] + ' >');
 		selectText.screenCenter(X);
 		selectText.y = infoText.y + selectText.height + 50;
 		add(selectText);
