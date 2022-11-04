@@ -3548,6 +3548,9 @@ class PlayState extends MusicBeatState
 					if (daNote.copyAngle)
 						daNote.angle = strumDirection - 90 + strumAngle;
 
+					if(daNote.isSustainNote)
+ 						daNote.angle = strumDirection - 90;
+
 					if (daNote.copyAlpha)
 						daNote.alpha = strumAlpha;
 
@@ -3605,7 +3608,7 @@ class PlayState extends MusicBeatState
 						&& (daNote.mustPress || !daNote.ignoreNote)
 						&& (!daNote.mustPress || (daNote.wasGoodHit || (daNote.prevNote.wasGoodHit && !daNote.canBeHit))))
 					{
-						if (strumScroll)
+						if (strumScroll) // Downscroll
 						{
 							if (daNote.y - daNote.offset.y * daNote.scale.y + daNote.height >= center)
 							{
@@ -3616,7 +3619,7 @@ class PlayState extends MusicBeatState
 								daNote.clipRect = swagRect;
 							}
 						}
-						else
+						else // Upscroll
 						{
 							if (daNote.y + daNote.offset.y * daNote.scale.y <= center)
 							{
