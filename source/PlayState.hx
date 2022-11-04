@@ -3662,11 +3662,13 @@ class PlayState extends MusicBeatState
 
 		#if debug
 		if(!endingSong && !startingSong) {
-			if (FlxG.keys.justPressed.ONE) {
+			if (FlxG.keys.anyJustPressed(ClientPrefs.copyKey(ClientPrefs.keyBinds.get('skip_song')))) //skip
+			{
 				KillNotes();
 				FlxG.sound.music.onComplete();
 			}
-			if(FlxG.keys.justPressed.TWO) { //Go 10 seconds into the future :O
+			if(FlxG.keys.anyJustPressed(ClientPrefs.copyKey(ClientPrefs.keyBinds.get('future_1')))) //Go 10 seconds into the future :O
+			{
 				setSongTime(Conductor.songPosition + 10000);
 				clearNotesBefore(Conductor.songPosition);
 			}
@@ -3741,6 +3743,7 @@ class PlayState extends MusicBeatState
 					timer.active = true;
 				}
 				if (ClientPrefs.instantRespawn) {
+					// trace('dead, respawning...');
 					persistentUpdate = false;
 					PauseSubState.restartSong();
 				} else {
