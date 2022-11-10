@@ -80,7 +80,7 @@ class TitleState extends MusicBeatState
 
 	#if TITLE_SCREEN_EASTER_EGG
 	var easterEggKeys:Array<String> = [
-		//'THEOYEAH', 'WITHER362', 'GABI', 'DEMOLITIONDON96', /* May do it one day ? */
+		'THEOYEAH', 'WITHER362', 'GABI', 'DEMOLITIONDON96', // May do it one day ?
 		'SHADOW', 'RIVER', 'SHUBS', 'BBPANZU'
 	];
 	var allowedKeys:String = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'/* + 'Ñ@#€&*()"=-_;:/\\$£¥^[]{}ºª§|~¶<>'*/;
@@ -957,14 +957,30 @@ class TitleState extends MusicBeatState
 				}
 				#end
 			}
-			logoBl.angle = -4;
+			var easteregg:String = FlxG.save.data.psychDevsEasterEgg;
+			if (easteregg == null) easteregg = '';
+			easteregg = easteregg.toUpperCase();
+
+			var lol = FlxG.random.int(4, 100);
+			if(easteregg == 'WITHER362') {
+				logoBl.angle = -4;
+			} else {
+				logoBl.angle = -lol;
+			}
 
 			new FlxTimer().start(0.01, function(tmr:FlxTimer)
 			{
-				if (logoBl.angle == -4)
-					FlxTween.angle(logoBl, logoBl.angle, 4, 4, {ease: FlxEase.quartInOut});
-				if (logoBl.angle == 4)
-					FlxTween.angle(logoBl, logoBl.angle, -4, 4, {ease: FlxEase.quartInOut});
+				if(easteregg == 'WITHER362') {
+					if (logoBl.angle == -lol)
+						FlxTween.angle(logoBl, logoBl.angle, lol, FlxG.random.int(2, 6), {ease: FlxEase.quartInOut});
+					if (logoBl.angle == lol)
+						FlxTween.angle(logoBl, logoBl.angle, lol, FlxG.random.int(2, 6), {ease: FlxEase.quartInOut});
+				} else {
+					if (logoBl.angle == -4)
+						FlxTween.angle(logoBl, logoBl.angle, 4, 4, {ease: FlxEase.quartInOut});
+					if (logoBl.angle == 4)
+						FlxTween.angle(logoBl, logoBl.angle, -4, 4, {ease: FlxEase.quartInOut});
+				}
 			}, 0);
 
 			skippedIntro = true;
