@@ -883,9 +883,9 @@ class TitleState extends MusicBeatState
 							new FlxTimer().start(4.3, function(tmr:FlxTimer)
 							{
 								if (FlxG.camera.angle == -4) // just testing
-									FlxTween.angle(FlxG.camera, FlxG.camera.angle, 4, 4, {ease: FlxEase.quartInOut});
+									FlxTween.angle(FlxG.camera.angle, 4, 4, {ease: FlxEase.quartInOut});
 								if (FlxG.camera.angle == 4)
-									FlxTween.angle(FlxG.camera, FlxG.camera.angle, -4, 4, {ease: FlxEase.quartInOut});
+									FlxTween.angle(FlxG.camera.angle, -4, 4, {ease: FlxEase.quartInOut});
 
 								removeThings();
 								FlxG.camera.flash(FlxColor.RED, time, function() {
