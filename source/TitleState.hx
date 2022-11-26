@@ -896,7 +896,7 @@ class TitleState extends MusicBeatState
 											FlxG.camera.flash(FlxColor.BROWN, time / 2 + 0.17);
 											FlxG.camera.flash(FlxColor.YELLOW, time / 2 + 0.2);
 											FlxG.camera.flash(FlxColor.ORANGE, time / 2 + 0.26, function() {
-												new FlxTimer.start(2, function(tmr:FlxTimer) {
+												new FlxTimer().start(2, function(tmr:FlxTimer) {
 													FlxG.camera.angle = 0;
 												});
 											});
