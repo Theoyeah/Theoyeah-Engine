@@ -344,13 +344,13 @@ class Note extends FlxSprite
 
 	var lastNoteOffsetXForPixelAutoAdjusting:Float = 0;
 	var lastNoteScaleToo:Float = 1;
-	public var originalHeightForCalcs:Float = 6;
-	function reloadNote(?prefix:String = '', ?texture:String = '', ?suffix:String = '') {
+	public var originalHeightForCalcs:Float = 6; 
+	function reloadNote(?prefix:String = '', ?Texture:String = '', ?suffix:String = '') {
 		if(prefix == null) prefix = '';
 		if(texture == null) texture = '';
 		if(suffix == null) suffix = '';
 
-		var skin:String = texture;
+		var skin:String = Texture;
 		if (texture.length < 1)
 		{
 			skin = PlayState.SONG.arrowSkin;
@@ -373,19 +373,19 @@ class Note extends FlxSprite
 		if(PlayState.isPixelStage) {
 			var notefile:String = 'pixelUI/$blahblah';
 			if(isSustainNote) {
-				//if(!Paths.fileExists('images/' + notefile + 'ENDS', IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
-				loadGraphic(Paths.image(notefile + 'ENDS'));
+				notefile += 'ENDS';
+				//if(!Paths.fileExists(Paths.image(notefile), IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assetsENDS';
+				loadGraphic(Paths.image(notefile));
 				width = width / 4;
 				height = height / 2;
 				originalHeightForCalcs = height;
-				loadGraphic(Paths.image(notefile + 'ENDS'), true, Math.floor(width), Math.floor(height));
 			} else {
-				//if(!Paths.fileExists('images/' + notefile, IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
+				//if(!Paths.fileExists(Paths.image(notefile), IMAGE)) notefile = 'pixelUI/noteskins/NOTENOEXISTS_assets';
 				loadGraphic(Paths.image(notefile));
 				width = width / 4;
 				height = height / 5;
-				loadGraphic(Paths.image(notefile), true, Math.floor(width), Math.floor(height));
 			}
+			loadGraphic(Paths.image(notefile), true, Math.floor(width), Math.floor(height));
 			setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 			loadPixelNoteAnims();
 			antialiasing = false;
