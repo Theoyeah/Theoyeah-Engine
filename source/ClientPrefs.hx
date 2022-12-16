@@ -111,7 +111,10 @@ class ClientPrefs
 		'zoom-'			=> [X, NONE],
 		'decrease'		=> [Q, NONE],
 		'increase'		=> [E, NONE],
-		'save'			=> [P, NONE]
+		'save'			=> [P, NONE],
+
+		'skip_song'		=> [ONE, NONE], // only in debug, in PlayState
+		'future_1'		=> [TWO, NONE], // only in debug, in PlayState
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -190,6 +193,7 @@ class ClientPrefs
 		if(FlxG.save.data.freeplayRating != null) freeplayRating = FlxG.save.data.freeplayRating;
 		if (FlxG.save.data.comboStacking != null)
 			comboStacking = FlxG.save.data.comboStacking;
+
 		if(FlxG.save.data.noteSkin != null)
 		{
 			noteSkin = FlxG.save.data.noteSkin;

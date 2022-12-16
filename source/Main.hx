@@ -82,7 +82,7 @@ class Main extends Sprite
 		}
 
 		ClientPrefs.loadDefaultKeys();
-		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
+		addChild(new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen));
 
 		#if !mobile
 		fpsVar = new FPS(10, 3, 0xFFFFFF);
@@ -119,17 +119,19 @@ class Main extends Sprite
 
 		path = "./logs/crash/TheoyeahEngine_" + dateNow + ".txt";
 
-		var i:Int = 1;
-		for (stackItem in callStack)
+		for (i in 0...callStack.length)
 		{
+			var stackItem = callStack[i];
 			switch (stackItem)
 			{
 				case FilePos(s, file, line, column):
-					errMsg += 'Error Number $i: File: "$file" (line: "$line")\n';
+					if(i != 0)
+						errMsg += 'Called From File: $file (line: $line)\n';
+					else
+						errMsg += 'Error in File: $file (line: $line)\n';
 				default:
 					Sys.println(stackItem);
 			}
-			i++;
 		}
 
 		errMsg =

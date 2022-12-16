@@ -1,5 +1,6 @@
 package flixel.system;
 
+// import flash.errors.Error;
 import flash.events.Event;
 import flash.events.IEventDispatcher;
 import flash.media.Sound;
@@ -99,6 +100,7 @@ class FlxSound extends FlxBasic
 	 */
 	public var pitch(get, set):Float;
 
+	public var allowPitch(get, set):Bool;
 	/**
 	 * The position in runtime of the music playback in milliseconds.
 	 * If set while paused, changes only come into effect after a `resume()` call.
@@ -181,6 +183,8 @@ class FlxSound extends FlxBasic
 	 */
 	var _pitch:Float = 1.0;
 
+	var _allowPitch:Bool = true;
+
 	/**
 	 * Internal tracker for total volume adjustment.
 	 */
@@ -229,6 +233,7 @@ class FlxSound extends FlxBasic
 		_paused = false;
 		_volume = 1.0;
 		_pitch = 1.0;
+		_allowPitch = true;
 		_volumeAdjust = 1.0;
 		looped = false;
 		loopTime = 0.0;
@@ -356,8 +361,10 @@ class FlxSound extends FlxBasic
 		{
 			if (Assets.exists(EmbeddedSound, AssetType.SOUND) || Assets.exists(EmbeddedSound, AssetType.MUSIC))
 				_sound = Assets.getSound(EmbeddedSound);
-			else
+			else {
 				FlxG.log.error('Could not find a Sound asset with an ID of \'$EmbeddedSound\'.');
+				// throw new Error('not founded');
+			}
 		}
 
 		// NOTE: can't pull ID3 info from embedded sound currently
@@ -468,8 +475,10 @@ class FlxSound extends FlxBasic
 	 */
 	public function play(ForceRestart:Bool = false, StartTime:Float = 0.0, ?EndTime:Float):FlxSound
 	{
-		if (!exists)
+		if (!exists) {
+			// throw new Error('no exists');
 			return this;
+		}
 
 		if (ForceRestart)
 			cleanup(false, true);
@@ -620,6 +629,9 @@ class FlxSound extends FlxBasic
 		if (_channel != null)
 		{
 			#if (sys && openfl_legacy)
+			if(!allowPitch && _pitch != 1) {
+				_pitch = 1;
+			}
 			pitch = _pitch;
 			#end
 			_channel.addEventListener(Event.SOUND_COMPLETE, stopped);
@@ -741,8 +753,10 @@ class FlxSound extends FlxBasic
 
 	function set_volume(Volume:Float):Float
 	{
-		_volume = FlxMath.bound(Volume, 0, 1);
-		updateTransform();
+		//if(_volume != FlxMath.bound(Volume, 0, 1)) {
+			_volume = FlxMath.bound(Volume, 0, 1);
+			updateTransform();
+		//}
 		return Volume;
 	}
 
@@ -754,6 +768,17 @@ class FlxSound extends FlxBasic
 	function set_pitch(v:Float):Float
 	{
 		return _pitch = v;
+	}
+
+	inline function get_allowPitch():Bool {
+		return _allowPitch;
+	}
+
+	function set_allowPitch(v:Bool):Bool {
+		if(v && (pitch != 1)) {
+			pitch = 1;
+		}
+		return _allowPitch = v;
 	}
 
 	inline function get_pan():Float

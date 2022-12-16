@@ -1,5 +1,6 @@
 package;
 
+import editors.MasterEditorMenu;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -341,12 +342,12 @@ class FreeplayState extends MusicBeatState
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());
 		}
+		#if PRELOAD_ALL
 		else if(space)
 		{
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.3);
 			if(instPlaying != curSelected)
 			{
-				#if PRELOAD_ALL
 				destroyFreeplayVocals();
 				FlxG.sound.music.volume = 0;
 				Paths.currentModDirectory = songs[curSelected].folder;
@@ -364,12 +365,11 @@ class FreeplayState extends MusicBeatState
 				vocals.looped = true;
 				vocals.volume = 0.7;
 				instPlaying = curSelected;
-				#end
 			}
 		}
+    #end
 		else if (accepted && !controls.BACK)
 		{
-			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
 			var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
 			/*#if MODS_ALLOWED
@@ -380,7 +380,9 @@ class FreeplayState extends MusicBeatState
 				poop = songLowercase;
 				curDifficulty = 1;
 				trace('Couldnt find file');
-			}*/
+      */
+
+			persistentUpdate = false;
 			trace(poop);
 
 			PlayState.SONG = Song.loadFromJson(poop, songLowercase);
@@ -392,15 +394,17 @@ class FreeplayState extends MusicBeatState
 				colorTween.cancel();
 			}
 
-			#if debug
-			if (FlxG.keys.pressed.SHIFT)
+			if (FlxG.keys.pressed.SHIFT) {
 				LoadingState.loadAndSwitchState(new ChartingState());
-			else #end
+				MasterEditorMenu.chartToMaster = false;
+			} else {
 				LoadingState.loadAndSwitchState(new PlayState());
+			}
 
-			FlxG.sound.music.volume = 0;
+				FlxG.sound.music.volume = 0;
 
-			destroyFreeplayVocals();
+				destroyFreeplayVocals();
+			}
 		}
 		else if(controls.RESET)
 		{
@@ -523,7 +527,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		Paths.currentModDirectory = songs[curSelected].folder;
+		Paths.currentModDirectory = songs[curSelected].folder; // hmmm, suspicious
 		PlayState.storyWeek = songs[curSelected].week;
 
 		CoolUtil.difficulties = CoolUtil.defaultDifficulties.copy();

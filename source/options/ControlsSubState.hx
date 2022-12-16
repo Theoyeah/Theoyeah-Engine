@@ -66,7 +66,13 @@ class ControlsSubState extends MusicBeatSubstate {
 		['Zoom out', 'zoom-'],
 		['Sustain +', 'increase'],
 		['Sustain -', 'decrease'],
-		['Save', 'save']
+		['Save', 'save'],
+		#if debug
+		[''],
+		['PLAY DEBUG'], // only acceseable in debug mode
+		['Skip Song', 'skip_song'],
+		['Future', 'future_1'] // skips two seconds
+		#end
 	];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
