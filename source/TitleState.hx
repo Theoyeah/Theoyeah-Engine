@@ -561,16 +561,19 @@ class TitleState extends MusicBeatState
 
 				timer = FlxEase.quadInOut(timer);
 
-				titleText.color = FlxColor.interpolate(titleTextColors[0], titleTextColors[1], timer);
-				titleText.alpha = FlxMath.lerp(titleTextAlphas[0], titleTextAlphas[1], timer);
+				if(titleText != null) {
+					titleText.color = FlxColor.interpolate(titleTextColors[0], titleTextColors[1], timer);
+					titleText.alpha = FlxMath.lerp(titleTextAlphas[0], titleTextAlphas[1], timer);
+				}
 			}
 
 			if(pressedEnter)
 			{
-				titleText.color = titleTextColorEnter;
-				titleText.alpha = 1;
-
-				if(titleText != null) titleText.animation.play('press');
+				if(titleText != null) {
+					titleText.color = titleTextColorEnter;
+					titleText.alpha = 1;
+					titleText.animation.play('press');
+				}
 
 				if(ClientPrefs.flashing) {
 					FlxG.camera.flash(titleTextColorEnter, 1);
@@ -651,7 +654,7 @@ class TitleState extends MusicBeatState
 
 		if(swagShader != null)
 		{
-			if(FlxG.save.data.psychDevsEasterEgg == witherone)
+			if(FlxG.save.data.psychDevsEasterEgg == witherone) // ma mama
 				swagShader.hue += elapsed;
 			else {
 				if(controls.UI_LEFT) swagShader.hue -= elapsed * 0.1;
@@ -704,7 +707,7 @@ class TitleState extends MusicBeatState
 
 		if(FlxG.save.data.psychDevsEasterEgg == witherone && FlxG.sound.music != null)
 		{
-			if(FlxG.sound.music.pitch < 3)
+			if(FlxG.sound.music.pitch <= 5)
 				FlxG.sound.music.pitch += 0.01;
 			else
 				FlxG.sound.music.pitch = 0.01;
@@ -902,13 +905,16 @@ class TitleState extends MusicBeatState
 						FlxG.camera.flash(FlxColor.PINK, time, function() {
 							trace('hehehe... if you didnt know it, wither its');
 							trace('a FUCKING TROLLER/TROLL... and not an easy one...');
-							FlxG.camera.angle = -4;
+							if(FlxG.camera != null)
+								FlxG.camera.angle = -4;
 							new FlxTimer().start(4.3, function(tmr:FlxTimer)
 							{
-								if (FlxG.camera.angle == -4) // just testing
-									FlxTween.angle(FlxG.camera.angle, 4, -4, {ease: FlxEase.quartInOut});
-								if (FlxG.camera.angle == 4)
-									FlxTween.angle(FlxG.camera.angle, -4, 4, {ease: FlxEase.quartInOut});
+								if(FlxG.camera != null) {
+									if (FlxG.camera.angle == -4) // just testing
+										FlxTween.angle(FlxG.camera.angle, 4, -4, {ease: FlxEase.quartInOut});
+									if (FlxG.camera.angle == 4)
+										FlxTween.angle(FlxG.camera.angle, -4, 4, {ease: FlxEase.quartInOut});
+								}
 
 								removeThings();
 								FlxG.camera.flash(FlxColor.RED, time, function() {
@@ -920,7 +926,8 @@ class TitleState extends MusicBeatState
 											FlxG.camera.flash(FlxColor.YELLOW, time / 2 + 0.2);
 											FlxG.camera.flash(FlxColor.ORANGE, time / 2 + 0.26, function() {
 												new FlxTimer().start(2, function(tmr:FlxTimer) {
-													FlxG.camera.angle = 0;
+													if(FlxG.camera != null)
+														FlxG.camera.angle = 0;
 												});
 											});
 										});
