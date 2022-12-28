@@ -1037,7 +1037,7 @@ class PlayState extends MusicBeatState
 
 			case 'schoolEvil':
 				var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); //nice
-				addBehindDad(fastCar);
+				addBehindDad(evilTrail);
 		}
 
 		var file:String = Paths.json('$songName/dialogue'); //Checks for json/Psych Engine dialogue
@@ -3140,9 +3140,9 @@ class PlayState extends MusicBeatState
 				moveTank(elapsed);
 
 			case 'schoolEvil':
-				if(!ClientPrefs.lowQuality && bgGhouls.animation.curAnim.finished)
+				if(!ClientPrefs.lowQuality && bgGhouls.animation.curAnim.finished) {
 					bgGhouls.visible = false;
-
+			}
 			case 'philly':
 				if(trainMoving)
 				{
@@ -5824,7 +5824,7 @@ class PlayState extends MusicBeatState
 
 				for (json in Achievements.loadedAchievements)
 				{
-					if(((json.unlocksAfter == weekName || (achievementName.contains('nomiss') && achievementName.replace('_nomiss', '') == weekName)) && isStoryMode) && !Achievements.isAchievementUnlocked(json.icon) && !json.customGoal && !unlock)
+					if(((json.unlocksAfter == weekName || (achievementName.contains('nomiss') && achievementName.replace('_nomiss', '') == weekName)) && isStoryMode) &&  campaignMisses < 1 && storyPlaylist.length <= 1 && !Achievements.isAchievementUnlocked(json.icon) && !json.customGoal && !unlock)
 						unlock = true;
 					achievementName = json.icon;
 				}
