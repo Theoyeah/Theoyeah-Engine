@@ -110,6 +110,7 @@ class Main extends Sprite
 	#if CRASH_HANDLER
 	function onCrash(e:UncaughtErrorEvent):Void
 	{
+		var where:String = './system/' /*+ 'logs'*/ + 'crash/';
 		var errMsg:String = "";
 		var path:String;
 		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
@@ -117,7 +118,7 @@ class Main extends Sprite
 
 		dateNow = dateNow.replace(" ", "_").replace(':', "'");
 
-		path = "./logs/crash/TheoyeahEngine_" + dateNow + ".txt";
+		path = where + "TheoyeahEngine_" + dateNow + ".txt";
 
 		for (i in 0...callStack.length)
 		{
@@ -137,8 +138,8 @@ class Main extends Sprite
 		errMsg =
 		"Errors:\n" + errMsg + "\nUncaught Error: " + e.error + "\nUnexpected ?\nThen please report this error to the GitHub page: https://github.com/Theoyeah/Theoyeah-Engine.\nIf you need any help regarding how to fix, please look up in the wiki!";
 
-		if (!FileSystem.exists("./logs/crash/"))
-			FileSystem.createDirectory("./logs/crash/");
+		if (!FileSystem.exists(where))
+			FileSystem.createDirectory(where);
 
 		File.saveContent(path, errMsg + "\n");
 
