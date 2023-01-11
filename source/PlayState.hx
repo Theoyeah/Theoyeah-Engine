@@ -865,12 +865,14 @@ class PlayState extends MusicBeatState
 
 			default: //custom stages
 				isPixelStage = stageData.isPixelStage;
-				for (layer in stageData.layerArray) {
-					var loadedLayer:BGSprite = new BGSprite(layer.directory, layer.xAxis, layer.yAxis, layer.scrollX, layer.scrollY);
-					loadedLayer.setGraphicSize(Std.int(loadedLayer.width * layer.scale));
-					loadedLayer.flipX = layer.flipX;
-					loadedLayer.flipY = layer.flipY;
-					add(loadedLayer);
+				if(stageData.layerArray.length > 0) {
+					for (layer in stageData.layerArray) {
+						var loadedLayer:BGSprite = new BGSprite(layer.directory, layer.xAxis, layer.yAxis, layer.scrollX, layer.scrollY);
+						loadedLayer.setGraphicSize(Std.int(loadedLayer.width * layer.scale));
+						loadedLayer.flipX = layer.flipX;
+						loadedLayer.flipY = layer.flipY;
+						add(loadedLayer);
+					}
 				}
 		}
 
@@ -1436,6 +1438,8 @@ class PlayState extends MusicBeatState
 					Paths.sound(key);
 				case 'music':
 					Paths.music(key);
+				case 'video':
+					Paths.video(key);
 			}
 		}
 
@@ -2080,19 +2084,22 @@ class PlayState extends MusicBeatState
 				cutsceneHandler.onStart = function()
 				{
 					tightBars.play(true);
-					FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom * 1.2}, 4, {ease: FlxEase.quadInOut});
-					FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom * 1.2 * 1.2}, 0.5, {ease: FlxEase.quadInOut, startDelay: 4});
-					FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom * 1.2}, 1, {ease: FlxEase.quadInOut, startDelay: 4.5});
+					inline final ehm = defaultCamZoom * 1.2;
+					FlxTween.tween(FlxG.camera, {zoom: ehm}, 4, {ease: FlxEase.quadInOut});
+					FlxTween.tween(FlxG.camera, {zoom: ehm * 1.2}, 0.5, {ease: FlxEase.quadInOut, startDelay: 4});
+					FlxTween.tween(FlxG.camera, {zoom: ehm}, 1, {ease: FlxEase.quadInOut, startDelay: 4.5});
 				};
 
 				cutsceneHandler.timer(4, function()
 				{
-					if(gf.contains('sad')) {
-						gf.playAnim('sad', true);
-						gf.animation.finishCallback = function(name:String)
-						{
+					if(gf != null) {
+						if(gf.contains('sad')) {
 							gf.playAnim('sad', true);
-						};
+							gf.animation.finishCallback = function(name:String)
+							{
+								gf.playAnim('sad', true);
+							};
+						}
 					}
 				});
 
