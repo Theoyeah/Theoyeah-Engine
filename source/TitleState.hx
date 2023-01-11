@@ -821,6 +821,7 @@ class TitleState extends MusicBeatState
 		remove(credGroup);
 		remove(coolguys);
 	}
+	var alreadyCompleted:Bool = false;
 	function skipIntro():Void
 	{
 		if (!skippedIntro)
@@ -963,18 +964,28 @@ class TitleState extends MusicBeatState
 
 			var lol = FlxG.random.int(4, 100);
 
-			if(easteregg == 'WITHER362') {
+			if(easteregg != 'WITHER362') {
 				logoBl.angle = -4;
 			} else {
 				logoBl.angle = -lol;
 			}
-			
-			var rotateTo:Number = lol;
-			private function onComplete():void {
-				rotateTo = rotateTo == lol ? -lol : lol;
-				FlxTween.tween(logoBl, {angle: rotateTo}, FlxG.random.float(2, 6, true), FlxTween.PERSIST, null, onComplete);
-			}
-			FlxTween.tween(logoBl, {angle: rotateTo}, FlxG.random.float(2, 6, true), FlxTween.PERSIST, null, onComplete);
+
+			var rotateTo:Float = -logoBl.angle;
+			//function onComplete():Void {
+				alreadyCompleted = true;
+				FlxTween.angle(logoBl,
+					logoBl.angle,
+					rotateTo,
+					4,
+					{
+						ease: FlxTween.PERSIST, // ???
+						//onComplete: onComplete, // no necessary
+						type: ONESHOT // when finished, do it again but in reverse direction
+					});
+			//}
+			//if(!alreadyCompleted)
+				//onComplete();
+			//FlxTween.tween(logoBl, {angle: rotateTo}, FlxG.random.float(2, 6, true), FlxTween.PERSIST, null, onComplete);
 			
 			skippedIntro = true;
 		}
