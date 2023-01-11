@@ -28,7 +28,7 @@ class MasterEditorMenu extends MusicBeatState
 		'Character Editor',
 		'Chart Editor',
 		'Stage Editor',
-		#if (!html5 && MODS_ALLOWED)
+		#if MODS_ALLOWED
 		'Mod Manager'
 		#end
 	];
@@ -65,7 +65,7 @@ class MasterEditorMenu extends MusicBeatState
 			grpTexts.add(leText);
 			leText.snapToPosition();
 		}
-		
+
 		#if MODS_ALLOWED
 		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 42).makeGraphic(FlxG.width, 42, 0xFF000000);
 		textBG.alpha = 0.6;
@@ -75,11 +75,6 @@ class MasterEditorMenu extends MusicBeatState
 		directoryTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
 		directoryTxt.scrollFactor.set();
 		add(directoryTxt);
-		
-		for (folder in Paths.getModDirectories())
-		{
-			directories.push(folder);
-		}
 
 		var found:Int = directories.indexOf(Paths.currentModDirectory);
 		if(found > -1) curDirectory = found;
@@ -89,6 +84,13 @@ class MasterEditorMenu extends MusicBeatState
 
 		FlxG.mouse.visible = false;
 		super.create();
+	}
+
+	function refreshDirectories() {
+		for (folder in Paths.getModDirectories())
+		{
+			directories.push(folder);
+		}
 	}
 
 	override function update(elapsed:Float)
@@ -148,7 +150,7 @@ class MasterEditorMenu extends MusicBeatState
 			FreeplayState.destroyFreeplayVocals();
 			#end
 		}
-		
+
 		var bullShit:Int = 0;
 		for (item in grpTexts.members)
 		{
@@ -192,10 +194,10 @@ class MasterEditorMenu extends MusicBeatState
 			curDirectory = 0;
 
 		WeekData.setDirectoryFromWeek();
-		if(directories[curDirectory] == null || directories[curDirectory].length < 1)
+		if(directories[curDirectory] == null || directories[curDirectory].length < 1) {
 			directoryTxt.text = '< No Mod Directory Loaded >';
-		else
-		{
+			refreshDirectories();
+		} else {
 			Paths.currentModDirectory = directories[curDirectory];
 			directoryTxt.text = '< Loaded Mod Directory: ' + Paths.currentModDirectory + ' >';
 		}

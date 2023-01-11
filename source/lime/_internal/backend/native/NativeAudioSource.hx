@@ -41,6 +41,7 @@ class NativeAudioSource
 	private var stream:Bool;
 	private var streamTimer:Timer;
 	private var timer:Timer;
+	private var allowPitch:Bool = true;
 
 	public function new(parent:AudioSource)
 	{
@@ -143,7 +144,7 @@ class NativeAudioSource
 	{
 		/*var pitch:Float = AL.getSourcef (handle, AL.PITCH);
 			trace(pitch);
-			AL.sourcef (handle, AL.PITCH, pitch*0.9);
+			AL.sourcef (handle, AL.PITCH, pitch * 0.9);
 			pitch = AL.getSourcef (handle, AL.PITCH);
 			trace(pitch); */
 		/*var pos = getPosition();
@@ -523,7 +524,7 @@ class NativeAudioSource
 
 	public function getPitch():Float
 	{
-		if (handle != null)
+		if (handle != null && allowPitch)
 		{
 			return AL.getSourcef(handle, AL.PITCH);
 		}
@@ -535,6 +536,9 @@ class NativeAudioSource
 
 	public function setPitch(value:Float):Float
 	{
+		if(!allowPitch)
+			return value;
+
 		if (playing && value != getPitch())
 		{
 			if (timer != null)

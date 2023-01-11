@@ -100,6 +100,7 @@ class FlxSound extends FlxBasic
 	 */
 	public var pitch(get, set):Float;
 
+	public var allowPitch(get, set):Bool;
 	/**
 	 * The position in runtime of the music playback in milliseconds.
 	 * If set while paused, changes only come into effect after a `resume()` call.
@@ -182,6 +183,8 @@ class FlxSound extends FlxBasic
 	 */
 	var _pitch:Float = 1.0;
 
+	var _allowPitch:Bool = true;
+
 	/**
 	 * Internal tracker for total volume adjustment.
 	 */
@@ -230,6 +233,7 @@ class FlxSound extends FlxBasic
 		_paused = false;
 		_volume = 1.0;
 		_pitch = 1.0;
+		_allowPitch = true;
 		_volumeAdjust = 1.0;
 		looped = false;
 		loopTime = 0.0;
@@ -625,6 +629,9 @@ class FlxSound extends FlxBasic
 		if (_channel != null)
 		{
 			#if (sys && openfl_legacy)
+			if(!allowPitch && _pitch != 1) {
+				_pitch = 1;
+			}
 			pitch = _pitch;
 			#end
 			_channel.addEventListener(Event.SOUND_COMPLETE, stopped);
@@ -761,6 +768,17 @@ class FlxSound extends FlxBasic
 	function set_pitch(v:Float):Float
 	{
 		return _pitch = v;
+	}
+
+	inline function get_allowPitch():Bool {
+		return _allowPitch;
+	}
+
+	function set_allowPitch(v:Bool):Bool {
+		if(v && (pitch != 1)) {
+			pitch = 1;
+		}
+		return _allowPitch = v;
 	}
 
 	inline function get_pan():Float

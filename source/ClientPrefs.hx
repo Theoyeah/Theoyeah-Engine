@@ -112,7 +112,10 @@ class ClientPrefs
 		'zoom-'			=> [X, NONE],
 		'decrease'		=> [Q, NONE],
 		'increase'		=> [E, NONE],
-		'save'			=> [P, NONE]
+		'save'			=> [P, NONE],
+
+		'skip_song'		=> [ONE, NONE], // only in debug, in PlayState
+		'future_1'		=> [TWO, NONE], // only in debug, in PlayState
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -408,7 +411,7 @@ class ClientPrefs
 		}
 
 		var save:FlxSave = new FlxSave();
-		save.bind('controls_v2', 'ninjamuffin99');
+		save.bind('controls_v2');
 		if(save != null && save.data.customControls != null)
 		{
 			var loadedControls:Map<String, Array<FlxKey>> = save.data.customControls;

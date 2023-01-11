@@ -21,6 +21,7 @@ import flixel.system.FlxSound;
 import openfl.utils.Assets as OpenFlAssets;
 import WeekData;
 #if MODS_ALLOWED
+//import sys.io.File;
 import sys.FileSystem;
 #end
 
@@ -322,11 +323,11 @@ class FreeplayState extends MusicBeatState
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());
 		}
+		#if PRELOAD_ALL
 		else if(space)
 		{
 			if(instPlaying != curSelected)
 			{
-				#if PRELOAD_ALL
 				destroyFreeplayVocals();
 				FlxG.sound.music.volume = 0;
 				Paths.currentModDirectory = songs[curSelected].folder;
@@ -344,45 +345,53 @@ class FreeplayState extends MusicBeatState
 				vocals.looped = true;
 				vocals.volume = 0.7;
 				instPlaying = curSelected;
-				#end
 			}
 		}
+		#end
 		else if (accepted)
 		{
-			persistentUpdate = false;
+			var canPlay:Bool = true; // i dont want it to not run the code below
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
 			var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
-			/*#if MODS_ALLOWED
-			if(!sys.FileSystem.exists(Paths.modsJson(songLowercase + '/' + poop)) && !sys.FileSystem.exists(Paths.json(songLowercase + '/' + poop)))
-			#else
-			if(!OpenFlAssets.exists(Paths.json(songLowercase + '/' + poop)))
-			#end
-			{
-				poop = songLowercase;
-				curDifficulty = 1;
-				trace('Couldnt find file');
+			/*if(ClientPrefs.noSongCrash) {
+				#if MODS_ALLOWED
+				if(!FileSystem.exists(Paths.modsJson(songLowercase + '/' + poop))
+				   && !FileSystem.exists(Paths.json(songLowercase + '/' + poop)))
+				#else
+				if(!OpenFlAssets.exists(Paths.json(songLowercase + '/' + poop)))
+				#end
+				{
+					poop = songLowercase;
+					curDifficulty = 1;
+					trace('Couldnt find file');
+					FlxG.sound.play(Paths.sound('cancelMenu'));
+					canPlay = false;
+				}
 			}*/
-			trace(poop);
+			if(canPlay) {
+				persistentUpdate = false;
+				trace(poop);
 
-			PlayState.SONG = Song.loadFromJson(poop, songLowercase);
-			PlayState.isStoryMode = false;
-			PlayState.storyDifficulty = curDifficulty;
+				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
+				PlayState.isStoryMode = false;
+				PlayState.storyDifficulty = curDifficulty;
 
-			trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
-			if(colorTween != null) {
-				colorTween.cancel();
+				trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
+				if(colorTween != null) {
+					colorTween.cancel();
+				}
+
+				if (FlxG.keys.pressed.SHIFT) {
+					LoadingState.loadAndSwitchState(new ChartingState());
+					MasterEditorMenu.chartToMaster = false;
+				} else {
+					LoadingState.loadAndSwitchState(new PlayState());
+				}
+
+				FlxG.sound.music.volume = 0;
+
+				destroyFreeplayVocals();
 			}
-
-			if (FlxG.keys.pressed.SHIFT) {
-				LoadingState.loadAndSwitchState(new ChartingState());
-				MasterEditorMenu.chartToMaster = false;
-			} else {
-				LoadingState.loadAndSwitchState(new PlayState());
-			}
-
-			FlxG.sound.music.volume = 0;
-
-			destroyFreeplayVocals();
 		}
 		else if(controls.RESET)
 		{
@@ -476,8 +485,8 @@ class FreeplayState extends MusicBeatState
 				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
-		
-		Paths.currentModDirectory = songs[curSelected].folder;
+
+		Paths.currentModDirectory = songs[curSelected].folder; // hmmm, suspicious
 		PlayState.storyWeek = songs[curSelected].week;
 
 		CoolUtil.difficulties = CoolUtil.defaultDifficulties.copy();
