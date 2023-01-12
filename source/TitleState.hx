@@ -978,7 +978,7 @@ class TitleState extends MusicBeatState
 					rotateTo,
 					4,
 					{
-						ease: FlxTween.PERSIST, // ???
+						//ease: EaseFunction =PERSIST, // ???
 						//onComplete: onComplete, // no necessary
 						type: ONESHOT // when finished, do it again but in reverse direction
 					});
