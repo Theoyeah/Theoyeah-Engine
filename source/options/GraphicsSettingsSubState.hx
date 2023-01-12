@@ -44,6 +44,14 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			false); //Default value
 		addOption(option);
 
+		var option:Option = new Option('Resolution', 
+			'<What resolution would you like playing with?',
+			'gameresolution', 
+			'string', 
+			'1270 x 720 (Default)',
+			['1270 x 720 (Default)','1366 x 768','1920 x 1080','2160 x 1440','3840 x 2160']);
+		addOption(option);
+		
 		var option:Option = new Option('Anti-Aliasing',
 			'If unchecked, disables anti-aliasing, increases performance\nat the cost of sharper visuals.',
 			'globalAntialiasing',
