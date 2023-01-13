@@ -231,7 +231,7 @@ class ClientPrefs
 		}
 		if(FlxG.save.data.defaultfps != null)
 		{
-			iconBounce = FlxG.save.data.defaultfps;
+			defaultfps = FlxG.save.data.defaultfps;
 		}
 		if(FlxG.save.data.musicSelected != null)
 		{
