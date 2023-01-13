@@ -14,6 +14,7 @@ class ClientPrefs
 	public static var showRAM:Bool = true;
 	public static var flashing:Bool = true;
 	public static var iconBounce:String = 'Default';
+	public static var defaultfps:Bool = false;
 	public static var globalAntialiasing:Bool = true;
 	public static var opponentStrums:Bool = false;
 	public static var noteSkin:String = 'Arrows';
@@ -45,7 +46,7 @@ class ClientPrefs
 	public static var kadetxt:Bool = false;
 	public static var shaders:Bool = true;
 	public static var winningIcon:Bool = true;
-	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
+	public static var crazycounter:Bool = true; // Hold up, wasn't this supposed to be enabled by default ?
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
 	//public static var multiplicativeValue:Float = 0;
 	public static var musicSelected:String = 'freakyMenu';
@@ -111,7 +112,10 @@ class ClientPrefs
 		'zoom-'			=> [X, NONE],
 		'decrease'		=> [Q, NONE],
 		'increase'		=> [E, NONE],
-		'save'			=> [P, NONE]
+		'save'			=> [P, NONE],
+
+		'skip_song'		=> [ONE, NONE], // only in debug, in PlayState
+		'future_1'		=> [TWO, NONE], // only in debug, in PlayState
 	];
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
@@ -137,6 +141,7 @@ class ClientPrefs
 		FlxG.save.data.noteSplashes = noteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.shaders = shaders;
+		FlxG.save.data.defaultfps = defaultfps;
 		FlxG.save.data.framerate = framerate;
 		FlxG.save.data.longhealthbar = longhealthbar;
 		FlxG.save.data.crazycounter = crazycounter;
@@ -227,6 +232,10 @@ class ClientPrefs
 		if(FlxG.save.data.iconBounce != null)
 		{
 			iconBounce = FlxG.save.data.iconBounce;
+		}
+		if(FlxG.save.data.defaultfps != null)
+		{
+			defaultfps = FlxG.save.data.defaultfps;
 		}
 		if(FlxG.save.data.musicSelected != null)
 		{
@@ -406,7 +415,7 @@ class ClientPrefs
 		}
 
 		var save:FlxSave = new FlxSave();
-		save.bind('controls_v2', 'ninjamuffin99');
+		save.bind('controls_v2');
 		if(save != null && save.data.customControls != null)
 		{
 			var loadedControls:Map<String, Array<FlxKey>> = save.data.customControls;
