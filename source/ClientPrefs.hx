@@ -45,7 +45,7 @@ class ClientPrefs
 	public static var kadetxt:Bool = false;
 	public static var shaders:Bool = true;
 	public static var winningIcon:Bool = true;
-	public static var crazycounter:Bool = false; // The reason it is called like that is bc it can mess with some things
+	public static var crazycounter:Bool = true; // Hold up, wasn't this supposed to be enabled by default ?
 	public static var camfollow:Bool = true; // No other name cuz it can mess with some others things 
 	//public static var multiplicativeValue:Float = 0;
 	public static var musicSelected:String = 'freakyMenu';
