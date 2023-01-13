@@ -94,6 +94,7 @@ class CreditsState extends MusicBeatState
 			['tposejank',					'',					'New Alphabet support',															''],
 			['Raltyro', 					'', 				'Some code used\nCreator of Charting State log\nAnd more!', 					''],
 			['Meme Hoovy', 					'', 				'No deprecation warnings ;)', 													'https://github.com/MemeHoovy'],
+			['AverageDaveLover65',				'average',	'FONT ON FPS AND OTHER SHIT',						'https://www.youtube.com/channel/UC0uBA3_m5U5BNnbUcCisgsQ',						'33FF00'], //ME
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',				'shadowmario',		'Main Programmer of Psych Engine',												'https://twitter.com/Shadow_Mario_',							'444444'],
