@@ -14,6 +14,7 @@ class ClientPrefs
 	public static var showRAM:Bool = true;
 	public static var flashing:Bool = true;
 	public static var iconBounce:String = 'Default';
+	public static var defaultfps:Bool = false;
 	public static var globalAntialiasing:Bool = true;
 	public static var opponentStrums:Bool = false;
 	public static var noteSkin:String = 'Arrows';
@@ -138,6 +139,7 @@ class ClientPrefs
 		FlxG.save.data.noteSplashes = noteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.shaders = shaders;
+		FlxG.save.data.defaultfps = defaultfps;
 		FlxG.save.data.framerate = framerate;
 		FlxG.save.data.longhealthbar = longhealthbar;
 		FlxG.save.data.crazycounter = crazycounter;
@@ -226,6 +228,10 @@ class ClientPrefs
 		if(FlxG.save.data.iconBounce != null)
 		{
 			iconBounce = FlxG.save.data.iconBounce;
+		}
+		if(FlxG.save.data.defaultfps != null)
+		{
+			iconBounce = FlxG.save.data.defaultfps;
 		}
 		if(FlxG.save.data.musicSelected != null)
 		{
