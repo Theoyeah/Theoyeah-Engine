@@ -86,12 +86,14 @@ class MasterEditorMenu extends MusicBeatState
 		super.create();
 	}
 
+	#if MODS_ALLOWED
 	function refreshDirectories() {
 		for (folder in Paths.getModDirectories())
 		{
 			directories.push(folder);
 		}
 	}
+	#end
 
 	override function update(elapsed:Float)
 	{
