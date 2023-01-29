@@ -973,15 +973,7 @@ class TitleState extends MusicBeatState
 			var rotateTo:Float = -logoBl.angle;
 			//function onComplete():Void {
 				alreadyCompleted = true;
-				FlxTween.angle(logoBl,
-					logoBl.angle,
-					rotateTo,
-					4,
-					{
-						ease: FlxEase.backInOut,
-						//onComplete: onComplete, // no necessary
-						type: PINGPONG // when finished, do it again but in reverse direction
-					});
+				FlxTween.angle(logoBl, logoBl.angle,rotateTo, 4, { type: FlxTween.PINGPONG, ease: FlxEase.quadInOut, loopDelay: 0 });
 			//}
 			//if(!alreadyCompleted)
 				//onComplete();
