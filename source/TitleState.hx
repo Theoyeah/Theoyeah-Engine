@@ -980,7 +980,7 @@ class TitleState extends MusicBeatState
 					{
 						ease: FlxEase.backInOut,
 						//onComplete: onComplete, // no necessary
-						type: ONESHOT // when finished, do it again but in reverse direction
+						type: PINGPONG // when finished, do it again but in reverse direction
 					});
 			//}
 			//if(!alreadyCompleted)
