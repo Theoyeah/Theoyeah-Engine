@@ -65,6 +65,14 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		option.maxValue = 240;
 		option.displayFormat = '%v FPS';
 		option.onChange = onChangeFramerate;
+
+		var option:Option = new Option('V-Sync',
+		'.',
+		'vsync',
+		'bool',
+	    false);
+	option.onChange = onChangeAntiAliasing;
+	addOption(option);
 		#end
 
 		/*
@@ -82,6 +90,14 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			'bool',
 			true);
 		addOption(option);
+
+		var option:Option = new Option('Fullscreen',
+		   'If checked, the game covers the entire screen!',
+		   'fullscreen',
+		   'bool',
+		   false);
+		   option.onChange = onChangeFullscreen;
+	    addOption(option);
 
 		#if !html5
 		var option:Option = new Option('Auto Pause',
@@ -106,6 +122,16 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			}
 		}
 	}
+
+	function onChangeFullscreen()
+		{
+        if (ClientPrefs.fullscreen = false) {
+			FlxG.fullscreen = false;
+		} else {
+			FlxG.fullscreen = true;
+		}
+	}
+	
 
 	function onChangeFramerate()
 	{

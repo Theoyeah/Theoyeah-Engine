@@ -11,6 +11,7 @@ class ClientPrefs
 	public static var downScroll:Bool = false;
 	public static var middleScroll:Bool = false;
 	public static var showFPS:Bool = true;
+	public static var fullscreen:Bool = false;
 	public static var showRAM:Bool = true;
 	public static var flashing:Bool = true;
 	public static var iconBounce:String = 'Default';
@@ -158,6 +159,7 @@ class ClientPrefs
 		FlxG.save.data.kadetxt = kadetxt;
 		FlxG.save.data.introbg = introbg;
 		FlxG.save.data.noReset = noReset;
+		FlxG.save.data.fullscreen = fullscreen;
 		FlxG.save.data.noscore = noscore;
 		FlxG.save.data.opponentStrums = opponentStrums;
 		FlxG.save.data.camfollow = camfollow;
@@ -204,6 +206,10 @@ class ClientPrefs
 		if(FlxG.save.data.winningIcon != null)
 		{
 			winningIcon = FlxG.save.data.winningIcon;
+		}
+		if(FlxG.save.data.fullscreen != null)
+		{
+			fullscreen = FlxG.save.data.fullscreen;
 		}
 		if(FlxG.save.data.downScroll != null)
 		{
