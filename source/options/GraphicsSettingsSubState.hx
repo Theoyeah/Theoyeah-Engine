@@ -124,12 +124,8 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 	}
 
 	function onChangeFullscreen()
-		{
-        if (ClientPrefs.fullscreen = false) {
-			FlxG.fullscreen = false;
-		} else {
-			FlxG.fullscreen = true;
-		}
+	{
+		FlxG.fullscreen = ClientPrefs.fullscreen;
 	}
 	
 
