@@ -2533,9 +2533,8 @@ class PlayState extends MusicBeatState
 		} else {
 			scoreTxt.text = 'Score: ' + songScore
 				+ ' | Misses: ' + songMisses
-				+ ' | Accuracy:' + ratingFC  //Forgot to readd this when the new system came
-				+ ' | Rating: ' + ratingName
-				+ (ratingName != '?' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%)' : '')
+				+ ' | Accuracy: ' +  '${Highscore.floorDecimal(ratingPercent * 100, 2)}%'
+				+ ' | Rating: ' + ratingName + ' (' + ratingFC + ')'
 				//+ ' | Health: ' + Highscore.floorDecimal(healthBar.percent, 2) + '%'
 				;
 		}
