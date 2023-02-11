@@ -784,6 +784,10 @@ class PlayState extends MusicBeatState
 				GameOverSubstate.endSoundName = 'gameOverEnd-pixel';
 				GameOverSubstate.characterName = 'bf-pixel-dead';
 
+				/*if(!ClientPrefs.lowQuality) { //Does this even do something?
+					var waveEffectBG = new FlxWaveEffect(FlxWaveMode.ALL, 2, -1, 3, 2);
+					var waveEffectFG = new FlxWaveEffect(FlxWaveMode.ALL, 2, -1, 5, 2);
+				}*/
 				var posX = 400;
 				var posY = 200;
 				if(!ClientPrefs.lowQuality) {
@@ -3148,7 +3152,7 @@ class PlayState extends MusicBeatState
 			case 'schoolEvil':
 				if(!ClientPrefs.lowQuality && bgGhouls.animation.curAnim.finished) {
 					bgGhouls.visible = false;
-			}
+				}
 			case 'philly':
 				if(trainMoving)
 				{
@@ -5861,12 +5865,13 @@ class PlayState extends MusicBeatState
 
 			if(!Achievements.isAchievementUnlocked(achievementName) && !cpuControlled) {
 				var weekName:String = WeekData.getWeekFileName();
+				var weekfuck:Bool = (campaignMisses < 1 && storyPlaylist.length <= 1);
 				var daDifficult:Bool = (CoolUtil.difficulties[storyDifficulty].toUpperCase() == 'HARD' || CoolUtil.difficulties[storyDifficulty].toUpperCase() == 'FUCKED');
 				if (!unlock)
 				{
 					if (weekName.contains('week')) // simplified
 					{
-						if (achievementName == weekName + '_nomiss' && daDifficult && campaignMisses < 1 && storyPlaylist.length <= 1 )
+						if (achievementName == weekName + '_nomiss' && daDifficult && weekfuck )
 							unlock = true;
 					}
 					else
