@@ -1,2 +1,0 @@
-Add a search input text in freeplay
-Fix crash with Psych Songs
