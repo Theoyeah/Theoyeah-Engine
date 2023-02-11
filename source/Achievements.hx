@@ -222,12 +222,14 @@ class AttachedAchievement extends FlxSprite {
 
 	public function forget() // from BeastlyGhost
  	{
- 		if (Achievements.isAchievementUnlocked(tag) && FlxG.save.data.achievementsMap)
+ 		if (Achievements.isAchievementUnlocked(tag) && FlxG.save.data.achievementsMap != null)
  		{
  			var savedStuff:Map<String, String> = FlxG.save.data.achievementsMap;
- 			if (savedStuff.exists(tag))
+ 			if (savedStuff.exists(tag)) 
  				savedStuff.remove(tag);
+
  			FlxG.save.data.achievementsMap = savedStuff;
+			achievementsMap = savedStuff;
  			loadGraphic(Paths.image('achievements/lockedachievement'));
 		}
 	}
