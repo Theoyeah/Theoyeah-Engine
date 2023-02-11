@@ -5871,7 +5871,7 @@ class PlayState extends MusicBeatState
 				{
 					if (weekName.contains('week')) // simplified
 					{
-						if (achievementName == weekName + '_nomiss' && daDifficult && weekfuck )
+						if (achievementName == weekName + '_nomiss' && daDifficult && weekfuck && isStoryMode)
 							unlock = true;
 					}
 					else
