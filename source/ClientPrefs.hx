@@ -40,6 +40,8 @@ class ClientPrefs
 	public static var checkForUpdates:Bool = true;
 	public static var comboStacking = true;
 	public static var introbg:Bool = false;
+	public static var ogbar = false;
+	public static var ogscore = false;
 	public static var longhealthbar:Bool = true;
 	public static var resumeTime:Float = 3;
 	public static var noscore:Bool = false;
@@ -135,6 +137,7 @@ class ClientPrefs
 		FlxG.save.data.showFPS = showFPS;
 		FlxG.save.data.showRAM = showRAM;
 		FlxG.save.data.flashing = flashing;
+		FlxG.save.data.ogscore = ogscore;
 		FlxG.save.data.musicSelected = musicSelected;
 		FlxG.save.data.globalAntialiasing = globalAntialiasing;
 		FlxG.save.data.noteSplashes = noteSplashes;
@@ -145,7 +148,8 @@ class ClientPrefs
 		FlxG.save.data.longhealthbar = longhealthbar;
 		FlxG.save.data.crazycounter = crazycounter;
 		//FlxG.save.data.cursing = cursing;
-		//FlxG.save.data.violence = violence;
+		//FlxG.save.data.violence = violence;                                                           Honestly fuck you children fnf is not for children
+		FlxG.save.data.ogbar = ogbar;
 		FlxG.save.data.iconBounce = iconBounce;
 		FlxG.save.data.autoPause = autoPause;
 		FlxG.save.data.camZooms = camZooms;
@@ -206,6 +210,14 @@ class ClientPrefs
 		if(FlxG.save.data.winningIcon != null)
 		{
 			winningIcon = FlxG.save.data.winningIcon;
+		}
+		if(FlxG.save.data.ogbar != null)
+		{
+			ogbar = FlxG.save.data.ogbar;
+		}
+		if(FlxG.save.data.ogbar != null)
+		{
+			ogscore = FlxG.save.data.ogscore;
 		}
 		if(FlxG.save.data.fullscreen != null)
 		{
