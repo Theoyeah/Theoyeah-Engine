@@ -52,20 +52,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
-		var option:Option = new Option('Original Health Bar',
-			'Check this if you want to use the original FNF health bar!',
-			'ogbar',
-			'bool',
-			false);
-		addOption(option);
-
-		var option:Option = new Option('Original Score Text',
-			'Check this if you want to use the original FNF score text!',
-			'ogscore',
-			'bool',
-			false);
-		addOption(option);
-
 		//I'd suggest using "Downscroll" as an example for making your own option since it is the simplest here
 		var option:Option = new Option('Downscroll', //Name
 			'If checked, notes go Down instead of Up, simple enough.', //Description
