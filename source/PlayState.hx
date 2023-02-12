@@ -1164,22 +1164,19 @@ class PlayState extends MusicBeatState
 		add(healthBarBG);
 		if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
 
-		if (ClientPrefs.ogbar) {
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
-		'health', 0, 2);
+			'health', 0, maxHealth);
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
-		} else {
-		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
-		'health', 0, 2);
-	    healthBar.scrollFactor.set();
-		}
+		if(ClientPrefs.ogbar)
+			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 		// healthBar
 		healthBar.visible = !ClientPrefs.hideHud;
 		healthBar.alpha = ClientPrefs.healthBarAlpha;
 		add(healthBar);
 		healthBarBG.sprTracker = healthBar;
-       if (ClientPrefs.ogbar) {
+
+
+		/*if (ClientPrefs.ogbar) {
 		iconP1 = new HealthIcon(SONG.player1, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		add(iconP1);
@@ -1187,7 +1184,7 @@ class PlayState extends MusicBeatState
 		iconP2 = new HealthIcon(SONG.player2, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
-	   } else {
+	   } else {*/
 	   iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - 75;
 		iconP1.visible =  !ClientPrefs.hideHud;
@@ -1199,8 +1196,9 @@ class PlayState extends MusicBeatState
 		iconP2.visible =  !ClientPrefs.hideHud;
 		iconP2.alpha = ClientPrefs.healthBarAlpha;
 		add(iconP2);
-		reloadHealthBarColors();
-	   }
+		if(!ClientPrefs.ogbar)
+			reloadHealthBarColors();
+	   //}
 
 	if (ClientPrefs.ogscore) {
 		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, "", 20);
