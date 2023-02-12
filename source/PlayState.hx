@@ -2555,13 +2555,15 @@ class PlayState extends MusicBeatState
 				+ ' | Rating: ' + ratingFC //peeps wanted no integer rating
 				//+ ' | Health: ' + Highscore.floorDecimal(healthBar.percent, 2) + '%'
 				;
+		} else if (ClientPrefs.ogscore) {
+			scoreTxt.text = 'Score: ' + songScore;
 		} else {
 			scoreTxt.text = 'Score: ' + songScore
 				+ ' | Misses: ' + songMisses
 				+ ' | Accuracy: ' +  '${Highscore.floorDecimal(ratingPercent * 100, 2)}%'
 				+ ' | Rating: ' + ratingName + ' (' + ratingFC + ')'
 				//+ ' | Health: ' + Highscore.floorDecimal(healthBar.percent, 2) + '%'
-				;
+				;		
 		}
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
