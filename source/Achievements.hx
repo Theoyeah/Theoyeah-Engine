@@ -229,7 +229,10 @@ class AttachedAchievement extends FlxSprite {
  				savedStuff.remove(tag);
 
  			FlxG.save.data.achievementsMap = savedStuff;
-			//Achievements.achievementsMap = savedStuff;
+			if(Achievements.achievementsMap.exists(tag)) {
+				if(Achievements.achievementsMap.get(tag)) // its unlocked {
+					Achievements.achievementsMap.set(tag, false);
+			}
  			loadGraphic(Paths.image('achievements/lockedachievement'));
 		}
 	}
