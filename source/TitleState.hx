@@ -821,6 +821,7 @@ class TitleState extends MusicBeatState
 		remove(credGroup);
 		remove(coolguys);
 	}
+	var alreadyCompleted:Bool = false;
 	function skipIntro():Void
 	{
 		if (!skippedIntro)
@@ -962,27 +963,22 @@ class TitleState extends MusicBeatState
 			easteregg = easteregg.toUpperCase();
 
 			var lol = FlxG.random.int(4, 100);
-			if(easteregg == 'WITHER362') {
+
+			if(easteregg != 'WITHER362') {
 				logoBl.angle = -4;
 			} else {
 				logoBl.angle = -lol;
 			}
 
-			new FlxTimer().start(0.01, function(tmr:FlxTimer)
-			{
-				if(easteregg == 'WITHER362') {
-					if (logoBl.angle == -lol)
-						FlxTween.angle(logoBl, logoBl.angle, lol, FlxG.random.int(2, 6), {ease: FlxEase.quartInOut});
-					if (logoBl.angle == lol)
-						FlxTween.angle(logoBl, logoBl.angle, lol, FlxG.random.int(2, 6), {ease: FlxEase.quartInOut});
-				} else {
-					if (logoBl.angle == -4)
-						FlxTween.angle(logoBl, logoBl.angle, 4, 4, {ease: FlxEase.quartInOut});
-					if (logoBl.angle == 4)
-						FlxTween.angle(logoBl, logoBl.angle, -4, 4, {ease: FlxEase.quartInOut});
-				}
-			}, 0);
-
+			var rotateTo:Float = -logoBl.angle;
+			//function onComplete():Void {
+				alreadyCompleted = true;
+				FlxTween.angle(logoBl, logoBl.angle,rotateTo, 4, { type: FlxTweenType.PINGPONG, ease: FlxEase.quadInOut, loopDelay: 0 });
+			//}
+			//if(!alreadyCompleted)
+				//onComplete();
+			//FlxTween.tween(logoBl, {angle: rotateTo}, FlxG.random.float(2, 6, true), FlxTween.PERSIST, null, onComplete);
+			
 			skippedIntro = true;
 		}
 	}

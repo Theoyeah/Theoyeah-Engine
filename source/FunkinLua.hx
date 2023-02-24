@@ -3367,8 +3367,9 @@ class FunkinLua {
 	}
 
  	function getErrorMessage(status:Int):String {
+		var v:String = 'Unknown Error';
 		#if LUA_ALLOWED
-		var v:String = Lua.tostring(lua, -1);
+		v = Lua.tostring(lua, -1);
 		Lua.pop(lua, 1);
 
 		if (v != null) v = v.trim();
@@ -3381,8 +3382,8 @@ class FunkinLua {
 			return "Unknown Error";
 		}
 
-		return v;
 		#end
+		return v;
  	}
 
 	var lastCalledFunction:String = '';
@@ -3429,7 +3430,7 @@ class FunkinLua {
 		return Function_Continue;
 	}
 
-	public static function getPropertyLoopThingWhatever(killMe:Array<String>, ?checkForTextsToo:Bool = true, ?getProperty:Bool=true):Dynamic
+	public static function getPropertyLoopThingWhatever(killMe:Array<String>, ?checkForTextsToo:Bool = true, ?getProperty:Bool = true):Dynamic
 	{
 		var coverMeInPiss:Dynamic = getObjectDirectly(killMe[0], checkForTextsToo);
 		var end = killMe.length;

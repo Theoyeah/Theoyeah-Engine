@@ -62,14 +62,28 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool',
 			true);
 		addOption(option);
-		
-		var option:Option = new Option('Old Fps font',
+
+		var option:Option = new Option('Original Health Bar',
+		'Check this if you want to use the original FNF health bar!',
+		'ogbar',
+		'bool',
+		false);
+	addOption(option);
+
+	var option:Option = new Option('Original Score Text',
+		'Check this if you want to use the original FNF score text!',
+		'ogscore',
+		'bool',
+		false);
+	addOption(option);
+
+/*		var option:Option = new Option('Old Fps font',
 			"You're getting nostalgic about the old font for fps? Then this is for you...?",
 			'defaultfps',
 			'bool',
 			false);
 		addOption(option);
-
+*/ // fixing it one dau
 		var option:Option = new Option('Hide HUD',
 			'If checked, hides most HUD elements.',
 			'hideHud',

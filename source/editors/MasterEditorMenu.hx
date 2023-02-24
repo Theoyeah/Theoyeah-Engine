@@ -59,7 +59,7 @@ class MasterEditorMenu extends MusicBeatState
 
 		for (i in 0...options.length)
 		{
-			var leText:Alphabet = new Alphabet(900, 320, options[i], true);
+			var leText:Alphabet = new Alphabet(90, 320, options[i], true);
 			leText.isMenuItem = true;
 			leText.targetY = i;
 			grpTexts.add(leText);
@@ -88,10 +88,12 @@ class MasterEditorMenu extends MusicBeatState
 
 	#if MODS_ALLOWED
 	function refreshDirectories() {
+		#if MODS_ALLOWED
 		for (folder in Paths.getModDirectories())
 		{
 			directories.push(folder);
 		}
+		#end
 	}
 	#end
 

@@ -76,7 +76,7 @@ import sys.io.File;
 #end
 
 #if VIDEOS_ALLOWED
-#if (hxCodec >= "2.6.1") 
+#if (hxCodec >= "2.6.1")
 import hxcodec.VideoHandler as MP4Handler;
 #elseif (hxCodec == "2.6.0")
 import VideoHandler as MP4Handler;
@@ -93,12 +93,12 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
 	public static var ratingStuff:Array<Dynamic> = [
-		['Its not hard you just suck as hell', 0.2], //From 0% to 19%
+		[':Skull:', 0.2], //From 0% to 19%
 		['skill issue', 0.4], //From 20% to 39%
 		['Bad', 0.5], //From 40% to 49%
 		['Ok', 0.6], //From 50% to 59%
 		['Not Bad', 0.69], //From 60% to 68%
-		['Great', 0.7], //69%
+		['Nice...', 0.7], //69%
 		['Cool!', 0.8], //From 70% to 79%
 		['Good!', 0.9], //From 80% to 89%
 		['Sick!!', 1], //From 90% to 99%
@@ -790,6 +790,10 @@ class PlayState extends MusicBeatState
 				GameOverSubstate.endSoundName = 'gameOverEnd-pixel';
 				GameOverSubstate.characterName = 'bf-pixel-dead';
 
+				/*if(!ClientPrefs.lowQuality) { //Does this even do something?
+					var waveEffectBG = new FlxWaveEffect(FlxWaveMode.ALL, 2, -1, 3, 2);
+					var waveEffectFG = new FlxWaveEffect(FlxWaveMode.ALL, 2, -1, 5, 2);
+				}*/
 				var posX = 400;
 				var posY = 200;
 				if(!ClientPrefs.lowQuality) {
@@ -1167,15 +1171,27 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
-			'health', 0, 2);
+			'health', 0, maxHealth);
 		healthBar.scrollFactor.set();
+		if(ClientPrefs.ogbar)
+			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 		// healthBar
 		healthBar.visible = !ClientPrefs.hideHud;
 		healthBar.alpha = ClientPrefs.healthBarAlpha;
 		add(healthBar);
 		healthBarBG.sprTracker = healthBar;
 
-		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
+
+		/*if (ClientPrefs.ogbar) {
+		iconP1 = new HealthIcon(SONG.player1, true);
+		iconP1.y = healthBar.y - (iconP1.height / 2);
+		add(iconP1);
+
+		iconP2 = new HealthIcon(SONG.player2, false);
+		iconP2.y = healthBar.y - (iconP2.height / 2);
+		add(iconP2);
+	   } else {*/
+	   iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - 75;
 		iconP1.visible =  !ClientPrefs.hideHud;
 		iconP1.alpha = ClientPrefs.healthBarAlpha;
@@ -1186,14 +1202,23 @@ class PlayState extends MusicBeatState
 		iconP2.visible =  !ClientPrefs.hideHud;
 		iconP2.alpha = ClientPrefs.healthBarAlpha;
 		add(iconP2);
-		reloadHealthBarColors();
+		if(!ClientPrefs.ogbar)
+			reloadHealthBarColors();
+	   //}
 
+	if (ClientPrefs.ogscore) {
+		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, "", 20);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.scrollFactor.set();
+		add(scoreTxt);
+    } else {
 		scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), ClientPrefs.kadetxt ? 16 : 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.noscore;
-		add(scoreTxt);
+		add(scoreTxt);  
+	   }
 
 		if(ClientPrefs.crazycounter) {
 			judgementCounter = new FlxText(20, 0, 0, '', 20);
@@ -2536,13 +2561,15 @@ class PlayState extends MusicBeatState
 				+ ' | Rating: ' + ratingFC //peeps wanted no integer rating
 				//+ ' | Health: ' + Highscore.floorDecimal(healthBar.percent, 2) + '%'
 				;
+		} else if (ClientPrefs.ogscore) {
+			scoreTxt.text = 'Score: ' + songScore;
 		} else {
 			scoreTxt.text = 'Score: ' + songScore
 				+ ' | Misses: ' + songMisses
-				+ ' | Rating: ' + ratingName
-				+ (ratingName != '?' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) - $ratingFC' : '')
+				+ ' | Accuracy: ' +  '${Highscore.floorDecimal(ratingPercent * 100, 2)}%'
+				+ ' | Rating: ' + ratingName + ' (' + ratingFC + ')'
 				//+ ' | Health: ' + Highscore.floorDecimal(healthBar.percent, 2) + '%'
-				;
+				;		
 		}
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
@@ -3154,7 +3181,7 @@ class PlayState extends MusicBeatState
 			case 'schoolEvil':
 				if(!ClientPrefs.lowQuality && bgGhouls.animation.curAnim.finished) {
 					bgGhouls.visible = false;
-			}
+				}
 			case 'philly':
 				if(trainMoving)
 				{
@@ -5867,12 +5894,13 @@ class PlayState extends MusicBeatState
 
 			if(!Achievements.isAchievementUnlocked(achievementName) && !cpuControlled) {
 				var weekName:String = WeekData.getWeekFileName();
+				var weekfuck:Bool = (campaignMisses < 1 && storyPlaylist.length <= 1);
 				var daDifficult:Bool = (CoolUtil.difficulties[storyDifficulty].toUpperCase() == 'HARD' || CoolUtil.difficulties[storyDifficulty].toUpperCase() == 'FUCKED');
 				if (!unlock)
 				{
 					if (weekName.contains('week')) // simplified
 					{
-						if (achievementName == weekName + '_nomiss' && daDifficult && campaignMisses < 1 && storyPlaylist.length <= 1 )
+						if (achievementName == weekName + '_nomiss' && daDifficult && weekfuck && isStoryMode)
 							unlock = true;
 					}
 					else
