@@ -48,7 +48,9 @@ class FPS extends TextField
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("_sans", 13, color);
+		var size = ClientPrefs.defaultfps ? 13 : 16;
+		var font = ClientPrefs.defaultfps ? "_sans" : "VCR OSD Mono";
+		defaultTextFormat = new TextFormat(font, size, color); //credit average for this code // (ru u sure this isn't kade ?
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";

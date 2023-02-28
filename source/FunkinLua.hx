@@ -2922,6 +2922,11 @@ class FunkinLua {
 		});
 
 		// shaders
+		Lua_helper.add_callback(lua, "addChromaticAberrationEffect", function(camera:String, amplitude:Float = 0.005) {
+			if (ClientPrefs.shaders)
+				PlayState.instance.addShaderToCamera(camera, new ChromaticAberrationEffect(amplitude));
+
+		});
 		Lua_helper.add_callback(lua, "chromaticEffect", function(camera:String, chromeOffset:Float = 0.005) {
 			if (ClientPrefs.shaders)
 				PlayState.instance.addShaderToCamera(camera, new ChromaticAberrationEffect(chromeOffset));
@@ -3378,7 +3383,6 @@ class FunkinLua {
 
 		return v;
 		#end
-		return "Unknown Error :'(";
  	}
 
 	var lastCalledFunction:String = '';

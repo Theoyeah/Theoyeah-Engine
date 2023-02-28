@@ -76,7 +76,13 @@ import sys.io.File;
 #end
 
 #if VIDEOS_ALLOWED
+#if (hxCodec >= "2.6.1") 
+import hxcodec.VideoHandler as MP4Handler;
+#elseif (hxCodec == "2.6.0")
+import VideoHandler as MP4Handler;
+#else
 import vlc.MP4Handler;
+#end
 #end
 
 using StringTools;
@@ -865,12 +871,14 @@ class PlayState extends MusicBeatState
 
 			default: //custom stages
 				isPixelStage = stageData.isPixelStage;
-				for (layer in stageData.layerArray) {
-					var loadedLayer:BGSprite = new BGSprite(layer.directory, layer.xAxis, layer.yAxis, layer.scrollX, layer.scrollY);
-					loadedLayer.setGraphicSize(Std.int(loadedLayer.width * layer.scale));
-					loadedLayer.flipX = layer.flipX;
-					loadedLayer.flipY = layer.flipY;
-					add(loadedLayer);
+				if(stageData.layerArray.length > 0) {
+					for (layer in stageData.layerArray) {
+						var loadedLayer:BGSprite = new BGSprite(layer.directory, layer.xAxis, layer.yAxis, layer.scrollX, layer.scrollY);
+						loadedLayer.setGraphicSize(Std.int(loadedLayer.width * layer.scale));
+						loadedLayer.flipX = layer.flipX;
+						loadedLayer.flipY = layer.flipY;
+						add(loadedLayer);
+					}
 				}
 		}
 
@@ -1037,7 +1045,7 @@ class PlayState extends MusicBeatState
 
 			case 'schoolEvil':
 				var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); //nice
-				addBehindDad(fastCar);
+				addBehindDad(evilTrail);
 		}
 
 		var file:String = Paths.json('$songName/dialogue'); //Checks for json/Psych Engine dialogue
@@ -1436,6 +1444,8 @@ class PlayState extends MusicBeatState
 					Paths.sound(key);
 				case 'music':
 					Paths.music(key);
+				case 'video':
+					Paths.video(key);
 			}
 		}
 
@@ -2087,12 +2097,14 @@ class PlayState extends MusicBeatState
 
 				cutsceneHandler.timer(4, function()
 				{
-					if(gf.contains('sad')) {
-						gf.playAnim('sad', true);
-						gf.animation.finishCallback = function(name:String)
-						{
+					if(gf != null) {
+						if(gf.contains('sad')) {
 							gf.playAnim('sad', true);
-						};
+							gf.animation.finishCallback = function(name:String)
+							{
+								gf.playAnim('sad', true);
+							};
+						}
 					}
 				});
 
@@ -3140,9 +3152,9 @@ class PlayState extends MusicBeatState
 				moveTank(elapsed);
 
 			case 'schoolEvil':
-				if(!ClientPrefs.lowQuality && bgGhouls.animation.curAnim.finished)
+				if(!ClientPrefs.lowQuality && bgGhouls.animation.curAnim.finished) {
 					bgGhouls.visible = false;
-
+			}
 			case 'philly':
 				if(trainMoving)
 				{
@@ -5824,7 +5836,7 @@ class PlayState extends MusicBeatState
 
 				for (json in Achievements.loadedAchievements)
 				{
-					if(((json.unlocksAfter == weekName || (achievementName.contains('nomiss') && achievementName.replace('_nomiss', '') == weekName)) && isStoryMode) && !Achievements.isAchievementUnlocked(json.icon) && !json.customGoal && !unlock)
+					if(((json.unlocksAfter == weekName || (achievementName.contains('nomiss') && achievementName.replace('_nomiss', '') == weekName)) && isStoryMode) &&  campaignMisses < 1 && storyPlaylist.length <= 1 && !Achievements.isAchievementUnlocked(json.icon) && !json.customGoal && !unlock)
 						unlock = true;
 					achievementName = json.icon;
 				}

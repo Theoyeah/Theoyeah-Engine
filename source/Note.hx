@@ -131,7 +131,6 @@ class Note extends FlxSprite
 		if(isSustainNote && !animation.curAnim.name.endsWith('end'))
 		{
 			scale.y *= ratio;
-			centerNote();
 			updateHitbox();
 		}
 	}
@@ -259,7 +258,7 @@ class Note extends FlxSprite
 		return value;
 	}
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, sustainNote:Bool = false, inEditor:Bool = false)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inEditor:Bool = false)
 	{
 		super();
 
@@ -340,6 +339,7 @@ class Note extends FlxSprite
 		} else if(!isSustainNote) {
 			earlyHitMult = 1;
 		}
+		x += offsetX;
 	}
 
 	var lastNoteOffsetXForPixelAutoAdjusting:Float = 0;
@@ -442,15 +442,6 @@ class Note extends FlxSprite
 		} else {
 			animation.add(colArray[noteData] + 'Scroll', [pixelInt[noteData] + 4]);
 		}
-	}
-
-	function centerNote() {
-		x += (ClientPrefs.middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X) + 50;
-		if(this.noteData > -1) {
-			x += swagWidth * (this.noteData);
-		}
-		x += offsetX;
-		updateHitbox(); // just in case
 	}
 
 	override function update(elapsed:Float)
