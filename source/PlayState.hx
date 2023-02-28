@@ -76,7 +76,13 @@ import sys.io.File;
 #end
 
 #if VIDEOS_ALLOWED
+#if (hxCodec >= "2.6.1") 
+import hxcodec.VideoHandler as MP4Handler;
+#elseif (hxCodec == "2.6.0")
+import VideoHandler as MP4Handler;
+#else
 import vlc.MP4Handler;
+#end
 #end
 
 using StringTools;
@@ -2084,10 +2090,9 @@ class PlayState extends MusicBeatState
 				cutsceneHandler.onStart = function()
 				{
 					tightBars.play(true);
-					inline final ehm = defaultCamZoom * 1.2;
-					FlxTween.tween(FlxG.camera, {zoom: ehm}, 4, {ease: FlxEase.quadInOut});
-					FlxTween.tween(FlxG.camera, {zoom: ehm * 1.2}, 0.5, {ease: FlxEase.quadInOut, startDelay: 4});
-					FlxTween.tween(FlxG.camera, {zoom: ehm}, 1, {ease: FlxEase.quadInOut, startDelay: 4.5});
+					FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom * 1.2}, 4, {ease: FlxEase.quadInOut});
+					FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom * 1.2 * 1.2}, 0.5, {ease: FlxEase.quadInOut, startDelay: 4});
+					FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom * 1.2}, 1, {ease: FlxEase.quadInOut, startDelay: 4.5});
 				};
 
 				cutsceneHandler.timer(4, function()

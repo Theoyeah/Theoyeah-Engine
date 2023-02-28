@@ -60,6 +60,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			"If checked, there will be a judgement counter when playing.",
 			'crazycounter',
 			'bool',
+			true);
+		addOption(option);
+		
+		var option:Option = new Option('Old Fps font',
+			"You're getting nostalgic about the old font for fps? Then this is for you...?",
+			'defaultfps',
+			'bool',
 			false);
 		addOption(option);
 
