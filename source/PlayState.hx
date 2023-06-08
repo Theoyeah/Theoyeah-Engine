@@ -4941,8 +4941,8 @@ class PlayState extends MusicBeatState
 		//Dupe note remove
 		notes.forEachAlive(function(note:Note) {
 			if (daNote != note
-				&& daNote.mustPress
-				&& daNote.noteData == note.noteData
+			    && daNote.mustPress
+			    && daNote.noteData == note.noteData
 			    && daNote.isSustainNote == note.isSustainNote
 			    && Math.abs(daNote.strumTime - note.strumTime) < 1)
 			{
@@ -5089,6 +5089,7 @@ class PlayState extends MusicBeatState
 		if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end') && note.animation.curAnim != null) {
 			time += 0.15;
 		}
+
 		StrumPlayAnim(true, Std.int(Math.abs(note.noteData)), time);
 		note.hitByOpponent = true;
 
@@ -5242,7 +5243,7 @@ class PlayState extends MusicBeatState
 				StrumPlayAnim(false, Std.int(Math.abs(note.noteData)), time);
 			} else {
 				var spr = playerStrums.members[note.noteData];
-				if(spr != null)
+				if(spr != null && ClientPrefs.lightPlayerStrum)
 				{
 					spr.playAnim('confirm', true);
 				}
@@ -5733,13 +5734,24 @@ class PlayState extends MusicBeatState
 	}
 
 	function StrumPlayAnim(isDad:Bool, id:Int, time:Float) {
-		var spr:StrumNote = null;
-		if(isDad)
-			spr = strumLineNotes.members[id];
-		else
-			spr = playerStrums.members[id];
+		if(!ClientPrefs.lightCpuStrum && !ClientPrefs.lightPlayerStrum) return;
 
-		if(spr != null) {
+		var spr:StrumNote = null;
+		var light:Bool = true;
+		if(isDad) {
+			if(ClientPrefs.lightCpuStrum)
+				spr = strumLineNotes.members[id];
+			else
+				return;
+		}
+		else {
+			if(ClientPrefs.lightPlayerStrum)
+				spr = playerStrums.members[id];
+			else
+				return;
+		}
+
+		if(spr != null && light) {
 			spr.playAnim('confirm', true);
 			spr.resetAnim = time;
 		}
