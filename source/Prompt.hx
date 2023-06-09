@@ -19,8 +19,8 @@ class Prompt extends MusicBeatSubstate
 {
 	var selected = 0;
 
-	public var okc:Void->Void;
-	public var cancelc:Void->Void;
+	public var okc:Null<Void->Void> = null;
+	public var cancelc:Null<Void->Void> = null;
 
 	var buttons:FlxSprite = new FlxSprite(473.3, 450);
 	var theText:String = '';
@@ -32,8 +32,23 @@ class Prompt extends MusicBeatSubstate
 	var buttonNo:FlxButton;
 	var cornerSize:Int = 10;
 
-	public function new(promptText:String = '', defaultSelected:Int = 0, okCallback:Void->Void, cancelCallback:Void->Void, acceptOnDefault:Bool = false,
-			?option1:String, ?option2:String, option1X:Float = 473.3, option1Y:Float = 450, option2X:Float = 633.3, option2Y:Float = 450)
+	/**
+	 * [Description]
+	 * @param promptText 
+	 * @param defaultSelected 
+	 * @param okCallback called when clicked option1 button
+	 * @param cancelCallback called when clicked option2 button
+	 * @param acceptOnDefault 
+	 * @param option1 option1 value
+	 * @param option2 option2 value
+	 * @param option1X x
+	 * @param option1Y y
+	 * @param option2X x
+	 * @param option2Y y
+	 * @param hasButtonCancel visible option 2 
+	 */
+	public function new(promptText:String = '', defaultSelected:Int = 0, ?okCallback:Void->Void, ?cancelCallback:Void->Void, acceptOnDefault:Bool = false,
+			?option1:String, ?option2:String, option1X:Float = 473.3, option1Y:Float = 450, option2X:Float = 633.3, option2Y:Float = 450, hasButtonCancel = true)
 	{
 		selected = defaultSelected;
 		okc = okCallback;
@@ -54,12 +69,14 @@ class Prompt extends MusicBeatSubstate
 				okc();
 			close();
 		});
-		buttonNo = new FlxButton(option2X, option2Y, op2, function()
-		{
-			if (cancelc != null)
-				cancelc();
-			close();
-		});
+		if(hasButtonCancel) {
+			buttonNo = new FlxButton(option2X, option2Y, op2, function()
+			{
+				if (cancelc != null)
+					cancelc();
+				close();
+			});
+		}
 		super();
 	}
 
@@ -94,18 +111,27 @@ class Prompt extends MusicBeatSubstate
 			add(panelbg);
 			add(panel);
 			add(buttonAccept);
-			add(buttonNo);
+			if(buttonNo != null)
+				add(buttonNo);
 			// add(buttons);
 			var textshit:FlxText = new FlxText(buttonNo.width * 2, panel.y, 300, theText, 16);
 			textshit.alignment = 'center';
 			add(textshit);
 			textshit.screenCenter();
+
 			buttonAccept.screenCenter();
-			buttonNo.screenCenter();
+			if(buttonNo != null)
+				buttonNo.screenCenter();
 			buttonAccept.x -= buttonNo.width / 1.5;
 			buttonAccept.y = panel.y + panel.height - 30;
-			buttonNo.x += buttonNo.width / 1.5;
-			buttonNo.y = panel.y + panel.height - 30;
+
+			if(buttonNo != null) {
+				buttonNo.x += buttonNo.width / 1.5;
+				buttonNo.y = panel.y + panel.height - 30;
+			} else {
+				buttonAccept.screenCenter(X);
+			}
+
 			textshit.scrollFactor.set();
 		}
 	}

@@ -100,7 +100,9 @@ class StoryMenuState extends MusicBeatState
 		{
 			var weekFile:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
 			var isLocked:Bool = weekIsLocked(WeekData.weeksList[i]);
-			if((!isLocked || !weekFile.hiddenUntilUnlocked) && !loadedWeeks.contains(weekFile))
+			if(loadedWeeks.contains(weekFile))
+				trace('oops! week ' + weekFile.weekName + ' is already in!');
+			else if(!isLocked || !weekFile.hiddenUntilUnlocked)
 			{
 				loadedWeeks.push(weekFile);
 				WeekData.setDirectoryFromWeek(weekFile);
@@ -130,7 +132,7 @@ class StoryMenuState extends MusicBeatState
 
 		WeekData.setDirectoryFromWeek(loadedWeeks[0]);
 		var charArray:Array<String> = loadedWeeks[0].weekCharacters;
-		for (char in 0...3)
+		for (char in 0...3) // there is 3 storymenu characters
 		{
 			var weekCharacterThing:MenuCharacter = new MenuCharacter((FlxG.width * 0.25) * (1 + char) - 150, charArray[char]);
 			weekCharacterThing.y += 70;
@@ -239,14 +241,12 @@ class StoryMenuState extends MusicBeatState
 			else if (upP || downP)
 				changeDifficulty();
 
-			/*
-			#if CHEATING_ALLOWED
 			if(FlxG.keys.justPressed.CONTROL)
 			{
 				persistentUpdate = false;
 				openSubState(new GameplayChangersSubstate());
 			}
-			else #end */if(controls.RESET)
+			else if(controls.RESET)
 			{
 				persistentUpdate = false;
 				openSubState(new ResetScoreSubState('', curDifficulty, '', curWeek));
@@ -300,9 +300,21 @@ class StoryMenuState extends MusicBeatState
 
 			// We can't use Dynamic Array .copy() because that crashes HTML5, here's a workaround.
 			var songArray:Array<String> = [];
-			var leWeek:Array<Dynamic> = loadedWeeks[curWeek].songs;
-			for (i in 0...leWeek.length) {
-				songArray.push(leWeek[i][0]);
+			var leSongs:Array<Dynamic> = loadedWeeks[curWeek].songs;
+			for (i in 0...leSongs.length) {
+				var pushIt:Bool = true;
+				switch(leSongs[i][0]) {
+					case 'monster': // secret songs code
+						if(FlxG.save.data.songScores != null) {
+							if(FlxG.save.data.songScores.get(Paths.formatToSongPath(leSongs[i][0])) != 0) {
+								pushIt = true;
+							} else
+								pushIt = false;
+						} else
+							pushIt = false;
+				}
+				if(pushIt)
+					songArray.push(leSongs[i][0]);
 			}
 
 			// Nevermind that's stupid lmao

@@ -20,8 +20,10 @@ import lime.app.Application;
 import flixel.system.FlxSound;
 import openfl.utils.Assets as OpenFlAssets;
 import WeekData;
-#if MODS_ALLOWED
-//import sys.io.File;
+import lime.utils.Assets;
+
+#if sys
+import sys.io.File;
 import sys.FileSystem;
 #end
 
@@ -39,6 +41,7 @@ class FreeplayState extends MusicBeatState
 	var scoreBG:FlxSprite;
 	var scoreText:FlxText;
 	var diffText:FlxText;
+	var diffCalcText:FlxText;
 	var lerpScore:Int = 0;
 	var lerpRating:Float = 0;
 	var intendedScore:Int = 0;
@@ -75,11 +78,21 @@ class FreeplayState extends MusicBeatState
 			var leSongs:Array<String> = [];
 			var leChars:Array<String> = [];
 
-			for (j in 0...leWeek.songs.length)
+			/*for (j in 0...leWeek.songs.length) // kind of broken...
 			{
-				leSongs.push(leWeek.songs[j][0]);
-				leChars.push(leWeek.songs[j][1]);
-			}
+				switch(Paths.formatToSongPath(leWeek.songs[j][0])) {
+					case 'monster': // secret songs code
+						if(FlxG.save.data.songScores != null) {
+							if(FlxG.save.data.songScores.get(Paths.formatToSongPath(leWeek.songs[j][0])) != 0) {
+								leSongs.push(leWeek.songs[j][0]);
+								leChars.push(leWeek.songs[j][1]);
+							}
+						}
+					default:
+						leSongs.push(leWeek.songs[j][0]);
+						leChars.push(leWeek.songs[j][1]);
+				}
+			}*/
 
 			WeekData.setDirectoryFromWeek(leWeek);
 			for (song in leWeek.songs)
@@ -89,7 +102,19 @@ class FreeplayState extends MusicBeatState
 				{
 					colors = [146, 113, 253];
 				}
-				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				function adddddItttt() {
+					addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				}
+				switch(Paths.formatToSongPath(song[0])) {
+					case 'monster': // secret songs code
+						if(FlxG.save.data.songScores != null) {
+							if(FlxG.save.data.songScores.get(Paths.formatToSongPath(song[0])) != 0) {
+								adddddItttt();
+							}
+						}
+					default:
+						adddddItttt();
+				}
 			}
 		}
 		WeekData.loadTheFirstEnabledMod();
@@ -144,13 +169,19 @@ class FreeplayState extends MusicBeatState
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
 		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
 
-		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0xFF000000);
+		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, (ClientPrefs.freeplayRating ? 105 : 66), 0xFF000000);
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
 		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
 		diffText.font = scoreText.font;
 		add(diffText);
+
+		if(ClientPrefs.freeplayRating) {
+			diffCalcText = new FlxText(scoreText.x, scoreText.y + 66, 0, "", 24);
+			diffCalcText.font = scoreText.font;
+			add(diffCalcText);
+		}
 
 		add(scoreText);
 
@@ -163,7 +194,7 @@ class FreeplayState extends MusicBeatState
 			lastDifficultyName = CoolUtil.defaultDifficulty;
 		}
 		curDifficulty = Math.round(Math.max(0, CoolUtil.defaultDifficulties.indexOf(lastDifficultyName)));
-		
+
 		changeSelection();
 		changeDiff();
 
@@ -308,7 +339,7 @@ class FreeplayState extends MusicBeatState
 			changeDiff(1);
 		if (upP || downP) changeDiff();
 
-		if (controls.BACK)
+		if (controls.BACK && !accepted)
 		{
 			persistentUpdate = false;
 			if(colorTween != null) {
@@ -326,6 +357,7 @@ class FreeplayState extends MusicBeatState
 		#if PRELOAD_ALL
 		else if(space)
 		{
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.3);
 			if(instPlaying != curSelected)
 			{
 				destroyFreeplayVocals();
@@ -348,28 +380,22 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 		#end
-		else if (accepted)
+		else if (accepted && !controls.BACK)
 		{
-			var canPlay:Bool = true; // i dont want it to not run the code below
+			persistentUpdate = false;
+			var canDo = true;
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
 			var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
-			/*if(ClientPrefs.noSongCrash) {
-				#if MODS_ALLOWED
-				if(!FileSystem.exists(Paths.modsJson(songLowercase + '/' + poop))
-				   && !FileSystem.exists(Paths.json(songLowercase + '/' + poop)))
-				#else
-				if(!OpenFlAssets.exists(Paths.json(songLowercase + '/' + poop)))
-				#end
-				{
-					poop = songLowercase;
-					curDifficulty = 1;
-					trace('Couldnt find file');
-					FlxG.sound.play(Paths.sound('cancelMenu'));
-					canPlay = false;
-				}
+			/*#if MODS_ALLOWED
+			if(!FileSystem.exists(Paths.modsJson(songLowercase + '/' + poop)) && !FileSystem.exists(Paths.json(songLowercase + '/' + poop)))
+			#else
+			if(!OpenFlAssets.exists(Paths.json(songLowercase + '/' + poop)))
+			#end
+			{
+				trace('Couldnt find file');
+				canDo = false;
 			}*/
-			if(canPlay) {
-				persistentUpdate = false;
+			if(canDo) {
 				trace(poop);
 
 				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
@@ -381,19 +407,24 @@ class FreeplayState extends MusicBeatState
 					colorTween.cancel();
 				}
 
+				#if debug
 				if (FlxG.keys.pressed.SHIFT) {
-					LoadingState.loadAndSwitchState(new ChartingState());
 					MasterEditorMenu.chartToMaster = false;
-				} else {
-					LoadingState.loadAndSwitchState(new PlayState());
+					LoadingState.loadAndSwitchState(new ChartingState());
 				}
+				else
+				#end
+					LoadingState.loadAndSwitchState(new PlayState());
 
 				FlxG.sound.music.volume = 0;
 
 				destroyFreeplayVocals();
+			} else {
+				openSubState(new Prompt('There isnt any chart made for this song', 0, function() {
+					FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
+				}));
 			}
-		}
-		else if(controls.RESET)
+		} else if(controls.RESET)
 		{
 			persistentUpdate = false;
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
@@ -428,6 +459,34 @@ class FreeplayState extends MusicBeatState
 
 		PlayState.storyDifficulty = curDifficulty;
 		diffText.text = '< ' + CoolUtil.difficultyString() + ' >';
+		var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
+
+		// copied from Song.hx lol, but edited
+		var canReload:Bool = false;
+		var jsonInput = songs[curSelected].songName.toLowerCase();
+		var formattedFolder:String = Paths.formatToSongPath(poop);
+		var formattedSong:String = Paths.formatToSongPath(jsonInput);
+		#if MODS_ALLOWED
+		var moddyFile:String = Paths.modsJson(formattedFolder + '/' + formattedSong);
+		var otherModdyFile:String = Paths.modsJson(poop + '/' + jsonInput);
+		if(FileSystem.exists(moddyFile)) {
+			canReload = true;
+			//rawJson = File.getContent(moddyFile).trim();
+		} else if(FileSystem.exists(otherModdyFile)) {
+			canReload = true;
+			//rawJson = File.getContent(otherModdyFile).trim();
+		}
+		#end
+		#if sys
+		if(FileSystem.exists(Paths.json(formattedFolder + '/' + formattedSong)) || canReload) {
+			var thing = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+			if(ClientPrefs.freeplayRating)
+				diffCalcText.text = 'RATING: ' + DiffCalc.CalculateDiff(thing);
+		} else
+			trace('epic fail looking for song json lol');
+		#else
+		diffCalcText.text = 'RATING: undefined';
+		#end
 		positionHighscore();
 	}
 
@@ -441,7 +500,7 @@ class FreeplayState extends MusicBeatState
 			curSelected = songs.length - 1;
 		if (curSelected >= songs.length)
 			curSelected = 0;
-			
+
 		var newColor:Int = songs[curSelected].color;
 		if(newColor != intendedColor) {
 			if(colorTween != null) {
@@ -512,7 +571,7 @@ class FreeplayState extends MusicBeatState
 				CoolUtil.difficulties = diffs;
 			}
 		}
-		
+
 		if(CoolUtil.difficulties.contains(CoolUtil.defaultDifficulty))
 		{
 			curDifficulty = Math.round(Math.max(0, CoolUtil.defaultDifficulties.indexOf(CoolUtil.defaultDifficulty)));

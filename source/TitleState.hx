@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxRandom;
 import lime.system.System;
 #if desktop
 import Discord.DiscordClient;
@@ -79,8 +80,9 @@ class TitleState extends MusicBeatState
 	var wackyImage:FlxSprite;
 
 	#if TITLE_SCREEN_EASTER_EGG
+	var witherone = 'WITHER'; // I change it a lot of times...
 	var easterEggKeys:Array<String> = [
-		'THEOYEAH', 'WITHER362', 'GABI', 'DEMOLITIONDON96', // May do it one day ?
+		'THEOYEAH', 'WITHER', 'GABI', 'DEMOLITIONDON96', // May do it one day ?
 		'SHADOW', 'RIVER', 'SHUBS', 'BBPANZU'
 	];
 	var allowedKeys:String = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'/* + 'Ñ@#€&*()"=-_;:/\\$£¥^[]{}ºª§|~¶<>'*/;
@@ -187,6 +189,7 @@ class TitleState extends MusicBeatState
 				titleJSON.gfx += 45;
 				titleJSON.gfy += 100;
 		}
+		trace(FlxG.save.data.psychDevsEasterEgg);
 		#end
 
 		if(FlxG.save.data.firstInitied == null) FlxG.save.data.firstInitied = false;
@@ -221,7 +224,7 @@ class TitleState extends MusicBeatState
 			if (!DiscordClient.isInitialized)
 			{
 				DiscordClient.initialize();
-				Application.current.onExit.add (function (exitCode) {
+				Application.current.onExit.add(function (exitCode) {
 					DiscordClient.shutdown();
 				});
 			}
@@ -339,6 +342,12 @@ class TitleState extends MusicBeatState
 				gfDance.frames = Paths.getSparrowAtlas('BBBump');
 				gfDance.animation.addByIndices('danceLeft', 'BB Title Bump', [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], "", 24, false);
 				gfDance.animation.addByIndices('danceRight', 'BB Title Bump', [27, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], "", 24, false);
+			case '$witherone':
+				if(FlxG.sound.music != null)
+					FlxG.sound.music.pitch = 1.01;
+				/*swagShader.hue = new FlxRandom().float(0, 100);
+				swagShader.saturation = new FlxRandom().float(0, 100);
+				swagShader.brightness = new FlxRandom().float(0, 100);*/
 			#end
 
 			default:
@@ -502,8 +511,9 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (FlxG.sound.music != null)
+		if(FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
+
 		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
 		var pressedEnter:Bool = ((FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed) #if !debug && FlxG.save.data.firstInitied #end);
@@ -551,16 +561,19 @@ class TitleState extends MusicBeatState
 
 				timer = FlxEase.quadInOut(timer);
 
-				titleText.color = FlxColor.interpolate(titleTextColors[0], titleTextColors[1], timer);
-				titleText.alpha = FlxMath.lerp(titleTextAlphas[0], titleTextAlphas[1], timer);
+				if(titleText != null) {
+					titleText.color = FlxColor.interpolate(titleTextColors[0], titleTextColors[1], timer);
+					titleText.alpha = FlxMath.lerp(titleTextAlphas[0], titleTextAlphas[1], timer);
+				}
 			}
 
 			if(pressedEnter)
 			{
-				titleText.color = titleTextColorEnter;
-				titleText.alpha = 1;
-
-				if(titleText != null) titleText.animation.play('press');
+				if(titleText != null) {
+					titleText.color = titleTextColorEnter;
+					titleText.alpha = 1;
+					titleText.animation.play('press');
+				}
 
 				if(ClientPrefs.flashing) {
 					FlxG.camera.flash(titleTextColorEnter, 1);
@@ -641,8 +654,12 @@ class TitleState extends MusicBeatState
 
 		if(swagShader != null)
 		{
-			if(controls.UI_LEFT) swagShader.hue -= elapsed * 0.1;
-			if(controls.UI_RIGHT) swagShader.hue += elapsed * 0.1;
+			if(FlxG.save.data.psychDevsEasterEgg == witherone) // ma mama
+				swagShader.hue += elapsed;
+			else {
+				if(controls.UI_LEFT) swagShader.hue -= elapsed * 0.1;
+				if(controls.UI_RIGHT) swagShader.hue += elapsed * 0.1;
+			}
 		}
 
 		super.update(elapsed);
@@ -687,6 +704,15 @@ class TitleState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
+
+		if(FlxG.save.data.psychDevsEasterEgg == witherone && FlxG.sound.music != null)
+		{
+			if(FlxG.sound.music.pitch <= 5)
+				FlxG.sound.music.pitch += 0.01;
+			else
+				FlxG.sound.music.pitch = 0.01;
+		}
+
 
 		if(logoBl != null)
 			logoBl.animation.play('bump', true);
@@ -872,20 +898,23 @@ class TitleState extends MusicBeatState
 						transitioning = false;
 					});
 				}
-				else if(easteregg == 'WITHER362') // im special!
+				else if(easteregg == witherone) // im special!
 				{
 					var time = 0.3;
 					if(ClientPrefs.flashing) { // a LOT OF FLASH
 						FlxG.camera.flash(FlxColor.PINK, time, function() {
 							trace('hehehe... if you didnt know it, wither its');
 							trace('a FUCKING TROLLER/TROLL... and not an easy one...');
-							FlxG.camera.angle = -4;
+							if(FlxG.camera != null)
+								FlxG.camera.angle = -4;
 							new FlxTimer().start(4.3, function(tmr:FlxTimer)
 							{
-								if (FlxG.camera.angle == -4) // just testing
-									FlxTween.angle(FlxG.camera.angle, 4, 4, {ease: FlxEase.quartInOut});
-								if (FlxG.camera.angle == 4)
-									FlxTween.angle(FlxG.camera.angle, -4, 4, {ease: FlxEase.quartInOut});
+								if(FlxG.camera != null) {
+									if (FlxG.camera.angle == -4) // just testing
+										FlxTween.angle(FlxG.camera.angle, 4, -4, {ease: FlxEase.quartInOut});
+									if (FlxG.camera.angle == 4)
+										FlxTween.angle(FlxG.camera.angle, -4, 4, {ease: FlxEase.quartInOut});
+								}
 
 								removeThings();
 								FlxG.camera.flash(FlxColor.RED, time, function() {
@@ -897,7 +926,8 @@ class TitleState extends MusicBeatState
 											FlxG.camera.flash(FlxColor.YELLOW, time / 2 + 0.2);
 											FlxG.camera.flash(FlxColor.ORANGE, time / 2 + 0.26, function() {
 												new FlxTimer().start(2, function(tmr:FlxTimer) {
-													FlxG.camera.angle = 0;
+													if(FlxG.camera != null)
+														FlxG.camera.angle = 0;
 												});
 											});
 										});
@@ -962,7 +992,7 @@ class TitleState extends MusicBeatState
 			easteregg = easteregg.toUpperCase();
 
 			var lol = FlxG.random.int(4, 100);
-			if(easteregg == 'WITHER362') {
+			if(easteregg != witherone) {
 				logoBl.angle = -4;
 			} else {
 				logoBl.angle = -lol;
@@ -970,11 +1000,11 @@ class TitleState extends MusicBeatState
 
 			new FlxTimer().start(0.01, function(tmr:FlxTimer)
 			{
-				if(easteregg == 'WITHER362') {
+				if(easteregg == witherone) {
 					if (logoBl.angle == -lol)
-						FlxTween.angle(logoBl, logoBl.angle, lol, FlxG.random.int(2, 6), {ease: FlxEase.quartInOut});
+						FlxTween.angle(logoBl, logoBl.angle, lol, 4, {ease: FlxEase.quartInOut});
 					if (logoBl.angle == lol)
-						FlxTween.angle(logoBl, logoBl.angle, lol, FlxG.random.int(2, 6), {ease: FlxEase.quartInOut});
+						FlxTween.angle(logoBl, logoBl.angle, lol, 4, {ease: FlxEase.quartInOut});
 				} else {
 					if (logoBl.angle == -4)
 						FlxTween.angle(logoBl, logoBl.angle, 4, 4, {ease: FlxEase.quartInOut});
