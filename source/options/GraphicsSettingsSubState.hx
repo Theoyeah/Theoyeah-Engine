@@ -92,8 +92,34 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		#end
 
+		#if desktop
+		var option:Option = new Option('Use Discord',
+			'If unchecked, discord will not be used and\nthere will be less lag\nIT WILL RESTART THE GAME WHEN CHANGED!',
+			'discord',
+			'bool',
+			true);
+		option.onChange = onChangeDiscord;
+		addOption(option);
+		#end
+
 		super();
 	}
+
+	#if desktop
+	function onChangeDiscord() {
+		ClientPrefs.saveSettings();
+		//MusicBeatState.switchState(new TitleState());
+		TitleState.initialized = false;
+		TitleState.closedState = false;
+		FlxG.sound.music.fadeOut(0.3);
+		if(FreeplayState.vocals != null)
+		{
+			FreeplayState.vocals.fadeOut(0.3);
+			FreeplayState.vocals = null;
+		}
+		FlxG.camera.fade(FlxColor.BLACK, 0.5, false, FlxG.resetGame, false);
+	}
+	#end
 
 	function onChangeAntiAliasing()
 	{
@@ -109,7 +135,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 
 	function onChangeFramerate()
 	{
-		if(ClientPrefs.framerate > FlxG.drawFramerate)
+		if(ClientPrefs.framerate > FlxG.drawFramerate) // bro, why?
 		{
 			FlxG.updateFramerate = ClientPrefs.framerate;
 			FlxG.drawFramerate = ClientPrefs.framerate;
